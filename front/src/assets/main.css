@@ -58,8 +58,9 @@ h2.page-title::before {
     from {
         opacity: 0;
         transform: scale(0.5);
+        rotate: 180deg;
     }
-
+    
     20% {
         opacity: 0.5;
         transform: scale(1.5);
@@ -68,6 +69,7 @@ h2.page-title::before {
     to {
         opacity: 1;
         transform: scale(1);
+        rotate: 0;
     }
 }
 
