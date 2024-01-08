@@ -10,9 +10,7 @@ ini_set('html_errors', '1');
 /**
  * Functions
  */
-// include('functions/helpers/XXXX.php');
-
-spl_autoload_register('my_autoloader');
+include('helpers/log.php');
 
 /**
  * Vide le cache du navigateur
