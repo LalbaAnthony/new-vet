@@ -93,7 +93,7 @@ CREATE TABLE address(
         address2 VARCHAR (150),
         city VARCHAR (50) NOT NULL,
         region VARCHAR (50),
-        postal_code INT (6) NOT NULL,
+        postal_code VARCHAR (6) NOT NULL,
         country_id INT NOT NULL,
         tel VARCHAR (20),
         created_at DATETIME NOT NULL DEFAULT NOW(),
@@ -109,7 +109,7 @@ CREATE TABLE address(
 CREATE TABLE card(
         card_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         customer_id INT NOT NULL,
-        number INT (16) NOT NULL UNIQUE,
+        number INT (16) NOT NULL,
         expiration_date DATE NOT NULL,
         cvv INT (3) NOT NULL, 
         CONSTRAINT card_PK PRIMARY KEY (card_id),
