@@ -3,8 +3,8 @@
 
 Site E-commerce responsive et dynamique developpé dans la cadre du bachelor SI à Limayrac.<br>
 Groupe 1, supervisé par Stéphane Cezera: 
-    * LALBA Anthony (anthony.lalba@limayrac.fr)
-    * SIREYJOL Victor (victor.sireyjol@limayrac.fr)
+* LALBA Anthony (anthony.lalba@limayrac.fr)
+* SIREYJOL Victor (victor.sireyjol@limayrac.fr)
 Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
 
 ## 🚀 - Quick Start
