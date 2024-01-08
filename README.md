@@ -23,7 +23,8 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
     * C'est bon, vous avez accès au front !
 * Installation de la base de données
     * Rendez-vous sur `http://localhost/phpmyadmin/`
-    * Créez une nouvelle base de données nommée `new-vet`
+    * Créez une nouvelle base de données nommée `new-vet` en prennat soin de séléctionner `utf8_general_ci` comme jeu de caractères
+    * Importez le fichier `back\BDD\structure.sql`
     * Importez le fichier `back\BDD\initial_data.sql`
     * Executez le fichier `back\BDD\users.sql`
     * C'est bon, vous avez accès à la base de données !

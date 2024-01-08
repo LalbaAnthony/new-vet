@@ -38,7 +38,7 @@ INSERT INTO status ('libelle') VALUES
 ('Expédiée'),
 ('Livrée');
 
-INSERT INTO `order` ('customer_id', 'order_date', 'total_amount', 'status_id') VALUES 
+INSERT INTO 'order' ('customer_id', 'order_date', 'total_amount', 'status_id') VALUES 
 (1, '2024-01-08 12:30:00', 89.99, 2),
 (2, '2024-01-09 14:45:00', 39.99, 1),
 (3, '2024-01-10 10:15:00', 29.99, 3);
