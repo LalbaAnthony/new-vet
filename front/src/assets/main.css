@@ -60,7 +60,7 @@ h2.page-title::before {
         transform: scale(0.5);
         rotate: 180deg;
     }
-    
+
     20% {
         opacity: 0.5;
         transform: scale(1.5);
@@ -147,6 +147,22 @@ button.button {
 .button:hover {
     scale: 1.05;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="search"] {
+    border: none;
+    border-radius: 25px;
+    box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    font-family: "Ubuntu", "Roboto", sans-serif;
+}
+
+input:focus,
+textarea:focus {
+    outline: none !important;
 }
 
 .icon-offset {

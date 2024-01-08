@@ -33,15 +33,15 @@ address {
 }
 
 /* Code for Firefox */
-/* ::-moz-selection {
-  color: var(--light);
-  background: var(--primary);
+::-moz-selection {
+  color: var(--primary);
+  background: var(--light);
 }
 
 ::selection {
-  color: var(--light);
-  background: var(--primary);
-} */
+  color: var(--primary);
+  background: var(--light);
+}
 
 body {
   min-height: 100vh;
