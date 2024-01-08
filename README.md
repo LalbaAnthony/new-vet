@@ -16,11 +16,16 @@ Groupe 1: LALBA Anthony & SIREYJOL, supervisé par Stéphane Cezera<br>
 
 ## Structure du projet  🧱
 
+Le projet est divisé en deux parties distinctes, le front et le back.<br>
+
 ### FRONTEND ✨
 
-Conçue en Vue.JS
+Le front (`/front`) est la partie emergée de l'iceberg, c'est la partie visible par l'utilisateur.<br>
 
 ### BACKEND 📜
+
+Le back (`/back`) est elle, la partie immergée, c'est la partie invisible par l'utilisateur.<br>
+C'est notamment ici que se trouve la base de données, l'interface API REST, et où se trouve le back-office.<br>
 
 ***REST API***
 
