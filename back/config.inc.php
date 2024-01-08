@@ -23,7 +23,7 @@ header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 /**
  * Paramètre de la base de données
  */
-define('DB_USER', '<USER>');
-define('DB_PASSWORD', '<PASS>');
+define('DB_USER', 'new-vet-user');
+define('DB_PASSWORD', 'w11xBg50G2t4YtC1BlbQ');
 define('DB_HOST', 'localhost');
-define('DB_NAME', '<BASE>');
+define('DB_NAME', 'new-vet');
