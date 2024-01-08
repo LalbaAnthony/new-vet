@@ -34,13 +34,13 @@ address {
 
 /* Code for Firefox */
 ::-moz-selection {
-  color: var(--primary);
-  background: var(--light);
+  color: var(--light);
+  background: var(--primary);
 }
 
 ::selection {
-  color: var(--primary);
-  background: var(--light);
+  color: var(--light);
+  background: var(--primary);
 }
 
 body {
