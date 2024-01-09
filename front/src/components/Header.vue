@@ -25,7 +25,7 @@
         <IconTagFill class="icon-offset" />
         <span>Catégories</span>
       </router-link>
-      <router-link to="/products">
+      <router-link to="/produits">
         <IconPersonStandingDress class="icon-offset" />
         <span>Produits</span>
       </router-link>
@@ -35,7 +35,7 @@
       </router-link>
     </nav>
     <div class="header-quick-access">
-      <Pill v-for="item in quickAccess" :key="item.text" :text="item.text" :link="item.link" :type="item.type" />
+      <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`categories/${item.slug}`" type="light" />
     </div>
   </header>
 </template>
@@ -68,24 +68,20 @@ function randomPlaceholder() {
 function getQuickAccess() {
   return [
     {
-      text: 'Catégorie: Vêtements',
-      type: 'light',
-      link: 'categories/vetements'
+      slug: 'vetements',
+      libelle: 'Vêtements',
     },
     {
-      text: 'Catégorie: Vêtements',
-      type: 'light',
-      link: 'categories/vetements'
+      slug: 'vetements',
+      libelle: 'Vêtements',
     },
     {
-      text: 'Catégorie: Vêtements',
-      type: 'light',
-      link: 'categories/vetements'
+      slug: 'vetements',
+      libelle: 'Vêtements',
     },
     {
-      text: 'Catégorie: Vêtements',
-      type: 'light',
-      link: 'categories/vetements'
+      slug: 'vetements',
+      libelle: 'Vêtements',
     }
   ]
 }

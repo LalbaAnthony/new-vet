@@ -10,15 +10,15 @@ DELETE FROM image;
 DELETE FROM product;
 DELETE FROM category;
 
-INSERT INTO category (category_id, name, color, image_path, sort_order) VALUES 
-(1, 'Vêtements', '#FF5733', '/images/clothing.jpg', 1),
-(2, 'Chaussures', '#009688', '/images/shoes.jpg', 2),
-(3, 'Accessoires', '#FFC107', '/images/accessories.jpg', 3);
+INSERT INTO category (category_id, slug, libelle, image_path, sort_order) VALUES 
+(1, 'vetements', 'Vêtements', '/images/clothing.jpg', 1),
+(2, 'chaussures', 'Chaussures', '/images/shoes.jpg', 2),
+(3, 'accessoires', 'Accessoires', '/images/accessories.jpg', 3);
 
-INSERT INTO product (product_id, name, description, category_id, is_highlander, price, stock_quantity) VALUES 
-(1, 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 0, 59.99, 50),
-(2, 'Escarpins classiques', 'Chaussures élégantes pour femmes', 2, 0, 39.99, 30),
-(3, 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 3, 0, 29.99, 20);
+INSERT INTO product (product_id, slug, name, description, category_id, is_highlander, price, stock_quantity) VALUES 
+(1, 'robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 0, 59.99, 50),
+(2, 'escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 2, 0, 39.99, 30),
+(3, 'sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 3, 0, 29.99, 20);
 
 INSERT INTO image (product_id, image_path) VALUES 
 (1, '/images/dress.jpg'),

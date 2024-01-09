@@ -19,18 +19,36 @@ function getProducts() {
     return [
         {
             image: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
-            category: 'Evenement',
+            categories: [
+                {
+                    slug: 'vetements',
+                    libelle: 'Vêtements',
+                },
+                {
+                    slug: 'vetements',
+                    libelle: 'Vêtements',
+                },
+            ],
             title: 'Lorem ipsum dolor sit amet consectetur',
             text: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
             slug: 'product1',
         },
         {
             image: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
-            category: 'Evenement',
+            categories: [
+                {
+                    slug: 'vetements',
+                    libelle: 'Vêtements',
+                },
+                {
+                    slug: 'vetements',
+                    libelle: 'Vêtements',
+                },
+            ],
             title: 'Lorem ipsum dolor sit amet consectetur',
             text: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
             slug: 'product1',
-        }
+        },
     ]
 }
 

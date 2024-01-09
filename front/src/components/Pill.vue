@@ -54,7 +54,7 @@ div.pill-body.gradient {
 }
 
 span.pill-text {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 span.pill-text.gradient {

@@ -16,8 +16,8 @@ DROP TABLE IF EXISTS category;
 
 CREATE TABLE category(
         category_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        name VARCHAR (50) NOT NULL,
-        color VARCHAR (7) NOT NULL DEFAULT '#000000',
+        slug VARCHAR (50) NOT NULL,
+        libelle VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) UNIQUE,
         sort_order INT UNIQUE,
         is_quick_access BOOLEAN NOT NULL DEFAULT 0,
@@ -31,6 +31,7 @@ CREATE TABLE category(
 
 CREATE TABLE product(
         product_id INT AUTO_INCREMENT NOT NULL UNIQUE,
+        slug VARCHAR (50) NOT NULL,
         name VARCHAR (50) NOT NULL,
         description VARCHAR (1000),
         category_id INT,
@@ -60,8 +61,8 @@ CREATE TABLE image(
 
 CREATE TABLE country(
         country_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        created_at DATETIME NOT NULL DEFAULT NOW(),
         name VARCHAR (50) NOT NULL
+        created_at DATETIME NOT NULL DEFAULT NOW(),
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
