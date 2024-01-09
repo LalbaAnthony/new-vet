@@ -20,6 +20,7 @@ CREATE TABLE category(
         color VARCHAR (7) NOT NULL DEFAULT '#000000',
         image_path VARCHAR (250) UNIQUE,
         sort_order INT UNIQUE,
+        is_quick_access BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT category_PK PRIMARY KEY (category_id)
 )ENGINE=InnoDB;

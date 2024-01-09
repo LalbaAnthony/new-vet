@@ -116,15 +116,6 @@ p.page-text {
     margin-bottom: 1rem;
 }
 
-span.pill {
-    background: var(--secondary);
-    background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-    color: var(--light);
-    padding: 3px 10px;
-    font-size: 12px;
-    border-radius: 25px;
-}
-
 a.button,
 button.button {
     padding: 0.5rem 1rem;

@@ -20,7 +20,7 @@
         </li>
       </ul>
     </div>
-    <nav>
+    <nav class="header-pages">
       <router-link to="/categories">
         <IconTagFill class="icon-offset" />
         <span>Catégories</span>
@@ -34,11 +34,15 @@
         <span>Contact</span>
       </router-link>
     </nav>
+    <div class="header-quick-access">
+        <Pill v-for="item in quickAccess" :key="item.text" :text="item.text" :link="item.link" :type="item.type" />
+    </div>
   </header>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import Pill from '@/components/Pill.vue'
 import IconCartFill from '@/components/icons/IconCartFill.vue'
 import IconPersonFill from '@/components/icons/IconPersonFill.vue'
 import IconTagFill from '@/components/icons/IconTagFill.vue'
@@ -46,6 +50,7 @@ import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
 
 const searchPlaceholder = ref(randomPlaceholder())
+const quickAccess = ref(getQuickAccess())
 
 function randomPlaceholder() {
   const placeholders = [
@@ -59,6 +64,32 @@ function randomPlaceholder() {
   ]
   return placeholders[Math.floor(Math.random() * placeholders.length)]
 }
+
+function getQuickAccess() {
+  return [
+    {
+      text: 'Catégorie: Vêtements',
+      type: 'light',
+      link: 'categories/vetements'
+    },
+    {
+      text: 'Catégorie: Vêtements',
+      type: 'light',
+      link: 'categories/vetements'
+    },
+    {
+      text: 'Catégorie: Vêtements',
+      type: 'light',
+      link: 'categories/vetements'
+    },
+    {
+      text: 'Catégorie: Vêtements',
+      type: 'light',
+      link: 'categories/vetements'
+    }
+  ]
+}
+
 
 </script>
 
@@ -115,6 +146,7 @@ ul.toolbar {
   justify-content: space-around;
   align-items: center;
 }
+
 ul.toolbar>* {
   margin: 0 0.25rem;
 }
@@ -142,7 +174,7 @@ ul.toolbar>* {
   transform: scale(1.1);
 }
 
-nav {
+.header-pages {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -159,14 +191,14 @@ nav {
     opacity: 0;
     transform: translateY(15px);
   }
-
+  
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-nav>* {
+.header-pages>* {
   color: var(--light);
   font-size: 1rem;
   font-weight: 500;
@@ -174,7 +206,15 @@ nav>* {
   transition: all 0.3s;
 }
 
-nav>*:hover {
+.header-pages>*:hover {
   transform: translateY(-3px);
+}
+
+.header-quick-access {
+  display: flex;
+  flex-wrap: wrap; 
+  align-items: center;
+  padding: 0.25rem;
+  margin: 0 auto;
 }
 </style>
