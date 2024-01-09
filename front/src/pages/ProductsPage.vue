@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2 class="page-title">Nos produits</h2>
+        <SortFilter />
         <div v-if="products && products.length > 0" class="products-grid">
             <Product v-for="product in products" :key="product.slug" :product="product" />
         </div>
@@ -10,6 +11,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import SortFilter from '@/components/SortFilter.vue'
 import Product from '@/components/Product.vue'
 import NoItem from '@/components/NoItem.vue'
 

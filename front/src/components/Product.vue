@@ -9,7 +9,7 @@
         </div>
         <h3 class="product-name">{{ product.name }}</h3>
         <p class="product-description">{{ threeDotString(product.description) }}</p>
-        <div class="  product-numbers">
+        <div class="product-numbers">
           <Stock :stock="product.stock" />
           <h3 :class="['product-price', product.stock < 1 ? 'overline' : '']">{{ product.price }} €</h3>
         </div>

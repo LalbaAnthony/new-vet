@@ -12,22 +12,28 @@ const routes = [
     meta: { title: 'Catégories' },
   },
   {
+    path: '/categories/:slug',
+    name: 'category',
+    component: () => import('../pages/CategoryPage.vue'),
+    meta: { title: 'Catégorie' },
+  },
+  {
     path: '/produits',
     name: 'products',
     component: () => import('../pages/ProductsPage.vue'),
     meta: { title: 'Produits' },
   },
   {
+    path: '/produits/:slug',
+    name: 'product',
+    component: () => import('../pages/ProductPage.vue'),
+    meta: { title: 'Produit' },
+  },
+  {
     path: '/contact',
     name: 'contact',
     component: () => import('../pages/ContactPage.vue'),
     meta: { title: 'Contact' },
-  },
-  {
-    path: '/a-propos',
-    name: 'about',
-    component: () => import('../pages/AboutPage.vue'),
-    meta: { title: 'À propos' },
   },
   {
     path: '/plan-du-site',
