@@ -41,8 +41,17 @@ function getProducts() {
 </script>
 
 <style scoped>
+/* CINEMA SCREEN */
+@media (min-width: 1600px) {
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 3rem;
+    }
+}
+
 /* DESKTOP */
-@media (min-width: 1024px) {
+@media (min-width: 1024px) and (max-width: 1599px) {
     .products-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
