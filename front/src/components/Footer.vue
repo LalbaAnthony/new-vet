@@ -9,6 +9,10 @@
       <router-link to="/mentions-legales">
         <span class="link">Mentions légales</span>
       </router-link>
+      <br>
+      <router-link to="/contact">
+        <span class="link">Contact</span>
+      </router-link>
     </div>
     <div>
       <h5>NEW VET</h5>

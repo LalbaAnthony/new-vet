@@ -1,19 +1,21 @@
 <template>
   <header>
     <router-link to="/">
-      <h1 class="site-title">NEW VET</h1>
+      <div class="center">
+        <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+      </div>
     </router-link>
     <div class="header-actions">
       <input type="search" id="search" name="search" :placeholder="searchPlaceholder" />
       <ul class="toolbar">
         <li>
           <router-link to="/cart">
-            <IconCartFill class="toolbar-icon" />
+            <IconCartFill class="toolbar-icon primary" />
           </router-link>
         </li>
         <li>
           <router-link to="/profil">
-            <IconPersonFill class="toolbar-icon" />
+            <IconPersonFill class="toolbar-icon primary" />
           </router-link>
         </li>
       </ul>
@@ -96,26 +98,44 @@ header {
   align-items: center;
 }
 
-h1.site-title {
-  color: var(--light);
-  font-size: 2rem;
-  margin: 0;
-  padding: 1rem;
-  text-align: center;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.toolbar {
+.main-logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+
+ul.toolbar {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
+ul.toolbar>* {
+  margin: 0 0.25rem;
+}
 
 .toolbar-icon {
-  color: var(--light);
-  width: 50px;
-  height: 50px;
+  background-color: var(--light);
+  border-radius: 50%;
+  color: var(--dark);
+  width: 35px;
+  height: 35px;
   padding: 0 0.5rem;
+  display: flex;
   transition: all 0.3s;
+}
+
+.toolbar-icon.primary {
+  color: var(--primary);
+}
+
+.toolbar-icon.secondary {
+  color: var(--secondary);
 }
 
 .toolbar-icon:hover {
