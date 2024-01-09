@@ -1,5 +1,5 @@
 <template>
-  <h1>Mentions légales</h1>
+  <h2 class="page-title">Mentions légales</h2>
 </template>
 
 <script setup>

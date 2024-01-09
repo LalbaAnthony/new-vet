@@ -35,7 +35,7 @@
       </router-link>
     </nav>
     <div class="header-quick-access">
-        <Pill v-for="item in quickAccess" :key="item.text" :text="item.text" :link="item.link" :type="item.type" />
+      <Pill v-for="item in quickAccess" :key="item.text" :text="item.text" :link="item.link" :type="item.type" />
     </div>
   </header>
 </template>
@@ -191,7 +191,7 @@ ul.toolbar>* {
     opacity: 0;
     transform: translateY(15px);
   }
-  
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -212,7 +212,7 @@ ul.toolbar>* {
 
 .header-quick-access {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   align-items: center;
   padding: 0.25rem;
   margin: 0 auto;

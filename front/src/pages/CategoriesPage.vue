@@ -1,5 +1,5 @@
 <template>
-  <h1>Catégories</h1>
+  <h2 class="page-title">Catégories</h2>
 </template>
 
 <script setup>

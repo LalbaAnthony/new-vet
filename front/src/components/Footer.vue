@@ -1,6 +1,21 @@
 <template>
   <footer>
     <div>
+      <h5>Réseaux</h5>
+      <a href="https://www.facebook.com/MairiedeBorreze/" target="_blank">
+        <IconFacebook class="social-icon" />
+      </a>
+      <a href="hhttps://twitter.com/NEWVET" target="_blank">
+        <IconTwitterX class="social-icon" />
+      </a>
+      <a href="https://www.instagram.com/NEWVET/?hl=fr" target="_blank">
+        <IconInstagram class="social-icon" />
+      </a>
+      <a href="https://www.youtube.com/@NEWVET" target="_blank">
+        <IconYoutube class="social-icon" />
+      </a>
+    </div>
+    <div>
       <h5>Pages</h5>
       <router-link to="/plan-du-site">
         <span class="link">Plan du site</span>
@@ -22,6 +37,11 @@
 </template>
 
 <script setup>
+import IconFacebook from '@/components/icons/IconFacebook.vue';
+import IconTwitterX from '@/components/icons/IconTwitterX.vue';
+import IconInstagram from '@/components/icons/IconInstagram.vue';
+import IconYoutube from '@/components/icons/IconYoutube.vue';
+
 </script>
 
 <style scoped>

@@ -1,39 +1,51 @@
 const routes = [
   {
     path: '/',
-    name: 'Accueil',
+    name: 'home',
     component: () => import('../pages/HomePage.vue'),
     meta: { title: 'Accueil' },
   },
   {
     path: '/categories',
-    name: 'Catégories',
+    name: 'categories',
     component: () => import('../pages/CategoriesPage.vue'),
     meta: { title: 'Catégories' },
   },
   {
+    path: '/produits',
+    name: 'products',
+    component: () => import('../pages/ProductsPage.vue'),
+    meta: { title: 'Produits' },
+  },
+  {
     path: '/contact',
-    name: 'Contact',
+    name: 'contact',
     component: () => import('../pages/ContactPage.vue'),
     meta: { title: 'Contact' },
   },
   {
-    path: '/about',
-    name: 'À propos',
+    path: '/a-propos',
+    name: 'about',
     component: () => import('../pages/AboutPage.vue'),
     meta: { title: 'À propos' },
   },
   {
     path: '/plan-du-site',
-    name: 'Plan du site',
+    name: 'planDuSite',
     component: () => import('../pages/PlanDuSitePage.vue'),
     meta: { title: 'Plan du site' },
   },
   {
     path: '/mentions-legales',
-    name: 'Mentions légales',
+    name: 'mentionsLegales',
     component: () => import('../pages/MentionsLegalesPage.vue'),
     meta: { title: 'Mentions légales' },
+  },
+  {
+    path: '/panier',
+    name: 'cart',
+    component: () => import('../pages/CartPage.vue'),
+    meta: { title: 'Panier' },
   },
   {
     path: '/:catchAll(.*)*',

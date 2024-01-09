@@ -1,6 +1,5 @@
 <template>
       <h2 class="page-title">Contact</h2>
-
 </template>
 
 <script setup>
