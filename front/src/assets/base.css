@@ -1,0 +1,54 @@
+:root {
+  --primary: #F1452B;
+  --secondary: #FEBD21;
+  --light: #ffffff;
+  --dark: #363636;
+  --success: #3caf57;
+  --warning: #cf4a02;
+  --danger: #cf0d0d;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-weight: normal;
+}
+
+ul,
+ol {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+address {
+  font-style: normal;
+}
+
+/* Code for Firefox */
+::-moz-selection {
+  color: var(--light);
+  background: var(--primary);
+}
+
+::selection {
+  color: var(--light);
+  background: var(--primary);
+}
+
+body {
+  min-height: 100vh;
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: "Ubuntu", "Roboto", sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
