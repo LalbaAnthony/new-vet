@@ -1,22 +1,27 @@
 <template>
   <router-link :to="`produits/${product.slug}`">
     <div class="product">
-      <img :src="product.image ? product.image : 'public/helpers/no-img-available.webp'"
-        :alt="`Image de ${product.title}`" />
+      <img :src="product.image_path ? product.image_path : 'public/helpers/no-img-available.webp'"
+        :alt="`Image de ${product.name}`" />
       <div>
         <div class="product-categories">
           <Pill v-for="cat in product.categories" :key="cat.slug" :text="cat.libelle" :link="`categories/${cat.slug}`" />
         </div>
-        <h3 class="product-title">{{ product.title }}</h3>
-        <p class="product-text">{{ threeDotString(product.text) }}</p>
+        <h3 class="product-name">{{ product.name }}</h3>
+        <p class="product-description">{{ threeDotString(product.description) }}</p>
+        <div class="  product-numbers">
+          <Stock :stock="product.stock" />
+          <h3 :class="['product-price', product.stock < 1 ? 'overline' : '']">{{ product.price }} €</h3>
+        </div>
       </div>
     </div>
   </router-link>
 </template>
 
 <script setup>
-import { threeDotString } from '@/helpers/helpers.js'
 import Pill from '@/components/Pill.vue'
+import Stock from '@/components/Stock.vue'
+import { threeDotString } from '@/helpers/helpers.js'
 
 defineProps({
   product: {
@@ -27,10 +32,18 @@ defineProps({
 </script>
 
 <style scoped>
+/* MOBILE */
+@media (max-width: 767px) {
+  .product {
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #eaeaea;
+  }
+}
+
 .product {
   color: var(--dark);
   background-color: var(--light);
-  border: var(--light) 1px solid;
   cursor: pointer;
   overflow: hidden;
 }
@@ -54,14 +67,27 @@ defineProps({
   align-items: center;
 }
 
-h3.product-title {
+h3.product-name {
   font-size: 1rem;
   line-height: 1.2;
   font-weight: 600;
   margin-top: 0.5rem;
 }
 
-p.product-text {
+p.product-description {
   padding: 0.5rem 0;
 }
+
+.product-numbers {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h3.product-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
 </style>

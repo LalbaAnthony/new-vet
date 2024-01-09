@@ -18,7 +18,7 @@ const products = ref(getProducts())
 function getProducts() {
     return [
         {
-            image: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
+            image_path: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
             categories: [
                 {
                     slug: 'vetements',
@@ -29,24 +29,10 @@ function getProducts() {
                     libelle: 'Vêtements',
                 },
             ],
-            title: 'Lorem ipsum dolor sit amet consectetur',
-            text: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
-            slug: 'product1',
-        },
-        {
-            image: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
-            categories: [
-                {
-                    slug: 'vetements',
-                    libelle: 'Vêtements',
-                },
-                {
-                    slug: 'vetements',
-                    libelle: 'Vêtements',
-                },
-            ],
-            title: 'Lorem ipsum dolor sit amet consectetur',
-            text: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+            name: 'Lorem ipsum dolor sit amet consectetur',
+            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+            price: '9.99',
+            stock: 0,
             slug: 'product1',
         },
     ]

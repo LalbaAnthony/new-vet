@@ -170,12 +170,37 @@ textarea:focus {
     color: var(--secondary);
 }
 
+.light {
+    color: var(--light);
+}
+
+.dark {
+    color: var(--dark);
+}
+
+.success {
+    color: var(--success);
+}
+
+.warning {
+    color: var(--warning);
+}
+
+.danger {
+    color: var(--danger);
+}
+
 .gradient {
     position: relative;
     display: inline-block;
     background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
     -webkit-background-clip: text;
     color: transparent;
+}
+
+.overline {
+    color: var(--dark) !important;
+    text-decoration: line-through;
 }
 
 a.link,

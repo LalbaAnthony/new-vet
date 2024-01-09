@@ -3,10 +3,9 @@
   --secondary: #FEBD21;
   --light: #ffffff;
   --dark: #363636;
-
-  --bs-success: #28a745;
-  --bs-warning: #ffc107;
-  --bs-danger: #dc3545;
+  --success: #3caf57;
+  --warning: #cf4a02;
+  --danger: #cf0d0d;
 }
 
 *,
