@@ -49,6 +49,7 @@ CREATE TABLE image(
         image_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         product_slug VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT image_PK PRIMARY KEY (image_id),
         CONSTRAINT image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 )ENGINE=InnoDB;
@@ -112,6 +113,7 @@ CREATE TABLE card(
         number INT (16) NOT NULL,
         expiration_date DATE NOT NULL,
         cvv INT (3) NOT NULL, 
+        created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT card_PK PRIMARY KEY (card_id),
         CONSTRAINT card_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
 )ENGINE=InnoDB;

@@ -67,19 +67,51 @@ function deleteProduct($slug)
     }
 }
 
-function insertProduct($content)
+// function insertProduct($content)
+// {
+//     $dbh = db_connect();
+//     $sql = "INSERT INTO product (title, slug, content, created_at) VALUES (:title, :slug, :content, NOW());";
+//     try {
+//         $sth = $dbh->prepare($sql);
+//         $sth->execute(array(
+//             ":title" => $content['title'],
+//             ":slug" => $content['slug'],
+//             ":content" => $content['content']
+//         ));
+//         log_txt("Product inserted: slug " . $content['slug']);
+//     } catch (PDOException $e) {
+//         die("Erreur lors de la requête SQL : " . $e->getMessage());
+//     }
+// }
+
+function getImages($product_slug)
 {
     $dbh = db_connect();
-    $sql = "INSERT INTO product (title, slug, content, created_at) VALUES (:title, :slug, :content, NOW());";
+    $sql = "SELECT * FROM image WHERE product_slug = :product_slug ORDER BY created_at DESC;";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(
-            ":title" => $content['title'],
-            ":slug" => $content['slug'],
-            ":content" => $content['content']
-        ));
-        log_txt("Product inserted: slug " . $content['slug']);
+        $sth->execute(array(":product_slug" => $product_slug));
+        $images = $sth->fetchAll(PDO::FETCH_ASSOC);
+        log_txt("Read images of product: slug $product_slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
+
+    return $images;
+}
+
+function getCategory($category_slug)
+{
+    $dbh = db_connect();
+    $sql = "SELECT * FROM category WHERE slug = :category_slug;";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":category_slug" => $category_slug));
+        $category = $sth->fetch(PDO::FETCH_ASSOC);
+        log_txt("Read category: slug $category_slug");
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $category;
 }

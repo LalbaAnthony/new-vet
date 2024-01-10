@@ -65,3 +65,44 @@
 [10-01-24 01:46:44 PM][::1]: Read products
 [10-01-24 01:46:44 PM][::1]: Access to products.php
 [10-01-24 01:46:44 PM][::1]: Read products
+[10-01-24 01:53:56 PM][::1]: Access to products.php
+[10-01-24 01:53:56 PM][::1]: Read products
+[10-01-24 01:54:31 PM][::1]: Access to products.php
+[10-01-24 01:54:31 PM][::1]: Read product: slug robe-elegante
+[10-01-24 01:54:54 PM][::1]: Access to products.php
+[10-01-24 01:54:54 PM][::1]: Read products
+[10-01-24 01:57:23 PM][::1]: Access to products.php
+[10-01-24 01:57:23 PM][::1]: Read products
+[10-01-24 01:59:25 PM][::1]: Access to products.php
+[10-01-24 01:59:25 PM][::1]: Read products
+[10-01-24 02:03:07 PM][::1]: Access to products.php
+[10-01-24 02:03:07 PM][::1]: Read products
+[10-01-24 02:03:10 PM][::1]: Access to products.php
+[10-01-24 02:03:10 PM][::1]: Read products
+[10-01-24 02:04:26 PM][::1]: Access to products.php
+[10-01-24 02:04:26 PM][::1]: Read products
+[10-01-24 02:09:27 PM][::1]: Access to products.php
+[10-01-24 02:09:27 PM][::1]: Read products
+[10-01-24 02:09:33 PM][::1]: Access to products.php
+[10-01-24 02:09:33 PM][::1]: Read products
+[10-01-24 02:09:50 PM][::1]: Access to products.php
+[10-01-24 02:09:50 PM][::1]: Read products
+[10-01-24 02:10:29 PM][::1]: Access to products.php
+[10-01-24 02:10:29 PM][::1]: Read products
+[10-01-24 02:16:13 PM][::1]: Read products
+[10-01-24 02:28:57 PM][::1]: Read products
+[10-01-24 02:33:44 PM][::1]: Read products
+[10-01-24 02:33:44 PM][::1]: Read images of product: slug robe-elegante
+[10-01-24 02:33:44 PM][::1]: Read images of product: slug sac-a-main-chic
+[10-01-24 02:33:44 PM][::1]: Read images of product: slug escarpins-classiques
+[10-01-24 02:35:25 PM][::1]: Read products
+[10-01-24 02:35:25 PM][::1]: Read images of product: slug robe-elegante
+[10-01-24 02:35:25 PM][::1]: Read images of product: slug sac-a-main-chic
+[10-01-24 02:35:25 PM][::1]: Read images of product: slug escarpins-classiques
+[10-01-24 02:40:41 PM][::1]: Read products
+[10-01-24 02:40:41 PM][::1]: Read images of product: slug robe-elegante
+[10-01-24 02:40:41 PM][::1]: Read category: slug vetements
+[10-01-24 02:40:41 PM][::1]: Read images of product: slug sac-a-main-chic
+[10-01-24 02:40:41 PM][::1]: Read category: slug accessoires
+[10-01-24 02:40:42 PM][::1]: Read images of product: slug escarpins-classiques
+[10-01-24 02:40:42 PM][::1]: Read category: slug chaussures
