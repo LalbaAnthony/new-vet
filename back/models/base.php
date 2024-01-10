@@ -1,5 +1,8 @@
 <?php
 
+require_once('categories.php');
+require_once('products.php');
+
 function db_connect()
 {
     $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;

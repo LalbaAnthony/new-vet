@@ -1,24 +1,26 @@
 <?php
 
-require_once('base.php');
-
-function getProducts($category_slug = null)
+function getProducts($category_slug = null, $search = null, $order_by = 'created_at', $order = 'DESC', $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
 
-    if ($category_slug) {
-        $sql = "SELECT * FROM product WHERE category_slug = :category_slug ORDER BY created_at DESC;";
-    } else {
-        $sql = "SELECT * FROM product ORDER BY created_at DESC;";
-    }
+    $sql = "SELECT * FROM product";
+    $sql .= " WHERE 1 = 1";
+
+    if ($category_slug) $sql .= " AND category_slug = :category_slug";
+    if ($search)  $sql .= " AND (name LIKE :search OR description LIKE :search OR category_slug LIKE or price LIKE :search)";
+    $sql .= " ORDER BY $order_by $order";
+    if ($per_page) $sql .= " LIMIT $per_page";
+    if ($offset) $sql .= " OFFSET $offset";
 
     try {
         $sth = $dbh->prepare($sql);
-        if ($category_slug) {
-            $sth->execute(array(":category_slug" => $category_slug));
-        } else {
-            $sth->execute();
-        }
+
+        if ($category_slug) $sth->bindValue(":category_slug", $category_slug);
+        if ($search) $sth->bindValue(":search", "%$search%");
+
+        $sth->execute();
+
         $products = $sth->fetchAll(PDO::FETCH_ASSOC);
         log_txt("Read products");
     } catch (PDOException $e) {
@@ -72,4 +74,3 @@ function getImages($product_slug)
 
     return $images;
 }
-

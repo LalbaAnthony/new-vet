@@ -1,7 +1,5 @@
 <?php
 
-require_once('base.php');
-
 function getCategory($category_slug)
 {
     $dbh = db_connect();

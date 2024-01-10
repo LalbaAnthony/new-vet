@@ -16,7 +16,7 @@ ini_set('html_errors', '1');
  * Functions
  */
 include('helpers/log_txt.php');
-include('models/products.php');
+include('models/base.php');
 
 // /**
 //  * Autoload
