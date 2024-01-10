@@ -10,20 +10,20 @@ DELETE FROM image;
 DELETE FROM product;
 DELETE FROM category;
 
-INSERT INTO category (category_id, slug, libelle, image_path, sort_order) VALUES 
-(1, 'vetements', 'Vêtements', '/images/clothing.jpg', 1),
-(2, 'chaussures', 'Chaussures', '/images/shoes.jpg', 2),
-(3, 'accessoires', 'Accessoires', '/images/accessories.jpg', 3);
+INSERT INTO category (slug, libelle, image_path, sort_order) VALUES 
+('vetements', 'Vêtements', '/images/clothing.jpg', 1),
+('chaussures', 'Chaussures', '/images/shoes.jpg', 2),
+('accessoires', 'Accessoires', '/images/accessories.jpg', 3);
 
-INSERT INTO product (product_id, slug, name, description, category_id, is_highlander, price, stock_quantity) VALUES 
-(1, 'robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 0, 59.99, 50),
-(2, 'escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 2, 0, 39.99, 30),
-(3, 'sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 3, 0, 29.99, 20);
+INSERT INTO product (slug, name, description, category_slug, is_highlander, price, stock_quantity) VALUES 
+('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 'vetements', 1, 59.99, 50),
+('escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 'chaussures', 0, 39.99, 30),
+('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 'accessoires', 0, 29.99, 20);
 
-INSERT INTO image (product_id, image_path) VALUES 
-(1, '/images/dress.jpg'),
-(2, '/images/shoes.jpg'),
-(3, '/images/handbag.jpg');
+INSERT INTO image (product_slug, image_path) VALUES 
+('robe-elegante', '/images/dress.jpg'),
+('escarpins-classiques', '/images/shoes.jpg'),
+('sac-a-main-chic', '/images/handbag.jpg');
 
 INSERT INTO country (country_id, name) VALUES 
 (1, 'France'),
@@ -55,10 +55,10 @@ INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, s
 (2, 2, 2, '2024-01-09 14:45:00', 39.99, 1),
 (3, 3, 3, '2024-01-10 10:15:00', 29.99, 3);
 
-INSERT INTO order_product (order_id, product_id, quantity, item_price) VALUES 
-(1, 1, 2, 59.99),
-(2, 2, 1, 39.99),
-(3, 3, 1, 29.99);
+INSERT INTO order_product (order_id, product_slug, quantity, item_price) VALUES 
+(1, 'robe-elegante', 2, 59.99),
+(2, 'escarpins-classiques', 1, 39.99),
+(3, 'sac-a-main-chic', 1, 29.99);
 
 INSERT INTO contact (customer_id, email, subject, message) VALUES 
 (1, 'alice@example.com', 'Question sur ma commande', 'Bonjour, j\'aurais une question concernant ma commande.'),

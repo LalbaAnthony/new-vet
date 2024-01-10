@@ -16,6 +16,7 @@ ini_set('html_errors', '1');
  * Functions
  */
 include('helpers/log_txt.php');
+include('helpers/sql.php');
 
 // /**
 //  * Autoload

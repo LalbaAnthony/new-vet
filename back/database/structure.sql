@@ -15,14 +15,13 @@ DROP TABLE IF EXISTS category;
 #------------------------------------------------------------
 
 CREATE TABLE category(
-        category_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        slug VARCHAR (50) NOT NULL,
+        slug VARCHAR (50) NOT NULL UNIQUE,
         libelle VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) UNIQUE,
         sort_order INT UNIQUE,
         is_quick_access BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT category_PK PRIMARY KEY (category_id)
+        CONSTRAINT category_PK PRIMARY KEY (slug)
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
@@ -30,17 +29,16 @@ CREATE TABLE category(
 #------------------------------------------------------------
 
 CREATE TABLE product(
-        product_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        slug VARCHAR (50) NOT NULL,
+        slug VARCHAR (50) NOT NULL UNIQUE,
         name VARCHAR (50) NOT NULL,
         description VARCHAR (1000),
-        category_id INT,
+        category_slug VARCHAR (50),
         is_highlander BOOLEAN NOT NULL DEFAULT 0,
         price FLOAT NOT NULL DEFAULT 0,
         stock_quantity INT NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT product_PK PRIMARY KEY (product_id),
-        CONSTRAINT product_category_FK FOREIGN KEY (category_id) REFERENCES category(category_id)
+        CONSTRAINT product_PK PRIMARY KEY (slug),
+        CONSTRAINT product_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug)
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
@@ -49,10 +47,10 @@ CREATE TABLE product(
 
 CREATE TABLE image(
         image_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        product_id INT NOT NULL,
+        product_slug VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) NOT NULL,
         CONSTRAINT image_PK PRIMARY KEY (image_id),
-        CONSTRAINT image_product_FK FOREIGN KEY (product_id) REFERENCES product(product_id)
+        CONSTRAINT image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
@@ -61,8 +59,8 @@ CREATE TABLE image(
 
 CREATE TABLE country(
         country_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        name VARCHAR (50) NOT NULL
-        created_at DATETIME NOT NULL DEFAULT NOW(),
+        name VARCHAR (50) NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT NOW()
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
@@ -151,13 +149,13 @@ CREATE TABLE `order`(
 #------------------------------------------------------------
 CREATE TABLE order_product(
         order_id INT NOT NULL,
-        product_id INT NOT NULL,
+        product_slug VARCHAR (50) NOT NULL,
         quantity INT NOT NULL,
         item_price FLOAT NOT NULL,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT order_product_PK PRIMARY KEY (order_id, product_id),
+        CONSTRAINT order_product_PK PRIMARY KEY (order_id, product_slug),
         CONSTRAINT order_product_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id),
-        CONSTRAINT order_product_product_FK FOREIGN KEY (product_id) REFERENCES product(product_id)
+        CONSTRAINT order_product_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 )ENGINE=InnoDB; 
 
 #------------------------------------------------------------
