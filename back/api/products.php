@@ -6,6 +6,13 @@ require_once "../config.inc.php";
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
+// TODO: Add perpage
+// TODO: Add offset
+// TODO: Add search
+// TODO: Add orderby
+// TODO: Add ordertype
+
+
 $products = array();
 
 if ($slug) { // Si on a un slug, on recupere un produit
