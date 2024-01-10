@@ -2,7 +2,7 @@
   <footer>
     <div>
       <h5>Réseaux</h5>
-      <a href="https://www.facebook.com/MairiedeBorreze/" target="_blank">
+      <a href="https://www.facebook.com/NEWVET/" target="_blank">
         <IconFacebook class="social-icon" />
       </a>
       <a href="hhttps://twitter.com/NEWVET" target="_blank">

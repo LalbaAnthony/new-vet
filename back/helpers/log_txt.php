@@ -2,7 +2,7 @@
 
 function log_txt($whatToLog)
 {
-    $file = "logs/logs.txt";
+    $file = "../logs/logs.txt";
     $fileopen = (fopen($file, 'a'));
 
     $date = date('d-m-y h:i:s A');

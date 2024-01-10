@@ -1,7 +1,7 @@
 
 <?php
 
-require_once "config.inc.php";
+require_once "../config.inc.php";
 log_txt("Access to products.php");
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
@@ -18,7 +18,7 @@ if ($slug) {
     // }
 }
 
-// return  JSON
+// Return  JSON
 header("Content-type: application/json; charset=utf-8");
 $products = json_encode($products);
 echo $products;
