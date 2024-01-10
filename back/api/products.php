@@ -6,8 +6,8 @@
 require_once "../config.inc.php";
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
-$category = isset($_GET['category']) ? $_GET['category'] : '';
-$material = isset($_GET['material']) ? $_GET['material'] : '';
+$category = isset($_GET['category']) ? $_GET['category'] : array();
+$material = isset($_GET['material']) ? $_GET['material'] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
@@ -28,9 +28,9 @@ if ($slug) { // Si on a un slug, on recupere un produit
 // Si il y a des produits, on recupere les images et la categorie associée
 if (count($products) > 0) {
     foreach ($products as &$product) {
-        $product['images'] = getImages($product['slug']);
-        $product['category'] = getCategoriesFromProduct($product['slug']);
-        $product['material'] = getMaterialsFromProduct($product['slug']);
+        $product['images'] = getImagesFromProduct($product['slug']);
+        $product['categories'] = getCategoriesFromProduct($product['slug']);
+        $product['materials'] = getMaterialsFromProduct($product['slug']);
     }
 }
 

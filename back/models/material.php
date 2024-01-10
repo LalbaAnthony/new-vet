@@ -16,13 +16,35 @@ function getMaterial($material_slug)
     return $material;
 }
 
-function getMaterials()
+function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM material ORDER BY created_at DESC;";
+
+    // Select all materials
+    $sql = "SELECT * FROM material";
+
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
+
+    // Filter by search
+    if ($search) $sql .= " AND libelle LIKE :search";
+
+    $sql .= " ORDER BY :order_by :order";
+    if ($per_page) $sql .= " LIMIT :per_page";
+    if ($offset) $sql .= " OFFSET :offset";
+
     try {
         $sth = $dbh->prepare($sql);
+
+        // Bind values
+        if ($search) $sth->bindValue(":search", "%$search%");
+        $sth->bindValue(":order_by", $order_by);
+        $sth->bindValue(":order", $order);
+        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
+        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
+
         $sth->execute();
+
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
         log_txt("Read materials");
     } catch (PDOException $e) {
@@ -31,6 +53,11 @@ function getMaterials()
 
     return $materials;
 }
+
+
+
+
+
 
 function getMaterialsFromProduct($product_slug)
 {

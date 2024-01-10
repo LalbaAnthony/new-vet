@@ -3,6 +3,10 @@
 require_once('category.php');
 require_once('material.php');
 require_once('product.php');
+require_once('image.php');
+require_once('status.php');
+require_once('country.php');
+require_once('material.php');
 
 function db_connect()
 {

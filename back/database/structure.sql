@@ -101,7 +101,8 @@ CREATE TABLE image(
 CREATE TABLE country(
         country_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         name VARCHAR (50) NOT NULL,
-        created_at DATETIME NOT NULL DEFAULT NOW()
+        created_at DATETIME NOT NULL DEFAULT NOW(),
+        CONSTRAINT country_PK PRIMARY KEY (country_id)
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
