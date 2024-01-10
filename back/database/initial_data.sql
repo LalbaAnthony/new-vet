@@ -11,9 +11,9 @@ DELETE FROM product;
 DELETE FROM category;
 
 INSERT INTO category (slug, libelle, image_path, sort_order) VALUES 
-('vetements', 'Vêtements', '/images/clothing.jpg', 1),
-('chaussures', 'Chaussures', '/images/shoes.jpg', 2),
-('accessoires', 'Accessoires', '/images/accessories.jpg', 3);
+('vetements', 'Vêtements', '/assets/categories/vetements.jpg', 1),
+('chaussures', 'Chaussures', '/assets/categories/chaussures.jpg', 2),
+('accessoires', 'Accessoires', '/assets/categories/accessoires.jpg', 3);
 
 INSERT INTO product (slug, name, description, category_slug, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 'vetements', 1, 59.99, 50),
@@ -21,9 +21,9 @@ INSERT INTO product (slug, name, description, category_slug, is_highlander, pric
 ('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 'accessoires', 0, 29.99, 20);
 
 INSERT INTO image (product_slug, image_path) VALUES 
-('robe-elegante', '/images/dress.jpg'),
-('escarpins-classiques', '/images/shoes.jpg'),
-('sac-a-main-chic', '/images/handbag.jpg');
+('robe-elegante', '/assets/products/dress.jpg'),
+('escarpins-classiques', '/assets/products/shoes.jpg'),
+('sac-a-main-chic', '/assets/products/handbag.jpg');
 
 INSERT INTO country (country_id, name) VALUES 
 (1, 'France'),
