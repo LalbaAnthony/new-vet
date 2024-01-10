@@ -1,7 +1,8 @@
 <?php
 
-require_once('categories.php');
-require_once('products.php');
+require_once('category.php');
+require_once('material.php');
+require_once('product.php');
 
 function db_connect()
 {

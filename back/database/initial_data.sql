@@ -9,16 +9,30 @@ DELETE FROM country;
 DELETE FROM image;
 DELETE FROM product;
 DELETE FROM category;
+DELETE FROM material;
+DELETE FROM product_category;
+DELETE FROM product_material;
+
+INSERT INTO material (slug, libelle) VALUES 
+('cuire', 'Cuire');
 
 INSERT INTO category (slug, libelle, image_path, sort_order) VALUES 
 ('vetements', 'Vêtements', '/assets/categories/vetements.jpg', 1),
 ('chaussures', 'Chaussures', '/assets/categories/chaussures.jpg', 2),
 ('accessoires', 'Accessoires', '/assets/categories/accessoires.jpg', 3);
 
-INSERT INTO product (slug, name, description, category_slug, is_highlander, price, stock_quantity) VALUES 
-('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 'vetements', 1, 59.99, 50),
-('escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 'chaussures', 0, 39.99, 30),
-('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 'accessoires', 0, 29.99, 20);
+INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
+('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
+('escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 0, 39.99, 30),
+('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 0, 29.99, 20);
+
+INSERT INTO product_material (product_slug, material_slug) VALUES 
+('sac-a-main-chic', 'cuire');
+
+INSERT INTO product_category (product_slug, category_slug) VALUES 
+('robe-elegante', 'vetements'),
+('escarpins-classiques', 'chaussures'),
+('sac-a-main-chic', 'accessoires');
 
 INSERT INTO image (product_slug, image_path) VALUES 
 ('robe-elegante', '/assets/products/dress.jpg'),

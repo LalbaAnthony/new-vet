@@ -7,8 +7,22 @@ DROP TABLE IF EXISTS address;
 DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS country;
 DROP TABLE IF EXISTS image;
+DROP TABLE IF EXISTS product_category;
+DROP TABLE IF EXISTS product_material;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS material;
+
+#------------------------------------------------------------
+# Table: material
+#------------------------------------------------------------
+
+CREATE TABLE material(
+        slug VARCHAR (50) NOT NULL UNIQUE,
+        libelle VARCHAR (50) NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT NOW(),
+        CONSTRAINT material_PK PRIMARY KEY (slug)
+)ENGINE=InnoDB;
 
 #------------------------------------------------------------
 # Table: category
@@ -32,13 +46,39 @@ CREATE TABLE product(
         slug VARCHAR (50) NOT NULL UNIQUE,
         name VARCHAR (50) NOT NULL,
         description VARCHAR (1000),
-        category_slug VARCHAR (50),
         is_highlander BOOLEAN NOT NULL DEFAULT 0,
         price FLOAT NOT NULL DEFAULT 0,
         stock_quantity INT NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT product_PK PRIMARY KEY (slug),
-        CONSTRAINT product_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug)
+        CONSTRAINT product_PK PRIMARY KEY (slug)
+)ENGINE=InnoDB;
+
+#------------------------------------------------------------
+# Table: product_category
+#------------------------------------------------------------
+
+CREATE TABLE product_category(
+        product_category_id INT AUTO_INCREMENT NOT NULL UNIQUE,
+        product_slug VARCHAR (50) NOT NULL,
+        category_slug VARCHAR (50) NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT NOW(),
+        CONSTRAINT product_category_PK PRIMARY KEY (product_category_id),
+        CONSTRAINT product_category_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
+        CONSTRAINT product_category_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug)
+)ENGINE=InnoDB;
+
+#------------------------------------------------------------
+# Table: product_material
+#------------------------------------------------------------
+
+CREATE TABLE product_material(
+        product_material_id INT AUTO_INCREMENT NOT NULL UNIQUE,
+        product_slug VARCHAR (50) NOT NULL,
+        material_slug VARCHAR (50) NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT NOW(),
+        CONSTRAINT product_material_PK PRIMARY KEY (product_material_id),
+        CONSTRAINT product_material_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
+        CONSTRAINT product_material_material_FK FOREIGN KEY (material_slug) REFERENCES material(slug)
 )ENGINE=InnoDB;
 
 #------------------------------------------------------------
