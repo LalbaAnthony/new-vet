@@ -35,7 +35,7 @@
       </router-link>
     </nav>
     <div class="header-quick-access">
-      <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`categories/${item.slug}`" type="light" />
+      <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`" type="light" />
     </div>
   </header>
 </template>
