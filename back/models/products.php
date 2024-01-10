@@ -1,16 +1,6 @@
 <?php
 
-function db_connect()
-{
-    $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
-    try {
-        $dbh = new PDO($dsn, DB_USER, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $ex) {
-        die("Erreur lors de la connexion à la base de donnée : " . $ex->getMessage());
-    }
-    return $dbh;
-}
+require_once('base.php');
 
 function getProducts($category_slug = null)
 {
@@ -67,23 +57,6 @@ function deleteProduct($slug)
     }
 }
 
-// function insertProduct($content)
-// {
-//     $dbh = db_connect();
-//     $sql = "INSERT INTO product (title, slug, content, created_at) VALUES (:title, :slug, :content, NOW());";
-//     try {
-//         $sth = $dbh->prepare($sql);
-//         $sth->execute(array(
-//             ":title" => $content['title'],
-//             ":slug" => $content['slug'],
-//             ":content" => $content['content']
-//         ));
-//         log_txt("Product inserted: slug " . $content['slug']);
-//     } catch (PDOException $e) {
-//         die("Erreur lors de la requête SQL : " . $e->getMessage());
-//     }
-// }
-
 function getImages($product_slug)
 {
     $dbh = db_connect();
@@ -100,18 +73,3 @@ function getImages($product_slug)
     return $images;
 }
 
-function getCategory($category_slug)
-{
-    $dbh = db_connect();
-    $sql = "SELECT * FROM category WHERE slug = :category_slug;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":category_slug" => $category_slug));
-        $category = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read category: slug $category_slug");
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
-    }
-
-    return $category;
-}
