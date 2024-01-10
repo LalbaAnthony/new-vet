@@ -13,6 +13,7 @@ $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
+$is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
 
 $products = array();
 
@@ -22,7 +23,7 @@ if ($slug) { // Si on a un slug, on recupere un produit
         array_push($products, $product);
     }
 } else { // Sinon on recupere tous les produits, selon les parametres
-    $products = getProducts($category, $material, $search, $order_by, $order, $offset, $per_page);
+    $products = getProducts($category, $material, $search, $order_by, $order, $offset, $per_page, $is_highlander);
 }
 
 // Si il y a des produits, on recupere les images et la categorie associée
