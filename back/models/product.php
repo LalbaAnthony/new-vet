@@ -3,7 +3,6 @@
 function getProducts($category_slug = null, $material_slug = null, $search = null, $order_by = 'created_at', $order = 'DESC', $offset = null, $per_page = 10)
 {
 
-    // TODO: ajouter les parametres category_slug et material_slug comme des tableaux
     // TODO: tester la pagination
 
     $dbh = db_connect();
@@ -14,10 +13,10 @@ function getProducts($category_slug = null, $material_slug = null, $search = nul
     LEFT JOIN product_material ON product_material.product_slug = product.slug
     LEFT JOIN material ON product_material.material_slug = material.slug";
     
-    // if ($category_slug) $sql .= " AND category.slug = :category_slug";
-    // if ($material_slug) $sql .= " AND material.slug = :material_slug";
-    
     $sql .= " WHERE 1 = 1";
+    
+    if ($category_slug) $sql .= " AND category.slug = :category_slug";
+    if ($material_slug) $sql .= " AND material.slug = :material_slug";
     if ($search) $sql .= " AND (name LIKE :search OR description LIKE :search OR price LIKE :search OR category.libelle LIKE :search OR material.libelle LIKE :search)";
     $sql .= " ORDER BY :order_by :order";
     if ($per_page) $sql .= " LIMIT :per_page";
@@ -26,8 +25,8 @@ function getProducts($category_slug = null, $material_slug = null, $search = nul
     try {
         $sth = $dbh->prepare($sql);
 
-        // if ($category_slug) $sth->bindValue(":category_slug", $category_slug);
-        // if ($material_slug) $sth->bindValue(":material_slug", $material_slug);
+        if ($category_slug) $sth->bindValue(":category_slug", $category_slug);
+        if ($material_slug) $sth->bindValue(":material_slug", $material_slug);
         if ($search) $sth->bindValue(":search", "%$search%");
         $sth->bindValue(":order_by", $order_by);
         $sth->bindValue(":order", $order);
