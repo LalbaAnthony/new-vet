@@ -72,3 +72,8 @@ GRANT SELECT ON `new-vet`.contact TO 'new-vet-user'@'localhost';
 GRANT INSERT ON `new-vet`.contact TO 'new-vet-user'@'localhost';
 GRANT UPDATE ON `new-vet`.contact TO 'new-vet-user'@'localhost';
 GRANT DELETE ON `new-vet`.contact TO 'new-vet-user'@'localhost';
+
+GRANT SELECT ON `new-vet`.admin TO 'new-vet-user'@'localhost';
+GRANT INSERT ON `new-vet`.admin TO 'new-vet-user'@'localhost';
+GRANT UPDATE ON `new-vet`.admin TO 'new-vet-user'@'localhost';
+GRANT DELETE ON `new-vet`.admin TO 'new-vet-user'@'localhost';

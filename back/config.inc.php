@@ -13,8 +13,10 @@ ini_set('display_errors', '1');
 ini_set('html_errors', '1');
 
 /**
- * Functions
+ * Démarrage de la session
  */
+session_start();
+
 include_once('helpers/log_txt.php');
 include_once('helpers/db_connect.php');
 
