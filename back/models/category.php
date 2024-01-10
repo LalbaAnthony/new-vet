@@ -16,7 +16,24 @@ function getCategory($category_slug)
     return $category;
 }
 
-function getCategoriesFromProduct($product_slug) {
+function getCategories()
+{
+    $dbh = db_connect();
+    $sql = "SELECT * FROM category ORDER BY created_at DESC;";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $categories = $sth->fetchAll(PDO::FETCH_ASSOC);
+        log_txt("Read categories");
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $categories;
+}
+
+function getCategoriesFromProduct($product_slug)
+{
     $dbh = db_connect();
     $sql = "SELECT category.* FROM product, product_category, category 
     WHERE product.slug = :product_slug

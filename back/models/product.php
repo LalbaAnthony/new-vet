@@ -4,17 +4,21 @@ function getProducts($category_slug = null, $material_slug = null, $search = nul
 {
 
     // TODO: ajouter les parametres category_slug et material_slug comme des tableaux
-    // TODO: faire la recherche sur les categories et les materiaux
     // TODO: tester la pagination
 
     $dbh = db_connect();
 
-    $sql = "SELECT * FROM product";
+    $sql = "SELECT product.* FROM product
+    LEFT JOIN product_category ON product_category.product_slug = product.slug
+    LEFT JOIN category ON product_category.category_slug = category.slug
+    LEFT JOIN product_material ON product_material.product_slug = product.slug
+    LEFT JOIN material ON product_material.material_slug = material.slug";
     
     // if ($category_slug) $sql .= " AND category.slug = :category_slug";
+    // if ($material_slug) $sql .= " AND material.slug = :material_slug";
     
     $sql .= " WHERE 1 = 1";
-    if ($search)  $sql .= " AND (name LIKE :search OR description LIKE :search OR price LIKE :search)";
+    if ($search) $sql .= " AND (name LIKE :search OR description LIKE :search OR price LIKE :search OR category.libelle LIKE :search OR material.libelle LIKE :search)";
     $sql .= " ORDER BY :order_by :order";
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
