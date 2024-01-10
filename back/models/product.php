@@ -3,6 +3,7 @@
 function getProducts($category_slug = null, $material_slug = null, $search = null, $order_by = 'created_at', $order = 'DESC', $offset = null, $per_page = 10)
 {
 
+    // TODO: ajouter les parametres category_slug et material_slug comme des tableaux
     // TODO: faire la recherche sur les categories et les materiaux
     // TODO: tester la pagination
 
