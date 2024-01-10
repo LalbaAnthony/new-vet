@@ -3,7 +3,8 @@
 
 // ? exemple d'url: http://localhost/projects/new-vet/back/api/categories.php
 
-require_once "../config.inc.php";
+include_once "../config.inc.php";
+include_once('../models/category.php');
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';

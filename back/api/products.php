@@ -3,7 +3,12 @@
 
 // ? exemple d'url: http://localhost/projects/new-vet/back/api/products.php?order_by=slug&order=ASC&search=sac
 
-require_once "../config.inc.php";
+
+include_once "../config.inc.php";
+include_once('../models/product.php');
+include_once('../models/image.php');
+include_once('../models/category.php');
+include_once('../models/material.php');
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $category = isset($_GET['category']) ? $_GET['category'] : array();

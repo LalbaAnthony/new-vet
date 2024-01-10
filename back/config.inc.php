@@ -15,18 +15,8 @@ ini_set('html_errors', '1');
 /**
  * Functions
  */
-include('helpers/log_txt.php');
-include('models/base.php');
-
-// /**
-//  * Autoload
-//  * @param string $classe
-//  */
-// function my_autoloader($classe)
-// {
-//     include 'classes/' . $classe . '.php';
-// }
-// spl_autoload_register('my_autoloader');
+include_once('helpers/log_txt.php');
+include_once('helpers/db_connect.php');
 
 /**
  * Paramètre de la base de données
