@@ -14,6 +14,7 @@ if ($login && $password) {
         if (password_verify($password, $admin['password'])) {
             if ($admin['has_access'] == 1) {
                 $_SESSION['admin'] = $admin;
+                $success = "Connexion réussie";
                 log_txt("User logged in back office: login $login");
                 header('Location: index.php');
             } else {
@@ -53,6 +54,11 @@ if ($login && $password) {
                 <div class="col-md-4">
                     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                         <h2 class="text-center mb-4">Connexion</h2>
+                        <?php if (isset($success)) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= $success ?>
+                            </div>
+                        <?php endif; ?>
                         <?php if (isset($error)) : ?>
                             <div class="alert alert-danger" role="alert">
                                 <?= $error ?>

@@ -15,8 +15,17 @@
     <h4>Listes des routes disponibles:</h4>
     <ul>
         <?php
+
+
         $files = scandir("."); // . = dossier courant
         $files = array_slice($files, 2); // on retire les deux premiers éléments du tableau (.) et (..)
+        $files = array_filter($files, function ($file) {
+            return stripos($file, 'log') === false;
+        }); // on dégage les fichiers de log
+        $files = array_filter($files, function ($file) {
+            return $file != "index.php";
+        }); // on retire index.php du tableau
+
         foreach ($files as $file) {
             echo "<li><a href='$file'>$file</a></li>";
         }

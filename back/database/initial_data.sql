@@ -12,6 +12,7 @@ DELETE FROM category;
 DELETE FROM material;
 DELETE FROM product_category;
 DELETE FROM product_material;
+DELETE FROM admin;
 
 INSERT INTO material (slug, libelle) VALUES 
 ('cuire', 'Cuire');
@@ -78,3 +79,6 @@ INSERT INTO contact (customer_id, email, subject, message) VALUES
 (1, 'alice@example.com', 'Question sur ma commande', 'Bonjour, j\'aurais une question concernant ma commande.'),
 (2, 'jean@example.com', 'Problème avec un produit', 'Bonjour, j\'ai rencontré un problème avec le produit que j\'ai reçu.'),
 (3, 'sophie@example.com', 'Feedback positif', 'Bonjour, je voulais vous faire part de ma satisfaction concernant ma dernière commande. Merci!');
+
+INSERT INTO admin (login, password, has_access) VALUES 
+('testAdmin', '$2y$10$Avrn4BLpK9fZfe5UfxLqve5nb3NdTZ9KV88LE.MHgnTBm.bHRKGl6', 1);

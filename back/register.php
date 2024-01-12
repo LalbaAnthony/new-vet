@@ -25,6 +25,7 @@ if ($login && $password && $passwordConfirm) {
                     $error = "Ce login est déjà utilisé";
                 } else {
                     if (insertAdmin($login, $password)) {
+                        $success = "Inscription réussie";
                         header('Location: login.php');
                     } else {
                         $error = "Erreur lors de l'inscription";
@@ -60,6 +61,11 @@ if ($login && $password && $passwordConfirm) {
                 <div class="col-md-4">
                     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                         <h2 class="text-center mb-4">S'inscrire</h2>
+                        <?php if (isset($success)) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= $success ?>
+                            </div>
+                        <?php endif; ?>
                         <?php if (isset($error)) : ?>
                             <div class="alert alert-danger" role="alert">
                                 <?= $error ?>
