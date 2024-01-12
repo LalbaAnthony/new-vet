@@ -98,7 +98,7 @@ function insertCategory($category)
     $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, quick_access) VALUES (:slug, :libelle, :image_path, :sort_order, :quick_access)";
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
-    if (!$category['image_path']) $category['image_path'] = "/assets/others/no-img-available.webp";
+    if (!$category['image_path']) $category['image_path'] = "/assets/others/default-img.webp";
     if (!$category['sort_order']) {
         $allCategories = getCategories(null, 'sort_order', 'ASC', null, 999);
         $material['sort_order'] = $allCategories[0]['sort_order'] + 1;
