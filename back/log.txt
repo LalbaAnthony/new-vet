@@ -63,3 +63,16 @@
 [12-01-24 10:49:34 PM][::1]: Admin registered in back office: login testAdmin
 [12-01-24 10:56:31 PM][::1]: Read admin: login testAdmin
 [12-01-24 10:56:31 PM][::1]: User logged in back office: login testAdmin
+[12-01-24 11:01:59 PM][::1]: Read admin: login testAdmin
+[12-01-24 11:01:59 PM][::1]: User logged in back office: login testAdmin
+[12-01-24 11:04:26 PM][::1]: User logged out: login testAdmin
+[12-01-24 11:04:29 PM][::1]: Read admin: login borreze-admin
+[12-01-24 11:04:29 PM][::1]: User tried to log in back office but login is incorrect: login borreze-admin
+[12-01-24 11:04:37 PM][::1]: Read admin: login borreze-admin
+[12-01-24 11:04:37 PM][::1]: User tried to log in back office but login is incorrect: login borreze-admin
+[12-01-24 11:04:38 PM][::1]: Read admin: login borreze-admin
+[12-01-24 11:04:38 PM][::1]: User tried to log in back office but login is incorrect: login borreze-admin
+[12-01-24 11:04:42 PM][::1]: Read admin: login borreze-admin
+[12-01-24 11:04:42 PM][::1]: User tried to log in back office but login is incorrect: login borreze-admin
+[12-01-24 11:04:43 PM][::1]: Read admin: login borreze-admin
+[12-01-24 11:04:43 PM][::1]: User tried to log in back office but login is incorrect: login borreze-admin
