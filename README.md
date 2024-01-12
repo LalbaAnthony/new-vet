@@ -36,12 +36,36 @@ Le projet est divisé en deux parties distinctes, le front et le back.<br>
 ### 📄 - FRONTEND
 
 Le front (`/front`) est la partie emergée de l'iceberg, c'est la partie visible par l'utilisateur.<br>
+Il est conçu en VueJS, le style est entierement custom, écrit à la main par notre artisan intégrateur. Ceci afin de garantir un style unique et personnalisé.<br>
+
+***Dependances***
+* vue: https://vuejs.org/
+* vue-router: https://router.vuejs.org/
+* pinia: https://pinia.esm.dev/
+* headlessui: https://headlessui.dev/
+* vue-axios: https://www.npmjs.com/package/vue-axios
+* axios: https://axios-http.com/
+* vue-toastification: https://vue-toastification.maronato.dev/
+
+***Structure***
+
+* `front/src/assets` contient les fichiers de styles
+* `front/src/components` contient les composants réutilisables
+* `front/src/router` contient les routes de l'application
+* `front/src/stores` contient les stores de l'application, c'est à dire les variables globales, gérées par Pinia
+* `front/src/pages` contient les pages de l'application
+* `front/src/App.vue` est le composant principal de l'application
+* `front/src/main.js` est le point d'entrée de l'application
+* `front/package.json` contient les dépendances du projet
 
 ### 📄 - BACKEND
 
 Le back (`/back`) est elle, la partie immergée, c'est la partie invisible par l'utilisateur.<br>
 C'est notamment ici que se trouve la base de données, l'interface API REST, et où se trouve le back-office.<br>
+Il est entièrement conçu en PHP natif, et utilise bootstrap pour le style du back-office.<br>
 
 ***REST API***
+
+***Base de données***
 
 ***Back-office***
