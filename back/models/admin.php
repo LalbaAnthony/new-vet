@@ -73,7 +73,7 @@ function setHasAccess($login, $has_access = false)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":login" => $login, ":has_access" => $has_access));
         if ($sth->rowCount() > 0) {
-            log_txt("Admin access changed in back office: login $login has_access = $has_access");
+            log_txt("Admin access changed in back office: login $login has_access $has_access");
             return true;
         } else {
             return false;

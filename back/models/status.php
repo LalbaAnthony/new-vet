@@ -42,3 +42,63 @@ function getStatuses($order_by = 'sort_order', $order = 'ASC')
 
     return $statuses;
 }
+
+function insertStatus($status)
+{
+    $dbh = db_connect();
+
+    $sql = "INSERT INTO status (libelle) VALUES (:libelle)";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":libelle" => $status['libelle']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Status registered in back office: status_libelle " . $status['libelle']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function updateStatus($status)
+{
+    $dbh = db_connect();
+
+    $sql = "UPDATE status SET libelle = :libelle, WHERE status_id = :status_id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":libelle" => $status['libelle'], ":status_id" => $status['status_id']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Status updated in back office: status_id " . $status['status_id']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function deleteStatus($status_id)
+{
+    $dbh = db_connect();
+
+    $sql = "DELETE FROM status WHERE status_id = :status_id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":status_id" => $status_id));
+        if ($sth->rowCount() > 0) {
+            log_txt("Status deleted in back office: status_id " . $status_id);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}

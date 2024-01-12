@@ -49,3 +49,5 @@
 [12-01-24 09:22:18 PM][::1]: Read admin: login test1
 [12-01-24 09:22:18 PM][::1]: User logged in back office: login test1
 [12-01-24 09:26:18 PM][::1]: User logged out: login test1
+[12-01-24 09:33:40 PM][::1]: Read admin: login test1
+[12-01-24 09:33:40 PM][::1]: User logged in back office: login test1
