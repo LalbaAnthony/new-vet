@@ -123,7 +123,7 @@ CREATE TABLE customer(
         country_id INT NOT NULL,
         email VARCHAR (50) NOT NULL UNIQUE,
         has_validated_email BOOLEAN NOT NULL DEFAULT 0,
-        password VARCHAR (50) NOT NULL,
+        password VARCHAR (150) NOT NULL,
         last_login DATETIME NOT NULL DEFAULT NOW(),
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT customer_PK PRIMARY KEY (customer_id),
@@ -226,7 +226,7 @@ CREATE TABLE contact(
 CREATE TABLE admin(
         admin_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         login VARCHAR (50) NOT NULL,
-        password VARCHAR (50) NOT NULL,
+        password VARCHAR (150) NOT NULL,
         has_access BOOLEAN NOT NULL DEFAULT 0,
         last_login DATETIME NOT NULL DEFAULT NOW(),
         created_at DATETIME NOT NULL DEFAULT NOW(),

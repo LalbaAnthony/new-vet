@@ -1,28 +1,32 @@
 <?php
 
 include_once "config.inc.php";
+include_once "models/admin.php";
 
-$login = isset($_POST['login']) ? $_POST['login'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$login = isset($_POST['login']) ? trim($_POST['login']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 if ($login && $password) {
 
-    $dbh = db_connect();
-    $sql = "SELECT * FROM `admin` WHERE login = :login AND password = :password;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":login" => $login, ":password" => $password));
-        $admin = $sth->fetch(PDO::FETCH_ASSOC);
+    $admin = getAdmin($login);
 
-        if ($admin) {
-            $_SESSION['admin'] = $admin;
-            log_txt("User logged in back office: login $login");
-            header('Location: index.php');
+    if ($admin && $admin['login'] == $login) {
+        if (password_verify($password, $admin['password'])) {
+            if ($admin['has_access'] == 1) {
+                $_SESSION['admin'] = $admin;
+                log_txt("User logged in back office: login $login");
+                header('Location: index.php');
+            } else {
+                $error = "Vous n'avez pas accès au back office";
+                log_txt("User tried to log in back office but has no access: login $login");
+            }
         } else {
-            $error = "Login ou mot de passe incorrect";
+            $error = "Mot de passe incorrect";
+            log_txt("User tried to log in back office but password is incorrect: login $login");
         }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    } else {
+        $error = "Login incorrect";
+        log_txt("User tried to log in back office but login is incorrect: login $login");
     }
 }
 
@@ -67,8 +71,10 @@ if ($login && $password) {
                         </div>
                         <br>
 
-                        <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
-                        <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='register.php'">Se créer un compte</button>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='register.php'">Se créer un compte</button>
+                        </div>
                     </form>
                 </div>
             </div>

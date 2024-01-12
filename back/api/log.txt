@@ -96,3 +96,23 @@
 [10-01-24 11:02:22 PM][::1]: Read images of product: slug escarpins-classiques
 [10-01-24 11:02:22 PM][::1]: Read categories from product escarpins-classiques
 [10-01-24 11:02:22 PM][::1]: Read materials
+[11-01-24 11:37:54 AM][::1]: Read products
+[11-01-24 11:37:54 AM][::1]: Read images of product: slug sac-a-main-chic
+[11-01-24 11:37:54 AM][::1]: Read categories from product sac-a-main-chic
+[11-01-24 11:37:54 AM][::1]: Read materials
+[11-01-24 11:37:54 AM][::1]: Read images of product: slug robe-elegante
+[11-01-24 11:37:54 AM][::1]: Read categories from product robe-elegante
+[11-01-24 11:37:54 AM][::1]: Read materials
+[11-01-24 11:37:54 AM][::1]: Read images of product: slug escarpins-classiques
+[11-01-24 11:37:54 AM][::1]: Read categories from product escarpins-classiques
+[11-01-24 11:37:54 AM][::1]: Read materials
+[12-01-24 08:39:58 PM][::1]: Read products
+[12-01-24 08:39:58 PM][::1]: Read images of product: slug sac-a-main-chic
+[12-01-24 08:39:58 PM][::1]: Read categories from product sac-a-main-chic
+[12-01-24 08:39:58 PM][::1]: Read materials
+[12-01-24 08:39:58 PM][::1]: Read images of product: slug robe-elegante
+[12-01-24 08:39:58 PM][::1]: Read categories from product robe-elegante
+[12-01-24 08:39:58 PM][::1]: Read materials
+[12-01-24 08:39:58 PM][::1]: Read images of product: slug escarpins-classiques
+[12-01-24 08:39:58 PM][::1]: Read categories from product escarpins-classiques
+[12-01-24 08:39:58 PM][::1]: Read materials

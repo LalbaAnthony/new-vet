@@ -13,3 +13,38 @@
 [10-01-24 11:45:37 PM][::1]: User logged in back office: login test1
 [10-01-24 11:56:51 PM][::1]: User logged out: login test1
 [11-01-24 12:00:15 AM][::1]: User logged in back office: login test1
+[12-01-24 08:36:32 PM][::1]: User logged out: login test1
+[12-01-24 08:39:09 PM][::1]: User registered in back office: login testr
+[12-01-24 08:49:35 PM][::1]: User registered in back office: login test
+[12-01-24 08:54:35 PM][::1]: User registered in back office: login test1
+[12-01-24 08:54:52 PM][::1]: User tried to log in back office but password is incorrect: login test1
+[12-01-24 09:01:15 PM][::1]: User registered in back office: login zezeze
+[12-01-24 09:02:36 PM][::1]: User registered in back office: login e
+[12-01-24 09:03:34 PM][::1]: User tried to log in back office but password is incorrect: login e
+[12-01-24 09:05:00 PM][::1]: User tried to log in back office but password is incorrect: login e
+[12-01-24 09:05:50 PM][::1]: User tried to log in back office but password is incorrect: login e
+[12-01-24 09:05:52 PM][::1]: User tried to log in back office but password is incorrect: login e
+[12-01-24 09:05:54 PM][::1]: User tried to log in back office but password is incorrect: login e
+[12-01-24 09:05:55 PM][::1]: User tried to log in back office but password is incorrect: login e
+[12-01-24 09:06:00 PM][::1]: User tried to log in back office but password is incorrect: login test1
+[12-01-24 09:06:04 PM][::1]: User tried to log in back office but password is incorrect: login test1
+[12-01-24 09:06:12 PM][::1]: User tried to log in back office but password is incorrect: login test1
+[12-01-24 09:12:41 PM][::1]: User registered in back office: login test
+[12-01-24 09:12:44 PM][::1]: User tried to log in back office but has no access: login test
+[12-01-24 09:13:00 PM][::1]: User logged in back office: login test
+[12-01-24 09:16:40 PM][::1]: User logged out: login test
+[12-01-24 09:17:29 PM][::1]: Read admin: login test
+[12-01-24 09:17:29 PM][::1]: User logged in back office: login test
+[12-01-24 09:17:30 PM][::1]: User logged out: login test
+[12-01-24 09:17:31 PM][::1]: Read admin: login test
+[12-01-24 09:17:31 PM][::1]: User logged in back office: login test
+[12-01-24 09:18:32 PM][::1]: User logged out: login test
+[12-01-24 09:18:40 PM][::1]: Read admins
+[12-01-24 09:18:54 PM][::1]: Read admins
+[12-01-24 09:21:45 PM][::1]: Read admin: login test
+[12-01-24 09:22:01 PM][::1]: Read admin: login test1
+[12-01-24 09:22:02 PM][::1]: Admin registered in back office: login test1
+[12-01-24 09:22:07 PM][::1]: Read admin: login test1
+[12-01-24 09:22:07 PM][::1]: User tried to log in back office but has no access: login test1
+[12-01-24 09:22:18 PM][::1]: Read admin: login test1
+[12-01-24 09:22:18 PM][::1]: User logged in back office: login test1
