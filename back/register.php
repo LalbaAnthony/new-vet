@@ -45,7 +45,7 @@ if ($login && $password && $passwordConfirm) {
     <meta charset="UTF-8">
     <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Site de vente de vêtement pour femme." />
+    <meta name="description" content="Site de vente de vêtements pour femme." />
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
     <title>Inscription - NEW VET</title>
     <link href="css/style.css" rel="stylesheet">
