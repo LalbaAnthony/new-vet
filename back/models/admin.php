@@ -82,3 +82,23 @@ function setHasAccess($login, $has_access = false)
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 }
+
+function deleteAdmin($login)
+{
+    $dbh = db_connect();
+
+    $sql = "DELETE FROM admin WHERE login = :login";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":login" => $login));
+        if ($sth->rowCount() > 0) {
+            log_txt("Admin deleted in back office: login $login");
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
