@@ -34,6 +34,7 @@ DROP TABLE IF EXISTS admin;
 CREATE TABLE material(
         slug VARCHAR (50) NOT NULL UNIQUE,
         libelle VARCHAR (50) NOT NULL,
+        color VARCHAR (7) NOT NULL UNIQUE DEFAULT '#000000',
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT material_PK PRIMARY KEY (slug)
 ) ENGINE = InnoDB;
@@ -46,6 +47,7 @@ CREATE TABLE category(
         libelle VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) UNIQUE,
         sort_order INT UNIQUE,
+        color VARCHAR (7) NOT NULL UNIQUE DEFAULT '#000000',
         is_quick_access BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT category_PK PRIMARY KEY (slug)

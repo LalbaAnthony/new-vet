@@ -14,13 +14,13 @@ DELETE FROM product_category;
 DELETE FROM product_material;
 DELETE FROM admin;
 
-INSERT INTO material (slug, libelle) VALUES 
-('cuire', 'Cuire');
+INSERT INTO material (slug, libelle, color) VALUES 
+('cuire', 'Cuire', '#227553');
 
-INSERT INTO category (slug, libelle, image_path, sort_order) VALUES 
-('vetements', 'Vêtements', '/assets/categories/vetements.jpg', 1),
-('chaussures', 'Chaussures', '/assets/categories/chaussures.jpg', 2),
-('accessoires', 'Accessoires', '/assets/categories/accessoires.jpg', 3);
+INSERT INTO category (slug, libelle, image_path, sort_order, color) VALUES 
+('vetements', 'Vêtements', '/assets/categories/vetements.jpg', 1, '#32a852'),
+('chaussures', 'Chaussures', '/assets/categories/chaussures.jpg', 2, '#7ba832'),
+('accessoires', 'Accessoires', '/assets/categories/accessoires.jpg', 3, '#7c2d96');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),

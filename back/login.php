@@ -40,8 +40,7 @@ if ($login && $password) {
     <meta charset="UTF-8">
     <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Site de vente de vêtements pour femme." />
-    <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
+    <meta name="author" content="NEW VET" />
     <title>Connexion - NEW VET</title>
     <link href="css/style.css" rel="stylesheet">
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>

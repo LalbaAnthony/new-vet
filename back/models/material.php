@@ -78,13 +78,13 @@ function insertMaterial($material)
 {
     $dbh = db_connect();
 
-    $sql = "INSERT INTO material (libelle, slug) VALUES (:libelle, :slug)";
+    $sql = "INSERT INTO material (libelle, slug, color) VALUES (:libelle, :slug, :color)";
 
     if (!$material['slug']) $material['slug'] = slugify($material['libelle']);
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug']));
+        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Material registered in back office: slug " . $material['slug']);
             return true;
@@ -100,11 +100,11 @@ function updateMaterial($material)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE material SET libelle = :libelle WHERE slug = :slug";
+    $sql = "UPDATE material SET libelle = :libelle, color = :color WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug']));
+        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Material updated in back office: slug " . $material['slug']);
             return true;
