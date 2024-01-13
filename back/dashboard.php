@@ -15,9 +15,9 @@ foreach ($orderCountByCategories as &$item) {
 }
 
 
-// Write CSS style for categories-per-order-piechart
+// Write CSS style for order-count-by-cats-piechart
 echo "<style>
-.categories-per-order-piechart {
+.order-count-by-cats-piechart {
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -64,10 +64,10 @@ echo  "} </style>";
             <section class="col-md-4 mt-5">
                 <h4 class="text-center">Répartition des catégories dans les comandes</h4>
                 <div class="my-4 d-flex justify-content-center">
-                    <div class="categories-per-order-piechart"></div>
+                    <div class="order-count-by-cats-piechart"></div>
                 </div>
                 <div class="my-4 d-flex justify-content-center">
-                    <div class="categories-per-order-piechart-legend">
+                    <div>
                         <?php $orderCountByCategories = array_reverse($orderCountByCategories); ?> <!-- reverse array to display legend in the right order -->
                         <?php foreach ($orderCountByCategories as &$item) : ?>
                             <div class="d-flex align-items-center px-3">
