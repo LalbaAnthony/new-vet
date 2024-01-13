@@ -25,10 +25,10 @@ echo "<style>
 
 $degDejaConstruit = 0;
 for ($i = 0; $i < count($orderCountByCategories); $i++) {
-    if ($i === 0) {
+    if (($i + 1) === count($orderCountByCategories) || count($orderCountByCategories) === 1) {
+        echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg);"; // si c'est la derniere ligne, ou qu'il n'y à qu'un élément, format: "color degre"
+    } else if ($i === 0) {
         echo $orderCountByCategories[$i]["color"] . " " . $orderCountByCategories[$i]["deg"] . "deg"  . ", "; // si c'est la permiere ligne, format: "color degre,"
-    } elseif (($i + 1) === count($orderCountByCategories)) {
-        echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg);"; // si c'est la derniere ligne, format: "color degre"
     } else {
         echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg" . ","; // sinon, format: "color degredebut degrefin,"
     }
@@ -57,6 +57,9 @@ echo  "} </style>";
     <main>
         <?php include "partials/header.php"; ?>
 
+        <section>
+            <!-- Filters here -->
+        </section>
         <div class='row gx-4 gx-lg-5 justify-content-center'>
             <section class="col-md-4 mt-5">
                 <h4 class="text-center">Répartition des catégories dans les comandes</h4>
@@ -78,7 +81,6 @@ echo  "} </style>";
             </section>
             <section class="col-md-4 mt-5">
                 <h4 class="text-center">Historique des commandes</h4>
-
             </section>
         </div>
     </main>
