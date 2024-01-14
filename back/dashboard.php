@@ -140,6 +140,21 @@ if (!$orderCountByCategories || !$salesByDay) {
             <?php endif; ?>
             <section class="col-md-4">
                 <h4 class="text-center">Historique des commandes</h4>
+                <div class="my-4 d-flex justify-content-center">
+                    <div id="sales-by-day-graph"></div>
+                </div>
+                <div class="my-4 d-flex justify-content-center">
+                    <div>
+                        <div class="d-flex align-items-center px-3">
+                            <span class='mx-2'>Min. :<?= $minSalesByDay ?> ventes</span>
+                        </div>
+                        <div class="d-flex align-items-center px-3">
+                            <span class='mx-2'>Max. :<?= $maxSalesByDay ?> ventes</span>
+                        </div>
+                        <div class="d-flex align-items-center px-3">
+                            <span class='mx-2'>Moy. :<?= $avgSalesByDay ?> ventes</span>
+                        </div>
+                    </div>
             </section>
         </div>
     </main>
@@ -153,5 +168,11 @@ if (!$orderCountByCategories || !$salesByDay) {
         height: 200px;
         border-radius: 50%;
         box-shadow: inset 5px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    #sales-by-day-graph {
+        width: 400px;
+        height: 200px;
+        /* ... */
     }
 </style>

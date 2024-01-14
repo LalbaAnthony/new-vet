@@ -48,7 +48,7 @@ function getSalesByDay($date_start = null, $date_end = null)
     if ($date_start) $sql .= " AND order_date >= :date_start";
     if ($date_end) $sql .= " AND order_date <= :date_end";
 
-    $sql .= " GROUP BY day ORDER BY day DESC;";
+    $sql .= " GROUP BY day ORDER BY day DESC LIMIT 7;";
 
     try {
         $sth = $dbh->prepare($sql);
