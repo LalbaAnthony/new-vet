@@ -1,30 +1,38 @@
 <?php
 
-include_once "config.inc.php";
 
-$login = isset($_POST['login']) ? $_POST['login'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
-$passwordConfirm = isset($_POST['passwordConfirm']) ? $_POST['passwordConfirm'] : '';
+include_once "config.inc.php";
+include_once "helpers/password_strength.php";
+include_once "models/admin.php";
+
+$login = isset($_POST['login']) ? trim($_POST['login']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
+$passwordConfirm = isset($_POST['passwordConfirm']) ? trim($_POST['passwordConfirm']) : '';
 
 if ($login && $password && $passwordConfirm) {
 
-    if ($password != $passwordConfirm) $error = "Les mots de passe ne correspondent pas";
-
-    $dbh = db_connect();
-
-    $sql = "INSERT INTO admin (login, password) VALUES (:login, :password)";
-
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":login" => $login, ":password" => $password));
-        if ($sth->rowCount() > 0) {
-            log_txt("User registered in back office: login $login");
-            header('Location: login.php');
+    if ($password != $passwordConfirm) {
+        $error = "Les mots de passe ne correspondent pas";
+    } else {
+        if (strlen($login) < 3 || strlen($login) > 20) {
+            $error = "La longueur du login doit être contenu entre 3 et 20 caractères";
         } else {
-            $error = "Erreur lors de l'inscription";
+            if (password_strength($password) < 5) {
+                $error = "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial";
+            } else {
+                $admin = getAdmin($login);
+                if ($admin && $admin['login'] == $login) {
+                    $error = "Ce login est déjà utilisé";
+                } else {
+                    if (insertAdmin($login, $password)) {
+                        $success = "Inscription réussie";
+                        header('Location: login.php');
+                    } else {
+                        $error = "Erreur lors de l'inscription";
+                    }
+                }
+            }
         }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 }
 
@@ -37,8 +45,7 @@ if ($login && $password && $passwordConfirm) {
     <meta charset="UTF-8">
     <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Site de vente de vêtement pour femme." />
-    <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
+    <meta name="author" content="NEW VET" />
     <title>Inscription - NEW VET</title>
     <link href="css/style.css" rel="stylesheet">
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
@@ -53,6 +60,11 @@ if ($login && $password && $passwordConfirm) {
                 <div class="col-md-4">
                     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                         <h2 class="text-center mb-4">S'inscrire</h2>
+                        <?php if (isset($success)) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= $success ?>
+                            </div>
+                        <?php endif; ?>
                         <?php if (isset($error)) : ?>
                             <div class="alert alert-danger" role="alert">
                                 <?= $error ?>
@@ -76,8 +88,10 @@ if ($login && $password && $passwordConfirm) {
                         </div>
                         <br>
 
-                        <button type="submit" class="btn btn-primary btn-block">Se créer un compte</button>
-                        <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='login.php'">Se connecter</button>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary btn-block">Se créer un compte</button>
+                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='login.php'">Se connecter</button>
+                        </div>
                     </form>
                 </div>
             </div>

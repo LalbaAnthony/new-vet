@@ -1,5 +1,7 @@
 <?php
 
+include_once '../helpers/slugify.php';
+
 function getMaterial($material_slug)
 {
     $dbh = db_connect();
@@ -54,11 +56,6 @@ function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', 
     return $materials;
 }
 
-
-
-
-
-
 function getMaterialsFromProduct($product_slug)
 {
     $dbh = db_connect();
@@ -75,4 +72,66 @@ function getMaterialsFromProduct($product_slug)
     }
 
     return $materials;
+}
+
+function insertMaterial($material)
+{
+    $dbh = db_connect();
+
+    $sql = "INSERT INTO material (libelle, slug, color) VALUES (:libelle, :slug, :color)";
+
+    if (!$material['slug']) $material['slug'] = slugify($material['libelle']);
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Material registered in back office: slug " . $material['slug']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function updateMaterial($material)
+{
+    $dbh = db_connect();
+
+    $sql = "UPDATE material SET libelle = :libelle, color = :color WHERE slug = :slug";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Material updated in back office: slug " . $material['slug']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function deleteMaterial($material_slug)
+{
+    $dbh = db_connect();
+
+    $sql = "DELETE FROM material WHERE slug = :material_slug";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":material_slug" => $material_slug));
+        if ($sth->rowCount() > 0) {
+            log_txt("Material deleted in back office: slug " . $material_slug);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
 }

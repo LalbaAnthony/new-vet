@@ -1,28 +1,33 @@
 <?php
 
 include_once "config.inc.php";
+include_once "models/admin.php";
 
-$login = isset($_POST['login']) ? $_POST['login'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$login = isset($_POST['login']) ? trim($_POST['login']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 if ($login && $password) {
 
-    $dbh = db_connect();
-    $sql = "SELECT * FROM `admin` WHERE login = :login AND password = :password;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":login" => $login, ":password" => $password));
-        $admin = $sth->fetch(PDO::FETCH_ASSOC);
+    $admin = getAdmin($login);
 
-        if ($admin) {
-            $_SESSION['admin'] = $admin;
-            log_txt("User logged in back office: login $login");
-            header('Location: index.php');
+    if ($admin && $admin['login'] == $login) {
+        if (password_verify($password, $admin['password'])) {
+            if ($admin['has_access'] == 1) {
+                $_SESSION['admin'] = $admin;
+                $success = "Connexion réussie";
+                log_txt("User logged in back office: login $login");
+                header('Location: index.php');
+            } else {
+                $error = "Vous n'avez pas accès au back office";
+                log_txt("User tried to log in back office but has no access: login $login");
+            }
         } else {
-            $error = "Login ou mot de passe incorrect";
+            $error = "Mot de passe incorrect";
+            log_txt("User tried to log in back office but password is incorrect: login $login");
         }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    } else {
+        $error = "Login incorrect";
+        log_txt("User tried to log in back office but login is incorrect: login $login");
     }
 }
 
@@ -35,8 +40,7 @@ if ($login && $password) {
     <meta charset="UTF-8">
     <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Site de vente de vêtement pour femme." />
-    <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
+    <meta name="author" content="NEW VET" />
     <title>Connexion - NEW VET</title>
     <link href="css/style.css" rel="stylesheet">
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
@@ -49,6 +53,11 @@ if ($login && $password) {
                 <div class="col-md-4">
                     <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                         <h2 class="text-center mb-4">Connexion</h2>
+                        <?php if (isset($success)) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= $success ?>
+                            </div>
+                        <?php endif; ?>
                         <?php if (isset($error)) : ?>
                             <div class="alert alert-danger" role="alert">
                                 <?= $error ?>
@@ -57,18 +66,20 @@ if ($login && $password) {
 
                         <div class="form-group">
                             <label for="login">Login:</label>
-                            <input type="text" class="form-control" name="login" id="login" placeholder="Entrez votre login" required>
+                            <input type="text" class="form-control" name="login" id="login" placeholder="Entrez votre login" required value="<?= $login ?>">
                         </div>
                         <br>
 
                         <div class="form-group">
                             <label for="password">Mot de passe:</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe" required>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe" required value="<?= $password ?>">
                         </div>
                         <br>
 
-                        <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
-                        <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='register.php'">Se créer un compte</button>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='register.php'">Se créer un compte</button>
+                        </div>
                     </form>
                 </div>
             </div>

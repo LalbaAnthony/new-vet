@@ -12,14 +12,15 @@ DELETE FROM category;
 DELETE FROM material;
 DELETE FROM product_category;
 DELETE FROM product_material;
+DELETE FROM admin;
 
-INSERT INTO material (slug, libelle) VALUES 
-('cuire', 'Cuire');
+INSERT INTO material (slug, libelle, color) VALUES 
+('cuire', 'Cuire', '#227553');
 
-INSERT INTO category (slug, libelle, image_path, sort_order) VALUES 
-('vetements', 'Vêtements', '/assets/categories/vetements.jpg', 1),
-('chaussures', 'Chaussures', '/assets/categories/chaussures.jpg', 2),
-('accessoires', 'Accessoires', '/assets/categories/accessoires.jpg', 3);
+INSERT INTO category (slug, libelle, image_path, sort_order, color) VALUES 
+('vetements', 'Vêtements', '/assets/categories/vetements.jpg', 1, '#32a852'),
+('chaussures', 'Chaussures', '/assets/categories/chaussures.jpg', 2, '#7ba832'),
+('accessoires', 'Accessoires', '/assets/categories/accessoires.jpg', 3, '#7c2d96');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
@@ -78,3 +79,6 @@ INSERT INTO contact (customer_id, email, subject, message) VALUES
 (1, 'alice@example.com', 'Question sur ma commande', 'Bonjour, j\'aurais une question concernant ma commande.'),
 (2, 'jean@example.com', 'Problème avec un produit', 'Bonjour, j\'ai rencontré un problème avec le produit que j\'ai reçu.'),
 (3, 'sophie@example.com', 'Feedback positif', 'Bonjour, je voulais vous faire part de ma satisfaction concernant ma dernière commande. Merci!');
+
+INSERT INTO admin (login, password, has_access) VALUES 
+('testAdmin', '$2y$10$Avrn4BLpK9fZfe5UfxLqve5nb3NdTZ9KV88LE.MHgnTBm.bHRKGl6', 1);

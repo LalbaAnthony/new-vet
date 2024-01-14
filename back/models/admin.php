@@ -1,27 +1,27 @@
 <?php
 
-function getStatus($status_id)
+function getAdmin($login)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM status WHERE status_id = :status_id;";
+    $sql = "SELECT * FROM `admin` WHERE login = :login";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":status_id" => $status_id));
-        $status = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read status: slug $status_id");
+        $sth->execute(array(":login" => $login));
+        $admin = $sth->fetch(PDO::FETCH_ASSOC);
+        log_txt("Read admin: login $login");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
-    return $status;
+    return $admin;
 }
 
-function getStatuses($order_by = 'sort_order', $order = 'ASC')
+function getAdmins($order_by = 'login', $order = 'ASC')
 {
     $dbh = db_connect();
 
-    // Select all statuses
-    $sql = "SELECT * FROM status";
+    // Select all admins
+    $sql = "SELECT * FROM admin";
 
     $sql .= " ORDER BY :order_by :order";
 
@@ -34,26 +34,26 @@ function getStatuses($order_by = 'sort_order', $order = 'ASC')
 
         $sth->execute();
 
-        $statuses = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read statuses");
+        $admins = $sth->fetchAll(PDO::FETCH_ASSOC);
+        log_txt("Read admins");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
-    return $statuses;
+    return $admins;
 }
 
-function insertStatus($status)
+function insertAdmin($login, $password)
 {
     $dbh = db_connect();
 
-    $sql = "INSERT INTO status (libelle) VALUES (:libelle)";
+    $sql = "INSERT INTO admin (login, password) VALUES (:login, :password)";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":libelle" => $status['libelle']));
+        $sth->execute(array(":login" => $login, ":password" => password_hash($password, PASSWORD_BCRYPT)));
         if ($sth->rowCount() > 0) {
-            log_txt("Status registered in back office: status_libelle " . $status['libelle']);
+            log_txt("Admin registered in back office: login $login");
             return true;
         } else {
             return false;
@@ -63,17 +63,17 @@ function insertStatus($status)
     }
 }
 
-function updateStatus($status)
+function setHasAccess($login, $has_access = false)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE status SET libelle = :libelle, WHERE status_id = :status_id";
+    $sql = "UPDATE admin SET has_access = :has_access WHERE login = :login";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":libelle" => $status['libelle'], ":status_id" => $status['status_id']));
+        $sth->execute(array(":login" => $login, ":has_access" => $has_access));
         if ($sth->rowCount() > 0) {
-            log_txt("Status updated in back office: status_id " . $status['status_id']);
+            log_txt("Admin access changed in back office: login $login has_access $has_access");
             return true;
         } else {
             return false;
@@ -83,17 +83,17 @@ function updateStatus($status)
     }
 }
 
-function deleteStatus($status_id)
+function deleteAdmin($login)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM status WHERE status_id = :status_id";
+    $sql = "DELETE FROM admin WHERE login = :login";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":status_id" => $status_id));
+        $sth->execute(array(":login" => $login));
         if ($sth->rowCount() > 0) {
-            log_txt("Status deleted in back office: status_id " . $status_id);
+            log_txt("Admin deleted in back office: login $login");
             return true;
         } else {
             return false;

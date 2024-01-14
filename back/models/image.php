@@ -47,3 +47,63 @@ function getImagesFromProduct($product_slug)
 
     return $images;
 }
+
+function insertImage($image)
+{
+    $dbh = db_connect();
+
+    $sql = "INSERT INTO image (product_slug, image_path) VALUES (:product_slug, :image_path)";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":product_slug" => $image['product_slug'], ":image_path" => $image['image_path']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Image registered in back office: slug " . $image['product_slug']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function updateImage($image)
+{
+    $dbh = db_connect();
+
+    $sql = "UPDATE image SET product_slug = :product_slug, image_path = :image_path WHERE image_id = :image_id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":product_slug" => $image['product_slug'], ":image_path" => $image['image_path'], ":image_id" => $image['image_id']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Image updated in back office: slug " . $image['image_id']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function deleteImage($image_id)
+{
+    $dbh = db_connect();
+
+    $sql = "DELETE FROM image WHERE image_id = :image_id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":image_id" => $image_id));
+        if ($sth->rowCount() > 0) {
+            log_txt("Image deleted in back office: id " . $image_id);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}

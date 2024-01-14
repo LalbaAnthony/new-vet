@@ -1,0 +1,37 @@
+<?php
+
+function getOrderCountByCategories($date_start = null, $date_end = null)
+{
+    $dbh = db_connect();
+
+    $sql = "SELECT c.slug AS category_slug, c.libelle AS category_name, COUNT(op.order_id) AS ordersNb, c.color AS color
+    FROM category c 
+    LEFT JOIN product_category pc ON c.slug = pc.category_slug
+    LEFT JOIN product p ON pc.product_slug = p.slug
+    LEFT JOIN order_product op ON p.slug = op.product_slug
+    LEFT JOIN `order` o ON op.order_id = o.order_id";
+
+    $sql .= " WHERE 1 = 1";
+    
+    if ($date_start && $date_end) $sql .= " AND o.order_date BETWEEN :date_start AND :date_end";
+
+    $sql .= " GROUP BY c.slug ORDER BY c.sort_order;";
+
+    try {
+        $sth = $dbh->prepare($sql);
+
+        if ($date_start && $date_end) {
+            $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
+            $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
+        }
+
+        $sth->execute();
+
+        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        log_txt("Read order count by categories");
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $rows;
+}

@@ -36,12 +36,53 @@ Le projet est divisé en deux parties distinctes, le front et le back.<br>
 ### 📄 - FRONTEND
 
 Le front (`/front`) est la partie emergée de l'iceberg, c'est la partie visible par l'utilisateur.<br>
+Il est conçu en VueJS, le style est entierement custom, écrit à la main par notre artisan intégrateur. Ceci afin de garantir un style unique et personnalisé.<br>
+
+***Dependances***
+* vue: https://vuejs.org/
+* vue-router: https://router.vuejs.org/
+* pinia: https://pinia.esm.dev/
+* headlessui: https://headlessui.dev/
+* vue-axios: https://www.npmjs.com/package/vue-axios
+* axios: https://axios-http.com/
+* vue-toastification: https://vue-toastification.maronato.dev/
+
+***Structure***
+
+* `front/src/assets` contient les fichiers de styles
+* `front/src/components` contient les composants réutilisables
+* `front/src/router` contient les routes de l'application
+* `front/src/stores` contient les stores de l'application, c'est à dire les variables globales, gérées par Pinia
+* `front/src/pages` contient les pages de l'application
+* `front/src/App.vue` est le composant principal de l'application
+* `front/src/main.js` est le point d'entrée de l'application
+* `front/public` contient les images et les fichiers statiques, pour des raison de performances, l'extension des images est en `.webp`
+* `front/package.json` contient les dépendances du projet
+
+***Accessibilité***
+
+Des `sr-only` sont présents sur les éléments non visibles par l'utilisateur, afin de garantir une bonne accessibilité.<br>
+
+***SEO***
+
+Les balises `meta` sont présentes dans le `index.html` afin de garantir un bon référencement.<br>
+Les bonnes pratiques SEO sont respectées; la sémantique des balises `h1`, `h2`, `h3`, `h4`, `h5`, `h6` est respecté, Les images sont dotées d'un attribut `alt` afin de garantir une bonne accessibilité et un référencement optimal, ...<br>
 
 ### 📄 - BACKEND
 
 Le back (`/back`) est elle, la partie immergée, c'est la partie invisible par l'utilisateur.<br>
 C'est notamment ici que se trouve la base de données, l'interface API REST, et où se trouve le back-office.<br>
+Il est entièrement conçu en PHP natif, et utilise bootstrap pour le style du back-office.<br>
 
 ***REST API***
 
+L'API REST est disponible à l'adresse `http://localhost/projects/new-vet/back/api/`<br>
+Les routes sont disponibles dans le fichier `back/api/index.php`<br>
+
+***Base de données***
+
 ***Back-office***
+
+Un utilisateur est disponible par défaut, il s'agit de l'utilisateur `testAdmin` avec le mot de passe `pA0!7MkB73ef`.<br>
+Il est possible de créer un nouvel utilisateur en utilisant le formulaire d'inscription.<br>
+Il n'est possible de se connecter qu'une fois le compte validé par un administrateur.<br>

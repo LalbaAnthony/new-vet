@@ -1,5 +1,7 @@
 <?php
 
+include_once '../helpers/slugify.php';
+
 function getCategory($category_slug)
 {
     $dbh = db_connect();
@@ -87,4 +89,71 @@ function getCategoriesQuickAcces()
     }
 
     return $categories;
+}
+
+function insertCategory($category)
+{
+    $dbh = db_connect();
+
+    $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, quick_access, color) VALUES (:slug, :libelle, :image_path, :sort_order, :quick_access, :color)";
+
+    if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
+    if (!$category['image_path']) $category['image_path'] = "/assets/others/default-img.webp";
+    if (!$category['sort_order']) {
+        $allCategories = getCategories(null, 'sort_order', 'ASC', null, 999);
+        $material['sort_order'] = $allCategories[0]['sort_order'] + 1;
+    }
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":quick_access" => $category['quick_access'], ":color" => $category['color']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Category registered in back office: slug " . $category['slug']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function updateCategory($category)
+{
+    $dbh = db_connect();
+
+    $sql = "UPDATE category SET libelle = :libelle, image_path = :image_path, sort_order = :sort_order, quick_access = :quick_access, color = :color WHERE slug = :slug";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":quick_access" => $category['quick_access'], ":color" => $category['color']));
+        if ($sth->rowCount() > 0) {
+            log_txt("Category updated in back office: slug " . $category['slug']);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function deleteCategory($slug)
+{
+    $dbh = db_connect();
+
+    $sql = "DELETE FROM category WHERE slug = :slug";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":slug" => $slug));
+        if ($sth->rowCount() > 0) {
+            log_txt("Category deleted: slug $slug");
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
 }
