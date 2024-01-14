@@ -21,7 +21,9 @@ if (!$date_start && !$date_end) {
 }
 
 $orderCountByCategories = getOrderCountByCategories($date_start, $date_end);
+$salesByDay = getSalesByDay($date_start, $date_end);
 
+// Graphique camembert des catégories dans les commandes
 if (count($orderCountByCategories) > 0) {
     // Calc degre and percentLibelle
     $nbCats = count($orderCountByCategories);
@@ -51,8 +53,18 @@ if (count($orderCountByCategories) > 0) {
     echo  "} </style>";
 
     // echo print_r($orderCountByCategories);
-} else {
-    $info = "Aucune commande n'a été passée sur la période sélectionnée";
+}
+// Graphique historique des commandes
+if (count($salesByDay) > 0) {
+    $maxSalesByDay = max(array_column($salesByDay, 'nbSales'));
+    $minSalesByDay = min(array_column($salesByDay, 'nbSales'));
+    $nbSalesByDay = count($salesByDay);
+    $avgSalesByDay = round(array_sum(array_column($salesByDay, 'nbSales')) / $nbSalesByDay);
+
+    // echo print_r($salesByDay);
+}
+if (!$orderCountByCategories || !$salesByDay) {
+    $error = "Aucune donnée à afficher";
 }
 ?>
 

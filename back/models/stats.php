@@ -39,8 +39,8 @@ function getSalesByDay($date_start = null, $date_end = null)
 {
     $dbh = db_connect();
 
-    $sql = "SELECT DATE(order_date) AS jour,
-    COUNT(*) AS nombre_ventes
+    $sql = "SELECT DATE(order_date) AS day,
+    COUNT(*) AS nbSales
     FROM `order`";
 
     $sql .= " WHERE 1 = 1";
@@ -48,7 +48,7 @@ function getSalesByDay($date_start = null, $date_end = null)
     if ($date_start) $sql .= " AND order_date >= :date_start";
     if ($date_end) $sql .= " AND order_date <= :date_end";
 
-    $sql .= " GROUP BY jour ORDER BY jour DESC;";
+    $sql .= " GROUP BY day ORDER BY day DESC;";
 
     try {
         $sth = $dbh->prepare($sql);
