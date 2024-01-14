@@ -12,8 +12,9 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
     LEFT JOIN `order` o ON op.order_id = o.order_id";
 
     $sql .= " WHERE 1 = 1";
-    
-    if ($date_start && $date_end) $sql .= " AND o.order_date BETWEEN :date_start AND :date_end";
+
+    if ($date_start) $sql .= " AND o.order_date >= :date_start";
+    if ($date_end) $sql .= " AND o.order_date <= :date_end";
 
     $sql .= " GROUP BY c.slug ORDER BY c.sort_order;";
 
