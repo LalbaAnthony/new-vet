@@ -4,20 +4,20 @@ include_once "config.inc.php";
 include_once "models/stats.php";
 include_once "helpers/rand_color.php";
 
-$date_start = null;
-$date_end = null;
+$date_start = isset($date_start) ? $_POST['date_start'] : null;
+$date_end = isset($_POST['date_end']) ? $_POST['date_end'] : null;
 
-if ($_POST['date_start'] > $_POST['date_end']) {
+if (!$date_start && !$date_end) {
+    $date_start = date("Y-m-d", strtotime("-7 days"));
+    $date_end = date("Y-m-d");
+} else if ($date_start > $date_end) {
     $error = "La date de début doit être inférieure à la date de fin";
-    $_POST['date_start'] = null;
-    $_POST['date_end'] = null;
-} else if ($_POST['date_start'] > date("Y-m-d") || $_POST['date_end'] > date("Y-m-d")) {
+    $date_start = null;
+    $date_end = null;
+} else if ($date_start > date("Y-m-d") || $date_end > date("Y-m-d")) {
     $error = "Les dates doivent être antérieures à aujourd'hui";
-    $_POST['date_start'] = null;
-    $_POST['date_end'] = null;
-} else {
-    $date_start = $_POST['date_start'];
-    $date_end = $_POST['date_end'];
+    $date_start = null;
+    $date_end = null;
 }
 
 $orderCountByCategories = getOrderCountByCategories($date_start, $date_end);
@@ -73,8 +73,8 @@ if (count($orderCountByCategories) > 0) {
     <main>
         <?php include "partials/header.php"; ?>
 
-        <section>
-            <!-- Filters here -->
+        <div>
+            <!-- Infos & Alerts -->
             <?php if (isset($info)) : ?>
                 <div class="alert alert-info" role="alert">
                     <?= $info ?>
@@ -86,6 +86,7 @@ if (count($orderCountByCategories) > 0) {
                 </div>
             <?php endif; ?>
 
+            <!-- Filters -->
             <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                 <div class="d-flex justify-content-center my-4 align-items-center">
                     <div class="mx-2">
@@ -100,11 +101,14 @@ if (count($orderCountByCategories) > 0) {
                         <button type="submit" class="btn btn-primary">Filtrer</button>
                     </div>
                 </div>
-        </section>
+            </form>
+        </div>
+
+        <!-- Charts -->
         <div class='row g-0 justify-content-center'>
             <?php if (count($orderCountByCategories) > 0) : ?>
                 <section class="col-md-4">
-                    <h4 class="text-center">Catégories dans les comandes</h4>
+                    <h4 class="text-center">Catégories dans les commandes</h4>
                     <div class="my-4 d-flex justify-content-center">
                         <div id="order-count-by-cats-piechart" class="piechart"></div>
                     </div>

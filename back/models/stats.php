@@ -21,15 +21,45 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
     try {
         $sth = $dbh->prepare($sql);
 
-        if ($date_start && $date_end) {
-            $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
-            $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
-        }
+        if ($date_start)  $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
+        if ($date_end)   $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
 
         $sth->execute();
 
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
         log_txt("Read order count by categories");
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $rows;
+}
+
+function getSalesByDay($date_start = null, $date_end = null)
+{
+    $dbh = db_connect();
+
+    $sql = "SELECT DATE(order_date) AS jour,
+    COUNT(*) AS nombre_ventes
+    FROM `order`";
+
+    $sql .= " WHERE 1 = 1";
+
+    if ($date_start) $sql .= " AND order_date >= :date_start";
+    if ($date_end) $sql .= " AND order_date <= :date_end";
+
+    $sql .= " GROUP BY jour ORDER BY jour DESC;";
+
+    try {
+        $sth = $dbh->prepare($sql);
+
+        if ($date_start)  $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
+        if ($date_end)   $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
+
+        $sth->execute();
+
+        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+        log_txt("Read sales by day");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
