@@ -1,6 +1,7 @@
 <?php
 
 include_once "config.inc.php";
+include "auth.php";
 include_once "models/stats.php";
 include_once "helpers/rand_color.php";
 

@@ -4,7 +4,7 @@
  * Vide le cache du navigateur
  */
 header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 /**
  * Paramétrage pour certains serveurs qui n'affichent pas les erreurs PHP par défaut
@@ -17,6 +17,9 @@ ini_set('html_errors', '1');
  */
 session_start();
 
+/**
+ * Inclusion des fichiers nécessaires
+ */
 include_once('helpers/log_txt.php');
 include_once('helpers/db_connect.php');
 
@@ -32,7 +35,7 @@ define('DB_NAME', 'new-vet');
  * Paramètre de l'application
  */
 define('APP_NAME', 'NewVet');
-define('APP_URL', 'http://localhost/new-vet');
+define('APP_URL', 'http://localhost/projects/new-vet');
 define('APP_URL_BACK', APP_URL . '/back');
 define('APP_URL_API', APP_URL . '/back/api');
 define('APP_PATH', dirname(__FILE__));
