@@ -19,8 +19,8 @@
 </template>
 
 <script setup>
-import Pill from '@/components/Pill.vue'
-import Stock from '@/components/Stock.vue'
+import Pill from '@/components/PillComponent.vue'
+import Stock from '@/components/StockComponent.vue'
 import { threeDotString } from '@/helpers/helpers.js'
 
 defineProps({

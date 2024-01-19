@@ -51,7 +51,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import Pill from '@/components/Pill.vue'
+import Pill from '@/components/PillComponent.vue'
 import IconCartFill from '@/components/icons/IconCartFill.vue'
 import IconPersonFill from '@/components/icons/IconPersonFill.vue'
 import IconHouseFill from '@/components/icons/IconHouseFill.vue'

@@ -1,6 +1,10 @@
 <template>
-  <h2 class="page-title">Recherche</h2>
-  Recherche: {{ route.params.searched }}
+  <div>
+    <h2 class="page-title">Recherche</h2>
+    <span>
+      Recherche: {{ route.params.searched }}
+    </span>
+  </div>
 </template>
 
 <script setup>

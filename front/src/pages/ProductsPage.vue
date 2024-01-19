@@ -14,10 +14,10 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import SortFilter from '@/components/SortFilter.vue'
-import Product from '@/components/Product.vue'
-import NoItem from '@/components/NoItem.vue'
-import Loader from '@/components/Loader.vue'
+import SortFilter from '@/components/SortFilterComponent.vue'
+import Product from '@/components/ProductComponent.vue'
+import NoItem from '@/components/NoItemComponent.vue'
+import Loader from '@/components/LoaderComponent.vue'
 
 const loading = ref(true)
 const products = ref()
