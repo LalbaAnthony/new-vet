@@ -1,24 +1,26 @@
 <template>
   <header>
-    <router-link to="/">
-      <div class="center">
-        <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+    <div class="header-bloc">
+      <router-link to="/">
+        <div class="center">
+          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+        </div>
+      </router-link>
+      <div class="header-actions">
+        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" />
+        <ul class="header-action-btn">
+          <li>
+            <router-link to="/cart">
+              <IconCartFill class="header-action-btn-icon primary" />
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/profil">
+              <IconPersonFill class="header-action-btn-icon primary" />
+            </router-link>
+          </li>
+        </ul>
       </div>
-    </router-link>
-    <div class="header-actions">
-      <input type="search" id="search" name="search" :placeholder="searchPlaceholder" />
-      <ul class="toolbar">
-        <li>
-          <router-link to="/cart">
-            <IconCartFill class="toolbar-icon primary" />
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/profil">
-            <IconPersonFill class="toolbar-icon primary" />
-          </router-link>
-        </li>
-      </ul>
     </div>
     <nav class="header-pages">
       <router-link to="/categories">
@@ -34,8 +36,12 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div class="header-quick-access">
-      <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`" type="light" />
+    <div class="center">
+
+      <div class="header-quick-access">
+        <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`"
+          type="light" />
+      </div>
     </div>
   </header>
 </template>
@@ -92,6 +98,11 @@ function getQuickAccess() {
 <style scoped>
 /* DESKTOP */
 @media (min-width: 1024px) {
+  .header-bloc {
+    display: flex;
+    flex-direction: row;
+  }
+
   .header-actions>* {
     margin: 0 1rem;
   }
@@ -99,6 +110,11 @@ function getQuickAccess() {
 
 /* TABLET */
 @media (min-width: 768px) and (max-width: 1023px) {
+  .header-bloc {
+    display: flex;
+    flex-direction: row;
+  }
+
   .header-actions>* {
     margin: 0 0.5rem;
   }
@@ -106,8 +122,13 @@ function getQuickAccess() {
 
 /* MOBILE */
 @media (max-width: 767px) {
+  .header-bloc {
+    display: flex;
+    flex-direction: column;
+  }
+
   .header-actions>* {
-    margin: 0 0.2rem;
+    margin: 0 0.25rem;
   }
 }
 
@@ -115,14 +136,6 @@ header {
   background: var(--secondary);
   background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
   color: var(--light);
-  display: flex;
-  flex-direction: column;
-}
-
-.header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .center {
@@ -131,23 +144,35 @@ header {
   align-items: center;
 }
 
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+#search {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
 .main-logo {
   width: 100px;
   height: 100px;
   margin: 0 auto;
 }
 
-ul.toolbar {
+ul.header-action-btn {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-ul.toolbar>* {
+ul.header-action-btn>* {
   margin: 0 0.25rem;
 }
 
-.toolbar-icon {
+.header-action-btn-icon {
   background-color: var(--light);
   border-radius: 50%;
   color: var(--dark);
@@ -158,15 +183,15 @@ ul.toolbar>* {
   transition: all 0.3s;
 }
 
-.toolbar-icon.primary {
+.header-action-btn-icon.primary {
   color: var(--primary);
 }
 
-.toolbar-icon.secondary {
+.header-action-btn-icon.secondary {
   color: var(--secondary);
 }
 
-.toolbar-icon:hover {
+.header-action-btn-icon:hover {
   transform: scale(1.1);
 }
 
@@ -207,6 +232,7 @@ ul.toolbar>* {
 }
 
 .header-quick-access {
+  justify-content: start;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

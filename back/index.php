@@ -1,6 +1,7 @@
 <?php
 
 include_once "config.inc.php";
+include "auth.php";
 
 ?>
 
@@ -19,13 +20,8 @@ include_once "config.inc.php";
 
 <body>
     <main>
-        <?php
-        if (isset($_SESSION['admin'])) {
-            include "partials/header.php";
-        } else {
-            header('Location: login.php');
-        }
-        ?>
+        <?php include "partials/header.php"; ?>
+
         <div class="container">
             <div class="row justify-content-center align-items-center vh-100">
                 <div class="col-md-4">
