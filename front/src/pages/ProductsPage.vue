@@ -2,22 +2,28 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <SortFilter />
-        <div v-if="products && products.length > 0" class="products-grid">
-            <Product v-for="product in products" :key="product.slug" :product="product" />
+        <Loader v-if="loading" />
+        <div v-else>
+            <div v-if="products && products.length > 0" class="products-grid">
+                <Product v-for="product in products" :key="product.slug" :product="product" />
+            </div>
+            <NoItem what="produit" v-else />
         </div>
-        <NoItem what="produit" v-else />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import SortFilter from '@/components/SortFilter.vue'
 import Product from '@/components/Product.vue'
 import NoItem from '@/components/NoItem.vue'
+import Loader from '@/components/Loader.vue'
 
-const products = ref(getProducts())
+const loading = ref(true)
+const products = ref()
 
 function getProducts() {
+    loading.value = false
     return [
         {
             image_path: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
@@ -34,11 +40,17 @@ function getProducts() {
             name: 'Lorem ipsum dolor sit amet consectetur',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
             price: '9.99',
-            stock: 0,
+            stock: 1,
             slug: 'product1',
         },
     ]
 }
+
+onMounted(() => {
+    setTimeout(() => {
+        products.value = getProducts()
+    }, 3000);
+})
 
 </script>
 

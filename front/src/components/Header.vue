@@ -7,7 +7,7 @@
         </div>
       </router-link>
       <div class="header-actions">
-        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" />
+        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search" @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
             <router-link to="/cart">
@@ -23,6 +23,10 @@
       </div>
     </div>
     <nav class="header-pages">
+      <router-link to="/">
+        <IconHouseFill class="icon-offset" />
+        <span>Accueil</span>
+      </router-link>
       <router-link to="/categories">
         <IconTagFill class="icon-offset" />
         <span>Catégories</span>
@@ -36,8 +40,7 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div class="center">
-
+  <div class="center">
       <div class="header-quick-access">
         <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`"
           type="light" />
@@ -51,24 +54,35 @@ import { ref } from 'vue'
 import Pill from '@/components/Pill.vue'
 import IconCartFill from '@/components/icons/IconCartFill.vue'
 import IconPersonFill from '@/components/icons/IconPersonFill.vue'
+import IconHouseFill from '@/components/icons/IconHouseFill.vue'
 import IconTagFill from '@/components/icons/IconTagFill.vue'
 import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.vue'
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
+import router from '@/router'
 
-const searchPlaceholder = ref(randomPlaceholder())
 const quickAccess = ref(getQuickAccess())
+const searchPlaceholder = ref(randomPlaceholder())
+const search = ref('')
 
 function randomPlaceholder() {
   const placeholders = [
     'Rechercher ...',
     'Chercher un produit ...',
+    'Chercher une catégorie ...',
     'Chercher un article ...',
     'Rechercher un produit ...',
+    'Rechercher une catégorie ...',
     'Rechercher un article ...',
     'Trouver un produit ...',
-    'Trouver un article ...'
+    'Trouver un article ...',
+    'Trouver une catégorie ...'
   ]
   return placeholders[Math.floor(Math.random() * placeholders.length)]
+}
+
+function triggerSearch () {
+  router.push(`/recherche/${search.value}`)
+  search.value = ''
 }
 
 function getQuickAccess() {
@@ -102,10 +116,6 @@ function getQuickAccess() {
     display: flex;
     flex-direction: row;
   }
-
-  .header-actions>* {
-    margin: 0 1rem;
-  }
 }
 
 /* TABLET */
@@ -114,10 +124,6 @@ function getQuickAccess() {
     display: flex;
     flex-direction: row;
   }
-
-  .header-actions>* {
-    margin: 0 0.5rem;
-  }
 }
 
 /* MOBILE */
@@ -125,10 +131,6 @@ function getQuickAccess() {
   .header-bloc {
     display: flex;
     flex-direction: column;
-  }
-
-  .header-actions>* {
-    margin: 0 0.25rem;
   }
 }
 
@@ -166,6 +168,7 @@ ul.header-action-btn {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding: auto;
 }
 
 ul.header-action-btn>* {
