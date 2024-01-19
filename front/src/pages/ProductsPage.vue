@@ -40,7 +40,7 @@ function getProducts() {
             name: 'Lorem ipsum dolor sit amet consectetur',
             description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
             price: '9.99',
-            stock: 1,
+            stock: 684,
             slug: 'product1',
         },
     ]
