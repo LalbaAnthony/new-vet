@@ -61,6 +61,7 @@ CREATE TABLE product(
         name VARCHAR (50) NOT NULL,
         description VARCHAR (1000),
         is_highlander BOOLEAN NOT NULL DEFAULT 0,
+        sort_order INT UNIQUE,
         price FLOAT NOT NULL DEFAULT 0,
         stock_quantity INT NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),

@@ -1,6 +1,6 @@
 <?php
 
-if (empty($_SESSION['admin'])) {
+if (isset($_SESSION) && empty($_SESSION['admin'])) {
     header("Location: login.php");
     exit();
 }

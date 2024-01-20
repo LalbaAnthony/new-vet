@@ -11,6 +11,7 @@
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
+            <span v-if="authStore.cart.length > 0" class="cart-number">{{ authStore.cart.length }}</span>
             <router-link to="/cart">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
@@ -59,8 +60,9 @@ import IconHouseFill from '@/components/icons/IconHouseFill.vue'
 import IconTagFill from '@/components/icons/IconTagFill.vue'
 import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.vue'
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
-import router from '@/router'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const quickAccess = ref(getQuickAccess())
 const searchPlaceholder = ref(randomPlaceholder())
 const search = ref('')
@@ -198,6 +200,16 @@ ul.header-action-btn>* {
 
 .header-action-btn-icon:hover {
   transform: scale(1.1);
+}
+
+.cart-number {
+  z-index: 1;
+  position: absolute;
+  padding: 0 7px;
+  background-color: var(--secondary);
+  color: var(--light);
+  border-radius: 50%;
+  transform: translate(80%, -50%);
 }
 
 .header-pages {

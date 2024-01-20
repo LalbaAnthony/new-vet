@@ -53,6 +53,7 @@ img.carousel-img {
 
 img.carousel-img:hover {
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 .carousel {
@@ -60,39 +61,8 @@ img.carousel-img:hover {
   height: 100%;
 }
 
-.carousel__viewport {
-  overflow: visible !important
-}
-
 .carousel__slide--visible {
   margin: 0 1rem;
   transition: transform 0.5s ease-in-out;
-}
-
-
-/* Slides style */
-/* .carousel__slide--prev {} */
-
-
-/* .carousel__slide--active {} */
-
-
-/* .carousel__slide--next {} */
-
-/* Nav buttons */
-button.carousel__prev {
-  background-color: red;
-}
-
-/* button.carousel__next {} */
-
-/* Current pagination element */
-
-.carousel__pagination-button:hover,
-.carousel__pagination-button:hover::after,
-.carousel__pagination-button--active,
-.carousel__pagination-button--active::after {
-  background-color: red !important;
-  --vc-pgn-active-color: #ff5733 !important;
 }
 </style>

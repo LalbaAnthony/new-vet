@@ -2,7 +2,7 @@
   <div class="center">
     <h1>Erreur 404</h1>
     <p><span class="gradient">Aucune</span> page trouvé</p>
-    <button class="button" @click="alertStore.closeAlert()">Retour</button>
+    <button class="button" @click="$router.go(-1)">Retour</button>
   </div>
 </template>
 
@@ -28,5 +28,4 @@
   font-size: 1rem;
   margin-bottom: 1rem;
 }
-
 </style>
