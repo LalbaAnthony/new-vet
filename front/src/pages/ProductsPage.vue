@@ -20,7 +20,7 @@ import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 
 const loading = ref(true)
-const products = ref()
+const products = ref([])
 
 function getProducts() {
     loading.value = false

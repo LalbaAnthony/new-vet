@@ -46,6 +46,7 @@ Il est conçu en VueJS, le style est entierement custom, écrit à la main par n
 * vue-axios: https://www.npmjs.com/package/vue-axios
 * axios: https://axios-http.com/
 * vue-toastification: https://vue-toastification.maronato.dev/
+* vue3-carousel: https://ismail9k.github.io/vue3-carousel/examples.html
 
 ***Structure***
 

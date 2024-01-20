@@ -7,7 +7,8 @@
         </div>
       </router-link>
       <div class="header-actions">
-        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search" @keyup.enter="triggerSearch" />
+        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
+          @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
             <router-link to="/cart">
@@ -40,7 +41,7 @@
         <span>Contact</span>
       </router-link>
     </nav>
-  <div class="center">
+    <div class="center">
       <div class="header-quick-access">
         <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`"
           type="light" />
@@ -80,7 +81,7 @@ function randomPlaceholder() {
   return placeholders[Math.floor(Math.random() * placeholders.length)]
 }
 
-function triggerSearch () {
+function triggerSearch() {
   router.push(`/recherche/${search.value}`)
   search.value = ''
 }
@@ -151,6 +152,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 0 0.5rem;
 }
 
 #search {
