@@ -1,12 +1,12 @@
 <template>
-  <section v-if="products && products.length > 0">
+  <section v-if="items && items.length > 0">
     <h3 class="section-title">{{ title }}</h3>
 
-    <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="autoplay" :loop="autoplay ? true : false">
-      <slide v-for="product in products" :key="product.slug">
-        <Product :product="product" />
+    <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="autoplay ? 3000 : 0" :loop="autoplay ? true : false"
+      :transition="500">
+      <slide v-for="item in items" :key="item.id" @click.stop="router.push(item.link)">
+        <img class="carousel-img" :src="item.image_path" :alt="`Image ${item.name || item.libelle}`" />
       </slide>
-
       <template #addons>
         <navigation v-if="!mobile" />
         <pagination />
@@ -19,8 +19,8 @@
 <script setup>
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-import Product from '@/components/ProductComponent.vue'
 import { isMobile } from '@/helpers/helpers.js'
+import router from '@/router';
 
 const mobile = isMobile()
 
@@ -30,19 +30,30 @@ defineProps({
     default: 'Nos produits',
     required: false,
   },
-  products: {
+  items: {
     type: Array,
     required: true,
   },
   autoplay: {
-    type: Int16Array,
-    default: 3000,
+    type: Boolean,
+    default: true,
     required: false,
   },
 })
 </script>
 
 <style scoped>
+img.carousel-img {
+  width: 100%;
+  height: 200px;
+  object-position: center;
+  object-fit: cover;
+  transition: all 0.2s ease-in-out;
+}
+
+img.carousel-img:hover {
+  transform: scale(1.05);
+}
 
 .carousel {
   width: 100%;
@@ -56,7 +67,6 @@ defineProps({
 .carousel__slide--visible {
   margin: 0 1rem;
   transition: transform 0.5s ease-in-out;
-  filter: grayscale(100%);
 }
 
 
@@ -64,9 +74,7 @@ defineProps({
 /* .carousel__slide--prev {} */
 
 
-.carousel__slide--active {
-  filter: none;
-}
+/* .carousel__slide--active {} */
 
 
 /* .carousel__slide--next {} */
@@ -79,7 +87,12 @@ button.carousel__prev {
 /* button.carousel__next {} */
 
 /* Current pagination element */
+
+.carousel__pagination-button:hover,
+.carousel__pagination-button:hover::after,
+.carousel__pagination-button--active,
 .carousel__pagination-button--active::after {
-  background-color: red;
+  background-color: red !important;
+  --vc-pgn-active-color: #ff5733 !important;
 }
 </style>
