@@ -233,6 +233,25 @@ CREATE TABLE admin(
         CONSTRAINT admin_PK PRIMARY KEY (admin_id)
 ) ENGINE = InnoDB;
 
+ALTER TABLE `product_material` DROP FOREIGN KEY `product_material_product_FK`;
+ALTER TABLE `product_material` ADD CONSTRAINT `product_material_product_FK` FOREIGN KEY (`product_slug`) REFERENCES `product` (`slug`) ON DELETE CASCADE;
+
+
+ALTER TABLE `image` DROP FOREIGN KEY `image_product_FK`;
+ALTER TABLE `image` ADD CONSTRAINT `image_product_FK` FOREIGN KEY (`product_slug`) REFERENCES `product` (`slug`) ON DELETE CASCADE;
+
+
+ALTER TABLE `order_product` DROP FOREIGN KEY `order_product_product_FK`;
+ALTER TABLE `order_product` ADD CONSTRAINT `order_product_product_FK` FOREIGN KEY (`product_slug`) REFERENCES `product` (`slug`) ON DELETE CASCADE;
+
+
+ALTER TABLE `product_category` DROP FOREIGN KEY `product_category_product_FK`;
+ALTER TABLE `product_category` ADD CONSTRAINT `product_category_product_FK` FOREIGN KEY (`product_slug`) REFERENCES `product` (`slug`) ON DELETE CASCADE;
+
+
+ALTER TABLE `product_material` DROP FOREIGN KEY `product_material_product_FK`;
+ALTER TABLE `product_material` ADD CONSTRAINT `product_material_product_FK` FOREIGN KEY (`product_slug`) REFERENCES `product` (`slug`) ON DELETE CASCADE;
+
 #------------------------------------------------------------
 # Trigger: before_select_customer
 #------------------------------------------------------------

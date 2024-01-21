@@ -96,3 +96,5 @@
 [10-01-24 11:02:22 PM][::1]: Read images of product: slug escarpins-classiques
 [10-01-24 11:02:22 PM][::1]: Read categories from product escarpins-classiques
 [10-01-24 11:02:22 PM][::1]: Read materials
+[11-01-24 10:48:25 AM][::1]: Read categories
+[11-01-24 12:49:29 PM][::1]: Read categories
