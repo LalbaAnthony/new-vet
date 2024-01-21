@@ -28,6 +28,10 @@ if ($slug) { // Si on a un slug, on recupere un produit
 }
 
 // Return  JSON
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
+
 $categories = json_encode($categories);
 echo $categories;

@@ -12,7 +12,7 @@
         <ul class="header-action-btn">
           <li>
             <span v-if="authStore.cart.length > 0" class="cart-number">{{ authStore.cart.length }}</span>
-            <router-link to="/cart">
+            <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
           </li>

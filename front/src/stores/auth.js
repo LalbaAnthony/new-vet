@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia'
-import { useToast } from 'vue-toastification'; 
-
-const toast = useToast();
+import { notify } from '@/helpers/notif.js'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -15,19 +13,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     clearCart() {
       this.cart = [];
-      toast.success('Panier vidé !', {
-        position: 'top-right',
-        timeout: 5000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        draggablePercent: 0.6,
-        showCloseButtonOnHover: false,
-        hideProgressBar: true,
-        closeButton: 'button',
-        icon: true,
-        rtl: false
-      });
+      notify('Panié vidé !', 'success');
     }
   },
 })

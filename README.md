@@ -39,14 +39,14 @@ Le front (`/front`) est la partie emergée de l'iceberg, c'est la partie visible
 Il est conçu en VueJS, le style est entierement custom, écrit à la main par notre artisan intégrateur. Ceci afin de garantir un style unique et personnalisé.<br>
 
 ***Dependances***
-* vue: https://vuejs.org/
-* vue-router: https://router.vuejs.org/
-* pinia: https://pinia.esm.dev/
-* headlessui: https://headlessui.dev/
-* vue-axios: https://www.npmjs.com/package/vue-axios
-* axios: https://axios-http.com/
-* vue-toastification: https://vue-toastification.maronato.dev/
-* vue3-carousel: https://ismail9k.github.io/vue3-carousel/examples.html
+* vue: `https://vuejs.org/`
+* vue-router: `https://router.vuejs.org/`
+* pinia: `https://pinia.esm.dev/`
+* headlessui: `https://headlessui.dev/`
+* vue-axios: `https://www.npmjs.com/package/vue-axios`
+* axios: `https://axios-http.com/`
+* vue-toastification: `https://vue-toastification.maronato.dev/`, `https://blog.logrocket.com/selecting-best-vue-3-toast-notification-library/`
+* vue3-carousel: `https://ismail9k.github.io/vue3-carousel/examples.html`
 
 ***Structure***
 

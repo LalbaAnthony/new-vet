@@ -12,6 +12,10 @@ $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $statuses = getStatuses($order_by, $order);
 
 // Return  JSON
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
+
 $statuses = json_encode($statuses);
 echo $statuses;
