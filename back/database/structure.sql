@@ -77,8 +77,8 @@ CREATE TABLE product_category(
         category_slug VARCHAR (50) NOT NULL,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT product_category_PK PRIMARY KEY (product_category_id),
-        CONSTRAINT product_category_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
-        CONSTRAINT product_category_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug)
+        CONSTRAINT product_category_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE,
+        CONSTRAINT product_category_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -90,8 +90,8 @@ CREATE TABLE product_material(
         material_slug VARCHAR (50) NOT NULL,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT product_material_PK PRIMARY KEY (product_material_id),
-        CONSTRAINT product_material_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
-        CONSTRAINT product_material_material_FK FOREIGN KEY (material_slug) REFERENCES material(slug)
+        CONSTRAINT product_material_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE,
+        CONSTRAINT product_material_material_FK FOREIGN KEY (material_slug) REFERENCES material(slug) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -103,7 +103,7 @@ CREATE TABLE image(
         image_path VARCHAR (250) NOT NULL,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT image_PK PRIMARY KEY (image_id),
-        CONSTRAINT image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
+        CONSTRAINT image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -151,7 +151,7 @@ CREATE TABLE address(
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT address_PK PRIMARY KEY (address_id),
         CONSTRAINT address_country_FK FOREIGN KEY (country_id) REFERENCES country(country_id),
-        CONSTRAINT address_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+        CONSTRAINT address_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -165,7 +165,7 @@ CREATE TABLE card(
         cvv INT (3) NOT NULL,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT card_PK PRIMARY KEY (card_id),
-        CONSTRAINT card_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+        CONSTRAINT card_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE,
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -191,7 +191,7 @@ CREATE TABLE `order`(
         CONSTRAINT order_PK PRIMARY KEY (order_id),
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT order_card_FK FOREIGN KEY (card_id) REFERENCES card(card_id),
-        CONSTRAINT order_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+        CONSTRAINT order_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE,
         CONSTRAINT order_status_FK FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE = InnoDB;
 
@@ -205,7 +205,7 @@ CREATE TABLE order_product(
         item_price FLOAT NOT NULL,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT order_product_PK PRIMARY KEY (order_id, product_slug),
-        CONSTRAINT order_product_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id),
+        CONSTRAINT order_product_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE,
         CONSTRAINT order_product_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 ) ENGINE = InnoDB;
 
