@@ -38,4 +38,4 @@ define('APP_NAME', 'NewVet');
 define('APP_URL', 'http://localhost/projects/new-vet');
 define('APP_URL_BACK', APP_URL . '/back');
 define('APP_URL_API', APP_URL . '/back/api');
-define('APP_PATH', dirname(__FILE__));
+define('APP_PATH', '/projects/new-vet/back');

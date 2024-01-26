@@ -10,45 +10,64 @@ $dbh = db_connect();
 // Récupère l'ID passé dans l'URL 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
+
+
 $submit = isset($_POST['submit']);
 
+// Modification dans la base
+if ($submit) {
 
-
-if ($submit){
+    // Lecture du formulaire 
     $slug = isset($_POST['slug']) ? $_POST['slug'] : '';
-    deleteProduct($slug);
-    header("Location: index.php");
-    exit();
+    $name = isset($_POST['name']) ? $_POST['name'] : '';
+    $description = isset($_POST['description']) ? $_POST['description'] : '';
+    $price = isset($_POST['price']) ? $_POST['price'] : '';
+    $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
 
-} ;
+    // Formulaire validé : on modifie l'enregistrement
+    $sql = "UPDATE product SET name = :name , description = :description ,  price = :price , stock_quantity = :quantity  WHERE slug=:slug";
+    $params = array(
+        ":slug" => $slug,
+        ":name" => $name,
+        ":description" => $description,
+        ":price" => $price,
+        ":quantity" => $quantity,
+    );
+    try {
 
-$product = getProduct($slug);
-if ($product) {
-    $name = isset($product['name']) ? $product['name'] : '';
-    $quantity = isset($product['stock_quantity']) ? $product['stock_quantity'] : '';
-    $price = isset($product['price']) ? $product['price'] : '';
-    $description = isset($product['description']) ? $product['description'] : '';
+        $sth = $dbh->prepare($sql);
+        $sth->execute($params);
+    } catch (PDOException $e) {
+        die("<p>Erreur lors de la requête SQL : " . $e->getMessage() . "</p>");
+    }
+} else {
+    // Formulaire non encore validé : on affiche l'enregistrement
+    $product = getProduct($slug);
+    if ($product) {
+        $name = isset($product['name']) ? $product['name'] : '';
+        $quantity = isset($product['stock_quantity']) ? $product['stock_quantity'] : '';
+        $price = isset($product['price']) ? $product['price'] : '';
+        $description = isset($product['description']) ? $product['description'] : '';
+    }
 }
 
-?> 
-
-
-
+// Affichage
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Modifier Produit</title>
-    <!-- Inclure les fichiers CSS de Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="author" content="NEW VET" />
+    <title>Tableau de bord - NEW VET</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Suppresion Produit - <?= $name ?></h2>
+        <h2 class="mb-4">Modifier Produit - <?= $name ?></h2>
 
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <div class="form-group">
@@ -72,6 +91,7 @@ if ($product) {
             </div>
 
             <input type="hidden" name="slug" id="slug" value="<?= $slug; ?>">
+
             <button type="submit" name="submit" class="btn btn-primary">Envoyer</button>
         </form>
     </div>
