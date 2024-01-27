@@ -33,6 +33,8 @@ function getProducts($category_slug = array(), $material_slug = array(), $search
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
 
+    $sql .= " AND product.is_deleted = 0";
+
     // Filter by category slug (loop through the array of category slugs)
     if ($category_slug) {
         $sql .= " AND (";
@@ -58,7 +60,7 @@ function getProducts($category_slug = array(), $material_slug = array(), $search
 
     if ($is_highlander) $sql .= " AND is_highlander = 1";
 
-    $sql .= " ORDER BY :order_by :order";
+    $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
@@ -81,8 +83,6 @@ function getProducts($category_slug = array(), $material_slug = array(), $search
 
         // Bind others values
         if ($search) $sth->bindValue(":search", "%$search%");
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
         if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
         if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
 
@@ -142,7 +142,7 @@ function updateProduct($product)
 function deleteProduct($slug)
 {
     $dbh = db_connect();
-    $sql = "DELETE FROM product WHERE slug = :slug;";
+    $sql = "UPDATE product SET is_deleted = 1 WHERE slug = :slug";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));

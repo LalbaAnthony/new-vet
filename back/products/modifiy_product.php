@@ -43,6 +43,13 @@ if (isset($_POST['submit'])) {
 
 <body>
     <div class="container mt-5">
+
+        <?php if ($product["is_deleted"] == 1) : ?>
+            <div class="alert alert-danger" role="alert">
+                Attention, ce produit a été supprimé !
+            </div>
+        <?php endif; ?>
+
         <h2 class="mb-4">Modification de : <?= $product['name'] ?></h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">

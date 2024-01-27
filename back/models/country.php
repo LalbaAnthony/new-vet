@@ -23,14 +23,12 @@ function getCountries($order_by = 'name', $order = 'ASC')
     // Select all countries
     $sql = "SELECT * FROM country";
 
-    $sql .= " ORDER BY :order_by :order";
+    $sql .= " WHERE is_deleted = 0";
+
+    $sql .= " ORDER BY $order_by $order";
 
     try {
         $sth = $dbh->prepare($sql);
-
-        // Bind values
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
 
         $sth->execute();
 
@@ -87,7 +85,7 @@ function deleteCountry($country_id)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM country WHERE country_id = :country_id";
+    $sql = "UPDATE country SET is_deleted = 1 WHERE country_id = :country_id";
 
     try {
         $sth = $dbh->prepare($sql);

@@ -19,7 +19,7 @@ function getImage($image_id)
 function getImages()
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM image ORDER BY created_at DESC;";
+    $sql = "SELECT * FROM image WHERE is_deleted = 0 ORDER BY created_at DESC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute();
@@ -35,7 +35,7 @@ function getImages()
 function getImagesFromProduct($product_slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM image WHERE product_slug = :product_slug ORDER BY created_at DESC;";
+    $sql = "SELECT * FROM image WHERE is_deleted = 0 AND product_slug = :product_slug ORDER BY created_at DESC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
@@ -92,7 +92,7 @@ function deleteImage($image_id)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM image WHERE image_id = :image_id";
+    $sql = "UPDATE image SET is_deleted = 1 WHERE image_id = :image_id";
 
     try {
         $sth = $dbh->prepare($sql);

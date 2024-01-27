@@ -28,10 +28,12 @@ function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
 
+    $sql .= " AND is_deleted = 0";
+
     // Filter by search
     if ($search) $sql .= " AND libelle LIKE :search";
 
-    $sql .= " ORDER BY :order_by :order";
+    $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
@@ -40,8 +42,6 @@ function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', 
 
         // Bind values
         if ($search) $sth->bindValue(":search", "%$search%");
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
         if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
         if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
 
@@ -60,7 +60,7 @@ function getMaterialsFromProduct($product_slug)
 {
     $dbh = db_connect();
     $sql = "SELECT material.* FROM product, product_material, material 
-    WHERE product.slug = :product_slug
+    WHERE product.slug = :product_slug AND material.is_deleted = 0
     AND product_material.material_slug = material.slug AND product_material.product_slug = product.slug;";
     try {
         $sth = $dbh->prepare($sql);
@@ -120,7 +120,7 @@ function deleteMaterial($material_slug)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM material WHERE slug = :material_slug";
+    $sql = "UPDATE material SET is_deleted = 1 WHERE slug = :material_slug";
 
     try {
         $sth = $dbh->prepare($sql);

@@ -24,6 +24,10 @@ function getContacts()
 
     $sql = "SELECT * FROM contact ORDER BY created_at DESC";
 
+    $sql .= " WHERE is_deleted = 0";
+
+    $sql .= " ORDER BY created_at DESC";
+
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute();

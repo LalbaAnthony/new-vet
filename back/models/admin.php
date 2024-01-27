@@ -22,15 +22,13 @@ function getAdmins($order_by = 'login', $order = 'ASC')
 
     // Select all admins
     $sql = "SELECT * FROM admin";
+    $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY :order_by :order";
+    $sql .= " ORDER BY $order_by $order";
+
 
     try {
         $sth = $dbh->prepare($sql);
-
-        // Bind values
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
 
         $sth->execute();
 
@@ -87,7 +85,7 @@ function deleteAdmin($login)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM admin WHERE login = :login";
+    $sql = "UPDATE admin SET is_deleted = 1 WHERE login = :login";
 
     try {
         $sth = $dbh->prepare($sql);
