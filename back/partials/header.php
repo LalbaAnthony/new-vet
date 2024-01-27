@@ -1,3 +1,10 @@
+<?php
+
+include_once "../config.inc.php";
+include APP_PATH . "auth.php";
+
+?>
+
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-4">
