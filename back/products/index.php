@@ -11,10 +11,17 @@ include_once APP_PATH . "/helpers/float_to_price.php";
 $search = isset($_GET['search']) ? $_GET['search'] : null;
 $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
 $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Comput new order 
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
 
+// Comput offset & per_page
+$per_page = 10;
+$offset = ($page - 1) * $per_page;
+
 // Fetch products with sorting
-$products = getProducts(null, null, $search, $order_by, $order);
+$products = getProducts(null, null, $search, $order_by, $order, $offset, $per_page);
 
 // Bottom action: delete selected products, ...
 if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
@@ -60,12 +67,12 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                 <thead>
                     <tr class="table-primary">
                         <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&order_by=is_highlander&order=<?= $new_order ?>">Highlander</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&order_by=name&order=<?= $new_order ?>">Nom</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&order_by=description&order=<?= $new_order ?>">Description</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&order_by=price&order=<?= $new_order ?>">Prix</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&order_by=stock_quantity&order=<?= $new_order ?>">Stock</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&order_by=created_at&order=<?= $new_order ?>">Création</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=is_highlander&order=<?= $new_order ?>">Highlander</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=name&order=<?= $new_order ?>">Nom</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=description&order=<?= $new_order ?>">Description</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=price&order=<?= $new_order ?>">Prix</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=stock_quantity&order=<?= $new_order ?>">Stock</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Création</a></th>
                         <th scope='col' colspan='2'>&nbsp;</th>
                     </tr>
                 </thead>
@@ -93,10 +100,23 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                     ?>
                 </tbody>
             </table>
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between my-2">
+                <!-- Page précédente -->
+                <?php if ($page > 1) : ?>
+                    <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">< Page précédent</a>
+                <?php else : ?>
+                    <span>< Page précédent</span>
+                <?php endif; ?>
+                <!-- Page Actuelle -->
+                <span>Page <?= $page ?></span>
+                <!-- Page suivante -->
+                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant ></a>
+            </div>
             <!-- Actions en bas de page -->
-            <div class="d-flex justify-content-end gap-2">
-                <a href="<?= APP_URL ?>products/create_product.php" class="btn btn-primary">Créer</a>
+            <div class="d-flex justify-content-start gap-2 my-5">
                 <button id="delete-products" class="btn btn-danger" disabled onclick="deleteSelectedProducts()">Supprimer</button>
+                <a href="<?= APP_URL ?>products/create_product.php" class="btn btn-primary">Créer</a>
             </div>
         </div>
 
@@ -143,11 +163,11 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
         }
         console.log(selected_products);
         if (selected_products.length > 0) {
-            if (confirm("Voulez-vous vraiment supprimer les produits sélectionnés ?")) {
+            if (confirm("Voulez-vous vraiment supprimer les éléments sélectionnés ?")) {
                 window.location.href = "<?= $_SERVER['PHP_SELF'] ?>?delete&selected_products=" + selected_products.join(",");
             }
         } else {
-            alert("Vous devez sélectionner au moins un produit à supprimer");
+            alert("Vous devez sélectionner au moins un élément à supprimer");
         }
     }
 

@@ -3,10 +3,17 @@
 include_once "../config.inc.php";
 include_once APP_PATH . "/partials/header.php";
 include_once APP_PATH . "/models/product.php";
+include_once APP_PATH . "/models/category.php";
+include_once APP_PATH . "/models/material.php";
+
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $product = getProduct($urlSlug);
+
+// Réception des tables enfants
+// $categories = getCategories();
+// $materials = getMaterials();
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
@@ -73,7 +80,25 @@ if (isset($_POST['submit'])) {
                 <label for="stock_quantity">Quantité:</label>
                 <input class="form-control" type="number" id="stock_quantity" name="stock_quantity" value="<?= $product['stock_quantity'] ?>">
             </div>
+            
+            <!-- <div class="form-group">
+                <label for="stock_quantity">Catégorie:</label>
+                <select class="form-control" name="category_id" id="category_id">
+                    <?php foreach ($categories as $category) : ?>
+                        <option value="<?= $category['id'] ?>" <?php echo $category['id'] === $product['category_id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div> -->
 
+            <!-- <div class="form-group">
+                <label for="stock_quantity">Materiaux:</label>
+                <select class="form-control" name="material_id" id="material_id">
+                    <?php foreach ($materials as $material) : ?>
+                        <option value="<?= $material['id'] ?>" <?php echo $material['id'] === $product['material_id'] ? 'selected' : '' ?>><?= $material['name'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div> -->
+            
             <div class="form-group my-4 p-1">
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander" <?php echo $product['is_highlander'] === 1 ? 'checked' : '' ?>>

@@ -25,7 +25,21 @@ INSERT INTO category (slug, libelle, image_path, sort_order, color) VALUES
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
 ('escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 0, 39.99, 30),
-('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 0, 29.99, 20);
+('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 0, 29.99, 20),
+('t-shirt-decontracte', 'T-shirt décontracté', 'T-shirt confortable pour un look décontracté', 0, 19.99, 40),
+('jean-slim', 'Jean slim', 'Jean ajusté pour un style tendance', 0, 49.99, 25),
+('baskets-sportives', 'Baskets sportives', 'Chaussures idéales pour une activité sportive', 0, 59.99, 35),
+('montre-elegante', 'Montre élégante', 'Accessoire raffiné pour ajouter une touche de classe', 0, 79.99, 15),
+('chapeau-de-soleil', 'Chapeau de soleil', 'Chapeau élégant pour se protéger du soleil', 0, 24.99, 18),
+('pantalon-chic', 'Pantalon chic', 'Pantalon élégant pour une tenue sophistiquée', 0, 54.99, 28),
+('collier-fantaisie', 'Collier fantaisie', 'Collier original pour sublimer votre cou', 0, 29.99, 22),
+('blouse-florale', 'Blouse florale', 'Blouse légère et féminine avec motif floral', 0, 44.99, 32),
+('sweat-a-capuche', 'Sweat à capuche', 'Sweat confortable et stylé pour les journées fraîches', 0, 39.99, 27),
+('chaussettes-colorées', 'Chaussettes colorées', 'Chaussettes amusantes pour égayer votre tenue', 0, 9.99, 50),
+('ceinture-elegante', 'Ceinture élégante', 'Ceinture pour mettre en valeur votre taille', 0, 19.99, 15),
+('casquette-tendance', 'Casquette tendance', 'Casquette stylée pour compléter votre look décontracté', 0, 14.99, 25),
+('veste-en-cuir', 'Veste en cuir', 'Veste élégante pour une allure moderne', 0, 89.99, 10);
+
 
 INSERT INTO product_material (product_slug, material_slug) VALUES 
 ('sac-a-main-chic', 'cuire');
