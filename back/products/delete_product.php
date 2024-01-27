@@ -12,10 +12,10 @@ $product = getProduct($urlSlug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    deleteProduct($product['slug']);
+    $sucess = deleteProduct($_POST['slug']);
 
     // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'products/index.php?delete=success');
+    header('Location:' . APP_URL . 'products/index.php?deleted=' . $sucess);
 }
 
 // Affichage
@@ -30,6 +30,7 @@ if (isset($_POST['submit'])) {
     <meta name="author" content="NEW VET" />
     <title>Suppression - NEW VET</title>
     <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>

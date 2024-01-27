@@ -2,15 +2,15 @@
 
 include_once APP_PATH . '/helpers/slugify.php';
 
-function getMaterial($material_slug)
+function getMaterial($slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM material WHERE slug = :material_slug;";
+    $sql = "SELECT * FROM material WHERE slug = :slug;";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":material_slug" => $material_slug));
+        $sth->execute(array(":slug" => $slug));
         $material = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read material: slug $material_slug");
+        log_txt("Read material: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -116,17 +116,17 @@ function updateMaterial($material)
     }
 }
 
-function deleteMaterial($material_slug)
+function deleteMaterial($slug)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE material SET is_deleted = 1 WHERE slug = :material_slug";
+    $sql = "UPDATE material SET is_deleted = 1 WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":material_slug" => $material_slug));
+        $sth->execute(array(":slug" => $slug));
         if ($sth->rowCount() > 0) {
-            log_txt("Material deleted in back office: slug " . $material_slug);
+            log_txt("Material deleted in back office: slug " . $slug);
             return true;
         } else {
             return false;

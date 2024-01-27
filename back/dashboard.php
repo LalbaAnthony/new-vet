@@ -78,6 +78,7 @@ if (!$orderCountByCategories || !$salesByDay) {
     <meta name="author" content="NEW VET" />
     <title>Tableau de bord - NEW VET</title>
     <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>

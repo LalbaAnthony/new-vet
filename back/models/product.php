@@ -143,10 +143,16 @@ function deleteProduct($slug)
 {
     $dbh = db_connect();
     $sql = "UPDATE product SET is_deleted = 1 WHERE slug = :slug";
+    echo $sql;
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));
-        log_txt("Product deleted: slug $slug");
+        if ($sth->rowCount() > 0) {
+            log_txt("Product deleted in back office: slug " . $slug);
+            return true;
+        } else {
+            return false;
+        }
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

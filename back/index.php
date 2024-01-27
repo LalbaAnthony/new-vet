@@ -14,6 +14,7 @@ include_once "config.inc.php";
     <meta name="author" content="NEW VET" />
     <title>Accueil - NEW VET</title>
     <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>

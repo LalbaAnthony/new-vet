@@ -39,21 +39,13 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
     <title>Lise des produits - NEW VET</title>
     <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
 
-        <?php if (isset($_GET['update'])) : ?>
-            <div class="alert alert-success" role="alert">
-                La modification a bien été effectuée !
-            </div>
-        <?php endif; ?>
-        <?php if (isset($_GET['delete'])) : ?>
-            <div class="alert alert-success" role="alert">
-                La suppression a bien été effectuée !
-            </div>
-        <?php endif; ?>
+        <?php include_once APP_PATH . "/partials/alert_message.php"; ?>
 
         <div class="container p-4 p-lg-5">
             <h1 class="text-center">Liste des produits</h1>
@@ -101,8 +93,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                     ?>
                 </tbody>
             </table>
-            <!-- Bouton de suppression multiple -->
-            <div class="d-flex justify-content-end">
+            <!-- Actions en bas de page -->
+            <div class="d-flex justify-content-end gap-2">
+                <a href="<?= APP_URL ?>products/create_product.php" class="btn btn-primary">Créer</a>
                 <button id="delete-products" class="btn btn-danger" disabled onclick="deleteSelectedProducts()">Supprimer</button>
             </div>
         </div>
