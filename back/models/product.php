@@ -18,7 +18,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($category_slug = array(), $material_slug = array(), $search = null, $order_by = 'created_at', $order = 'DESC', $offset = null, $per_page = 10, $is_highlander = false)
+function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'created_at', $order = 'DESC', $offset = null, $per_page = 10, $is_highlander = false)
 {
 
     $dbh = db_connect();
@@ -36,21 +36,21 @@ function getProducts($category_slug = array(), $material_slug = array(), $search
     $sql .= " AND product.is_deleted = 0";
 
     // Filter by category slug (loop through the array of category slugs)
-    if ($category_slug) {
+    if ($categories_slugs) {
         $sql .= " AND (";
-        foreach ($category_slug as $key => $value) {
+        foreach ($categories_slugs as $key => $value) {
             $sql .= "category.slug = :category_slug_$key";
-            if ($key < count($category_slug) - 1) $sql .= " OR ";
+            if ($key < count($categories_slugs) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
 
     // Filter by material slug (loop through the array of material slugs)
-    if ($material_slug) {
+    if ($materials_slugs) {
         $sql .= " AND (";
-        foreach ($material_slug as $key => $value) {
+        foreach ($materials_slugs as $key => $value) {
             $sql .= "material.slug = :material_slug_$key";
-            if ($key < count($material_slug) - 1) $sql .= " OR ";
+            if ($key < count($materials_slugs) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
@@ -68,15 +68,15 @@ function getProducts($category_slug = array(), $material_slug = array(), $search
         $sth = $dbh->prepare($sql);
 
         // Bind values for category slug (loop through the array of category slugs)
-        if ($category_slug) {
-            foreach ($category_slug as $key => $value) {
+        if ($categories_slugs) {
+            foreach ($categories_slugs as $key => $value) {
                 $sth->bindValue(":category_slug_$key", $value);
             }
         }
 
         // Bind values for material slug (loop through the array of material slugs)
-        if ($material_slug) {
-            foreach ($material_slug as $key => $value) {
+        if ($materials_slugs) {
+            foreach ($materials_slugs as $key => $value) {
                 $sth->bindValue(":material_slug_$key", $value);
             }
         }
