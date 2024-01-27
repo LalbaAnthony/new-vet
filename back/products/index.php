@@ -1,10 +1,12 @@
 <?php
 
 include_once "../config.inc.php";
-include_once "../partials/header.php";
-include_once "../models/product.php";
-include_once "../helpers/fr_date.php";
-include_once "../helpers/three_dots_string.php";
+include_once APP_PATH . "/partials/header.php";
+include_once APP_PATH . "/models/product.php";
+include_once APP_PATH . "/helpers/fr_date.php";
+include_once APP_PATH . "/helpers/three_dots_string.php";
+
+$products =  getProducts();
 
 ?>
 
@@ -18,19 +20,28 @@ include_once "../helpers/three_dots_string.php";
     <meta name="description" content="Site de vente de vêtement pour femme." />
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
     <title>Lise des produits - NEW VET</title>
-    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
-        <?php $products =  getProducts(); ?>
 
-
+        <?php if (isset($_GET['update'])) : ?>
+            <div class="alert alert-success" role="alert">
+                Le produit a bien été modifié
+            </div>
+        <?php endif; ?>
+        <?php if (isset($_GET['delete'])) : ?>
+            <div class="alert alert-success" role="alert">
+                Le produit a bien été supprimé
+            </div>
+        <?php endif; ?>
 
         <div class="container p-4 p-lg-5">
             <table class="table table-striped">
                 <thead>
                     <tr class="table-primary">
+                        <th scope='col'>Highlander</th>
                         <th scope='col'>Nom</th>
                         <th scope='col'>Description</th>
                         <th scope='col'>Prix</th>
@@ -44,15 +55,16 @@ include_once "../helpers/three_dots_string.php";
                     foreach ($products as $product) {
                     ?>
                         <tr>
+                            <td><?= $product['is_highlander'] == 1 ? 'Oui' : 'Non' ?></td>
                             <td><?= $product['name'] ?></td>
                             <td><?= three_dots_string($product['description'], 20) ?></td>
                             <td><?= $product['price'] ?> €</td>
                             <td><?= $product['stock_quantity'] ?> unités</td>
                             <td><?= fr_date($product['created_at']) ?></td>
                             <!-- Bouton de modification -->
-                            <td> <a href="modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
+                            <td> <a href="<?= APP_URL ?>products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
                             <!-- Bouton de suppression -->
-                            <td> <a href="delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
+                            <td> <a href="<?= APP_URL ?>products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
                         </tr>
                     <?php
                     }

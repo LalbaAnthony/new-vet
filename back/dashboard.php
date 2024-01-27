@@ -1,9 +1,9 @@
 <?php
 
 include_once "config.inc.php";
-include "auth.php";
-include_once "models/stats.php";
-include_once "helpers/rand_color.php";
+include APP_PATH . "auth.php";
+include_once APP_PATH . "models/stats.php";
+include_once APP_PATH . "helpers/rand_color.php";
 
 $date_start = isset($_POST['date_start']) ? $_POST['date_start'] : null;
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : null;
@@ -78,12 +78,12 @@ if (!$orderCountByCategories || !$salesByDay) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Tableau de bord - NEW VET</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
-        <?php include "partials/header.php"; ?>
+        <?php include APP_PATH . "partials/header.php"; ?>
 
         <div>
             <!-- Infos & Alerts -->

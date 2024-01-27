@@ -1,7 +1,7 @@
 <?php
 
 include_once "../config.inc.php";
-include_once('../models/contact.php');
+include_once APP_PATH . '/models/contact.php';
 
 $error = null;
 $contact = array();

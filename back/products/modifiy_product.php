@@ -1,54 +1,30 @@
 <?php
 
+
 include_once "../config.inc.php";
-include_once "../partials/header.php";
-include_once "../models/product.php";
+include_once APP_PATH . "/partials/header.php";
+include_once APP_PATH . "/models/product.php";
 
-// Connexion à la base
-$dbh = db_connect();
-
-// Récupère l'ID passé dans l'URL 
-$slug = isset($_GET['slug']) ? $_GET['slug'] : '';
-
-
-
-$submit = isset($_POST['submit']);
+// Réception du produit à modifier
+$urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
+$product = getProduct($urlSlug);
 
 // Modification dans la base
-if ($submit) {
+if (isset($_POST['submit'])) {
 
     // Lecture du formulaire 
-    $slug = isset($_POST['slug']) ? $_POST['slug'] : '';
-    $name = isset($_POST['name']) ? $_POST['name'] : '';
-    $description = isset($_POST['description']) ? $_POST['description'] : '';
-    $price = isset($_POST['price']) ? $_POST['price'] : '';
-    $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
+    $product['slug'] = isset($_POST['slug']) ? $_POST['slug'] : $product['slug'];
+    $product['name'] = isset($_POST['name']) ? $_POST['name'] : $product['name'];
+    $product['description'] = isset($_POST['description']) ? $_POST['description'] : $product['description'];
+    $product['price'] = isset($_POST['price']) ? $_POST['price'] : $product['price'];
+    $product['stock_quantity'] = isset($_POST['stock_quantity']) ? $_POST['stock_quantity'] : $product['stock_quantity'];
+    $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander'] ) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : $product['is_highlander']; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE
 
     // Formulaire validé : on modifie l'enregistrement
-    $sql = "UPDATE product SET name = :name , description = :description ,  price = :price , stock_quantity = :quantity  WHERE slug=:slug";
-    $params = array(
-        ":slug" => $slug,
-        ":name" => $name,
-        ":description" => $description,
-        ":price" => $price,
-        ":quantity" => $quantity,
-    );
-    try {
+    updateProduct($product);
 
-        $sth = $dbh->prepare($sql);
-        $sth->execute($params);
-    } catch (PDOException $e) {
-        die("<p>Erreur lors de la requête SQL : " . $e->getMessage() . "</p>");
-    }
-} else {
-    // Formulaire non encore validé : on affiche l'enregistrement
-    $product = getProduct($slug);
-    if ($product) {
-        $name = isset($product['name']) ? $product['name'] : '';
-        $quantity = isset($product['stock_quantity']) ? $product['stock_quantity'] : '';
-        $price = isset($product['price']) ? $product['price'] : '';
-        $description = isset($product['description']) ? $product['description'] : '';
-    }
+    // Redirection vers la liste des produits
+    header('Location:' . APP_URL . 'products/index.php?update=success');
 }
 
 // Affichage
@@ -61,38 +37,45 @@ if ($submit) {
     <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
-    <title>Tableau de bord - NEW VET</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <title>Modification - NEW VET</title>
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Modifier Produit - <?= $name ?></h2>
+        <h2 class="mb-4">Modification de : <?= $product['name'] ?></h2>
 
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
+        <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
+            <input type="hidden" name="slug" id="slug" value="<?= $product['slug']; ?>">
             <div class="form-group">
-                <label for="name">Name:</label>
-                <input class="form-control" type="text" id="name" name="name" value="<?= $name ?>">
+                <label for="name">Nom:</label>
+                <input class="form-control" type="text" id="name" name="name" value="<?= $product['name'] ?>">
             </div>
 
             <div class="form-group">
                 <label for="description">Description:</label>
-                <input class="form-control" type="text" id="description" name="description" value="<?= $description ?>">
+                <input class="form-control" type="text" id="description" name="description" value="<?= $product['description'] ?>">
             </div>
 
             <div class="form-group">
-                <label for="price">Price:</label>
-                <input class="form-control" type="text" id="price" name="price" value="<?= $price ?>">
+                <label for="price">Prix:</label>
+                <input class="form-control" type="text" id="price" name="price" value="<?= $product['price'] ?>">
             </div>
 
             <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input class="form-control" type="text" id="quantity" name="quantity" value="<?= $quantity ?>">
+                <label for="stock_quantity">Quantité:</label>
+                <input class="form-control" type="text" id="stock_quantity" name="stock_quantity" value="<?= $product['stock_quantity'] ?>">
             </div>
 
-            <input type="hidden" name="slug" id="slug" value="<?= $slug; ?>">
+            <div class="form-group">
+                <label for="is_highlander">Highlander:</label>
+                <input type="checkbox" id="is_highlander" name="is_highlander" <?php echo $product['is_highlander'] === 1 ? 'checked' : '' ?>>
+            </div>
 
-            <button type="submit" name="submit" class="btn btn-primary">Envoyer</button>
+            <div class="d-flex justify-content-between">
+                <a href="<?= APP_URL ?>products/index.php" class="btn btn-secondary">Retour</a>
+                <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
+            </div>
         </form>
     </div>
 

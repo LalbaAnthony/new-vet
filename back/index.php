@@ -1,7 +1,7 @@
 <?php
 
 include_once "config.inc.php";
-include "auth.php";
+include APP_PATH . "auth.php";
 
 ?>
 
@@ -14,12 +14,12 @@ include "auth.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Accueil - NEW VET</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
-        <?php include "partials/header.php"; ?>
+        <?php include APP_PATH . "partials/header.php"; ?>
 
         <div class="container">
             <div class="row justify-content-center align-items-center vh-100">

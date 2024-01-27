@@ -2,8 +2,8 @@
 
 
 include_once "config.inc.php";
-include_once "helpers/password_strength.php";
-include_once "models/admin.php";
+include_once APP_PATH . "helpers/password_strength.php";
+include_once APP_PATH . "models/admin.php";
 
 $login = isset($_POST['login']) ? trim($_POST['login']) : '';
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';
@@ -26,7 +26,7 @@ if ($login && $password && $passwordConfirm) {
                 } else {
                     if (insertAdmin($login, $password)) {
                         $success = "Inscription réussie";
-                        header('Location: login.php');
+                        header("Location: " . APP_URL . "login.php");
                     } else {
                         $error = "Erreur lors de l'inscription";
                     }
@@ -47,7 +47,7 @@ if ($login && $password && $passwordConfirm) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Inscription - NEW VET</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
 </head>
 
 
@@ -89,7 +89,7 @@ if ($login && $password && $passwordConfirm) {
 
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary btn-block">Se créer un compte</button>
-                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='login.php'">Se connecter</button>
+                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='<?= APP_URL ?>login.php'">Se connecter</button>
                         </div>
                     </form>
                 </div>
