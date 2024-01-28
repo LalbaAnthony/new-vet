@@ -105,11 +105,11 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                             <!-- Prix -->
                             <td><?= float_to_price($product['price']) ?></td>
                             <!-- Stock -->
-                                <?php if ($product['stock_quantity'] > 0) : ?>
-                                    <td><?= $product['stock_quantity'] ?> unités</td>
-                                <?php else : ?>
-                                    <td class="text-danger">Rupture</td>
-                                <?php endif; ?>
+                            <?php if ($product['stock_quantity'] > 0) : ?>
+                                <td><?= $product['stock_quantity'] ?> unités</td>
+                            <?php else : ?>
+                                <td class="text-danger">Rupture</td>
+                            <?php endif; ?>
                             <!-- Highlander -->
                             <td><?= $product['is_highlander'] == 1 ? 'Oui' : '-' ?></td>
                             <!-- Ordre d'affichage -->
@@ -130,16 +130,14 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
             <div class="d-flex justify-content-between my-2">
                 <!-- Page précédente -->
                 <?php if ($page > 1) : ?>
-                    <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">
-                        < Page précédent</a>
-                        <?php else : ?>
-                            <span>
-                                < Page précédent</span>
-                                <?php endif; ?>
-                                <!-- Page Actuelle -->
-                                <span>Page <?= $page ?></span>
-                                <!-- Page suivante -->
-                                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant ></a>
+                    <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page précédent (<?= $page - 1 ?>)</a>
+                <?php else : ?>
+                    <span>Page précédent</span>
+                <?php endif; ?>
+                <!-- Page Actuelle -->
+                <span>Page <?= $page ?></span>
+                <!-- Page suivante -->
+                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant (<?= $page + 1 ?>)</a>
             </div>
             <!-- Actions en bas de page -->
             <div class="d-flex justify-content-start gap-2 my-5">
