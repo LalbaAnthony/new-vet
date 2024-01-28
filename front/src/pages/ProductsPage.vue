@@ -49,7 +49,7 @@ function getProducts() {
 onMounted(() => {
     setTimeout(() => {
         products.value = getProducts()
-    }, 3000);
+    }, 1000);
 })
 
 </script>

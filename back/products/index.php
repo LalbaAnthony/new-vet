@@ -6,6 +6,7 @@ include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/helpers/fr_date.php";
 include_once APP_PATH . "/helpers/three_dots_string.php";
 include_once APP_PATH . "/helpers/float_to_price.php";
+include_once APP_PATH . "/models/image.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;
@@ -67,11 +68,13 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                 <thead>
                     <tr class="table-primary">
                         <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=is_highlander&order=<?= $new_order ?>">Highlander</a></th>
+                        <th scope='col' colspan='1'>&nbsp;</th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=name&order=<?= $new_order ?>">Nom</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=description&order=<?= $new_order ?>">Description</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=price&order=<?= $new_order ?>">Prix</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=stock_quantity&order=<?= $new_order ?>">Stock</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=is_highlander&order=<?= $new_order ?>">Highlander</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=sort_order&order=<?= $new_order ?>">Ordre</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Création</a></th>
                         <th scope='col' colspan='2'>&nbsp;</th>
                     </tr>
@@ -80,15 +83,38 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                     <?php
                     foreach ($products as $product) {
                     ?>
-                        <tr>
+                        <tr class="align-middle">
                             <!-- Checkbox pour la suppression multiple -->
                             <td><input id="product_<?= $product['slug'] ?>" type="checkbox" name="selected_products[]" value="<?= $product['slug'] ?>"></td>
-                            <!-- Affichage des données -->
-                            <td><?= $product['is_highlander'] == 1 ? 'Oui' : 'Non' ?></td>
+                            <!-- Image -->
+                            <td>
+                                <?php
+                                $dbImgPath = getFirstImagePathFromProduct($product['slug']);
+                                $fullImgPath = APP_PATH . $dbImgPath;
+                                ?>
+                                <?php if (file_exists($fullImgPath)) : ?>
+                                    <img src="<?= APP_URL . $dbImgPath ?>" class="img-thumbnail" width="100">
+                                <?php else : ?>
+                                    <img src="<?= APP_URL ?>assets/img/default-img.webp" class="img-thumbnail" width="100">
+                                <?php endif; ?>
+                            </td>
+                            <!-- Nom -->
                             <td><?= $product['name'] ?></td>
+                            <!-- Description -->
                             <td><?= three_dots_string($product['description'], 20) ?></td>
+                            <!-- Prix -->
                             <td><?= float_to_price($product['price']) ?></td>
-                            <td><?= $product['stock_quantity'] ?> unités</td>
+                            <!-- Stock -->
+                                <?php if ($product['stock_quantity'] > 0) : ?>
+                                    <td><?= $product['stock_quantity'] ?> unités</td>
+                                <?php else : ?>
+                                    <td class="text-danger">Rupture</td>
+                                <?php endif; ?>
+                            <!-- Highlander -->
+                            <td><?= $product['is_highlander'] == 1 ? 'Oui' : '-' ?></td>
+                            <!-- Ordre d'affichage -->
+                            <td><?= $product['sort_order'] ? $product['sort_order'] : '-' ?></td>
+                            <!-- Date de création -->
                             <td><?= fr_date($product['created_at']) ?></td>
                             <!-- Bouton de modification -->
                             <td> <a href="<?= APP_URL ?>products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
@@ -104,19 +130,21 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
             <div class="d-flex justify-content-between my-2">
                 <!-- Page précédente -->
                 <?php if ($page > 1) : ?>
-                    <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">< Page précédent</a>
-                <?php else : ?>
-                    <span>< Page précédent</span>
-                <?php endif; ?>
-                <!-- Page Actuelle -->
-                <span>Page <?= $page ?></span>
-                <!-- Page suivante -->
-                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant ></a>
+                    <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">
+                        < Page précédent</a>
+                        <?php else : ?>
+                            <span>
+                                < Page précédent</span>
+                                <?php endif; ?>
+                                <!-- Page Actuelle -->
+                                <span>Page <?= $page ?></span>
+                                <!-- Page suivante -->
+                                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant ></a>
             </div>
             <!-- Actions en bas de page -->
             <div class="d-flex justify-content-start gap-2 my-5">
                 <button id="delete-products" class="btn btn-danger" disabled onclick="deleteSelectedProducts()">Supprimer</button>
-                <a href="<?= APP_URL ?>products/create_product.php" class="btn btn-primary">Créer</a>
+                <a href="<?= APP_URL ?>products/create_product.php" class="btn btn-primary">Ajouter</a>
             </div>
         </div>
 

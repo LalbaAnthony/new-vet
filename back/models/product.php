@@ -18,7 +18,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'created_at', $order = 'DESC', $offset = null, $per_page = 10, $is_highlander = false)
+function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false)
 {
 
     $dbh = db_connect();
@@ -101,13 +101,13 @@ function insertProduct($product)
 {
     $dbh = db_connect();
 
-    $sql = "INSERT INTO product (name, slug, description, price, is_highlander, stock_quantity) VALUES (:name, :slug, :description, :price, :is_highlander, :stock_quantity)";
+    $sql = "INSERT INTO product (name, slug, description, price, is_highlander, stock_quantity, sort_order) VALUES (:name, :slug, :description, :price, :is_highlander, :stock_quantity, :sort_order)";
 
     if (!$product['slug']) $product['slug'] = slugify($product['name']);
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity']));
+        $sth->execute(array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
         if ($sth->rowCount() > 0) {
             log_txt("Product registered in back office: name " . $product['name']);
             return true;
@@ -123,17 +123,73 @@ function updateProduct($product)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE product SET name = :name, description = :description, price = :price, is_highlander = :is_highlander, stock_quantity = :stock_quantity WHERE slug = :slug";
+    $sql = "UPDATE product SET name = :name, description = :description, price = :price, is_highlander = :is_highlander, stock_quantity = :stock_quantity, sort_order = :sort_order WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity']));
+        $sth->execute(array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
         if ($sth->rowCount() > 0) {
             log_txt("Product updated in back office: slug " . $product['slug']);
             return true;
         } else {
             return false;
         }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function updateProductCategories($product_slug, $categories_slugs)
+{
+    $dbh = db_connect();
+
+    // Delete all categories for this product
+    $sql = "DELETE FROM product_category WHERE product_slug = :product_slug";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":product_slug" => $product_slug));
+        log_txt("Product categories deleted in back office: slug " . $product_slug);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    // Insert all categories for this product
+    $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
+    try {
+        $sth = $dbh->prepare($sql);
+        foreach ($categories_slugs as $key => $value) {
+            $sth->execute(array(":product_slug" => $product_slug, ":category_slug" => $value));
+        }
+        log_txt("Product categories inserted in back office: slug " . $product_slug);
+        return true;
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
+function updateProductMaterials($product_slug, $materials_slugs)
+{
+    $dbh = db_connect();
+
+    // Delete all materials for this product
+    $sql = "DELETE FROM product_material WHERE product_slug = :product_slug";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":product_slug" => $product_slug));
+        log_txt("Product materials deleted in back office: slug " . $product_slug);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    // Insert all materials for this product
+    $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
+    try {
+        $sth = $dbh->prepare($sql);
+        foreach ($materials_slugs as $key => $value) {
+            $sth->execute(array(":product_slug" => $product_slug, ":material_slug" => $value));
+        }
+        log_txt("Product materials inserted in back office: slug " . $product_slug);
+        return true;
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

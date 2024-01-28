@@ -18,7 +18,7 @@ function getMaterial($slug)
     return $material;
 }
 
-function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10)
+function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
 

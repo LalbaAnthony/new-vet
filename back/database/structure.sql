@@ -107,6 +107,7 @@ CREATE TABLE image(
         product_slug VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) NOT NULL,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
+        sort_order INT,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT image_PK PRIMARY KEY (image_id),
         CONSTRAINT image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE

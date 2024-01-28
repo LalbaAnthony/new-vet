@@ -4,6 +4,12 @@ include_once "../config.inc.php";
 include_once APP_PATH . "/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/helpers/slugify.php";
+include_once APP_PATH . "/models/category.php";
+include_once APP_PATH . "/models/material.php";
+
+// Réception des tables enfants
+$categories = getCategories();
+$materials = getMaterials();
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
@@ -15,15 +21,24 @@ if (isset($_POST['submit'])) {
     $product['name'] = isset($_POST['name']) ? $_POST['name'] : null;
     $product['description'] = isset($_POST['description']) ? $_POST['description'] : null;
     $product['price'] = isset($_POST['price']) ? $_POST['price'] : null;
+    $product['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
     $product['stock_quantity'] = isset($_POST['stock_quantity']) ? $_POST['stock_quantity'] : null;
     $product['is_highlander'] = isset($_POST['is_highlander']) ? $_POST['is_highlander'] : null;
     $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : 0; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE (encore)
+
+    $productsMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : array();
+    $productsCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : array();
 
     // Generate le slug
     $product['slug'] = slugify($product['name']);
 
     // Formulaire validé : on modifie l'enregistrement
-    $sucess = insertProduct($product);
+    $sucessProduct = insertProduct($product);
+
+    $sucessProductCat = updateProductCategories($product['slug'], $productsMaterials);
+    $sucessProductMat = updateProductMaterials($product['slug'], $productsCategories);
+
+    $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat;
 
     // Redirection vers la liste des produits
     header('Location:' . APP_URL . 'products/index.php?created=' . $sucess);
@@ -67,8 +82,31 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="form-group">
-                <label for="stock_quantity">Quantité:</label>
+                <label for="sort_order">Ordre d'affichage:</label>
+                <input class="form-control" type="number" id="sort_order" name="sort_order" required>
+            </div>
+
+            <div class="form-group">
+                <label for="stock_quantity">Quantité en stock:</label>
                 <input class="form-control" type="number" id="stock_quantity" name="stock_quantity" required>
+            </div>
+
+            <div class="form-group">
+                <label for="categories_slugs">Catégorie:</label>
+                <select class="form-control" name="categories_slugs[]" id="categories_slugs" multiple>
+                    <?php foreach ($categories as $category) : ?>
+                        <option value="<?= $category['slug'] ?>"><?= $category['libelle'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="materials_slugs">Materiaux:</label>
+                <select class="form-control" name="materials_slugs[]" id="materials_slugs" multiple>
+                    <?php foreach ($materials as $material) : ?>
+                        <option value="<?= $material['slug'] ?>"><?= $material['libelle'] ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="form-group my-4 p-1">

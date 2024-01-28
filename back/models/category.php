@@ -33,7 +33,7 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
     // Filter by search
     if ($search) $sql .= " AND libelle LIKE :search";
 
-    $sql .= " ORDER BY $order_by $order";
+    // $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 

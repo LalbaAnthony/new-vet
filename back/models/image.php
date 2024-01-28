@@ -35,7 +35,7 @@ function getImages()
 function getImagesFromProduct($product_slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM image WHERE is_deleted = 0 AND product_slug = :product_slug ORDER BY created_at DESC;";
+    $sql = "SELECT * FROM image WHERE is_deleted = 0 AND product_slug = :product_slug ORDER BY sort_order ASC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
@@ -46,6 +46,26 @@ function getImagesFromProduct($product_slug)
     }
 
     return $images;
+}
+
+function getFirstImagePathFromProduct($product_slug)
+{
+    $dbh = db_connect();
+    $sql = "SELECT * FROM image WHERE is_deleted = 0 AND product_slug = :product_slug ORDER BY sort_order ASC LIMIT 1;";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":product_slug" => $product_slug));
+        $image = $sth->fetch(PDO::FETCH_ASSOC);
+        log_txt("Read first image of product: slug $product_slug");
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    if ($image) {
+        return $image['image_path'];
+    } else {
+        return null;
+    }
 }
 
 function insertImage($image)
