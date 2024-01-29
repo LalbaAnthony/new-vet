@@ -3,9 +3,13 @@
 </template>
 
 <script setup>
-import { useCartStore } from '@/stores/cart'
-const cartStore = useCartStore()
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
+

@@ -54,11 +54,11 @@ const routes = [
     meta: { title: 'Produit' },
   },
   {
-    path: '/recherche',
+    path: '/recherche/:searched?',
     name: 'search',
     component: () => import('../pages/SearchPage.vue'),
     meta: { title: 'Recherche' },
-  },
+  },  
   {
     path: '/paiement',
     name: 'checkout',

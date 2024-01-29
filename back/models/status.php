@@ -23,14 +23,12 @@ function getStatuses($order_by = 'sort_order', $order = 'ASC')
     // Select all statuses
     $sql = "SELECT * FROM status";
 
-    $sql .= " ORDER BY :order_by :order";
+    $sql .= " WHERE is_deleted = 0";
+
+    $sql .= " ORDER BY $order_by $order";
 
     try {
         $sth = $dbh->prepare($sql);
-
-        // Bind values
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
 
         $sth->execute();
 
@@ -87,7 +85,7 @@ function deleteStatus($status_id)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM status WHERE status_id = :status_id";
+    $sql = "UPDATE status SET is_deleted = 1 WHERE status_id = :status_id";
 
     try {
         $sth = $dbh->prepare($sql);

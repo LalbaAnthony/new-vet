@@ -1,16 +1,16 @@
 <?php
 
-include_once '../helpers/slugify.php';
+include_once APP_PATH . '/helpers/slugify.php';
 
-function getCategory($category_slug)
+function getCategory($slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM category WHERE slug = :category_slug;";
+    $sql = "SELECT * FROM category WHERE slug = :slug;";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":category_slug" => $category_slug));
+        $sth->execute(array(":slug" => $slug));
         $category = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read category: slug $category_slug");
+        log_txt("Read category: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -28,10 +28,12 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
 
+    $sql .= " AND is_deleted = 0";
+
     // Filter by search
     if ($search) $sql .= " AND libelle LIKE :search";
 
-    $sql .= " ORDER BY :order_by :order";
+    // $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
@@ -40,8 +42,6 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
 
         // Bind values
         if ($search) $sth->bindValue(":search", "%$search%");
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
         if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
         if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
 
@@ -60,7 +60,7 @@ function getCategoriesFromProduct($product_slug)
 {
     $dbh = db_connect();
     $sql = "SELECT category.* FROM product, product_category, category 
-    WHERE product.slug = :product_slug
+    WHERE product.slug = :product_slug AND category.is_deleted = 0
     AND product_category.category_slug = category.slug AND product_category.product_slug = product.slug
     ORDER BY category.sort_order ASC;";
     try {
@@ -78,7 +78,7 @@ function getCategoriesFromProduct($product_slug)
 function getCategoriesQuickAcces()
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM category WHERE quick_access = 1 ORDER BY category.sort_order ASC;";
+    $sql = "SELECT * FROM category WHERE quick_access = 1 AND is_deleted = 0 ORDER BY category.sort_order ASC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute();
@@ -142,7 +142,7 @@ function deleteCategory($slug)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM category WHERE slug = :slug";
+    $sql = "UPDATE category SET is_deleted = 1 WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);

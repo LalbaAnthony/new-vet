@@ -1,7 +1,7 @@
 <?php
 
 include_once "config.inc.php";
-include_once "models/admin.php";
+include_once APP_PATH . "models/admin.php";
 
 $login = isset($_POST['login']) ? trim($_POST['login']) : '';
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';
@@ -16,7 +16,7 @@ if ($login && $password) {
                 $_SESSION['admin'] = $admin;
                 $success = "Connexion réussie";
                 log_txt("User logged in back office: login $login");
-                header('Location: index.php');
+                header('Location:' . APP_URL . 'index.php');
             } else {
                 $error = "Vous n'avez pas accès au back office";
                 log_txt("User tried to log in back office but has no access: login $login");
@@ -42,8 +42,8 @@ if ($login && $password) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Connexion - NEW VET</title>
-    <link href="css/style.css" rel="stylesheet">
-    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -78,7 +78,7 @@ if ($login && $password) {
 
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
-                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='register.php'">Se créer un compte</button>
+                            <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='<?= APP_URL ?>register.php'">Se créer un compte</button>
                         </div>
                     </form>
                 </div>

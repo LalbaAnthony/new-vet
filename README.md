@@ -28,6 +28,12 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
     * Importez le fichier `back\BDD\initial_data.sql`
     * Executez le fichier `back\BDD\users.sql`
     * C'est bon, vous avez accès à la base de données !
+* Installation du backend
+    * Rendez-vous dans le fichier `config.inc.php` et modifiez les variables `$host`, `$user`, `$password` et `$database` en fonction de votre configuration
+    * Toujours dans le même fichier, modifiez la ligne `define('APP_PATH', '/projects/new-vet/back');` en fonction de votre configuration
+    * Rendez-vous sur `http://localhost/projects/new-vet/back/`
+    * C'est bon, vous avez accès au back !
+  
 
 ## 🧱 - Structure du projet
 
@@ -39,13 +45,14 @@ Le front (`/front`) est la partie emergée de l'iceberg, c'est la partie visible
 Il est conçu en VueJS, le style est entierement custom, écrit à la main par notre artisan intégrateur. Ceci afin de garantir un style unique et personnalisé.<br>
 
 ***Dependances***
-* vue: https://vuejs.org/
-* vue-router: https://router.vuejs.org/
-* pinia: https://pinia.esm.dev/
-* headlessui: https://headlessui.dev/
-* vue-axios: https://www.npmjs.com/package/vue-axios
-* axios: https://axios-http.com/
-* vue-toastification: https://vue-toastification.maronato.dev/
+* vue: `https://vuejs.org/`
+* vue-router: `https://router.vuejs.org/`
+* pinia: `https://pinia.esm.dev/`
+* headlessui: `https://headlessui.dev/`
+* vue-axios: `https://www.npmjs.com/package/vue-axios`
+* axios: `https://axios-http.com/`
+* vue-toastification: `https://vue-toastification.maronato.dev/`, `https://blog.logrocket.com/selecting-best-vue-3-toast-notification-library/`
+* vue3-carousel: `https://ismail9k.github.io/vue3-carousel/examples.html`
 
 ***Structure***
 

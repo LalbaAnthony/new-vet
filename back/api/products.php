@@ -5,10 +5,10 @@
 
 
 include_once "../config.inc.php";
-include_once('../models/product.php');
-include_once('../models/image.php');
-include_once('../models/category.php');
-include_once('../models/material.php');
+include_once APP_PATH . '/models/product.php';
+include_once APP_PATH . '/models/image.php';
+include_once APP_PATH . '/models/category.php';
+include_once APP_PATH . '/models/material.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $category = isset($_GET['category']) ? $_GET['category'] : array();
@@ -41,6 +41,10 @@ if (count($products) > 0) {
 }
 
 // Return  JSON
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
+
 $products = json_encode($products);
 echo $products;

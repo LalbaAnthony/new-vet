@@ -1,17 +1,19 @@
 import { defineStore } from 'pinia'
-import { useToast } from 'vue-toastification'; // ? https://blog.logrocket.com/selecting-best-vue-3-toast-notification-library/ https://vue-toastification.maronato.dev/
-
-const toast = useToast();
+import { notify } from '@/helpers/notif.js'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     authenticated: false,
     user: null,
+    cart: [],
     showForgotPasswordModal: false,
     showResetPasswordModal: false,
   }),
 
   actions: {
-
+    clearCart() {
+      this.cart = [];
+      notify('Panié vidé !', 'success');
+    }
   },
 })

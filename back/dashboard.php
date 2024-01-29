@@ -1,10 +1,10 @@
 <?php
 
 include_once "config.inc.php";
-include_once "models/stats.php";
-include_once "helpers/rand_color.php";
+include_once APP_PATH . "models/stats.php";
+include_once APP_PATH . "helpers/rand_color.php";
 
-$date_start = isset($date_start) ? $_POST['date_start'] : null;
+$date_start = isset($_POST['date_start']) ? $_POST['date_start'] : null;
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : null;
 
 if (!$date_start && !$date_end) {
@@ -77,13 +77,13 @@ if (!$orderCountByCategories || !$salesByDay) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Tableau de bord - NEW VET</title>
-    <link href="css/style.css" rel="stylesheet">
-    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
-        <?php include "partials/header.php"; ?>
+        <?php include APP_PATH . "partials/header.php"; ?>
 
         <div>
             <!-- Infos & Alerts -->
@@ -145,15 +145,21 @@ if (!$orderCountByCategories || !$salesByDay) {
                 </div>
                 <div class="my-4 d-flex justify-content-center">
                     <div>
-                        <div class="d-flex align-items-center px-3">
-                            <span class='mx-2'>Min. :<?= $minSalesByDay ?> ventes</span>
-                        </div>
-                        <div class="d-flex align-items-center px-3">
-                            <span class='mx-2'>Max. :<?= $maxSalesByDay ?> ventes</span>
-                        </div>
-                        <div class="d-flex align-items-center px-3">
-                            <span class='mx-2'>Moy. :<?= $avgSalesByDay ?> ventes</span>
-                        </div>
+                        <?php if (isset($minSalesByDay)) : ?>
+                            <div class="d-flex align-items-center px-3">
+                                <span class='mx-2'>Min. :<?= $minSalesByDay ?> ventes</span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (isset($maxSalesByDay)) : ?>
+                            <div class="d-flex align-items-center px-3">
+                                <span class='mx-2'>Max. :<?= $maxSalesByDay ?> ventes</span>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (isset($avgSalesByDay)) : ?>
+                            <div class="d-flex align-items-center px-3">
+                                <span class='mx-2'>Moy. :<?= $avgSalesByDay ?> ventes</span>
+                            </div>
+                        <?php endif; ?>
                     </div>
             </section>
         </div>

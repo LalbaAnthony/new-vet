@@ -1,26 +1,34 @@
 <template>
   <header>
-    <router-link to="/">
-      <div class="center">
-        <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+    <div class="header-bloc">
+      <router-link to="/">
+        <div class="center">
+          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+        </div>
+      </router-link>
+      <div class="header-actions">
+        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
+          @keyup.enter="triggerSearch" />
+        <ul class="header-action-btn">
+          <li>
+            <span v-if="authStore.cart.length > 0" class="cart-number">{{ authStore.cart.length }}</span>
+            <router-link to="/panier">
+              <IconCartFill class="header-action-btn-icon primary" />
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/profil">
+              <IconPersonFill class="header-action-btn-icon primary" />
+            </router-link>
+          </li>
+        </ul>
       </div>
-    </router-link>
-    <div class="header-actions">
-      <input type="search" id="search" name="search" :placeholder="searchPlaceholder" />
-      <ul class="toolbar">
-        <li>
-          <router-link to="/cart">
-            <IconCartFill class="toolbar-icon primary" />
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/profil">
-            <IconPersonFill class="toolbar-icon primary" />
-          </router-link>
-        </li>
-      </ul>
     </div>
     <nav class="header-pages">
+      <router-link to="/">
+        <IconHouseFill class="icon-offset" />
+        <span>Accueil</span>
+      </router-link>
       <router-link to="/categories">
         <IconTagFill class="icon-offset" />
         <span>Catégories</span>
@@ -34,35 +42,50 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div class="header-quick-access">
-      <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`" type="light" />
+    <div class="center">
+      <div class="header-quick-access">
+        <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`"
+          type="light" />
+      </div>
     </div>
   </header>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import Pill from '@/components/Pill.vue'
+import Pill from '@/components/PillComponent.vue'
 import IconCartFill from '@/components/icons/IconCartFill.vue'
 import IconPersonFill from '@/components/icons/IconPersonFill.vue'
+import IconHouseFill from '@/components/icons/IconHouseFill.vue'
 import IconTagFill from '@/components/icons/IconTagFill.vue'
 import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.vue'
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
+import { useAuthStore } from '@/stores/auth'
 
-const searchPlaceholder = ref(randomPlaceholder())
+const authStore = useAuthStore()
 const quickAccess = ref(getQuickAccess())
+const searchPlaceholder = ref(randomPlaceholder())
+const search = ref('')
 
 function randomPlaceholder() {
   const placeholders = [
     'Rechercher ...',
     'Chercher un produit ...',
+    'Chercher une catégorie ...',
     'Chercher un article ...',
     'Rechercher un produit ...',
+    'Rechercher une catégorie ...',
     'Rechercher un article ...',
     'Trouver un produit ...',
-    'Trouver un article ...'
+    'Trouver un article ...',
+    'Trouver une catégorie ...'
   ]
   return placeholders[Math.floor(Math.random() * placeholders.length)]
+}
+
+function triggerSearch() {
+  router.push(`/recherche/${search.value}`)
+  search.value = ''
 }
 
 function getQuickAccess() {
@@ -92,22 +115,25 @@ function getQuickAccess() {
 <style scoped>
 /* DESKTOP */
 @media (min-width: 1024px) {
-  .header-actions>* {
-    margin: 0 1rem;
+  .header-bloc {
+    display: flex;
+    flex-direction: row;
   }
 }
 
 /* TABLET */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .header-actions>* {
-    margin: 0 0.5rem;
+  .header-bloc {
+    display: flex;
+    flex-direction: row;
   }
 }
 
 /* MOBILE */
 @media (max-width: 767px) {
-  .header-actions>* {
-    margin: 0 0.2rem;
+  .header-bloc {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -115,14 +141,6 @@ header {
   background: var(--secondary);
   background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
   color: var(--light);
-  display: flex;
-  flex-direction: column;
-}
-
-.header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .center {
@@ -131,23 +149,37 @@ header {
   align-items: center;
 }
 
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+#search {
+  max-width: 750px;
+  margin: 0 auto;
+}
+
 .main-logo {
   width: 100px;
   height: 100px;
   margin: 0 auto;
 }
 
-ul.toolbar {
+ul.header-action-btn {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  padding: auto;
 }
 
-ul.toolbar>* {
+ul.header-action-btn>* {
   margin: 0 0.25rem;
 }
 
-.toolbar-icon {
+.header-action-btn-icon {
   background-color: var(--light);
   border-radius: 50%;
   color: var(--dark);
@@ -158,16 +190,26 @@ ul.toolbar>* {
   transition: all 0.3s;
 }
 
-.toolbar-icon.primary {
+.header-action-btn-icon.primary {
   color: var(--primary);
 }
 
-.toolbar-icon.secondary {
+.header-action-btn-icon.secondary {
   color: var(--secondary);
 }
 
-.toolbar-icon:hover {
+.header-action-btn-icon:hover {
   transform: scale(1.1);
+}
+
+.cart-number {
+  z-index: 1;
+  position: absolute;
+  padding: 0 7px;
+  background-color: var(--secondary);
+  color: var(--light);
+  border-radius: 50%;
+  transform: translate(80%, -50%);
 }
 
 .header-pages {
@@ -207,6 +249,7 @@ ul.toolbar>* {
 }
 
 .header-quick-access {
+  justify-content: start;
   display: flex;
   flex-wrap: wrap;
   align-items: center;

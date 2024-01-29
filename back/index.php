@@ -13,19 +13,14 @@ include_once "config.inc.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Accueil - NEW VET</title>
-    <link href="css/style.css" rel="stylesheet">
-    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js'></script>
+    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
-        <?php
-        if (isset($_SESSION['admin'])) {
-            include "partials/header.php";
-        } else {
-            header('Location: login.php');
-        }
-        ?>
+        <?php include APP_PATH . "partials/header.php"; ?>
+
         <div class="container">
             <div class="row justify-content-center align-items-center vh-100">
                 <div class="col-md-4">

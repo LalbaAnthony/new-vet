@@ -1,16 +1,16 @@
 <?php
 
-include_once '../helpers/slugify.php';
+include_once APP_PATH . '/helpers/slugify.php';
 
-function getMaterial($material_slug)
+function getMaterial($slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM material WHERE slug = :material_slug;";
+    $sql = "SELECT * FROM material WHERE slug = :slug;";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":material_slug" => $material_slug));
+        $sth->execute(array(":slug" => $slug));
         $material = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read material: slug $material_slug");
+        log_txt("Read material: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -18,7 +18,7 @@ function getMaterial($material_slug)
     return $material;
 }
 
-function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10)
+function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
 
@@ -28,10 +28,12 @@ function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
 
+    $sql .= " AND is_deleted = 0";
+
     // Filter by search
     if ($search) $sql .= " AND libelle LIKE :search";
 
-    $sql .= " ORDER BY :order_by :order";
+    $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
@@ -40,8 +42,6 @@ function getMaterials($search = null, $order_by = 'sort_order', $order = 'ASC', 
 
         // Bind values
         if ($search) $sth->bindValue(":search", "%$search%");
-        $sth->bindValue(":order_by", $order_by);
-        $sth->bindValue(":order", $order);
         if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
         if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
 
@@ -60,7 +60,7 @@ function getMaterialsFromProduct($product_slug)
 {
     $dbh = db_connect();
     $sql = "SELECT material.* FROM product, product_material, material 
-    WHERE product.slug = :product_slug
+    WHERE product.slug = :product_slug AND material.is_deleted = 0
     AND product_material.material_slug = material.slug AND product_material.product_slug = product.slug;";
     try {
         $sth = $dbh->prepare($sql);
@@ -116,17 +116,17 @@ function updateMaterial($material)
     }
 }
 
-function deleteMaterial($material_slug)
+function deleteMaterial($slug)
 {
     $dbh = db_connect();
 
-    $sql = "DELETE FROM material WHERE slug = :material_slug";
+    $sql = "UPDATE material SET is_deleted = 1 WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":material_slug" => $material_slug));
+        $sth->execute(array(":slug" => $slug));
         if ($sth->rowCount() > 0) {
-            log_txt("Material deleted in back office: slug " . $material_slug);
+            log_txt("Material deleted in back office: slug " . $slug);
             return true;
         } else {
             return false;

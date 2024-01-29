@@ -1,4 +1,5 @@
 :root {
+  /* Vue App */
   --primary: #F1452B;
   --secondary: #FEBD21;
   --light: #ffffff;
@@ -6,6 +7,32 @@
   --success: #3caf57;
   --warning: #cf4a02;
   --danger: #cf0d0d;
+
+  /* Overload vue-carousel stuff */
+  --vc-clr-primary: var(--primary) !important;
+  --vc-clr-secondary: #090f207f !important;
+  --vc-clr-white: var(--light) !important;
+  --vc-icn-width: 1.2em !important;
+  --vc-nav-width: 30px !important;
+  --vc-nav-height: 30px !important;
+  --vc-nav-border-radius: 25px !important;
+  --vc-nav-color: var(--vc-clr-primary) !important;
+  --vc-nav-color-hover: var(--vc-clr-secondary) !important;
+  --vc-nav-background: var(--vc-clr-white) !important;
+  --vc-pgn-width: 12px !important;
+  --vc-pgn-height: 4px !important;
+  --vc-pgn-margin: 4px !important;
+  --vc-pgn-border-radius: 0 !important;
+  --vc-pgn-background-color: var(--vc-clr-secondary) !important;
+  --vc-pgn-active-color: var(--vc-clr-primary) !important;
+}
+
+/* Overload vue-toastification stuff */
+.Vue-Toastification__toast {
+  /* background-color: var(--secondary) !important; */
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2) !important;
+  border: solid 2px var(--light) !important;
+  border-radius: 50px !important;
 }
 
 *,

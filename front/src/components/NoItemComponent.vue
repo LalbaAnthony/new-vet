@@ -17,7 +17,7 @@ defineProps({
 
 <style scoped>
 .main-center {
-  margin: 175px;
+  margin: 225px auto;
   display: flex;
   justify-content: center;
   align-items: center;
