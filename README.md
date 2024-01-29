@@ -13,20 +13,21 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
 ***Local***
 
 * Installez et configurez XAMPP si ce n'est pas déjà fait, depuis `https://www.apachefriends.org/fr/index.html`
-* LAncez XAMPP, rendez-vous `C:\xampp\htdocs\` et créez un dossier `projects`
-* Allez `C:\xampp\htdocs\projects` et executez la commande `git git clone git@github.com:LalbaAnthony/new-vet.git`
+* LAncez XAMPP, rendez-vous `C:/xampp/htdocs/` et créez un dossier `projects`
+* Allez `C:/xampp/htdocs/projects` et executez la commande `git git clone git@github.com:LalbaAnthony/new-vet.git`
 * Installation du front
-    * Allez dans `C:\xampp\htdocs\projects\new-vet\front` 
+    * Allez dans `new-vet/front` 
     * Tapez `npm install` pour mettre à jour les dépéndances
+    * Rendez vous dans `new-vet/front/src/config.js`, afin de modifier les variables `URL_BACKEND_API` et `URL_BACKEND_UPLOAD` en fonction de votre configuration
     * Puis `npm run dev` afin de lancer le projet
     * Rendez vous ensuite sur l'adresse indiquez par le terminal, par exemple `http://localhost:5173/`
     * C'est bon, vous avez accès au front !
 * Installation de la base de données
     * Rendez-vous sur `http://localhost/phpmyadmin/`
     * Créez une nouvelle base de données nommée `new-vet` en prennat soin de séléctionner `utf8_general_ci` comme jeu de caractères
-    * Importez le fichier `back\BDD\structure.sql`
-    * Importez le fichier `back\BDD\initial_data.sql`
-    * Executez le fichier `back\BDD\users.sql`
+    * Importez le fichier `back/BDD/structure.sql`
+    * Importez le fichier `back/BDD/initial_data.sql`
+    * Executez le fichier `back/BDD/users.sql`
     * C'est bon, vous avez accès à la base de données !
 * Installation du backend
     * Rendez-vous dans le fichier `config.inc.php` et modifiez les variables `$host`, `$user`, `$password` et `$database` en fonction de votre configuration

@@ -3,7 +3,6 @@
 
 // ? exemple d'url: http://localhost/projects/new-vet/back/api/products.php?order_by=slug&order=ASC&search=sac
 
-
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/product.php';
 include_once APP_PATH . '/models/image.php';
@@ -14,7 +13,7 @@ $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $category = isset($_GET['category']) ? $_GET['category'] : array();
 $material = isset($_GET['material']) ? $_GET['material'] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
+$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'sort_order';
 $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;

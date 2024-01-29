@@ -2,10 +2,10 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <SortFilter />
-        <Loader v-if="loading" />
+        <Loader v-if="productStore.loading" />
         <div v-else>
-            <div v-if="products && products.length > 0" class="products-grid">
-                <Product v-for="product in products" :key="product.slug" :product="product" />
+            <div v-if="productStore.products && productStore.products.length > 0" class="products-grid">
+                <Product v-for="product in productStore.products" :key="product.slug" :product="product" />
             </div>
             <NoItem what="produit" v-else />
         </div>
@@ -13,44 +13,15 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import SortFilter from '@/components/SortFilterComponent.vue'
 import Product from '@/components/ProductComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
+import { useProductStore } from '@/stores/product'
 
-const loading = ref(true)
-const products = ref([])
+const productStore = useProductStore()
 
-function getProducts() {
-    loading.value = false
-    return [
-        {
-            image_path: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
-            categories: [
-                {
-                    slug: 'vetements',
-                    libelle: 'Vêtements',
-                },
-                {
-                    slug: 'vetements',
-                    libelle: 'Vêtements',
-                },
-            ],
-            name: 'Lorem ipsum dolor sit amet consectetur',
-            description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
-            price: '9.99',
-            stock: 684,
-            slug: 'product1',
-        },
-    ]
-}
-
-onMounted(() => {
-    setTimeout(() => {
-        products.value = getProducts()
-    }, 1000);
-})
+productStore.fetchProducts();
 
 </script>
 
@@ -60,7 +31,7 @@ onMounted(() => {
     .products-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-gap: 3rem;
+        grid-gap: 4rem;
     }
 }
 
@@ -69,7 +40,7 @@ onMounted(() => {
     .products-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 2rem;
+        grid-gap: 3rem;
     }
 }
 
@@ -78,7 +49,7 @@ onMounted(() => {
     .products-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-gap: 1.5rem;
+        grid-gap: 2rem;
     }
 }
 
@@ -87,7 +58,7 @@ onMounted(() => {
     .products-grid {
         display: row;
         grid-template-rows: repeat(1, 1fr);
-        row-gap: 1.5rem;
+        row-gap: 2rem;
     }
 }
 
