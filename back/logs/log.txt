@@ -2315,3 +2315,53 @@
 [29-01-24 12:08:47 PM][::1]: Read first image of product: slug escarpins-classiques
 [29-01-24 12:08:47 PM][::1]: Read first image of product: slug veste-en-cuir
 [29-01-24 12:08:47 PM][::1]: Read first image of product: slug baskets-sportives
+[29-01-24 12:12:29 PM][::1]: Read products
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug robe-elegante
+[29-01-24 12:12:29 PM][::1]: Read categories from product robe-elegante
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug chapeau-de-soleil
+[29-01-24 12:12:29 PM][::1]: Read categories from product chapeau-de-soleil
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug jean-slim
+[29-01-24 12:12:29 PM][::1]: Read categories from product jean-slim
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug montre-elegante
+[29-01-24 12:12:29 PM][::1]: Read categories from product montre-elegante
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug pantalon-chic
+[29-01-24 12:12:29 PM][::1]: Read categories from product pantalon-chic
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug sweat-a-capuche
+[29-01-24 12:12:29 PM][::1]: Read categories from product sweat-a-capuche
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug t-shirt-decontracte
+[29-01-24 12:12:29 PM][::1]: Read categories from product t-shirt-decontracte
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:29 PM][::1]: Read images of product: slug sac-a-main-chic
+[29-01-24 12:12:29 PM][::1]: Read categories from product sac-a-main-chic
+[29-01-24 12:12:29 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read products
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug robe-elegante
+[29-01-24 12:12:30 PM][::1]: Read categories from product robe-elegante
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug chapeau-de-soleil
+[29-01-24 12:12:30 PM][::1]: Read categories from product chapeau-de-soleil
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug jean-slim
+[29-01-24 12:12:30 PM][::1]: Read categories from product jean-slim
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug montre-elegante
+[29-01-24 12:12:30 PM][::1]: Read categories from product montre-elegante
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug pantalon-chic
+[29-01-24 12:12:30 PM][::1]: Read categories from product pantalon-chic
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug sweat-a-capuche
+[29-01-24 12:12:30 PM][::1]: Read categories from product sweat-a-capuche
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug t-shirt-decontracte
+[29-01-24 12:12:30 PM][::1]: Read categories from product t-shirt-decontracte
+[29-01-24 12:12:30 PM][::1]: Read materials
+[29-01-24 12:12:30 PM][::1]: Read images of product: slug sac-a-main-chic
+[29-01-24 12:12:30 PM][::1]: Read categories from product sac-a-main-chic
+[29-01-24 12:12:30 PM][::1]: Read materials
