@@ -1,7 +1,8 @@
 <template>
   <router-link :to="`produits/${product.slug}`">
     <div class="product">
-      <img :src="product.images[0]?.image_path ? `${URL_BACKEND_UPLOAD}${product.images[0].image_path}` : 'public/helpers/no-img-available.webp'"
+      <img
+        :src="product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${product.images[0].image_path}` : 'public/helpers/no-img-available.webp'"
         :alt="`Image de ${product.name}`" />
       <div>
         <div class="product-categories">
@@ -22,6 +23,7 @@
 import Pill from '@/components/PillComponent.vue'
 import Stock from '@/components/StockComponent.vue'
 import { threeDotString } from '@/helpers/helpers.js'
+import { imageExists } from '@/helpers/helpers.js'
 import { URL_BACKEND_UPLOAD } from '@/config';
 
 defineProps({
@@ -90,5 +92,4 @@ h3.product-price {
   font-weight: 700;
   color: var(--primary);
 }
-
 </style>
