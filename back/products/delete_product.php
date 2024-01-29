@@ -58,6 +58,7 @@ if (isset($_POST['submit'])) {
                 <label for="stock_quantity">Quantité:</label>
                 <input class="form-control" type="text" id="stock_quantity" name="stock_quantity" disabled value="<?= $product['stock_quantity'] ?>">
             </div>
+            <br>
 
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>products/index.php" class="btn btn-secondary">Retour</a>
