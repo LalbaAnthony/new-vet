@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
 
             <div class="form-group">
                 <label for="sort_order">Ordre d'affichage:</label>
-                <input class="form-control" type="number" id="sort_order" name="sort_order" required>
+                <input class="form-control" type="number" id="sort_order" name="sort_order">
             </div>
 
             <div class="form-group">

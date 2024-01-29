@@ -92,7 +92,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                                 $dbImgPath = getFirstImagePathFromProduct($product['slug']);
                                 $fullImgPath = APP_PATH . $dbImgPath;
                                 ?>
-                                <?php if (file_exists($fullImgPath)) : ?>
+                                <?php if ($dbImgPath && file_exists($fullImgPath)) : ?>
                                     <img src="<?= APP_URL . $dbImgPath ?>" class="img-thumbnail" width="100">
                                 <?php else : ?>
                                     <img src="<?= APP_URL ?>assets/img/default-img.webp" class="img-thumbnail" width="100">

@@ -61,6 +61,7 @@ import IconTagFill from '@/components/icons/IconTagFill.vue'
 import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.vue'
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
+import router from '@/router';
 
 const authStore = useAuthStore()
 const quickAccess = ref(getQuickAccess())
