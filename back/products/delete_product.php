@@ -59,11 +59,6 @@ if (isset($_POST['submit'])) {
                 <input class="form-control" type="text" id="stock_quantity" name="stock_quantity" disabled value="<?= $product['stock_quantity'] ?>">
             </div>
 
-            <div class="form-group">
-                <label for="is_highlander">Highlander:</label>
-                <input type="checkbox" id="is_highlander" name="is_highlander" disabled <?php echo $product['is_highlander'] === 1 ? 'checked' : '' ?>>
-            </div>
-
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>products/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-danger">Supprimer</button>
