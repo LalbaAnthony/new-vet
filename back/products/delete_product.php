@@ -35,30 +35,10 @@ if (isset($_POST['submit'])) {
 
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Suppression de : <?= $product['name'] ?></h2>
+        <h2 style="margin: 30vh 0">Supprimer <?= $product['name'] ?> ?</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $product['slug']; ?>">
-            <div class="form-group">
-                <label for="name">Nom:</label>
-                <input class="form-control" type="text" id="name" name="name" disabled value="<?= $product['name'] ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <input class="form-control" type="text" id="description" name="description" disabled value="<?= $product['description'] ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="price">Prix:</label>
-                <input class="form-control" type="text" id="price" name="price" disabled value="<?= $product['price'] ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="stock_quantity">Quantité:</label>
-                <input class="form-control" type="text" id="stock_quantity" name="stock_quantity" disabled value="<?= $product['stock_quantity'] ?>">
-            </div>
-            <br>
 
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>products/index.php" class="btn btn-secondary">Retour</a>

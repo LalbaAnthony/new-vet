@@ -5,11 +5,25 @@ export const useProductStore = defineStore('product', {
   state: () => ({
     product: {},
     products: [],
+    highlandersProducts: [],
     pagination: { page: 1, perPage: 8 },
     loading: false,
   }),
 
   actions: {
+    async fetchProduct(slug) {
+      // Loading
+      this.loading = true
+
+      // Data
+      this.product = {}
+
+      this.product = await get(`products/${slug}`);
+
+      // Loading
+      this.loading = false
+    },
+
     async fetchProducts(givenParams = {}) {
 
       // Loading
@@ -31,18 +45,17 @@ export const useProductStore = defineStore('product', {
       this.loading = false
     },
 
-    async fetchProduct(slug) {
+    async fetchHighlandersProducts() {
       // Loading
       this.loading = true
 
       // Data
-      this.product = {}
+      this.highlandersProducts = []
 
-      this.product = await get(`products/${slug}`);
+      this.highlandersProducts = await get('products', { is_highlander: true, per_page: 3 });
 
       // Loading
       this.loading = false
-    }
-
+    },
   },
 })

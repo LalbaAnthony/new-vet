@@ -1,20 +1,16 @@
 <template>
   <div>
-    <Carousel title="Notre séléction de produits" :items="carouselItems" :autoplay="false" />
+    <Carousel title="Notre séléction de produits" :items="productStore.highlandersProducts" :autoplay="false" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import Carousel from '@/components/CarouselComponent.vue'
+import { useProductStore } from '@/stores/product'
 
-const carouselItems = ref([
-  {
-    id: 1,
-    image_path: 'https://img.freepik.com/free-photo/smiling-beautiful-young-woman-pink-mini-dress-posing-studio_155003-14602.jpg',
-    link: '/produits/product1',
-  },
-])
+const productStore = useProductStore()
+
+productStore.fetchHighlandersProducts()
 
 </script>
 
