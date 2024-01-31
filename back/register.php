@@ -1,6 +1,5 @@
 <?php
 
-
 include_once "config.inc.php";
 include_once APP_PATH . "helpers/password_strength.php";
 include_once APP_PATH . "models/admin.php";
@@ -50,7 +49,6 @@ if ($login && $password && $passwordConfirm) {
     <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
 </head>
-
 
 <body>
 
