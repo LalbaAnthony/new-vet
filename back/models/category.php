@@ -75,10 +75,10 @@ function getCategoriesFromProduct($product_slug)
     return $categories;
 }
 
-function getCategoriesQuickAcces()
+function getCategoriesQuickAccess()
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM category WHERE quick_access = 1 AND is_deleted = 0 ORDER BY category.sort_order ASC;";
+    $sql = "SELECT * FROM category WHERE is_quick_access = 1 AND is_deleted = 0 ORDER BY category.sort_order ASC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute();
@@ -95,7 +95,7 @@ function insertCategory($category)
 {
     $dbh = db_connect();
 
-    $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, quick_access, color) VALUES (:slug, :libelle, :image_path, :sort_order, :quick_access, :color)";
+    $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, is_quick_access, color) VALUES (:slug, :libelle, :image_path, :sort_order, :is_quick_access, :color)";
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
     if (!$category['image_path']) $category['image_path'] = "/assets/others/default-img.webp";
@@ -106,7 +106,7 @@ function insertCategory($category)
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":quick_access" => $category['quick_access'], ":color" => $category['color']));
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":color" => $category['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Category registered in back office: slug " . $category['slug']);
             return true;
@@ -122,11 +122,11 @@ function updateCategory($category)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE category SET libelle = :libelle, image_path = :image_path, sort_order = :sort_order, quick_access = :quick_access, color = :color WHERE slug = :slug";
+    $sql = "UPDATE category SET libelle = :libelle, image_path = :image_path, sort_order = :sort_order, is_quick_access = :is_quick_access, color = :color WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":quick_access" => $category['quick_access'], ":color" => $category['color']));
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":color" => $category['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Category updated in back office: slug " . $category['slug']);
             return true;

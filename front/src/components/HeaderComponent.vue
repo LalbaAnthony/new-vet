@@ -2,16 +2,14 @@
   <header>
     <div class="header-bloc">
       <router-link to="/">
-        <div class="center">
-          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
-        </div>
+        <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
       </router-link>
       <div class="header-actions">
         <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
-            <span v-if="authStore.cart.length > 0" class="cart-number">{{ authStore.cart.length }}</span>
+            <span v-if="authStore.cart" class="cart-number">{{ authStore.cart.length }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
@@ -42,10 +40,10 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div class="center">
+    <div v-if="categoryStore.quickAccessCategories" class="header-categories">
       <div class="header-quick-access">
-        <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`"
-          type="light" />
+        <Pill v-for="item in categoryStore.quickAccessCategories" :key="item.slug" :text="item.libelle"
+          :link="`/categories/${item.slug}`" type="light" />
       </div>
     </div>
   </header>
@@ -62,54 +60,21 @@ import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
 import router from '@/router';
+import { randSearchPlaceholder } from '@/helpers/helpers.js'
+import { useCategoryStore } from '@/stores/category'
 
 const authStore = useAuthStore()
-const quickAccess = ref(getQuickAccess())
-const searchPlaceholder = ref(randomPlaceholder())
+const categoryStore = useCategoryStore()
+
+const searchPlaceholder = ref(randSearchPlaceholder())
 const search = ref('')
 
-function randomPlaceholder() {
-  const placeholders = [
-    'Rechercher ...',
-    'Chercher un produit ...',
-    'Chercher une catégorie ...',
-    'Chercher un article ...',
-    'Rechercher un produit ...',
-    'Rechercher une catégorie ...',
-    'Rechercher un article ...',
-    'Trouver un produit ...',
-    'Trouver un article ...',
-    'Trouver une catégorie ...'
-  ]
-  return placeholders[Math.floor(Math.random() * placeholders.length)]
-}
+categoryStore.fetchQuickAccessCategories();
 
 function triggerSearch() {
   router.push(`/recherche/${search.value}`)
   search.value = ''
 }
-
-function getQuickAccess() {
-  return [
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    },
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    },
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    },
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    }
-  ]
-}
-
 
 </script>
 
@@ -146,7 +111,7 @@ header {
   color: var(--light);
 }
 
-.center {
+.header-categories {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -203,7 +168,7 @@ ul.header-action-btn>* {
 .cart-number {
   z-index: 1;
   position: absolute;
-  padding: 0 7px;
+  padding: 0 8px;
   background-color: var(--secondary);
   color: var(--light);
   border-radius: 50%;

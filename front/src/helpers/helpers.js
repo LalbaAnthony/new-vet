@@ -32,3 +32,19 @@ export function imageExists(url) {
     img.src = url;
     return img.height != 0;
 }
+
+export function randSearchPlaceholder() {
+    const placeholders = [
+        'Rechercher ...',
+        'Chercher un produit ...',
+        'Chercher une catégorie ...',
+        'Chercher un article ...',
+        'Rechercher un produit ...',
+        'Rechercher une catégorie ...',
+        'Rechercher un article ...',
+        'Trouver un produit ...',
+        'Trouver un article ...',
+        'Trouver une catégorie ...'
+    ];
+    return placeholders[Math.floor(Math.random() * placeholders.length)]
+}

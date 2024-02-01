@@ -36,6 +36,8 @@ export const useProductStore = defineStore('product', {
       const params = {
         page: this.pagination.currentPage,
         per_page: this.pagination.perPage,
+        order_by: 'sort_order',
+        order_direction: 'asc',
       }
       Object.assign(params, givenParams)
 
