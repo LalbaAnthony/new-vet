@@ -4,8 +4,8 @@ include_once "config.inc.php";
 
 // Configuration
 $target_path = APP_PATH . "uploads/";
-$alowed_extensions = array("jpg", "jpeg", "png", "gif", "webp");
-$max_size = 500000;
+$alowed_extensions = array("jpg", "jpeg", "png", "webp");
+$max_size = 1000000; // 1 Mo
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Autoriser certains formats de fichiers
     if (!in_array($extension, $alowed_extensions)) {
-        $error = "Désolé, seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
+        $error = "Désolé, seuls les fichiers " . implode(", ", $alowed_extensions) . " sont autorisés.";
     }
 
     if (!$error) {

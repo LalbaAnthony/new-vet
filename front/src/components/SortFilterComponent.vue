@@ -8,8 +8,8 @@
     <div class="sort-bloc">
       <select @change="console.log($event.target.value)">
         <option>Trier par</option>
-        <option value="prix-asc">Les moins chers</option>
-        <option value="prix-desc">Les plus chers</option>
+        <option value="price-asc">Les moins chers</option>
+        <option value="price-desc">Les plus chers</option>
         <option value="created_at-desc">Les plus récents</option>
         <option value="created_at-asc">Les plus anciens</option>
         <option value="name-asc">De A à Z</option>

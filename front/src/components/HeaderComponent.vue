@@ -118,6 +118,8 @@ function getQuickAccess() {
 @media (min-width: 1024px) {
   .header-bloc {
     display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
     flex-direction: row;
   }
 }
@@ -156,11 +158,6 @@ header {
   align-items: center;
   width: 100%;
   padding: 0 0.5rem;
-}
-
-#search {
-  max-width: 750px;
-  margin: 0 auto;
 }
 
 .main-logo {
