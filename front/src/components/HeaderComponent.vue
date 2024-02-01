@@ -2,7 +2,9 @@
   <header>
     <div class="header-bloc">
       <router-link to="/">
-        <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+        <div class="bloc-logo">
+          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+        </div>
       </router-link>
       <div class="header-actions">
         <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
@@ -83,7 +85,7 @@ function triggerSearch() {
 @media (min-width: 1024px) {
   .header-bloc {
     display: flex;
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto;
     flex-direction: row;
   }
@@ -111,6 +113,7 @@ header {
   color: var(--light);
 }
 
+.bloc-logo,
 .header-categories {
   display: flex;
   justify-content: center;

@@ -18,7 +18,8 @@ export const useProductStore = defineStore('product', {
       // Data
       this.product = {}
 
-      this.product = await get(`products/${slug}`);
+      const resp = await get('products', { slug: slug, per_page: 1 });
+      this.product = resp[0];
 
       // Loading
       this.loading = false

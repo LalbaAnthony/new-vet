@@ -2,7 +2,7 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <SortFilter />
-        <Loader v-if="productStore.loading" />
+        <Loader v-if="productStore.loading || productStore.products.length === 0" />
         <div v-else>
             <div v-if="productStore.products && productStore.products.length > 0" class="products-grid">
                 <Product v-for="product in productStore.products" :key="product.slug" :product="product" />
