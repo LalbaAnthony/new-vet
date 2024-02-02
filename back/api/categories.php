@@ -13,6 +13,7 @@ $order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 $is_quick_access = isset($_GET['is_quick_access']) ? $_GET['is_quick_access'] : false;
+$exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
 
 $categories = array();
 
@@ -24,7 +25,7 @@ if ($slug) { // Si on a un slug, on recupere un produit
 } else if ($is_quick_access) { // Si on veut celle en accès rapide
     $categories = getCategoriesQuickAccess();
 } else { // Sinon on recupere tous les produits, selon les parametres
-    $categories = getCategories($search, $order_by, $order, $offset, $per_page);
+    $categories = getCategories($search, $order_by, $order, $offset, $per_page, $exclude);
 }
 
 // Return  JSON

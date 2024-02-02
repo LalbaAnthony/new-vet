@@ -5,6 +5,7 @@ export const useProductStore = defineStore('product', {
   state: () => ({
     product: {},
     products: [],
+    morePorducts: [],
     highlandersProducts: [],
     pagination: { page: 1, perPage: 8 },
     loading: false,
@@ -60,5 +61,18 @@ export const useProductStore = defineStore('product', {
       // Loading
       this.loading = false
     },
+
+    async fetchMoreProducts(categorySlug) {
+      // Loading
+      this.loading = true
+
+      // Data
+      this.morePorducts = []
+
+      this.morePorducts = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.id]});
+
+      // Loading
+      this.loading = false
+    }
   },
 })

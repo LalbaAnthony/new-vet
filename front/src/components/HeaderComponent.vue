@@ -7,7 +7,7 @@
         </div>
       </router-link>
       <div class="header-actions">
-        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
+        <input type="search" class="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>

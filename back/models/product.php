@@ -18,7 +18,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false)
+function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false, $exclude = array())
 {
 
     $dbh = db_connect();
@@ -34,6 +34,16 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
     $sql .= " WHERE 1 = 1";
 
     $sql .= " AND product.is_deleted = 0";
+
+    // Exclude products
+    if ($exclude) {
+        $sql .= " AND (";
+        foreach ($exclude as $key => $value) {
+            $sql .= "product.slug != :exclude_$key";
+            if ($key < count($exclude) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
 
     // Filter by category slug (loop through the array of category slugs)
     if ($categories_slugs) {
@@ -66,6 +76,13 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
 
     try {
         $sth = $dbh->prepare($sql);
+
+        // Bind values for exclude (loop through the array of slugs to exclude)
+        if ($exclude) {
+            foreach ($exclude as $key => $value) {
+                $sth->bindValue(":exclude_$key", $value);
+            }
+        }
 
         // Bind values for category slug (loop through the array of category slugs)
         if ($categories_slugs) {

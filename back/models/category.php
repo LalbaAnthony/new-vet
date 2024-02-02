@@ -18,7 +18,7 @@ function getCategory($slug)
     return $category;
 }
 
-function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10)
+function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $exclude = array())
 {
     $dbh = db_connect();
 
@@ -30,6 +30,16 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
 
     $sql .= " AND is_deleted = 0";
 
+    // Exclude categories
+    if ($exclude) {
+        $sql .= " AND (";
+        foreach ($exclude as $key => $value) {
+            $sql .= "slug != :exclude_$key";
+            if ($key < count($exclude) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
+
     // Filter by search
     if ($search) $sql .= " AND libelle LIKE :search";
 
@@ -39,6 +49,13 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
 
     try {
         $sth = $dbh->prepare($sql);
+
+        // Bind values for exclude
+        if ($exclude) {
+            foreach ($exclude as $key => $value) {
+                $sth->bindValue(":exclude_$key", $value);
+            }
+        }
 
         // Bind values
         if ($search) $sth->bindValue(":search", "%$search%");

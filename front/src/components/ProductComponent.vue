@@ -1,18 +1,18 @@
 <template>
-  <router-link :to="`produits/${product.slug}`">
+  <router-link :to="`produits/${props.product.slug}`">
     <div class="product">
       <img
-        :src="product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${product.images[0].image_path}` : 'public/helpers/no-img-available.webp'"
-        :alt="`Image de ${product.name}`" />
+        :src="props.product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].image_path}` : 'public/helpers/no-img-available.webp'"
+        :alt="`Image de ${props.product.name}`" />
       <div>
         <div class="product-categories">
-          <Pill v-for="cat in product.categories" :key="cat.slug" :text="cat.libelle" :link="`categories/${cat.slug}`" />
+          <Pill v-for="cat in props.product.categories" :key="cat.slug" :text="cat.libelle" :link="`categories/${cat.slug}`" />
         </div>
-        <h3 class="product-name">{{ product.name }}</h3>
-        <p class="product-description">{{ threeDotString(product.description) }}</p>
+        <h3 class="product-name">{{ props.product.name }}</h3>
+        <p class="product-description">{{ threeDotString(props.product.description) }}</p>
         <div class="product-numbers">
-          <Stock :stock="product.stock_quantity" />
-          <h3 :class="['product-price', product.stock_quantity < 1 ? 'overline' : '']">{{ product.price }} €</h3>
+          <Stock :stock="props.product.stock_quantity" />
+          <h3 :class="['product-price', props.product.stock_quantity < 1 ? 'overline' : '']">{{ props.product.price }} €</h3>
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@ import { threeDotString } from '@/helpers/helpers.js'
 import { imageExists } from '@/helpers/helpers.js'
 import { URL_BACKEND_UPLOAD } from '@/config';
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true,
@@ -40,7 +40,7 @@ defineProps({
   .product {
     padding-bottom: 2rem;
     margin-bottom: 3rem;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 2px solid #eaeaea;
   }
 }
 

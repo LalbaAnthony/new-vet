@@ -1,12 +1,12 @@
 <template>
-  <div v-if="enabled" class="main-center">
+  <div v-if="props.enabled" class="main-center">
     <span class="loader"></span>
   </div>
 </template>
 
 <script setup>
 
-defineProps({
+const props = defineProps({
   enabled: {
     type: Boolean,
     default: true,

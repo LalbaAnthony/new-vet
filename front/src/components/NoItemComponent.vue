@@ -1,12 +1,12 @@
 <template>
   <div class="main-center">
-    <span class="message-no-item"><span class="gradient bold">Aucun</span> {{ what }} disponible.</span>
+    <span class="message-no-item"><span class="gradient bold">Aucun</span> {{ props.what }} disponible.</span>
   </div>
 </template>
 
 <script setup>
 
-defineProps({
+const props = defineProps({
   what: {
     type: String,
     default: 'élément',

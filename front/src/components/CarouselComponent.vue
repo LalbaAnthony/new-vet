@@ -1,10 +1,10 @@
 <template>
-  <section v-if="items && items.length > 0">
-    <h3 class="section-title">{{ title }}</h3>
+  <section v-if="props.items && props.items.length > 0">
+    <h3 class="section-title">{{ props.title }}</h3>
 
-    <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="autoplay ? 3000 : 0" :loop="autoplay ? true : false"
+    <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="props.autoplay ? 3000 : 0" :loop="props.autoplay ? true : false"
       :transition="500">
-      <slide v-for="item in items" :key="item.id" @click.stop="router.push(item.link)">
+      <slide v-for="item in props.items" :key="item.id" @click.stop="router.push(item.link)">
         <img class="carousel-img" :src="item.image_path" :alt="`Image ${item.name || item.libelle}`" />
       </slide>
       <template #addons>
@@ -24,7 +24,7 @@ import router from '@/router';
 
 const mobile = isMobile()
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     default: 'Nos produits',

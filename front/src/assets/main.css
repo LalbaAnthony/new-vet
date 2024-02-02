@@ -128,20 +128,32 @@ button.button {
     transition: all 0.3s;
 }
 
-.button:not(.disabled) {
+.button:not(:disabled) {
     background: var(--secondary);
     background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
     color: var(--light);
     border: none;
 }
 
-.button.disabled {
-    background: var(--dark);
+.button.outline:not(:disabled) {
+    background: var(--light);
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
+}
+
+.button:disabled {
+    background: #ccc;
     color: var(--light);
     cursor: not-allowed;
 }
 
-.button:hover:not(.disabled) {
+.button.outline:disabled {
+    background: var(--light);
+    color: #ccc;
+    border: 2px solid #ccc;
+}
+
+.button:hover:not(:disabled) {
     scale: 1.05;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }
@@ -161,7 +173,6 @@ input:focus,
 textarea:focus {
     outline: none !important;
 }
-
 
 select {
     background-color: var(--light);

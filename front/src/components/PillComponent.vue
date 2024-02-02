@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div v-if="link">
-      <router-link :to="link">
-        <div :class="['pill-body hover-effect', type]">
-          <span :class="['pill-text', type]">{{ threeDotString(text, 40) }}</span>
+    <div v-if="props.link">
+      <router-link :to="props.link">
+        <div :class="['pill-body hover-effect', props.type]">
+          <span :class="['pill-text', props.type]">{{ threeDotString(props.text, 40) }}</span>
         </div>
       </router-link>
     </div>
     <div v-else>
-      <div :class="['pill-body', type]">
-        <span :class="['pill-text', type]">{{ threeDotString(text, 40) }}</span>
+      <div :class="['pill-body', props.type]">
+        <span :class="['pill-text', props.type]">{{ threeDotString(props.text, 40) }}</span>
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
 <script setup>
 import { threeDotString } from '@/helpers/helpers.js'
 
-defineProps({
+const props = defineProps({
   text: {
     type: String,
     required: true,
