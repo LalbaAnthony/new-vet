@@ -5,7 +5,6 @@
     <div v-else class="product">
       <div class="product-images">
         IMAGE IMAGE IMAGE IMAGE
-        {{ authStore.cart }}
       </div>
       <div class="product-details">
         <div v-if="productStore.product.categories && productStore.product.categories.length > 0">

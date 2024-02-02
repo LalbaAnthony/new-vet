@@ -2,7 +2,7 @@
   <router-link :to="`produits/${props.product.slug}`">
     <div class="product">
       <img
-        :src="props.product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].image_path}` : 'public/helpers/no-img-available.webp'"
+        :src="props.product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].image_path}` : '/helpers/no-img-available.webp'"
         :alt="`Image de ${props.product.name}`" />
       <div>
         <div class="product-categories">

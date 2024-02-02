@@ -1,5 +1,5 @@
 <template>
-  <section v-if="productStore.moreProducts && productStore.moreProducts.length > 0">
+  <section v-if="productStore.moreProducts && productStore.moreProducts.length > 0" class="more-products">
     <h3 class="section-title">{{ props.title }}</h3>
     <div>
       <div class="products-grid">
@@ -20,7 +20,7 @@ const props = defineProps({
     default: 'Ces produits pourraient vous intéresser',
     required: false,
   },
-  categorySlug: {
+  category: {
     type: String,
     required: true,
   },
@@ -28,12 +28,15 @@ const props = defineProps({
 
 const productStore = useProductStore()
 
-console
+productStore.fetchMoreProducts(props.category)
 
-productStore.fetchMoreProducts(props.categorySlug)
 </script>
 
 <style scoped>
+.more-products {
+  margin: 3rem 0;
+}
+
 /* CINEMA SCREEN */
 @media (min-width: 1600px) {
   .products-grid {
