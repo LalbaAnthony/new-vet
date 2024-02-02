@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', {
 
     buyNow(productSlug, quantity) {
       this.addToCart(productSlug, quantity);
-      router.push('/cart');
+      router.push('/panier');
     }
   },
 })
