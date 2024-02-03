@@ -9,7 +9,7 @@
         <option v-for="qty in props.product.stock_quantity" :key="qty" :value="qty">{{ qty }}</option>
       </select>
       <span class="cart-item-price">{{ props.product.price }} €</span>
-      <IconTrash class="cart-item-delete-icon" @click="authStore.removeFromCart(props.product.slug)" />
+      <IconTrash class="cart-item-delete-icon" @click="authStore.removeFromCart(props.product.slug);$emit('reloadCart')" />
     </div>
   </div>
 </template>

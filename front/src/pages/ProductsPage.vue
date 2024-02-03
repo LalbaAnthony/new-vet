@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2 class="page-title">Nos produits</h2>
+        {{ router.currentRoute }}
         <SortFilter />
         <Loader v-if="productStore.products.data.loading" />
         <div v-else>
@@ -18,6 +19,7 @@ import Product from '@/components/ProductCardComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'
+import router from '@/router'
 
 const productStore = useProductStore()
 

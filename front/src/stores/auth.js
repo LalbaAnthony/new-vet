@@ -19,6 +19,11 @@ export const useAuthStore = defineStore('auth',
         notify('Panié vidé !', 'success');
       },
 
+      removFromCart2 (productSlug) {
+        delete this.cart[productSlug];
+        notify('Produit retiré du panier !', 'success');
+      },
+
       removeFromCart(productSlug) {
         delete this.cart[productSlug];
         notify('Produit retiré du panier !', 'success');

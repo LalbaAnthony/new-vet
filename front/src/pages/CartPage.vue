@@ -9,7 +9,8 @@
           <button @click="authStore.clearCart()" class="button danger">Vider</button>
         </div>
         <div class="products-grid">
-          <CartItem v-for="product in productStore.cartProducts.data" :key="product.slug" :product="product" />
+          <CartItem v-for="product in productStore.cartProducts.data" :key="product.slug" :product="product"
+            @reload-cart="productStore.fetchCartProducts()" />
         </div>
         <MoreProducts
           v-if="productStore.cartProducts.data[0].categories && productStore.cartProducts.data[0].categories.length > 0"
@@ -27,16 +28,11 @@ import Loader from '@/components/LoaderComponent.vue'
 import MoreProducts from '@/components/MoreProductsComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
-import { watch } from 'vue'
 
 const authStore = useAuthStore()
 const productStore = useProductStore()
 
 if (authStore.cart) productStore.fetchCartProducts()
-
-watch(() => authStore.cart, (newVal, oldVal) => {
-  if (newVal) productStore.fetchCartProducts()
-})
 
 </script>
 

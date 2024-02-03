@@ -28,7 +28,7 @@ span.message-no-item {
   background-color: var(--light);
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 500;
 }
 

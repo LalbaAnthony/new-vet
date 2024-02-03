@@ -36,12 +36,6 @@ const routes = [
     meta: { title: 'Catégories' },
   },
   {
-    path: '/categories/:slug',
-    name: 'category',
-    component: () => import('../pages/CategoryPage.vue'),
-    meta: { title: 'Catégorie' },
-  },
-  {
     path: '/produits',
     name: 'products',
     component: () => import('../pages/ProductsPage.vue'),

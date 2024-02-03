@@ -66,9 +66,9 @@ productStore.fetchMoreProducts(props.category)
 /* MOBILE */
 @media (max-width: 767px) {
   .products-grid {
-    display: row;
-    grid-template-rows: repeat(1, 1fr);
-    row-gap: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1.5rem;
   }
 }
 
