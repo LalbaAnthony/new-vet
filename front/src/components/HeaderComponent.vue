@@ -11,7 +11,7 @@
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
-            <span v-if="authStore.cart" class="cart-number">{{ authStore.cartSize }}</span>
+            <span v-if="authStore.cart" class="cart-number">{{ authStore.cartTotal }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
@@ -174,7 +174,7 @@ ul.header-action-btn>* {
   padding: 0 8px;
   background-color: var(--secondary);
   color: var(--light);
-  border-radius: 50%;
+  border-radius: 50px;
   transform: translate(80%, -50%);
 }
 

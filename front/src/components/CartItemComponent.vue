@@ -31,27 +31,68 @@ const props = defineProps({
 </script>
 
 <style scoped>
+/* DESKTOP */
+@media (min-width: 1024px) {
+  .cart-item {
+    flex-direction: row;
+  }
+
+  h2.cart-item-name {
+    padding: 2rem;
+  }
+
+  .cart-item-actions {
+    padding: 2rem;
+  }
+
+  .cart-item>img {
+    height: 100px;
+    width: 100px;
+    object-position: left center;
+    object-fit: cover;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .cart-item {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .cart-item>img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .cart-item {
+    flex-direction: column;
+    padding: 2rem;
+  }
+
+  .cart-item>img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+  }
+}
+
 .cart-item {
   color: var(--dark);
   overflow: hidden;
   background-color: var(--light);
-  padding: 2rem;
-  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  margin: 1rem 0;
 }
-
-.cart-item>img {
-  height: 75px;
-  object-position: left center;
-  object-fit: cover;
-  transition: all 0.2s ease-in-out;
-}
-
 
 h2.cart-item-name {
   font-size: 1.2rem;
@@ -64,7 +105,7 @@ h2.cart-item-name {
   flex-direction: row;
   justify-content: end;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 span.cart-item-price {

@@ -16,6 +16,9 @@ $is_quick_access = isset($_GET['is_quick_access']) ? $_GET['is_quick_access'] : 
 $exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
 $include = isset($_GET['include']) ? $_GET['include'] : array();
 
+if ($exclude) $exclude = explode(',', $exclude[0]);
+if ($include) $include = explode(',', $include[0]);
+
 $categories = array();
 
 if ($slug) { // Si on a un slug, on recupere un produit

@@ -1,10 +1,5 @@
 <template>
   <div>
-    <h5>authStore.cart</h5>
-    {{ authStore.cart }}
-    <h5>productStore.cartProducts</h5>
-    {{ productStore.cartProducts.data }}
-
     <h2 class="page-title">Votre panier</h2>
     <Loader v-if="productStore.cartProducts.loading" />
     <div v-else>
@@ -56,7 +51,6 @@ watch(() => authStore.cart, (newVal, oldVal) => {
 .cart-grid {
   display: row;
   grid-template-rows: repeat(1, 1fr);
-  row-gap: 2rem;
 }
 </style>
 

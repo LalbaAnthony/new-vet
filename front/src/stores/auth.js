@@ -45,6 +45,9 @@ export const useAuthStore = defineStore('auth',
       cartSize() {
         return Object.keys(this.cart).length;
       },
+      cartTotal() {
+        return Object.values(this.cart).reduce((acc, curr) => acc + curr, 0);
+      }
     }
   },
 )

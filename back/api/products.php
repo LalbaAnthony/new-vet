@@ -21,6 +21,11 @@ $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
 $exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
 $include = isset($_GET['include']) ? $_GET['include'] : array();
 
+if ($categories) $categories = explode(',', $categories[0]);
+if ($material) $material = explode(',', $material[0]);
+if ($exclude) $exclude = explode(',', $exclude[0]);
+if ($include) $include = explode(',', $include[0]);
+
 $products = array();
 
 if ($slug) { // Si on a un slug, on recupere un produit
