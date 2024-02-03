@@ -141,6 +141,13 @@ button.button {
     border: 2px solid var(--secondary);
 }
 
+.button.danger:not(:disabled) {
+    background: var(--danger);
+    color: var(--light);
+    border: 2px solid var(--danger);
+}
+
+
 .button:disabled {
     background: #ccc;
     color: var(--light);

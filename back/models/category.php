@@ -18,7 +18,7 @@ function getCategory($slug)
     return $category;
 }
 
-function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $exclude = array())
+function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $exclude = array(), $include = array())
 {
     $dbh = db_connect();
 
@@ -51,9 +51,16 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
         $sth = $dbh->prepare($sql);
 
         // Bind values for exclude
-        if ($exclude) {
+        if ($exclude && !$include) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
+            }
+        }
+
+        // Bind values for include
+        if ($include && !$exclude) {
+            foreach ($include as $key => $value) {
+                $sth->bindValue(":include_$key", $value);
             }
         }
 

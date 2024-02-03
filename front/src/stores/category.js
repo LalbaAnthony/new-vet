@@ -3,50 +3,59 @@ import { get } from '@/helpers/api';
 
 export const useCategoryStore = defineStore('category', {
   state: () => ({
-    categories: [],
-    quickAccessCategories: [],
-    loading: false,
+    category: {
+      loading: false,
+      data: {},
+    },
+    categories: {
+      loading: false,
+      data: [],
+    },
+    quickAccessCategories: {
+      loading: false,
+      data: [],
+    },
   }),
 
   actions: {
     async fetchCategories() {
       // Loading
-      this.loading = true
+      this.categories.loading = true
 
       // Data
-      this.categories = []
+      this.categories.data = []
 
-      this.categories = await get('categories');
+      this.categories.data = await get('categories');
 
       // Loading
-      this.loading = false
+      this.categories.loading = false
     },
 
     async fetchQuickAccessCategories() {
       // Loading
-      this.loading = true
+      this.quickAccessCategories.loading = true
 
       // Data
-      this.quickAccessCategories = []
+      this.quickAccessCategories.data = []
 
-      this.quickAccessCategories = await get('categories', { is_quick_access: true });
+      this.quickAccessCategories.data = await get('categories', { is_quick_access: true });
 
       // Loading
-      this.loading = false
+      this.quickAccessCategories.loading = false
     },
 
     async fetchCategory(slug) {
       // Loading
-      this.loading = true
+      this.category.loading = true
 
       // Data
-      this.category = {}
+      this.category.data = {}
 
       const resp = await get('categories', { slug: slug, per_page: 1 });
-      this.category = resp[0];
+      this.category.data = resp[0];
 
       // Loading
-      this.loading = false
+      this.category.loading = false
     },
   },
 })

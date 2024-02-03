@@ -1,17 +1,16 @@
 <template>
-  <section v-if="productStore.moreProducts && productStore.moreProducts.length > 0" class="more-products">
+  <section v-if="productStore.moreProducts.data && productStore.moreProducts.data.length > 0" class="more-products">
     <h3 class="section-title">{{ props.title }}</h3>
     <div>
       <div class="products-grid">
-        <Product v-for="product in productStore.moreProducts" :key="product.slug" :product="product" />
+        <Product v-for="product in productStore.moreProducts.data" :key="product.slug" :product="product" />
       </div>
     </div>
-
   </section>
 </template>
 
 <script setup>
-import Product from '@/components/ProductComponent.vue'
+import Product from '@/components/ProductCardComponent.vue'
 import { useProductStore } from '@/stores/product'
 
 const props = defineProps({

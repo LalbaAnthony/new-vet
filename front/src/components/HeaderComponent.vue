@@ -11,7 +11,7 @@
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
-            <span v-if="authStore.cart" class="cart-number">{{ authStore.cart.length }}</span>
+            <span v-if="authStore.cart" class="cart-number">{{ authStore.cartSize }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
@@ -42,9 +42,9 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div v-if="categoryStore.quickAccessCategories" class="header-categories">
+    <div v-if="categoryStore.quickAccessCategories.data" class="header-categories">
       <div class="header-quick-access">
-        <Pill v-for="item in categoryStore.quickAccessCategories" :key="item.slug" :text="item.libelle"
+        <Pill v-for="item in categoryStore.quickAccessCategories.data" :key="item.slug" :text="item.libelle"
           :link="`/categories/${item.slug}`" type="light" />
       </div>
     </div>

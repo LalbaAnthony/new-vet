@@ -2,10 +2,10 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <SortFilter />
-        <Loader v-if="productStore.loading || productStore.products.length === 0" />
+        <Loader v-if="productStore.products.data.loading" />
         <div v-else>
-            <div v-if="productStore.products && productStore.products.length > 0" class="products-grid">
-                <Product v-for="product in productStore.products" :key="product.slug" :product="product" />
+            <div v-if="productStore.products.data && productStore.products.data.length > 0" class="products-grid">
+                <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
             </div>
             <NoItem what="produit" v-else />
         </div>
@@ -14,7 +14,7 @@
 
 <script setup>
 import SortFilter from '@/components/SortFilterComponent.vue'
-import Product from '@/components/ProductComponent.vue'
+import Product from '@/components/ProductCardComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'

@@ -18,7 +18,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false, $exclude = array())
+function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
 {
 
     $dbh = db_connect();
@@ -36,11 +36,21 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
     $sql .= " AND product.is_deleted = 0";
 
     // Exclude products
-    if ($exclude) {
+    if ($exclude && !$include) {
         $sql .= " AND (";
         foreach ($exclude as $key => $value) {
             $sql .= "product.slug != :exclude_$key";
             if ($key < count($exclude) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
+
+    // Include products
+    if ($include && !$exclude) {
+        $sql .= " AND (";
+        foreach ($include as $key => $value) {
+            $sql .= "product.slug = :include_$key";
+            if ($key < count($include) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
@@ -81,6 +91,13 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
         if ($exclude) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
+            }
+        }
+
+        // Bind values for include (loop through the array of slugs to include)
+        if ($include) {
+            foreach ($include as $key => $value) {
+                $sth->bindValue(":include_$key", $value);
             }
         }
 

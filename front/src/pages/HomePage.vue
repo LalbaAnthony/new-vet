@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Carousel title="Notre séléction de produits" :items="productStore.highlandersProducts" :autoplay="false" />
+    <Carousel title="Notre séléction de produits" :items="productStore.data.highlandersProducts" :autoplay="false" />
   </div>
 </template>
 

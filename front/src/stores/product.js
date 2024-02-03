@@ -1,38 +1,56 @@
 import { defineStore } from 'pinia'
 import { get } from '@/helpers/api';
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 export const useProductStore = defineStore('product', {
   state: () => ({
-    product: {},
-    products: [],
-    moreProducts: [],
-    highlandersProducts: [],
+    product: {
+      loading: false,
+      data: {},
+    },
+    products: {
+      loading: false,
+      data: [],
+    },
+    moreProducts: {
+      loading: false,
+      data: [],
+    },
+    highlandersProducts: {
+      loading: false,
+      data: [],
+    },
+    cartProducts: {
+      loading: false,
+      data: [],
+    },
     pagination: { page: 1, perPage: 8 },
-    loading: false,
   }),
 
   actions: {
     async fetchProduct(slug) {
       // Loading
-      this.loading = true
+      this.product.loading = true
 
       // Data
-      this.product = {}
+      this.product.data = {}
 
       const resp = await get('products', { slug: slug, per_page: 1 });
-      this.product = resp[0];
+      this.product.data = resp[0];
 
       // Loading
-      this.loading = false
+      this.product.loading = false
     },
 
     async fetchProducts(givenParams = {}) {
 
       // Loading
-      this.loading = true
+      this.products.loading = true
 
       // Data
-      this.products = []
+      this.products.data = []
 
       // Request
       const params = {
@@ -43,38 +61,50 @@ export const useProductStore = defineStore('product', {
       }
       Object.assign(params, givenParams)
 
-      this.products = await get('products', params);
+      this.products.data = await get('products', params);
 
       // Loading
-      this.loading = false
+      this.products.loading = false
     },
 
     async fetchHighlandersProducts() {
       // Loading
-      this.loading = true
+      this.highlandersProducts.loading = true
 
       // Data
-      this.highlandersProducts = []
+      this.highlandersProducts.data = []
 
-      this.highlandersProducts = await get('products', { is_highlander: true, per_page: 3 });
+      this.highlandersProducts.data = await get('products', { is_highlander: true, per_page: 3 });
 
       // Loading
-      this.loading = false
+      this.highlandersProducts.loading = false
     },
 
     async fetchMoreProducts(categorySlug) {
       // Loading
-      this.loading = true
-
-      console.log('categorySlug', categorySlug)
+      this.moreProducts.loading = true
 
       // Data
-      this.moreProducts = []
+      this.moreProducts.data = []
 
-      this.moreProducts = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.id]});
+      this.moreProducts.data = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.id] });
 
       // Loading
-      this.loading = false
+      this.moreProducts.loading = false
+    },
+
+    async fetchCartProducts() {
+      // Loading
+      this.cartProducts.loading = true
+
+      // Data
+      this.cartProducts.data = []
+
+      const productSlugs = Object.keys(authStore.cart);
+      this.cartProducts.data = await get('products', { include: [productSlugs.join(',')] });
+
+      // Loading
+      this.cartProducts.loading = false
     }
   },
 })
