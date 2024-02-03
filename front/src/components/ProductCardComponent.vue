@@ -12,7 +12,7 @@
         <p class="product-description">{{ threeDotString(props.product.description) }}</p>
         <div class="product-numbers">
           <Stock :stock="props.product.stock_quantity" />
-          <h3 :class="['product-price', props.product.stock_quantity < 1 ? 'overline' : '']">{{ props.product.price }} €</h3>
+          <span :class="['product-price', props.product.stock_quantity < 1 ? 'overline' : '']">{{ props.product.price }} €</span>
         </div>
       </div>
     </div>
@@ -87,7 +87,7 @@ p.product-description {
   align-items: center;
 }
 
-h3.product-price {
+span.product-price {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--primary);
