@@ -5,7 +5,7 @@
     <div v-else>
       <div v-if="productStore.cartProducts.data && productStore.cartProducts.data.length > 0">
         <div class="cart-actions">
-          <button class="button" @click="$router.go('/paiment')">Acheter</button>
+          <button class="button" @click="router.push(`/paiment`)">Acheter</button>
           <button @click="authStore.clearCart()" class="button danger">Vider</button>
         </div>
         <div class="products-grid">
@@ -26,6 +26,7 @@ import CartItem from '@/components/CartItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import MoreProducts from '@/components/MoreProductsComponent.vue'
+import router from '@/router';
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
 

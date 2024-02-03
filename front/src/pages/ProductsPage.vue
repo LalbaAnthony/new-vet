@@ -1,7 +1,6 @@
 <template>
     <div>
         <h2 class="page-title">Nos produits</h2>
-        {{ router.currentRoute }}
         <SortFilter />
         <Loader v-if="productStore.products.data.loading" />
         <div v-else>
