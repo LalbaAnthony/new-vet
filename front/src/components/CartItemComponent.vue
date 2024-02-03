@@ -34,8 +34,7 @@ const props = defineProps({
 .cart-item {
   color: var(--dark);
   overflow: hidden;
-  background-color: red;
-  /* background-color: var(--light); */
+  background-color: var(--light);
   padding: 2rem;
   box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
