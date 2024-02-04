@@ -53,3 +53,7 @@ export function randSearchPlaceholder() {
 export function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
+
+export function roundNb(nb, precision = 2) {
+    return Number(nb.toFixed(precision));
+}

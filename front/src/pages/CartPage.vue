@@ -5,7 +5,7 @@
     <div v-else>
       <div v-if="productStore.cartProducts.data && productStore.cartProducts.data.length > 0">
         <div class="cart-infos">
-          <span class="cart-total-price">Total: {{ productStore.cartProductsTotalPrice }} €</span>
+          <span class="cart-total-price">Total: {{ roundNb(productStore.cartProductsTotalPrice) }} €</span>
           <div class="cart-actions">
             <button class="button" @click="router.push(`/paiment`)">Acheter</button>
             <button @click="authStore.clearCart()" class="button danger">Vider</button>
@@ -32,6 +32,7 @@ import MoreProducts from '@/components/MoreProductsComponent.vue'
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth'
 import { useProductStore } from '@/stores/product'
+import { roundNb } from '@/helpers/helpers.js'
 
 const authStore = useAuthStore()
 const productStore = useProductStore()
