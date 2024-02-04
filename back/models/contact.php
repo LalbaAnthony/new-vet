@@ -44,6 +44,8 @@ function insertContact($contact)
 {
     $dbh = db_connect();
 
+    if(!isset($contact['customer_id'])) $contact['customer_id'] = null;
+
     $sql = "INSERT INTO contact (customer_id, email, subject, message) VALUES (:customer_id, :email, :subject, :message)";
 
     try {

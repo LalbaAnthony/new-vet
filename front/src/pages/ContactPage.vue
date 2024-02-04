@@ -39,7 +39,6 @@ const subject = ref('');
 const message = ref('');
 const customer_id = ref(null);
 
-
 function valid() {
       // return false; // ? uncomment this line to enable form validation
       if (!email.value || !subject.value || !message.value) return "Veuillez remplir tous les champs";
@@ -54,10 +53,12 @@ async function sendForm() {
       if (error) {
             notify(error, 'error');
       } else {
-            if (authStore.authenticated) customer_id.value = authStore.user.id;
-            const resp = await post('contact', { email: email.value, subject: subject.value, message: message.value, customer_id: customer_id });
-            if (resp.error) {
-                  notify('Erreur lors de l\'envoi du message', 'error');
+            if (authStore.authenticated && authStore.user) customer_id.value = authStore.user.customer_id;
+            const resp = await post('contact', { email: email.value, subject: subject.value, message: message.value, customer_id: JSON.stringify(customer_id.value) });
+            if (!resp) {
+                  notify('Erreur de connexion au serveur', 'error');
+            } else if (resp.status == 'error') {
+                  notify(resp.message, 'error');
             } else {
                   notify('Demande de contact envoyé !', 'success');
                   router.push('/');
