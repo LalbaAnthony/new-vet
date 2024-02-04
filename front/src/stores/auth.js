@@ -7,19 +7,27 @@ export const useAuthStore = defineStore('auth',
     persist: true,
     state: () => ({
       authenticated: false,
-      user: {},
+      customer: {},
       cart: {},
       showForgotPasswordModal: false,
       showResetPasswordModal: false,
     }),
 
     actions: {
+      logout(redirect = '/') {
+        this.authenticated = false
+        this.customer = {}
+        if (redirect) {
+          router.push(redirect)
+        }
+      },
+
       clearCart() {
         this.cart = {};
         notify('Panié vidé !', 'success');
       },
 
-      removFromCart2 (productSlug) {
+      removFromCart2(productSlug) {
         delete this.cart[productSlug];
         notify('Produit retiré du panier !', 'success');
       },

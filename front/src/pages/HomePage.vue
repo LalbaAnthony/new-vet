@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- TODO: Rework Carousel to handle CATEGORIES & PRODUCTS (refacto data before enter in carousel) -->
     <section>
       <Carousel title="Le meilleur de nos produits" :items="productStore.highlandersProducts.data" :autoplay="false" />
     </section>

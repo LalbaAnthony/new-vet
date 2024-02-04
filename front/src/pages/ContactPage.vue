@@ -61,7 +61,7 @@ async function sendForm() {
       if (error) {
             notify(error, 'error');
       } else {
-            if (authStore.authenticated && authStore.user) customer_id.value = authStore.user.customer_id;
+            if (authStore.authenticated && authStore.customer) customer_id.value = authStore.customer.customer_id;
             const resp = await post('contact', { email: email.value, subject: subject.value, message: message.value, customer_id: JSON.stringify(customer_id.value) });
             if (!resp) {
                   notify('Erreur de connexion au serveur', 'error');
