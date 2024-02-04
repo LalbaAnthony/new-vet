@@ -18,7 +18,7 @@ function getCategory($slug)
     return $category;
 }
 
-function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $exclude = array(), $include = array())
+function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
 {
     $dbh = db_connect();
 
@@ -42,6 +42,9 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
 
     // Filter by search
     if ($search) $sql .= " AND libelle LIKE :search";
+
+    // Filter by is_highlander
+    if ($is_highlander) $sql .= " AND is_highlander = 1";
 
     // $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";
@@ -119,7 +122,7 @@ function insertCategory($category)
 {
     $dbh = db_connect();
 
-    $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, is_quick_access, color) VALUES (:slug, :libelle, :image_path, :sort_order, :is_quick_access, :color)";
+    $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, is_quick_access, is_highlander, color) VALUES (:slug, :libelle, :image_path, :sort_order, :is_quick_access, :is_highlander, :color)";
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
     if (!$category['image_path']) $category['image_path'] = "/assets/others/default-img.webp";
@@ -130,7 +133,7 @@ function insertCategory($category)
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":color" => $category['color']));
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Category registered in back office: slug " . $category['slug']);
             return true;
@@ -146,11 +149,11 @@ function updateCategory($category)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE category SET libelle = :libelle, image_path = :image_path, sort_order = :sort_order, is_quick_access = :is_quick_access, color = :color WHERE slug = :slug";
+    $sql = "UPDATE category SET libelle = :libelle, image_path = :image_path, sort_order = :sort_order, is_quick_access = :is_quick_access, is_highlander = :is_highlander, color = :color WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":color" => $category['color']));
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Category updated in back office: slug " . $category['slug']);
             return true;

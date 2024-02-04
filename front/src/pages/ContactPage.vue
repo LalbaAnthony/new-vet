@@ -16,6 +16,12 @@
                         <label for="message" class="hidden">Message</label>
                         <textarea id="message" name="message" rows="6" placeholder="Message" v-model="message"></textarea>
                   </div>
+                  <div class="checkbox-group">
+                        <input type="checkbox" id="collectData" name="collectData" v-model="collectData" />
+                        <label for="collectData">En cochant cette case, j'accepte que mes données soient collectées et
+                              exploitées par NEW VET. Pour plus d'informations, consultez nos <router-link
+                                    to="/mentions-legales" class="link">mentions légales</router-link>.</label>
+                  </div>
 
                   <div class="form-actions">
                         <button class="button" @click="sendForm()">Envoyer</button>
@@ -37,11 +43,13 @@ const authStore = useAuthStore()
 const email = ref('');
 const subject = ref('');
 const message = ref('');
+const collectData = ref(false);
 const customer_id = ref(null);
 
 function valid() {
       // return false; // ? uncomment this line to enable form validation
       if (!email.value || !subject.value || !message.value) return "Veuillez remplir tous les champs";
+      if (!collectData.value && !authStore.authenticated) return "Veuillez accepter la collecte de données ou vous connecter";
       if (!isValidEmail(email.value)) return "Veuillez entrer une adresse e-mail valide";
       if (subject.value.length < 3) return "Le sujet doit contenir au moins 3 caractères";
       if (message.value.length < 10) return "Le message doit contenir au moins 10 caractères";
@@ -135,6 +143,11 @@ onMounted(() => {
       gap: 0.25rem;
 }
 
+.contact-form .checkbox-group {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+}
 
 .contact-form .form-actions {
       display: flex;

@@ -15,6 +15,10 @@ export const useCategoryStore = defineStore('category', {
       loading: false,
       data: [],
     },
+    highlandersCategories: {
+      loading: false,
+      data: [],
+    },
   }),
 
   actions: {
@@ -42,6 +46,19 @@ export const useCategoryStore = defineStore('category', {
 
       // Loading
       this.quickAccessCategories.loading = false
+    },
+
+    async fetchHighlandersCategories() {
+      // Loading
+      this.highlandersCategories.loading = true
+
+      // Data
+      this.highlandersCategories.data = []
+
+      this.highlandersCategories.data = await get('categories', { is_highlander: true });
+
+      // Loading
+      this.highlandersCategories.loading = false
     },
 
     async fetchCategory(slug) {

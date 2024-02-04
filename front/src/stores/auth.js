@@ -6,10 +6,8 @@ export const useAuthStore = defineStore('auth',
   {
     persist: true,
     state: () => ({
-      authenticated: true,
-      user: {
-        customer_id: 1,
-      },
+      authenticated: false,
+      user: {},
       cart: {},
       showForgotPasswordModal: false,
       showResetPasswordModal: false,

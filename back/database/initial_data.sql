@@ -17,10 +17,10 @@ DELETE FROM admin;
 INSERT INTO material (slug, libelle, color) VALUES 
 ('cuire', 'Cuire', '#227553');
 
-INSERT INTO category (slug, libelle, image_path, sort_order, color) VALUES 
-('vetements', 'Vêtements', 'uploads/categories/vetements.webp', 1, '#32a852'),
-('chaussures', 'Chaussures', 'uploads/categories/chaussures.webp', 2, '#7ba832'),
-('accessoires', 'Accessoires', 'uploads/categories/accessoires.webp', 3, '#7c2d96');
+INSERT INTO category (slug, libelle, image_path, is_highlander, sort_order, color) VALUES 
+('vetements', 'Vêtements', 'uploads/categories/vetements.webp', 1, 1, '#32a852'),
+('chaussures', 'Chaussures', 'uploads/categories/chaussures.webp', 1, 2, '#7ba832'),
+('accessoires', 'Accessoires', 'uploads/categories/accessoires.webp', 0, 3, '#7c2d96');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),

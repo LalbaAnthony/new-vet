@@ -78,7 +78,7 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
     // Filter by search (search in name, description, price, category libelle and material libelle)
     if ($search) $sql .= " AND (name LIKE :search OR description LIKE :search OR price LIKE :search OR category.libelle LIKE :search OR material.libelle LIKE :search)";
 
-    if ($is_highlander) $sql .= " AND is_highlander = 1";
+    if ($is_highlander) $sql .= " AND product.is_highlander = 1";
 
     $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";

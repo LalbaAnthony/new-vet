@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2 class="page-title">Les catégories de produit</h2>
-    <SortFilter />
     <Loader v-if="categoryStore.categories.data.loading" />
     <div v-else>
       <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0" class="categories-grid">

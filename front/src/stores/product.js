@@ -16,7 +16,7 @@ export const useProductStore = defineStore('product', {
     },
     moreProducts: {
       loading: false,
-      data: [],
+      data: {},
     },
     highlandersProducts: {
       loading: false,
@@ -80,14 +80,14 @@ export const useProductStore = defineStore('product', {
       this.highlandersProducts.loading = false
     },
 
-    async fetchMoreProducts(categorySlug = '') {
+    async fetchMoreProducts(categorySlug) {
       // Loading
       this.moreProducts.loading = true
 
       // Data
-      this.moreProducts.data = []
+      this.moreProducts.data[categorySlug] = []
 
-      this.moreProducts.data = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.data.slug] });
+      this.moreProducts.data[categorySlug] = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.data.slug] });
 
       // Loading
       this.moreProducts.loading = false

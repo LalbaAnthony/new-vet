@@ -47,6 +47,7 @@ CREATE TABLE category(
         slug VARCHAR (50) NOT NULL UNIQUE,
         libelle VARCHAR (50) NOT NULL,
         image_path VARCHAR (250) UNIQUE,
+        is_highlander BOOLEAN NOT NULL DEFAULT 0,
         sort_order INT,
         color VARCHAR (7) NOT NULL UNIQUE DEFAULT '#000000',
         is_quick_access BOOLEAN NOT NULL DEFAULT 0,

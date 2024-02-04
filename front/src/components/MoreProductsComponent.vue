@@ -1,12 +1,12 @@
 <template>
-  <section v-if="productStore.moreProducts.data && productStore.moreProducts.data.length > 0" class="more-products">
+  <div v-if="productStore.moreProducts.data[category] && productStore.moreProducts.data[category].length > 0" class="more-products">
     <h3 class="section-title">{{ props.title }}</h3>
     <div>
       <div class="products-grid">
-        <Product v-for="product in productStore.moreProducts.data" :key="product.slug" :product="product" />
+        <Product v-for="product in productStore.moreProducts.data[category]" :key="product.slug" :product="product" />
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script setup>
