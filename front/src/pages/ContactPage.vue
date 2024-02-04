@@ -29,12 +29,19 @@ import { ref, onMounted } from "vue";
 import { notify } from '@/helpers/notif.js'
 import { isValidEmail } from '@/helpers/helpers.js'
 import router from "@/router";
+import { post } from '@/helpers/api';
+import { useAuthStore } from '@/stores/auth'
 
-const email = ref('zez');
+const authStore = useAuthStore()
+
+const email = ref('');
 const subject = ref('');
 const message = ref('');
+const customer_id = ref(null);
 
-function formError() {
+
+function valid() {
+      // return false; // ? uncomment this line to enable form validation
       if (!email.value || !subject.value || !message.value) return "Veuillez remplir tous les champs";
       if (!isValidEmail(email.value)) return "Veuillez entrer une adresse e-mail valide";
       if (subject.value.length < 3) return "Le sujet doit contenir au moins 3 caractères";
@@ -42,14 +49,19 @@ function formError() {
       return false;
 }
 
-function sendForm() {
-      const error = formError();
+async function sendForm() {
+      const error = valid();
       if (error) {
             notify(error, 'error');
       } else {
-            // ... send the form
-            notify('Demande de contact envoyé !', 'success');
-            router.push('/');
+            if (authStore.authenticated) customer_id.value = authStore.user.id;
+            const resp = await post('contact', { email: email.value, subject: subject.value, message: message.value, customer_id: customer_id });
+            if (resp.error) {
+                  notify('Erreur lors de l\'envoi du message', 'error');
+            } else {
+                  notify('Demande de contact envoyé !', 'success');
+                  router.push('/');
+            }
       }
 }
 
@@ -107,6 +119,7 @@ onMounted(() => {
       flex-direction: column;
       gap: 1rem;
       max-width: 500px;
+      min-height: 50vh;
       margin: 0 auto;
 }
 
@@ -140,6 +153,7 @@ label.hidden {
 
 ::placeholder {
       color: var(--dark);
+      font-weight: 600;
       opacity: 1 !important;
 }
 </style>

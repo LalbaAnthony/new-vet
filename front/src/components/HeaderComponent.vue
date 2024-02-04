@@ -205,7 +205,7 @@ ul.header-action-btn>* {
 .header-pages>* {
   color: var(--light);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   animation-duration: 0.3s;
   transition: all 0.3s;
 }
