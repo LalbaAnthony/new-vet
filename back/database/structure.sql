@@ -228,7 +228,7 @@ CREATE TABLE order_product(
 #------------------------------------------------------------
 CREATE TABLE contact(
         contact_id INT AUTO_INCREMENT NOT NULL UNIQUE,
-        customer_id INT NOT NULL,
+        customer_id INT,
         email VARCHAR (50) NOT NULL,
         subject VARCHAR (50) NOT NULL,
         message VARCHAR (1000) NOT NULL,

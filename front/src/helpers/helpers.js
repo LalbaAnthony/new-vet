@@ -49,3 +49,7 @@ export function randSearchPlaceholder() {
     ];
     return placeholders[Math.floor(Math.random() * placeholders.length)]
 }
+
+export function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}

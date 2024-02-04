@@ -176,9 +176,32 @@ input[type="search"] {
     font-family: "Ubuntu", "Roboto", sans-serif;
 }
 
+/* Input qui ne sont pas des search */
+input:not([type="search"]),
+textarea {
+    border: none;
+    border-radius: 15px;
+    border: 2px solid var(--dark);
+    font-size: 1rem;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    font-family: "Ubuntu", "Roboto", sans-serif;
+
+}
+
 input:focus,
 textarea:focus {
     outline: none !important;
+}
+
+textarea {
+    resize: none;
+}
+
+::placeholder {
+    color: var(--dark);
+    opacity: 0.7;
 }
 
 select {
@@ -229,6 +252,7 @@ select:focus {
     border-color: var(--secondary);
     outline: 0;
 }
+
 
 .icon-offset {
     position: relative;

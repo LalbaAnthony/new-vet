@@ -5,7 +5,6 @@
   --light: #ffffff;
   --dark: #363636;
   --success: #3caf57;
-  --success-dark: #349e59;
   --warning: #cf4a02;
   --danger: #cf0d0d;
 
@@ -32,7 +31,8 @@
 .Vue-Toastification__toast {
   /* background-color: var(--secondary) !important; */
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2) !important;
-  border: solid 2px var(--success-dark) !important;
+  /* border: solid 2px var(--light) !important; */
+  border: solid 2px transparent !important;
   border-radius: 25px !important;
 }
 

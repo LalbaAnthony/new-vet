@@ -54,5 +54,11 @@ const props = defineProps({
 .category-item-libelle {
   position: absolute;
   transform: translate(0%, -100%);
+  transition: all 0.3s ease;
 }
+
+.category-item:hover .category-item-libelle {
+  transform: translate(10%, -100%);
+}
+
 </style>
