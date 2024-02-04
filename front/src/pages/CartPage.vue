@@ -4,9 +4,12 @@
     <Loader v-if="productStore.cartProducts.loading" />
     <div v-else>
       <div v-if="productStore.cartProducts.data && productStore.cartProducts.data.length > 0">
-        <div class="cart-actions">
-          <button class="button" @click="router.push(`/paiment`)">Acheter</button>
-          <button @click="authStore.clearCart()" class="button danger">Vider</button>
+        <div class="cart-infos">
+          <span class="cart-total-price">Total: {{ productStore.cartProductsTotalPrice }} €</span>
+          <div class="cart-actions">
+            <button class="button" @click="router.push(`/paiment`)">Acheter</button>
+            <button @click="authStore.clearCart()" class="button danger">Vider</button>
+          </div>
         </div>
         <div class="products-grid">
           <CartItem v-for="product in productStore.cartProducts.data" :key="product.slug" :product="product"
@@ -38,10 +41,24 @@ if (authStore.cart) productStore.fetchCartProducts()
 </script>
 
 <style scoped>
+.cart-infos {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.cart-infos .cart-total-price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--dark);
+}
+
 .cart-actions {
   display: flex;
   justify-content: end;
-  margin-bottom: 2rem;
+  align-items: center;
   gap: 0.5rem;
 }
 

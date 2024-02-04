@@ -107,4 +107,11 @@ export const useProductStore = defineStore('product', {
       this.cartProducts.loading = false
     }
   },
+  getters: {
+    cartProductsTotalPrice() {
+      return this.cartProducts.data.reduce((acc, curr) => {
+        return acc + (curr.price * authStore.cart[curr.slug]);
+      }, 0);
+    }
+  }
 })

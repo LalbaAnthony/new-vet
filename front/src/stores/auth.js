@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth',
       },
       cartTotal() {
         return Object.values(this.cart).reduce((acc, curr) => acc + curr, 0);
-      }
+      },
     }
   },
 )
