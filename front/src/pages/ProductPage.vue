@@ -4,7 +4,7 @@
     <Loader v-if="productStore.product.loading" />
     <div v-else class="product">
       <div class="product-images">
-        IMAGE IMAGE IMAGE IMAGE
+        <ProductsImages :images="productStore.product.data.images" :alt="productStore.product.data.name" />
       </div>
       <div class="product-details">
         <div v-if="productStore.product.data.categories && productStore.product.data.categories.length > 0">
@@ -54,10 +54,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import Loader from '@/components/LoaderComponent.vue'
 import Stock from '@/components/StockComponent.vue'
 import Pill from '@/components/PillComponent.vue'
+import ProductsImages from '@/components/ProductsImagesComponent.vue'
 import MoreProducts from '@/components/MoreProductsComponent.vue'
 import { useProductStore } from '@/stores/product'
 import { useAuthStore } from '@/stores/auth'
@@ -70,6 +71,10 @@ const authStore = useAuthStore()
 productStore.fetchProduct(route.params.slug)
 
 const qty = ref(1)
+
+watch(() => route.params.slug, (slug) => {
+  productStore.fetchProduct(slug)
+})
 
 </script>
 
@@ -101,11 +106,16 @@ const qty = ref(1)
     flex-direction: column;
     gap: 2rem;
   }
+
+  .product-images {
+    margin-bottom: 2rem;
+  }
 }
 
 .product-images {
-  background-color: red;
-  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  max-block-size: 300px;
 }
 
 .product-details {

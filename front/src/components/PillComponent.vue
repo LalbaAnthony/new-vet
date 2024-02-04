@@ -44,6 +44,16 @@ div.pill-body {
   margin: 0.5rem;
 }
 
+div.pill-body.hover-effect:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: all 0.3s;
+}
+
+span.pill-text {
+  font-weight: 500;
+}
+
 div.pill-body.light {
   background-color: var(--light);
 }
@@ -51,10 +61,6 @@ div.pill-body.light {
 div.pill-body.gradient {
   background: var(--secondary);
   background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-}
-
-span.pill-text {
-  font-weight: 500;
 }
 
 span.pill-text.gradient {
@@ -67,11 +73,5 @@ span.pill-text.light {
   background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
   -webkit-background-clip: text;
   color: transparent;
-}
-
-div.pill-body.hover-effect:hover {
-  cursor: pointer;
-  transform: scale(1.05);
-  transition: all 0.3s;
 }
 </style>

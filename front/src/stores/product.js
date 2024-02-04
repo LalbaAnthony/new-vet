@@ -80,14 +80,14 @@ export const useProductStore = defineStore('product', {
       this.highlandersProducts.loading = false
     },
 
-    async fetchMoreProducts(categorySlug) {
+    async fetchMoreProducts(categorySlug = '') {
       // Loading
       this.moreProducts.loading = true
 
       // Data
       this.moreProducts.data = []
 
-      this.moreProducts.data = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.id] });
+      this.moreProducts.data = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.data.slug] });
 
       // Loading
       this.moreProducts.loading = false

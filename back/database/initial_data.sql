@@ -67,6 +67,8 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 INSERT INTO image (product_slug, image_path, sort_order) VALUES 
 ('robe-elegante', 'uploads/products/robe-elegante-1.jpg', 1),
 ('robe-elegante', 'uploads/products/robe-elegante-2.jpg', 2),
+('robe-elegante', 'uploads/products/robe-elegante-3.jpg', 3),
+('robe-elegante', 'uploads/products/robe-elegante-4.jpg', 4),
 ('escarpins-classiques', 'uploads/products/escarpins-classiques-1.jpg', 1),
 ('escarpins-classiques', 'uploads/products/escarpins-classiques-2.jpg', 2),
 ('sac-a-main-chic', 'uploads/products/sac-a-main-chic-1.jpg', 1),

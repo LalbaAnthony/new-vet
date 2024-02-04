@@ -53,6 +53,6 @@ const props = defineProps({
 
 .category-item-libelle {
   position: absolute;
-  transform: translate(0%, -175%);
+  transform: translate(0%, -100%);
 }
 </style>

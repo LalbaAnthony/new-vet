@@ -31,6 +31,7 @@ export function imageExists(url) {
     var img = new Image();
     img.src = url;
     return img.height != 0;
+    // return true;
 }
 
 export function randSearchPlaceholder() {
