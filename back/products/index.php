@@ -187,7 +187,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                 selected_products.push(checkbox.value);
             }
         }
-        console.log(selected_products);
         if (selected_products.length > 0) {
             if (confirm("Voulez-vous vraiment supprimer les éléments sélectionnés ?")) {
                 window.location.href = "<?= $_SERVER['PHP_SELF'] ?>?delete&selected_products=" + selected_products.join(",");

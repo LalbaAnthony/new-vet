@@ -3,9 +3,10 @@
     <h3 class="section-title">{{ props.title }}</h3>
     <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="props.autoplay ? 3000 : 0"
       :loop="props.autoplay ? true : false" :transition="500">
+
       <slide v-for="item in props.items" :key="item.id" @click.stop="router.push(item.link)">
         <img
-          :src="item?.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + item.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${item.images[0].image_path}` : '/helpers/no-img-available.webp'"
+          :src="item?.image_path && imageExists(URL_BACKEND_UPLOAD + item.image_path) ? `${URL_BACKEND_UPLOAD}${item.image_path}` : '/helpers/no-img-available.webp'"
           :alt="`Image ${item.name || item.libelle}`" class="carousel-img" />
       </slide>
       <template #addons>

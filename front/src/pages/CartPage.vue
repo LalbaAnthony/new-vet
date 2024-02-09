@@ -7,7 +7,7 @@
         <div class="cart-infos">
           <span class="cart-total-price">Total: {{ roundNb(productStore.cartProductsTotalPrice) }} €</span>
           <div class="cart-actions">
-            <button class="button" @click="router.push(`/paiment`)">Acheter</button>
+            <button class="button" @click="router.push('/paiment')">Acheter</button>
             <button @click="authStore.clearCart()" class="button danger">Vider</button>
           </div>
         </div>

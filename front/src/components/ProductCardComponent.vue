@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/produits/${props.product.slug}`">
+  <router-link :to="`/produit/${props.product.slug}`">
     <div class="product">
       <img
         :src="props.product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].image_path}` : '/helpers/no-img-available.webp'"

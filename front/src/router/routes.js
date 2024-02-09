@@ -42,7 +42,7 @@ const routes = [
     meta: { title: 'Produits' },
   },
   {
-    path: '/produits/:slug',
+    path: '/produit/:slug',
     name: 'product',
     component: () => import('../pages/ProductPage.vue'),
     meta: { title: 'Produit' },
