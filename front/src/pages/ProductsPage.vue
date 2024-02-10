@@ -2,7 +2,7 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <SortFilter />
-        <Loader v-if="productStore.products.data.loading" />
+        <Loader v-if="productStore.products.loading" />
         <div v-else>
             <div v-if="productStore.products.data && productStore.products.data.length > 0" class="products-grid">
                 <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
@@ -18,10 +18,28 @@ import Product from '@/components/ProductCardComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'
+import { useRoute } from 'vue-router'
+import { watch } from 'vue'
 
+const route = useRoute()
 const productStore = useProductStore()
 
-productStore.fetchProducts();
+// Fetch products on component mount
+productStore.fetchProducts()
+
+// Fetch products when route query changes
+watch(() => route.query, (query) => {
+    productStore.fetchProducts({
+        categories: [query.categories || null],
+        sort: query.sort ? [{
+            order_by: query.sort?.split('-')[0] || null,
+            order: query.sort?.split('-')[1] || null
+        }] : [
+            { order: 'ASC', order_by: 'sort_order' },
+            { order: 'DESC', order_by: 'stock_quantity' }
+        ]
+    })
+})
 
 </script>
 

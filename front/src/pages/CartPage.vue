@@ -8,12 +8,12 @@
           <span class="cart-total-price">Total: {{ roundNb(productStore.cartProductsTotalPrice) }} €</span>
           <div class="cart-actions">
             <button class="button" @click="router.push('/paiment')">Acheter</button>
-            <button @click="authStore.clearCart()" class="button danger">Vider</button>
+            <button @click="authStore.clearCart();reloadProductStoreCart()" class="button danger">Vider</button>
           </div>
         </div>
         <div class="products-grid">
           <CartItem v-for="product in productStore.cartProducts.data" :key="product.slug" :product="product"
-            @reload-cart="productStore.fetchCartProducts()" />
+            @reload-cart="reloadProductStoreCart()" />
         </div>
         <MoreProducts
           v-if="productStore.cartProducts.data[0].categories && productStore.cartProducts.data[0].categories.length > 0"
@@ -37,7 +37,11 @@ import { roundNb } from '@/helpers/helpers.js'
 const authStore = useAuthStore()
 const productStore = useProductStore()
 
-if (authStore.cart) productStore.fetchCartProducts()
+if (authStore.cart) reloadProductStoreCart()
+
+function reloadProductStoreCart() {
+  productStore.fetchCartProducts()
+}
 
 </script>
 

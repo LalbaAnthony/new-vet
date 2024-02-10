@@ -6,7 +6,7 @@
         :alt="`Image de ${props.product.name}`" />
       <div>
         <div class="product-categories">
-          <Pill v-for="cat in props.product.categories" :key="cat.slug" :text="cat.libelle" :link="`categories/${cat.slug}`" />
+          <Pill v-for="cat in props.product.categories" :key="cat.slug" :text="cat.libelle" :link="`/produits?categories=${cat.slug}`" />
         </div>
         <h3 class="product-name">{{ props.product.name }}</h3>
         <p class="product-description">{{ threeDotString(props.product.description) }}</p>

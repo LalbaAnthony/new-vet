@@ -21,15 +21,10 @@ export const useAuthStore = defineStore('auth',
           router.push(redirect)
         }
       },
-
+      
       clearCart() {
         this.cart = {};
         notify('Panié vidé !', 'success');
-      },
-
-      removFromCart2(productSlug) {
-        delete this.cart[productSlug];
-        notify('Produit retiré du panier !', 'success');
       },
 
       removeFromCart(productSlug) {

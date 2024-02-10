@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="page-title">Les catégories de produit</h2>
-    <Loader v-if="categoryStore.categories.data.loading" />
+    <Loader v-if="categoryStore.categories.loading" />
     <div v-else>
       <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0" class="categories-grid">
         <CategoryItem v-for="category in categoryStore.categories.data" :key="category.slug" :category="category" />

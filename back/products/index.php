@@ -47,8 +47,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     <meta name="description" content="Site de vente de vêtement pour femme." />
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
     <title>Lise des produits - NEW VET</title>
-    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>style/main.css" rel="stylesheet">
 </head>
 
 <body>

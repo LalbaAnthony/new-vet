@@ -13,8 +13,8 @@ include_once "config.inc.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Accueil - NEW VET</title>
-    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>style/main.css" rel="stylesheet">
 </head>
 
 <body>
