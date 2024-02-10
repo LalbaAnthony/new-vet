@@ -41,8 +41,14 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
     }
 
     // Filter by search
-    if ($search) $sql .= " AND libelle LIKE :search";
-
+    if ($search) {
+        $sql .= " AND (
+        libelle LIKE :search OR
+        slug LIKE :search OR
+        SOUNDEX(libelle) = SOUNDEX(:search) OR
+        SOUNDEX(slug) = SOUNDEX(:search)
+        )";
+    }
     // Filter by is_highlander
     if ($is_highlander) $sql .= " AND is_highlander = 1";
 

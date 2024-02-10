@@ -31,7 +31,14 @@ function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', 
     $sql .= " AND is_deleted = 0";
 
     // Filter by search
-    if ($search) $sql .= " AND libelle LIKE :search";
+    if ($search) {
+        $sql .= " AND (
+        libelle LIKE :search OR
+        slug LIKE :search OR
+        SOUNDEX(libelle) = SOUNDEX(:search) OR
+        SOUNDEX(slug) = SOUNDEX(:search)
+        )";
+    }
 
     $sql .= " ORDER BY $order_by $order";
     if ($per_page) $sql .= " LIMIT :per_page";

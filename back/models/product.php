@@ -75,8 +75,24 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
         $sql .= ")";
     }
 
-    // Filter by search (search in name, description, price, category libelle and material libelle)
-    if ($search) $sql .= " AND (name LIKE :search OR description LIKE :search OR price LIKE :search OR category.libelle LIKE :search OR material.libelle LIKE :search)";
+    // Filter by search
+    if ($search) {
+        $sql .= " AND (
+        product.slug LIKE :search OR 
+        product.name LIKE :search OR
+        product.description LIKE :search OR
+        product.price LIKE :search OR
+        category.slug LIKE :search OR
+        material.slug LIKE :search OR
+        category.libelle LIKE :search OR
+        material.libelle LIKE :search OR
+        SOUNDEX(product.name) = SOUNDEX(:search) OR
+        SOUNDEX(product.description) = SOUNDEX(:search) OR
+        SOUNDEX(product.price) = SOUNDEX(:search) OR
+        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
+        SOUNDEX(material.libelle) = SOUNDEX(:search)
+    )";
+    }
 
     if ($is_highlander) $sql .= " AND product.is_highlander = 1";
 
