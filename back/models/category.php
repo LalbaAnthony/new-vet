@@ -10,7 +10,6 @@ function getCategory($slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));
         $category = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read category: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -81,7 +80,6 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
         $sth->execute();
 
         $categories = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read categories");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -100,7 +98,6 @@ function getCategoriesFromProduct($product_slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         $categories = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read categories from product $product_slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -116,7 +113,6 @@ function getCategoriesQuickAccess()
         $sth = $dbh->prepare($sql);
         $sth->execute();
         $categories = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read categories quick access");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

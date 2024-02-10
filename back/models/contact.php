@@ -10,7 +10,6 @@ function getContact($id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":id" => $id));
         $contact = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read contact: id $id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -32,7 +31,6 @@ function getContacts()
         $sth = $dbh->prepare($sql);
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read contacts");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

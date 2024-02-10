@@ -8,7 +8,6 @@ function getImage($image_id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":image_id" => $image_id));
         $image = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read image: slug $image_id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -24,7 +23,6 @@ function getImages()
         $sth = $dbh->prepare($sql);
         $sth->execute();
         $images = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read images");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -40,7 +38,6 @@ function getImagesFromProduct($product_slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         $images = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read images of product: slug $product_slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -56,7 +53,6 @@ function getFirstImagePathFromProduct($product_slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         $image = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read first image of product: slug $product_slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

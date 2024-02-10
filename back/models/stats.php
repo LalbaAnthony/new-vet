@@ -27,7 +27,6 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
         $sth->execute();
 
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read order count by categories");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -59,7 +58,6 @@ function getSalesByDay($date_start = null, $date_end = null)
         $sth->execute();
 
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read sales by day");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

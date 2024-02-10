@@ -8,7 +8,6 @@ function getAdmin($login)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":login" => $login));
         $admin = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read admin: login $login");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -33,7 +32,6 @@ function getAdmins($order_by = 'login', $order = 'ASC')
         $sth->execute();
 
         $admins = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read admins");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

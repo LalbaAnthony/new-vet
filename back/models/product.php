@@ -10,7 +10,6 @@ function getProduct($slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));
         $product = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read product: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -139,7 +138,6 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
         $sth->execute();
 
         $products = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read products");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

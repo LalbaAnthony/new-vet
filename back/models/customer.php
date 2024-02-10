@@ -10,7 +10,6 @@ function getCustomer($customer_id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":customer_id" => $customer_id));
         $customer = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read customer: customer_id $customer_id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -28,7 +27,6 @@ function getCustomers()
         $sth = $dbh->prepare($sql);
         $sth->execute();
         $customers = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read customers");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

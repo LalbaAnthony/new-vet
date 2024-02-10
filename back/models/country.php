@@ -8,7 +8,6 @@ function getCountry($country_id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":country_id" => $country_id));
         $country = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read country: slug $country_id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -33,7 +32,6 @@ function getCountries($order_by = 'name', $order = 'ASC')
         $sth->execute();
 
         $countries = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read countries");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

@@ -10,7 +10,6 @@ function getMaterial($slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));
         $material = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read material: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -55,7 +54,6 @@ function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', 
         $sth->execute();
 
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read materials");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -73,7 +71,6 @@ function getMaterialsFromProduct($product_slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read materials");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
