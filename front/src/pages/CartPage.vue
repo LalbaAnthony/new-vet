@@ -19,7 +19,7 @@
           v-if="productStore.cartProducts.data[0].categories && productStore.cartProducts.data[0].categories.length > 0"
           :category="productStore.cartProducts.data[0].categories[0].slug" title="En rapport avec votre panier" />
       </div>
-      <NoItem v-else />
+      <NoItem :back="true" v-else />
     </div>
   </div>
 </template>

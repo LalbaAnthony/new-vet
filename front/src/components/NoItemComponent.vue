@@ -1,6 +1,7 @@
 <template>
   <div class="main-center">
     <span class="message-no-item"><span class="gradient bold">Aucun</span> {{ props.what }} disponible.</span>
+    <button v-if="props.back" class="button" @click="$router.go(-1)">Retour</button>
   </div>
 </template>
 
@@ -12,6 +13,11 @@ const props = defineProps({
     default: 'élément',
     required: false,
   },
+  back: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 })
 </script>
 
@@ -21,6 +27,8 @@ const props = defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 span.message-no-item {

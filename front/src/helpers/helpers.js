@@ -55,5 +55,5 @@ export function isValidEmail(email) {
 }
 
 export function roundNb(nb, precision = 2) {
-    return Number(nb.toFixed(precision));
+    return nb.toFixed(precision);
 }
