@@ -15,7 +15,7 @@ function getAdmin($login)
     return $admin;
 }
 
-function getAdmins($order_by = 'login', $order = 'ASC')
+function getAdmins()
 {
     $dbh = db_connect();
 
@@ -23,8 +23,7 @@ function getAdmins($order_by = 'login', $order = 'ASC')
     $sql = "SELECT * FROM admin";
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY $order_by $order";
-
+    $sql .= " ORDER BY created_at DESC";
 
     try {
         $sth = $dbh->prepare($sql);

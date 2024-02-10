@@ -1,8 +1,6 @@
 
 <?php
 
-// ? exemple d'url: http://localhost/projects/new-vet/back/api/products.php?order_by=slug&order=ASC&search=sac
-
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/product.php';
 include_once APP_PATH . '/models/image.php';
@@ -13,8 +11,7 @@ $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $categories = isset($_GET['categories']) ? $_GET['categories'] : array();
 $material = isset($_GET['material']) ? $_GET['material'] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'sort_order';
-$order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
@@ -34,7 +31,7 @@ if ($slug) { // Si on a un slug, on recupere un produit
         array_push($products, $product);
     }
 } else { // Sinon on recupere tous les produits, selon les parametres
-    $products = getProducts($categories, $material, $search, $order_by, $order, $offset, $per_page, $is_highlander, $exclude, $include);
+    $products = getProducts($categories, $material, $search, $sort, $offset, $per_page, $is_highlander, $exclude, $include);
 }
 
 // Si il y a des produits, on recupere les images et la categorie associée

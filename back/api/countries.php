@@ -1,8 +1,6 @@
 
 <?php
 
-// ? exemple d'url: http://localhost/projects/new-vet/back/api/countries.php?order=DESC
-
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/country.php';
 

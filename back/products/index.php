@@ -14,15 +14,16 @@ $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
 $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-// Comput new order 
+// Comput new order and sort
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
+$sort = array(array('order' => $order, 'order_by' => $order_by));
 
 // Comput offset & per_page
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
 
 // Fetch products with sorting
-$products = getProducts(null, null, $search, $order_by, $order, $offset, $per_page);
+$products = getProducts(null, null, $search, $sort, $offset, $per_page);
 
 // Bottom action: delete selected products, ...
 if (isset($_GET['delete']) && isset($_GET['selected_products'])) {

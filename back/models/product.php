@@ -17,7 +17,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
+function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity')), $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
 {
 
     $dbh = db_connect();
@@ -95,7 +95,16 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
 
     if ($is_highlander) $sql .= " AND product.is_highlander = 1";
 
-    $sql .= " ORDER BY $order_by $order";
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(product." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }    
+
+    // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
@@ -103,14 +112,14 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
         $sth = $dbh->prepare($sql);
 
         // Bind values for exclude (loop through the array of slugs to exclude)
-        if ($exclude) {
+        if (count($exclude) > 0 && count($include) == 0) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
             }
         }
 
         // Bind values for include (loop through the array of slugs to include)
-        if ($include) {
+        if (count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }

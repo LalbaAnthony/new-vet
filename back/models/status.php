@@ -15,7 +15,7 @@ function getStatus($status_id)
     return $status;
 }
 
-function getStatuses($order_by = 'sort_order', $order = 'ASC')
+function getStatuses()
 {
     $dbh = db_connect();
 
@@ -24,7 +24,7 @@ function getStatuses($order_by = 'sort_order', $order = 'ASC')
 
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY $order_by $order";
+    $sql .= " ORDER BY sort_order ASC";
 
     try {
         $sth = $dbh->prepare($sql);

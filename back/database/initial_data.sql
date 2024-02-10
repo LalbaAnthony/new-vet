@@ -15,12 +15,33 @@ DELETE FROM product_material;
 DELETE FROM admin;
 
 INSERT INTO material (slug, libelle, color) VALUES 
-('cuire', 'Cuire', '#227553');
+('cuire', 'Cuire', '#c31e1e'),
+('coton', 'Coton', '#187dab'),
+('laine', 'Laine', '#6b4522'),
+('soie', 'Soie', '#ad6b95'),
+('denim', 'Denim', '#2b4f6d'),
+('polyester', 'Polyester', '#836bb0'),
+('elasthane', 'Elasthane', '#b04782'),
+('lurex', 'Lurex', '#b09833'),
+('viscose', 'Viscose', '#8b9937'),
+('nylon', 'Nylon', '#375b99'),
+('lacet', 'Lacet', '#b05b2d'),
+('lin', 'Lin', '#637c46');
 
 INSERT INTO category (slug, libelle, image_path, is_highlander, sort_order, color) VALUES 
 ('vetements', 'Vêtements', 'categories/vetements.webp', 1, 1, '#32a852'),
 ('chaussures', 'Chaussures', 'categories/chaussures.webp', 1, 2, '#7ba832'),
-('accessoires', 'Accessoires', 'categories/accessoires.webp', 0, 3, '#7c2d96');
+('accessoires', 'Accessoires', 'categories/accessoires.webp', 0, 3, '#7c2d96'),
+('pantalons', 'Pantalons', 'categories/pantalons.webp', 0, 4, '#2d7c96'),
+('jupes', 'Jupes', 'categories/jupes.webp', 0, 5, '#96322d'),
+('robes', 'Robes', 'categories/robes.webp', 0, 6, '#99832d'),
+('manteaux', 'Manteaux', 'categories/manteaux.webp', 0, 7, '#322d96'),
+('chemisiers', 'Chemisiers', 'categories/chemisiers.webp', 0, 8, '#56854c'),
+('pulls', 'Pulls', 'categories/pulls.webp', 0, 9, '#7c9632'),
+('vestes', 'Vestes', 'categories/vestes.webp', 0, 10, '#32963d'),
+('sacs', 'Sacs', 'categories/sacs.webp', 0, 11, '#96327b'),
+('ceintures', 'Ceintures', 'categories/ceintures.webp', 0, 12, '#2d9696'),
+('bijoux', 'Bijoux', 'categories/bijoux.webp', 0, 13, '#96327c');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
@@ -39,7 +60,6 @@ INSERT INTO product (slug, name, description, is_highlander, price, stock_quanti
 ('ceinture-elegante', 'Ceinture élégante', 'Ceinture pour mettre en valeur votre taille', 0, 19.99, 15),
 ('casquette-tendance', 'Casquette tendance', 'Casquette stylée pour compléter votre look décontracté', 0, 14.99, 25),
 ('veste-en-cuir', 'Veste en cuir', 'Veste élégante pour une allure moderne', 0, 89.99, 10);
-
 
 INSERT INTO product_material (product_slug, material_slug) VALUES 
 ('sac-a-main-chic', 'cuire'),
@@ -62,7 +82,8 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 ('chaussettes-colorées', 'accessoires'),
 ('ceinture-elegante', 'accessoires'),
 ('casquette-tendance', 'accessoires'),
-('veste-en-cuir', 'vetements');
+('veste-en-cuir', 'vetements'),
+('veste-en-cuir', 'manteaux');
 
 INSERT INTO image (product_slug, image_path, sort_order) VALUES 
 ('robe-elegante', 'products/robe-elegante-1.jpg', 1),

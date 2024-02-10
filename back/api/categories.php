@@ -1,15 +1,12 @@
 
 <?php
 
-// ? exemple d'url: http://localhost/projects/new-vet/back/api/categories.php
-
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/category.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'sort_order';
-$order = isset($_GET['order']) ? $_GET['order'] : 'ASC';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
@@ -30,7 +27,7 @@ if ($slug) { // Si on a un slug, on recupere un produit
 } else if ($is_quick_access) { // Si on veut celle en accès rapide
     $categories = getCategoriesQuickAccess();
 } else { // Sinon on recupere tous les produits, selon les parametres
-    $categories = getCategories($search, $order_by, $order, $offset, $per_page, $is_highlander, $exclude, $include);
+    $categories = getCategories($search, $sort, $offset, $per_page, $is_highlander, $exclude, $include);
 }
 
 // Return  JSON

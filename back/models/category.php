@@ -17,7 +17,7 @@ function getCategory($slug)
     return $category;
 }
 
-function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
+function getCategories($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order')), $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
 {
     $dbh = db_connect();
 
@@ -48,30 +48,40 @@ function getCategories($search = null, $order_by = 'sort_order', $order = 'ASC',
         SOUNDEX(slug) = SOUNDEX(:search)
         )";
     }
+
     // Filter by is_highlander
     if ($is_highlander) $sql .= " AND is_highlander = 1";
 
-    // $sql .= " ORDER BY $order_by $order";
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(" . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }
+
+    // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
-
+    
     try {
         $sth = $dbh->prepare($sql);
-
+        
         // Bind values for exclude
-        if ($exclude && !$include) {
+        if (count($exclude) > 0 && count($include) == 0) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
             }
         }
-
+        
         // Bind values for include
-        if ($include && !$exclude) {
+        if (count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }
         }
-
+        
         // Bind values
         if ($search) $sth->bindValue(":search", "%$search%");
         if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
@@ -128,10 +138,6 @@ function insertCategory($category)
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
     if (!$category['image_path']) $category['image_path'] = "/assets/others/default-img.webp";
-    if (!$category['sort_order']) {
-        $allCategories = getCategories(null, 'sort_order', 'ASC', null, 999);
-        $material['sort_order'] = $allCategories[0]['sort_order'] + 1;
-    }
 
     try {
         $sth = $dbh->prepare($sql);

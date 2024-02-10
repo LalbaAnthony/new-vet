@@ -56,9 +56,12 @@ export const useProductStore = defineStore('product', {
       const params = {
         page: this.pagination.currentPage,
         per_page: this.pagination.perPage,
-        order_by: 'sort_order',
-        order_direction: 'asc',
+        sort: [
+          { order: 'ASC', order_by: 'sort_order' },
+          { order: 'DESC', order_by: 'stock_quantity' }
+        ],
       }
+
       Object.assign(params, givenParams)
 
       this.products.data = await get('products', params);

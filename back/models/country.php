@@ -15,7 +15,7 @@ function getCountry($country_id)
     return $country;
 }
 
-function getCountries($order_by = 'name', $order = 'ASC')
+function getCountries()
 {
     $dbh = db_connect();
 
@@ -24,7 +24,7 @@ function getCountries($order_by = 'name', $order = 'ASC')
 
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY $order_by $order";
+    $sql .= " ORDER BY name ASC";
 
     try {
         $sth = $dbh->prepare($sql);

@@ -17,7 +17,7 @@ function getMaterial($slug)
     return $material;
 }
 
-function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', $offset = null, $per_page = 10)
+function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'libelle')), $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
 
@@ -39,7 +39,16 @@ function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', 
         )";
     }
 
-    $sql .= " ORDER BY $order_by $order";
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(" . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }
+
+    // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
