@@ -7,7 +7,9 @@
         <IconChevronDown :class="['chevron', open ? 'open' : '']" />
       </MenuButton>
       <MenuItems class="dropdown-list">
-        <span @click="resetFilter()">Tous les produits</span>
+        <div @click="resetFilter()" class="dropdown-list-reset">
+          <IconArrowRepeat />Tous les produits
+        </div>
         <hr>
         <ul>
           <li v-for="category in categoryStore.categories.data" :key="category.slug"
@@ -35,23 +37,29 @@
         <IconChevronDown :class="['chevron', open ? 'open' : '']" />
       </MenuButton>
       <MenuItems class="dropdown-list">
-        <span @click="toggleSort('default')">Par défaut</span>
-        <span :class="[route.query.sort === 'price-asc' ? 'selected' : '']" @click="toggleSort('price-asc')">Prix
-          croissant</span>
-        <span :class="[route.query.sort === 'price-desc' ? 'selected' : '']" @click="toggleSort('price-desc')">Prix
-          décroissant</span>
-        <span :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']"
-          @click="toggleSort('created_at-desc')">Plus récents</span>
-        <span :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']"
-          @click="toggleSort('created_at-asc')">Plus anciens</span>
-        <span :class="[route.query.sort === 'name-asc' ? 'selected' : '']" @click="toggleSort('name-asc')">A à Z</span>
-        <span :class="[route.query.sort === 'name-desc' ? 'selected' : '']" @click="toggleSort('name-desc')">Z à A</span>
+        <div @click="resetSort()" class="dropdown-list-reset">
+          <IconArrowRepeat />Par défaut
+        </div>
+        <hr>
+        <ul>
+          <li :class="[route.query.sort === 'price-asc' ? 'selected' : '']" @click="toggleSort('price-asc')">Prix
+            croissant</li>
+          <li :class="[route.query.sort === 'price-desc' ? 'selected' : '']" @click="toggleSort('price-desc')">Prix
+            décroissant</li>
+          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']" @click="toggleSort('created_at-desc')">
+            Plus récents</li>
+          <li :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']" @click="toggleSort('created_at-asc')">
+            Plus anciens</li>
+          <li :class="[route.query.sort === 'name-asc' ? 'selected' : '']" @click="toggleSort('name-asc')">A à Z</li>
+          <li :class="[route.query.sort === 'name-desc' ? 'selected' : '']" @click="toggleSort('name-desc')">Z à A</li>
+        </ul>
       </MenuItems>
     </Menu>
   </div>
 </template>
 
 <script setup>
+import IconArrowRepeat from '@/components/icons/IconArrowRepeat.vue'
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -70,6 +78,12 @@ function resetFilter() {
   const query = { ...route.query }
   delete query.categories
   delete query.materials
+  router.push({ query })
+}
+
+function resetSort() {
+  const query = { ...route.query }
+  delete query.sort
   router.push({ query })
 }
 
@@ -167,14 +181,19 @@ function toggleMaterial(material) {
   gap: 0.5rem;
 }
 
-.dropdown-list>span,
+.dropdown-list-reset {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 auto;
+  cursor: pointer;
+  color: var(--dark);
+}
+
 .dropdown-list ul>* {
   padding: 0.0125rem 1rem;
   min-width: 150px;
   cursor: pointer;
-}
-
-.dropdown-list ul>* {
   display: flex;
   align-items: center;
   gap: 0.5rem;
