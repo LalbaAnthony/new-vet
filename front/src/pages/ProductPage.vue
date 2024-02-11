@@ -11,7 +11,7 @@
           <h3>Catégories: </h3>
           <div class="product-details-categories">
             <Pill v-for="cat in productStore.product.data.categories" :key="cat.slug" :text="cat.libelle"
-              :link="`/categories/${cat.slug}`" type="gradient" />
+              :link="`/produits?categories=${cat.slug}`" type="gradient" />
           </div>
         </div>
 

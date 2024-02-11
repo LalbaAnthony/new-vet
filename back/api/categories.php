@@ -6,7 +6,7 @@ include_once APP_PATH . '/models/category.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'));
+$sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'ASC', 'order_by' => 'libelle'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;

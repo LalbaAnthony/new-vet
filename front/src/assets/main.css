@@ -211,6 +211,7 @@ input[type="checkbox"] {
 
 select {
     background-color: var(--light);
+    accent-color: var(--secondary);
     border: 2px solid #ccc;
     border-radius: 25px;
     display: inline-block;

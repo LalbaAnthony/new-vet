@@ -45,7 +45,7 @@
     <div v-if="categoryStore.quickAccessCategories.data" class="header-categories">
       <div class="header-quick-access">
         <Pill v-for="item in categoryStore.quickAccessCategories.data" :key="item.slug" :text="item.libelle"
-          :link="`/categories/${item.slug}`" type="light" />
+        :link="`/produits?categories=${cat.slug}`" type="light" />
       </div>
     </div>
   </header>
