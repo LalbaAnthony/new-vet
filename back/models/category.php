@@ -97,6 +97,20 @@ function getCategories($search = null, $sort =  array(array('order' => 'ASC', 'o
     return $categories;
 }
 
+function getCategoriesCount() {
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM category WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
+}
+
 function getCategoriesFromProduct($product_slug)
 {
     $dbh = db_connect();

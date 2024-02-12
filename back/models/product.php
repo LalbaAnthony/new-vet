@@ -154,6 +154,20 @@ function getProducts($categories = array(), $materials = array(), $search = null
     return $products;
 }
 
+function getProductsCount() {
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM product WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
+}
+
 function insertProduct($product)
 {
     $dbh = db_connect();

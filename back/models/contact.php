@@ -38,6 +38,20 @@ function getContacts()
     return $contacts;
 }
 
+function getContactsCount() {
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM contact WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
+}
+
 function insertContact($contact)
 {
     $dbh = db_connect();

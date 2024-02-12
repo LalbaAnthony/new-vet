@@ -18,9 +18,12 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
 $sort = array(array('order' => $order, 'order_by' => $order_by));
 
+$products_count = getProductsCount();
+
 // Comput offset & per_page
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
+$maxPage = ceil($products_count / $per_page);
 
 // Fetch products with sorting
 $products = getProducts(null, null, $search, $sort, $offset, $per_page);
@@ -58,6 +61,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
 
         <div class="container p-4 p-lg-5">
             <h1 class="text-center">Liste des produits</h1>
+            <p class="text-center"><?= $products_count ?> produit<?php if ($products_count > 1) : ?>s<?php endif; ?></p>
 
             <!-- Barre de recherche -->
             <form class="d-flex justify-content-between my-4" method="GET">
@@ -133,12 +137,16 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                 <?php if ($page > 1) : ?>
                     <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page précédent (<?= $page - 1 ?>)</a>
                 <?php else : ?>
-                    <span>Page précédent</span>
+                    <span>&nbsp;</span>
                 <?php endif; ?>
                 <!-- Page Actuelle -->
                 <span>Page <?= $page ?></span>
                 <!-- Page suivante -->
-                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant (<?= $page + 1 ?>)</a>
+                <?php if ($page < $maxPage) : ?>
+                    <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant (<?= $page + 1 ?>)</a>
+                <?php else : ?>
+                    <span>&nbsp;</span>
+                <?php endif; ?>
             </div>
             <!-- Actions en bas de page -->
             <div class="d-flex justify-content-start gap-2 my-5">
