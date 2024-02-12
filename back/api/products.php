@@ -13,10 +13,10 @@ $materials = isset($_GET['materials']) ? $_GET['materials'] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
-$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
 $exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
 $include = isset($_GET['include']) ? $_GET['include'] : array();
+$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 
 if ($categories) $categories = explode(',', $categories[0]);
 if ($materials) $materials = explode(',', $materials[0]);

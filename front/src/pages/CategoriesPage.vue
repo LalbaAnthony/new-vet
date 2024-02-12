@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="page-title">Les catégories de produit</h2>
+    <h2 class="page-title">Nos catégories</h2>
     <Loader v-if="categoryStore.categories.loading" />
     <div v-else>
       <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0" class="categories-grid">

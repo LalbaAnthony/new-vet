@@ -5,7 +5,7 @@ include_once "config.inc.php";
 // Configuration
 $target_path = APP_PATH . "uploads/";
 $alowed_extensions = array("jpg", "jpeg", "png", "webp");
-$max_size = 1000000; // 1 Mo
+$max_size = 2000000; // 2 Mo
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
