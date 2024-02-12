@@ -9,11 +9,13 @@
             </div>
             <NoItem what="produit" v-else />
         </div>
+        <Pagination/>
     </div>
 </template>
 
 <script setup>
 import SortFilter from '@/components/SortFilterComponent.vue'
+import Pagination from '@/components/PaginationComponent.vue'
 import Product from '@/components/ProductCardComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
@@ -24,23 +26,27 @@ import { watch } from 'vue'
 const route = useRoute()
 const productStore = useProductStore()
 
-// Fetch products on component mount
-productStore.fetchProducts()
-
-// Fetch products when route query changes
-watch(() => route.query, (query) => {
+function loadProducts() {
     productStore.fetchProducts({
-        materials: [query.materials || null],
-        categories: [query.categories || null],
-        sort: query.sort ? [{
-            order_by: query.sort?.split('-')[0] || null,
-            order: query.sort?.split('-')[1] || null
+        materials: [route.query.materials || null],
+        categories: [route.query.categories || null],
+        sort: route.query.sort ? [{
+            order_by: route.query.sort?.split('-')[0] || null,
+            order: route.query.sort?.split('-')[1] || null
         }] : [
             { order: 'ASC', order_by: 'sort_order' },
             { order: 'DESC', order_by: 'stock_quantity' }
         ]
     })
-})
+}
+
+// Fetch products on component mount
+loadProducts()
+
+// Fetch products when route query changes
+watch(() => route.query, () =>
+    loadProducts()
+)
 
 </script>
 

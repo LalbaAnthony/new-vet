@@ -17,7 +17,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity')), $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
+function getProducts($categories = array(), $materials = array(), $search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity')), $offset = null, $per_page = 10, $is_highlander = false, $exclude = array(), $include = array())
 {
 
     $dbh = db_connect();
@@ -55,21 +55,21 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
     }
 
     // Filter by category slug (loop through the array of category slugs)
-    if ($categories_slugs) {
+    if ($categories) {
         $sql .= " AND (";
-        foreach ($categories_slugs as $key => $value) {
+        foreach ($categories as $key => $value) {
             $sql .= "category.slug = :category_slug_$key";
-            if ($key < count($categories_slugs) - 1) $sql .= " OR ";
+            if ($key < count($categories) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
 
     // Filter by material slug (loop through the array of material slugs)
-    if ($materials_slugs) {
+    if ($materials) {
         $sql .= " AND (";
-        foreach ($materials_slugs as $key => $value) {
+        foreach ($materials as $key => $value) {
             $sql .= "material.slug = :material_slug_$key";
-            if ($key < count($materials_slugs) - 1) $sql .= " OR ";
+            if ($key < count($materials) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
@@ -126,15 +126,15 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
         }
 
         // Bind values for category slug (loop through the array of category slugs)
-        if ($categories_slugs) {
-            foreach ($categories_slugs as $key => $value) {
+        if ($categories) {
+            foreach ($categories as $key => $value) {
                 $sth->bindValue(":category_slug_$key", $value);
             }
         }
 
         // Bind values for material slug (loop through the array of material slugs)
-        if ($materials_slugs) {
-            foreach ($materials_slugs as $key => $value) {
+        if ($materials) {
+            foreach ($materials as $key => $value) {
                 $sth->bindValue(":material_slug_$key", $value);
             }
         }
@@ -196,7 +196,7 @@ function updateProduct($product)
     }
 }
 
-function updateProductCategories($product_slug, $categories_slugs)
+function updateProductCategories($product_slug, $categories)
 {
     $dbh = db_connect();
 
@@ -214,7 +214,7 @@ function updateProductCategories($product_slug, $categories_slugs)
     $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
     try {
         $sth = $dbh->prepare($sql);
-        foreach ($categories_slugs as $key => $value) {
+        foreach ($categories as $key => $value) {
             $sth->execute(array(":product_slug" => $product_slug, ":category_slug" => $value));
         }
         log_txt("Product categories inserted in back office: slug " . $product_slug);
@@ -224,7 +224,7 @@ function updateProductCategories($product_slug, $categories_slugs)
     }
 }
 
-function updateProductMaterials($product_slug, $materials_slugs)
+function updateProductMaterials($product_slug, $materials)
 {
     $dbh = db_connect();
 
@@ -242,7 +242,7 @@ function updateProductMaterials($product_slug, $materials_slugs)
     $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
     try {
         $sth = $dbh->prepare($sql);
-        foreach ($materials_slugs as $key => $value) {
+        foreach ($materials as $key => $value) {
             $sth->execute(array(":product_slug" => $product_slug, ":material_slug" => $value));
         }
         log_txt("Product materials inserted in back office: slug " . $product_slug);

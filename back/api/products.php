@@ -9,7 +9,7 @@ include_once APP_PATH . '/models/material.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $categories = isset($_GET['categories']) ? $_GET['categories'] : array();
-$material = isset($_GET['material']) ? $_GET['material'] : array();
+$materials = isset($_GET['materials']) ? $_GET['materials'] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
@@ -19,7 +19,7 @@ $exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
 $include = isset($_GET['include']) ? $_GET['include'] : array();
 
 if ($categories) $categories = explode(',', $categories[0]);
-if ($material) $material = explode(',', $material[0]);
+if ($materials) $materials = explode(',', $materials[0]);
 if ($exclude) $exclude = explode(',', $exclude[0]);
 if ($include) $include = explode(',', $include[0]);
 
@@ -31,7 +31,7 @@ if ($slug) { // Si on a un slug, on recupere un produit
         array_push($products, $product);
     }
 } else { // Sinon on recupere tous les produits, selon les parametres
-    $products = getProducts($categories, $material, $search, $sort, $offset, $per_page, $is_highlander, $exclude, $include);
+    $products = getProducts($categories, $materials, $search, $sort, $offset, $per_page, $is_highlander, $exclude, $include);
 }
 
 // Si il y a des produits, on recupere les images et la categorie associée
