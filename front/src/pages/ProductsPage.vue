@@ -30,6 +30,7 @@ productStore.fetchProducts()
 // Fetch products when route query changes
 watch(() => route.query, (query) => {
     productStore.fetchProducts({
+        materials: [query.materials || null],
         categories: [query.categories || null],
         sort: query.sort ? [{
             order_by: query.sort?.split('-')[0] || null,
