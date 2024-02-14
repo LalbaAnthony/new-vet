@@ -13,7 +13,7 @@ export const useProductStore = defineStore('product', {
     products: {
       loading: false,
       data: [],
-      pagination: { page: 1, perPage: 10, total: 0 },
+      pagination: { page: 1, per_page: 10, total: 0 },
     },
     moreProducts: {
       loading: false,
@@ -60,7 +60,7 @@ export const useProductStore = defineStore('product', {
       // Request
       const params = {
         page: this.products.pagination.page,
-        per_page: this.products.pagination.perPage,
+        per_page: this.products.pagination.per_page,
         sort: [
           { order: 'ASC', order_by: 'sort_order' },
           { order: 'DESC', order_by: 'stock_quantity' }

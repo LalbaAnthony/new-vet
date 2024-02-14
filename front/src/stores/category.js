@@ -10,7 +10,7 @@ export const useCategoryStore = defineStore('category', {
     categories: {
       loading: false,
       data: [],
-      pagination: { page: 1, perPage: 10, total: 0 },
+      pagination: { page: 1, per_page: 10, total: 0 },
     },
     quickAccessCategories: {
       loading: false,
@@ -40,7 +40,7 @@ export const useCategoryStore = defineStore('category', {
       // Request
       const params = {
         page: this.categories.pagination.page,
-        per_page: this.categories.pagination.perPage,
+        per_page: this.categories.pagination.per_page,
         sort: [
           { order: 'ASC', order_by: 'sort_order' },
           { order: 'ASC', order_by: 'libelle' },

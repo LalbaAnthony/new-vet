@@ -1,11 +1,23 @@
 <template>
   <div class="pagination-bloc">
     <IconChevronLeft class="arrow left" @click="$emit('updatePage', (props.page > 1 ? props.page - 1 : 1) || 1)" />
-    <div class="number" v-for="i in totalOrThree()" :key="i" :class="['number', props.page === i ? 'active' : '']"
-      @click="$emit('updatePage', i)">{{ i }}</div>
-    <div v-if="props.total && props.total > 3">...</div>
-    <div v-if="props.total && props.total > 3" @click="$emit('updatePage', props.total)" class="number">{{ props.total }}
+
+
+    <!-- Page précedente -->
+    <div v-if="props.page > 1" class="number" @click="$emit('updatePage', props.page - 1)">
+      {{ props.page - 1 }}
     </div>
+
+    <!-- Page actuelle -->
+    <div class="number active">{{ props.page }}</div>
+
+    <!-- Page suivante -->
+    <div v-if="props.page < props.total" class="number" @click="$emit('updatePage', props.page + 1)">
+      {{ props.page + 1 }}
+    </div>
+
+    <!-- Page suivante -->
+
     <IconChevronRight class="arrow right"
       @click="$emit('updatePage', (props.page < props.total ? props.page + 1 : props.total) || 1)" />
   </div>
@@ -30,10 +42,6 @@ const props = defineProps({
   },
 
 })
-
-function totalOrThree() {
-  return props.total > 3 ? 3 : props.total
-}
 
 </script>
 
