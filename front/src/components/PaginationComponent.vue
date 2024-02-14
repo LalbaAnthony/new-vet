@@ -2,7 +2,6 @@
   <div class="pagination-bloc">
     <IconChevronLeft class="arrow left" @click="$emit('updatePage', (props.page > 1 ? props.page - 1 : 1) || 1)" />
 
-
     <!-- Page précedente -->
     <div v-if="props.page > 1" class="number" @click="$emit('updatePage', props.page - 1)">
       {{ props.page - 1 }}
@@ -15,8 +14,6 @@
     <div v-if="props.page < props.total" class="number" @click="$emit('updatePage', props.page + 1)">
       {{ props.page + 1 }}
     </div>
-
-    <!-- Page suivante -->
 
     <IconChevronRight class="arrow right"
       @click="$emit('updatePage', (props.page < props.total ? props.page + 1 : props.total) || 1)" />
