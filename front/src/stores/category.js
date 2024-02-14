@@ -10,7 +10,7 @@ export const useCategoryStore = defineStore('category', {
     categories: {
       loading: false,
       data: [],
-      pagination: { page: 1, perPage: 8, total: 0 },
+      pagination: { page: 1, perPage: 10, total: 0 },
     },
     quickAccessCategories: {
       loading: false,
@@ -51,6 +51,7 @@ export const useCategoryStore = defineStore('category', {
 
       const resp = await get('categories', params);
       this.categories.data = resp.data;
+      this.categories.pagination = resp.pagination;
 
       // Loading
       this.categories.loading = false

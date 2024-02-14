@@ -13,7 +13,7 @@ export const useProductStore = defineStore('product', {
     products: {
       loading: false,
       data: [],
-      pagination: { page: 1, perPage: 8, total: 0 },
+      pagination: { page: 1, perPage: 10, total: 0 },
     },
     moreProducts: {
       loading: false,
@@ -71,6 +71,7 @@ export const useProductStore = defineStore('product', {
 
       const resp = await get('products', params);
       this.products.data = resp.data;
+      this.products.pagination = resp.pagination;
 
       // Loading
       this.products.loading = false

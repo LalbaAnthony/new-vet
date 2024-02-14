@@ -1,12 +1,13 @@
 <template>
   <div class="pagination-bloc">
-    <IconChevronLeft class="arrow left" />
+    <IconChevronLeft class="arrow left" @click="$emit('updatePage', (props.page > 1 ? props.page - 1 : 1) || 1)" />
     <div class="number" v-for="i in totalOrThree()" :key="i" :class="['number', props.page === i ? 'active' : '']"
       @click="$emit('updatePage', i)">{{ i }}</div>
-    <div v-if="props.total && props.total > 4">...</div>
+    <div v-if="props.total && props.total > 3">...</div>
     <div v-if="props.total && props.total > 3" @click="$emit('updatePage', props.total)" class="number">{{ props.total }}
     </div>
-    <IconChevronRight class="arrow right" />
+    <IconChevronRight class="arrow right"
+      @click="$emit('updatePage', (props.page < props.total ? props.page + 1 : props.total) || 1)" />
   </div>
 </template>
 
@@ -17,24 +18,21 @@ import IconChevronRight from '@/components/icons/IconChevronRight.vue'
 const props = defineProps({
   total: {
     type: Number,
-    required: false,
+    required: true,
   },
   page: {
     type: Number,
-    default: 1,
-    required: false,
+    required: true,
   },
   perPage: {
     type: Number,
-    default: 10,
     required: true,
   },
 
 })
 
 function totalOrThree() {
-  if (!props.total) return 3
-  return props.total.value > 3 ? 3 : props.total.value
+  return props.total > 3 ? 3 : props.total
 }
 
 </script>
