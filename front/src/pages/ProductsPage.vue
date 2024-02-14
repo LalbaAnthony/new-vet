@@ -9,7 +9,8 @@
             </div>
             <NoItem what="produit" v-else />
         </div>
-        <Pagination/>
+        <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.current_page"
+            :per-page="productStore.products.pagination.per_page" @update-page="(page) => productStore.changePage(page)" />
     </div>
 </template>
 

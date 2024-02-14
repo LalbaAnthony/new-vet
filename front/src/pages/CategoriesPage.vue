@@ -8,10 +8,14 @@
       </div>
       <NoItem what="produit" v-else />
     </div>
+    <Pagination :total="categoryStore.categories.pagination.total"
+      :page="categoryStore.categories.pagination.current_page" :per-page="categoryStore.categories.pagination.per_page"
+      @update-page="(page) => categoryStore.changePage(page)" />
   </div>
 </template>
 
 <script setup>
+import Pagination from '@/components/PaginationComponent.vue'
 import CategoryItem from '@/components/CategoryItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'

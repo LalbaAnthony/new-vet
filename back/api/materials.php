@@ -10,15 +10,20 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'or
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 
-$materials = array();
+$json = array();
+$materials = getMaterials($search, $sort, $offset, $per_page);
 
-if ($slug) { // Si on a un slug, on recupere un produit
-    $category = getCategory($slug);
-    if ($category) {
-        array_push($materials, $category);
-    }
-} else { // Sinon on recupere tous les produits, selon les parametres
-    $materials = getMaterials($search, $sort, $offset, $per_page);
+if (count($materials) > 0) {
+    $json['status'] = 200;
+    $json['error'] = null;
+    $json['data'] = $materials;
+} else if (count($materials) === 0) {
+    $json['status'] = 400;
+    $json['error'] = 'No element found';
+    $json['data'] = array();
+} else {
+    $json['status'] = 500;
+    $json['error'] = 'Error while getting getting elements';
 }
 
 // Return  JSON
@@ -27,5 +32,5 @@ header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
 
-$materials = json_encode($materials);
-echo $materials;
+$json = json_encode($json);
+echo $json;

@@ -1,10 +1,13 @@
 <?php
 
-$addresses = array();
+$json = array();
 
 // ...
 
 // Return  JSON
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
-$addresses = json_encode($addresses);
-echo $addresses;
+
+$json = json_encode($json);
+echo $json;

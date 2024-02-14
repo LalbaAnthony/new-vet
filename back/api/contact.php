@@ -7,6 +7,7 @@ include_once APP_PATH . '/models/customer.php';
 $POST_data = json_decode(file_get_contents("php://input"), true);
 
 $error = null;
+$json = array();
 $contact = array();
 
 // check if request method is POST
@@ -40,11 +41,13 @@ if (!$error) {
 // send contact to db
 if (!$error) {
   $error = insertContact($contact);
+  $json['message'] = 'Demande de contact envoyée !';
+  $json['status'] = 200;
+  $json['error'] = null;
+} else {
+  $json['status'] = 400;
+  $json['error'] = $error;
 }
-
-$response = array();
-$response['status'] = $error ? 'error' : 'success';
-$response['message'] = $error ? $error : 'Demande de contact envoyée !';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
@@ -52,5 +55,5 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Content-type: application/json; charset=utf-8");
 
-$response = json_encode($response);
-echo $response;
+$json = json_encode($json);
+echo $json;

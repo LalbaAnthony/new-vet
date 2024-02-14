@@ -10,7 +10,7 @@ export const useCategoryStore = defineStore('category', {
     categories: {
       loading: false,
       data: [],
-      pagination: { page: 1, perPage: 8 , total: 0 },
+      pagination: { page: 1, perPage: 8, total: 0 },
     },
     quickAccessCategories: {
       loading: false,
@@ -23,14 +23,34 @@ export const useCategoryStore = defineStore('category', {
   }),
 
   actions: {
-    async fetchCategories() {
+
+    changePage(page) {
+      this.categories.pagination.page = page
+      this.fetchCategories()
+    },
+
+    async fetchCategories(givenParams = {}) {
+
       // Loading
       this.categories.loading = true
 
       // Data
       this.categories.data = []
 
-      this.categories.data = await get('categories');
+      // Request
+      const params = {
+        page: this.categories.pagination.page,
+        per_page: this.categories.pagination.perPage,
+        sort: [
+          { order: 'ASC', order_by: 'sort_order' },
+          { order: 'ASC', order_by: 'libelle' },
+        ],
+      }
+
+      Object.assign(params, givenParams)
+
+      const resp = await get('categories', params);
+      this.categories.data = resp.data;
 
       // Loading
       this.categories.loading = false
@@ -43,7 +63,8 @@ export const useCategoryStore = defineStore('category', {
       // Data
       this.quickAccessCategories.data = []
 
-      this.quickAccessCategories.data = await get('categories', { is_quick_access: true });
+      const resp = await get('categories', { is_quick_access: true });
+      this.quickAccessCategories.data = resp.data
 
       // Loading
       this.quickAccessCategories.loading = false
@@ -56,7 +77,8 @@ export const useCategoryStore = defineStore('category', {
       // Data
       this.highlandersCategories.data = []
 
-      this.highlandersCategories.data = await get('categories', { is_highlander: true });
+      const resp = await get('categories', { is_highlander: true });
+      this.highlandersCategories.data = resp.data
 
       // Loading
       this.highlandersCategories.loading = false
@@ -69,8 +91,8 @@ export const useCategoryStore = defineStore('category', {
       // Data
       this.category.data = {}
 
-      const resp = await get('categories', { slug: slug, per_page: 1 });
-      this.category.data = resp[0];
+      const resp = await get('category', { slug: slug, per_page: 1 });
+      this.category.data = resp.data
 
       // Loading
       this.category.loading = false

@@ -13,7 +13,7 @@ export const useProductStore = defineStore('product', {
     products: {
       loading: false,
       data: [],
-      pagination: { page: 1, perPage: 8 , total: 0 },
+      pagination: { page: 1, perPage: 8, total: 0 },
     },
     moreProducts: {
       loading: false,
@@ -30,6 +30,11 @@ export const useProductStore = defineStore('product', {
   }),
 
   actions: {
+    changePage(page) {
+      this.products.pagination.page = page
+      this.fetchProducts()
+    },
+
     async fetchProduct(slug) {
       // Loading
       this.product.loading = true
@@ -37,8 +42,8 @@ export const useProductStore = defineStore('product', {
       // Data
       this.product.data = {}
 
-      const resp = await get('products', { slug: slug, per_page: 1 });
-      this.product.data = resp[0];
+      const resp = await get('product', { slug: slug, per_page: 1 });
+      this.product.data = resp.data;
 
       // Loading
       this.product.loading = false
@@ -54,7 +59,7 @@ export const useProductStore = defineStore('product', {
 
       // Request
       const params = {
-        page: this.products.pagination.currentPage,
+        page: this.products.pagination.page,
         per_page: this.products.pagination.perPage,
         sort: [
           { order: 'ASC', order_by: 'sort_order' },
@@ -64,7 +69,8 @@ export const useProductStore = defineStore('product', {
 
       Object.assign(params, givenParams)
 
-      this.products.data = await get('products', params);
+      const resp = await get('products', params);
+      this.products.data = resp.data;
 
       // Loading
       this.products.loading = false
@@ -77,7 +83,8 @@ export const useProductStore = defineStore('product', {
       // Data
       this.highlandersProducts.data = []
 
-      this.highlandersProducts.data = await get('products', { is_highlander: true, per_page: 3 });
+      const resp = await get('products', { is_highlander: true, per_page: 3 });
+      this.highlandersProducts.data = resp.data;
 
       // Loading
       this.highlandersProducts.loading = false
@@ -90,7 +97,8 @@ export const useProductStore = defineStore('product', {
       // Data
       this.moreProducts.data[categorySlug] = []
 
-      this.moreProducts.data[categorySlug] = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.data.slug] });
+      const resp = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.data.slug] });
+      this.moreProducts.data[categorySlug] = resp.data;
 
       // Loading
       this.moreProducts.loading = false
@@ -104,7 +112,8 @@ export const useProductStore = defineStore('product', {
       this.cartProducts.data = []
 
       const productSlugs = Object.keys(authStore.cart);
-      this.cartProducts.data = await get('products', { include: [productSlugs.join(',')] });
+      const resp = await get('products', { include: [productSlugs.join(',')] });
+      this.cartProducts.data = resp.data;
 
       // Loading
       this.cartProducts.loading = false

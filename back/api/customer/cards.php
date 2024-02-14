@@ -1,10 +1,13 @@
 <?php
 
-$cards = array();
+$json = array();
 
 // ...
 
 // Return  JSON
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
-$cards = json_encode($cards);
-echo $cards;
+
+$json = json_encode($json);
+echo $json;
