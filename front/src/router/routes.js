@@ -73,15 +73,21 @@ const routes = [
   },
   {
     path: '/plan-du-site',
-    name: 'planDuSite',
-    component: () => import('../pages/PlanDuSitePage.vue'),
+    name: 'sitemap',
+    component: () => import('../pages/SitemapPage.vue'),
     meta: { title: 'Plan du site' },
   },
   {
     path: '/mentions-legales',
-    name: 'mentionsLegales',
-    component: () => import('../pages/MentionsLegalesPage.vue'),
+    name: 'legal-notices',
+    component: () => import('../pages/LegalNoticesPage.vue'),
     meta: { title: 'Mentions légales' },
+  },
+  {
+    path: '/conditions-generales-d-utilisation',
+    name: 'gcu',
+    component: () => import('../pages/GcuPage.vue'),
+    meta: { title: 'Conditions générales d\'utilisation' },
   },
   {
     path: '/:catchAll(.*)*',
