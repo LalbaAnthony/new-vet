@@ -112,14 +112,14 @@ function getProducts($categories = array(), $materials = array(), $search = null
         $sth = $dbh->prepare($sql);
 
         // Bind values for exclude (loop through the array of slugs to exclude)
-        if (count($exclude) > 0 && count($include) == 0) {
+        if ($exclude && count($exclude) > 0 && count($include) == 0) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
             }
         }
 
         // Bind values for include (loop through the array of slugs to include)
-        if (count($include) > 0 && count($exclude) == 0) {
+        if ($include&& count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }
@@ -235,14 +235,14 @@ function getProductsCount($categories = array(), $materials = array(), $search =
         $sth = $dbh->prepare($sql);
 
         // Bind values for exclude (loop through the array of slugs to exclude)
-        if (count($exclude) > 0 && count($include) == 0) {
+        if ($exclude && count($exclude) > 0 && count($include) == 0) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
             }
         }
 
         // Bind values for include (loop through the array of slugs to include)
-        if (count($include) > 0 && count($exclude) == 0) {
+        if ($include&& count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }

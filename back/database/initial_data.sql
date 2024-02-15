@@ -56,7 +56,7 @@ INSERT INTO product (slug, name, description, is_highlander, price, stock_quanti
 ('collier-fantaisie', 'Collier fantaisie', 'Collier original pour sublimer votre cou', 0, 29.99, 22),
 ('blouse-florale', 'Blouse florale', 'Blouse légère et féminine avec motif floral', 0, 44.99, 32),
 ('sweat-a-capuche', 'Sweat à capuche', 'Sweat confortable et stylé pour les journées fraîches', 0, 39.99, 27),
-('chaussettes-colorées', 'Chaussettes colorées', 'Chaussettes amusantes pour égayer votre tenue', 0, 9.99, 50),
+('chaussettes-colorees', 'Chaussettes colorées', 'Chaussettes amusantes pour égayer votre tenue', 0, 9.99, 50),
 ('ceinture-elegante', 'Ceinture élégante', 'Ceinture pour mettre en valeur votre taille', 0, 19.99, 15),
 ('casquette-tendance', 'Casquette tendance', 'Casquette stylée pour compléter votre look décontracté', 0, 14.99, 25),
 ('veste-en-cuir', 'Veste en cuir', 'Veste élégante pour une allure moderne', 0, 89.99, 10);
@@ -83,7 +83,7 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 ('ceinture-elegante', 'accessoires'),
 ('casquette-tendance', 'accessoires'),
 ('veste-en-cuir', 'vetements'),
-('veste-en-cuir', 'manteaux');
+('veste-en-cuir', 'vestes');
 
 INSERT INTO image (product_slug, image_path, sort_order) VALUES 
 ('robe-elegante', 'products/robe-elegante-1.jpg', 1),

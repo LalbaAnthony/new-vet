@@ -42,10 +42,10 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div v-if="categoryStore.quickAccessCategories.data.length > 0" class="header-categories">
+    <div v-if="categoryStore.quickAccessCategories?.data?.length > 0" class="header-categories">
       <div class="header-quick-access">
         <Pill v-for="item in categoryStore.quickAccessCategories.data" :key="item.slug" :text="item.libelle"
-        :link="`/produits?categories=${cat.slug}`" type="light" />
+        :link="`/produits?categories=${item.slug}`" type="light" />
       </div>
     </div>
   </header>

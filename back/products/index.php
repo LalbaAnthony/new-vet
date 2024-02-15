@@ -26,7 +26,7 @@ $offset = ($page - 1) * $per_page;
 $maxPage = ceil($products_count / $per_page);
 
 // Fetch products with sorting
-$products = getProducts(null, null, $search, $sort, $offset, $per_page);
+$products = getProducts(null, null, $search, false, null, null, $sort, $offset, $per_page);
 
 // Bottom action: delete selected products, ...
 if (isset($_GET['delete']) && isset($_GET['selected_products'])) {

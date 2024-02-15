@@ -72,14 +72,14 @@ function getCategories($search = null, $is_highlander = false, $is_quick_access 
         $sth = $dbh->prepare($sql);
 
         // Bind values for exclude
-        if (count($exclude) > 0 && count($include) == 0) {
+        if ($exclude && count($exclude) > 0 && count($include) == 0) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
             }
         }
 
         // Bind values for include
-        if (count($include) > 0 && count($exclude) == 0) {
+        if ($include&& count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }
@@ -142,14 +142,14 @@ function getCategoriesCount($search = null, $is_highlander = false, $is_quick_ac
         $sth = $dbh->prepare($sql);
 
         // Bind values for exclude
-        if (count($exclude) > 0 && count($include) == 0) {
+        if ($exclude && count($exclude) > 0 && count($include) == 0) {
             foreach ($exclude as $key => $value) {
                 $sth->bindValue(":exclude_$key", $value);
             }
         }
 
         // Bind values for include
-        if (count($include) > 0 && count($exclude) == 0) {
+        if ($include&& count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }
