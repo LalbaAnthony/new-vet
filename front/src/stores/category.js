@@ -10,7 +10,7 @@ export const useCategoryStore = defineStore('category', {
     categories: {
       loading: false,
       data: [],
-      pagination: { page: 1, per_page: 10, total: 0 },
+      pagination: { page: 1, per_page: 10, total: 1 },
     },
     quickAccessCategories: {
       loading: false,
