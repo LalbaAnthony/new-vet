@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2 class="page-title">Nos produits</h2>
+        <Breadcrumb />
         <SortFilter />
         <Loader v-if="productStore.products.loading" />
         <div v-else>
@@ -15,6 +16,7 @@
 </template>
 
 <script setup>
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import SortFilter from '@/components/SortFilterComponent.vue'
 import Pagination from '@/components/PaginationComponent.vue'
 import Product from '@/components/ProductCardComponent.vue'

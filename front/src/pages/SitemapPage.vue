@@ -1,6 +1,7 @@
 <template>
   <div class="large-min-height">
     <h2 class="page-title">Plan du site</h2>
+    <Breadcrumb />
     <section>
       <ul class="fancy-list">
         <li><a href="/" class="dark">Accueil</a></li>
@@ -20,6 +21,7 @@
 </template>
 
 <script setup>
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 </script>
 
 <style scoped>

@@ -43,7 +43,7 @@ onMounted(() => {
     productsCarousel.value = productStore.highlandersProducts.data.map(item => ({
       slug: item.slug,
       name: item.name,
-      link: `/produit/${item.slug}`,
+      link: `/produits/${item.slug}`,
       image_path: item.image_path
     }))
   })

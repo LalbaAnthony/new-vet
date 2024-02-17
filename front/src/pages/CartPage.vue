@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2 class="page-title">Votre panier</h2>
+    <Breadcrumb />
     <Loader v-if="productStore.cartProducts.loading" />
     <div v-else>
       <div v-if="productStore.cartProducts.data && productStore.cartProducts.data.length > 0">
@@ -25,6 +26,7 @@
 </template>
 
 <script setup>
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import CartItem from '@/components/CartItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
