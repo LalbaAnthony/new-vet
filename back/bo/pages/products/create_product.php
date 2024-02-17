@@ -53,7 +53,7 @@ if (isset($_POST['submit'])) {
     <link rel="icon" href="assets/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
-    <title>Modification - NEW VET</title>
+    <title>Création - NEW VET</title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>

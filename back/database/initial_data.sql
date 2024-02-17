@@ -29,19 +29,19 @@ INSERT INTO material (slug, libelle, color) VALUES
 ('lin', 'Lin', '#637c46');
 
 INSERT INTO category (slug, libelle, image_path, is_highlander, sort_order, color) VALUES 
-('vetements', 'Vêtements', 'categories/vetements.webp', 1, 1, '#32a852'),
-('chaussures', 'Chaussures', 'categories/chaussures.webp', 1, 2, '#7ba832'),
-('accessoires', 'Accessoires', 'categories/accessoires.webp', 0, 3, '#7c2d96'),
-('pantalons', 'Pantalons', 'categories/pantalons.webp', 0, 4, '#2d7c96'),
-('jupes', 'Jupes', 'categories/jupes.webp', 0, 5, '#96322d'),
-('robes', 'Robes', 'categories/robes.webp', 0, 6, '#99832d'),
-('manteaux', 'Manteaux', 'categories/manteaux.webp', 0, 7, '#322d96'),
-('chemisiers', 'Chemisiers', 'categories/chemisiers.webp', 0, 8, '#56854c'),
-('pulls', 'Pulls', 'categories/pulls.webp', 0, 9, '#7c9632'),
-('vestes', 'Vestes', 'categories/vestes.webp', 0, 10, '#32963d'),
-('sacs', 'Sacs', 'categories/sacs.webp', 0, 11, '#96327b'),
-('ceintures', 'Ceintures', 'categories/ceintures.webp', 0, 12, '#2d9696'),
-('bijoux', 'Bijoux', 'categories/bijoux.webp', 0, 13, '#96327c');
+('vetements', 'Vêtements', 'vetements.webp', 1, 1, '#32a852'),
+('chaussures', 'Chaussures', 'chaussures.webp', 1, 2, '#7ba832'),
+('accessoires', 'Accessoires', 'accessoires.webp', 0, 3, '#7c2d96'),
+('pantalons', 'Pantalons', NULL, 0, 4, '#2d7c96'),
+('jupes', 'Jupes', NULL, 0, 5, '#96322d'),
+('robes', 'Robes', NULL, 0, 6, '#99832d'),
+('manteaux', 'Manteaux', NULL, 0, 7, '#322d96'),
+('chemisiers', 'Chemisiers', NULL, 0, 8, '#56854c'),
+('pulls', 'Pulls', NULL, 0, 9, '#7c9632'),
+('vestes', 'Vestes', NULL, 0, 10, '#32963d'),
+('sacs', 'Sacs', NULL, 0, 11, '#96327b'),
+('ceintures', 'Ceintures', NULL, 0, 12, '#2d9696'),
+('bijoux', 'Bijoux', NULL, 0, 13, '#96327c');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
@@ -86,32 +86,10 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 ('veste-en-cuir', 'vestes');
 
 INSERT INTO image (product_slug, image_path, sort_order) VALUES 
-('robe-elegante', 'products/robe-elegante-1.jpg', 1),
-('robe-elegante', 'products/robe-elegante-2.jpg', 2),
-('robe-elegante', 'products/robe-elegante-3.jpg', 3),
-('robe-elegante', 'products/robe-elegante-4.jpg', 4),
-('escarpins-classiques', 'products/escarpins-classiques-1.jpg', 1),
-('escarpins-classiques', 'products/escarpins-classiques-2.jpg', 2),
-('sac-a-main-chic', 'products/sac-a-main-chic-1.jpg', 1),
-('sac-a-main-chic', 'products/sac-a-main-chic-2.jpg', 2),
-('t-shirt-decontracte', 'products/t-shirt-decontracte-1.jpg', 1),
-('t-shirt-decontracte', 'products/t-shirt-decontracte-2.jpg', 2),
-('jean-slim', 'products/jean-slim-1.jpg', 1),
-('jean-slim', 'products/jean-slim-2.jpg', 2),
-('baskets-sportives', 'products/baskets-sportives-1.jpg', 1),
-('baskets-sportives', 'products/baskets-sportives-2.jpg', 2),
-('montre-elegante', 'products/montre-elegante-1.jpg', 1),
-('montre-elegante', 'products/montre-elegante-2.jpg', 2),
-('chapeau-de-soleil', 'products/chapeau-de-soleil-1.jpg', 1),
-('chapeau-de-soleil', 'products/chapeau-de-soleil-2.jpg', 2),
-('pantalon-chic', 'products/pantalon-chic-1.jpg', 1),
-('pantalon-chic', 'products/pantalon-chic-2.jpg', 2),
-('collier-fantaisie', 'products/collier-fantaisie-1.jpg', 1),
-('collier-fantaisie', 'products/collier-fantaisie-2.jpg', 2),
-('blouse-florale', 'products/blouse-florale-1.jpg', 1),
-('blouse-florale', 'products/blouse-florale-2.jpg', 2),
-('sweat-a-capuche', 'products/sweat-a-capuche-1.jpg', 1),
-('sweat-a-capuche', 'products/sweat-a-capuche-2.jpg', 2);
+('robe-elegante', 'robe-elegante-1.jpg', 1),
+('robe-elegante', 'robe-elegante-2.jpg', 2),
+('robe-elegante', 'robe-elegante-3.jpg', 3),
+('robe-elegante', 'robe-elegante-4.jpg', 4);
 
 INSERT INTO country (country_id, name) VALUES 
 (1, 'France'),
