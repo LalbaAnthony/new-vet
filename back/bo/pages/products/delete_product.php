@@ -1,7 +1,7 @@
 <?php
 
-include_once "../config.inc.php";
-include_once APP_PATH . "/partials/header.php";
+include_once "../../../config.inc.php";
+include_once APP_PATH . "/bo/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 
 // Réception du produit à modifier
@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     $sucess = deleteProduct($_POST['slug']);
 
     // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'products/index.php?deleted=' . $sucess);
+    header('Location:' . APP_URL . 'bo/pages/products/index.php?deleted=' . $sucess);
 }
 
 // Affichage
@@ -29,8 +29,8 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Suppression - NEW VET</title>
-    <link href="<?= APP_URL ?>style/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>style/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
             <input type="hidden" name="slug" id="slug" value="<?= $product['slug']; ?>">
 
             <div class="d-flex justify-content-between">
-                <a href="<?= APP_URL ?>products/index.php" class="btn btn-secondary">Retour</a>
+                <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-danger">Supprimer</button>
             </div>
         </form>

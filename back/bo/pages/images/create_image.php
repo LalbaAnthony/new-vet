@@ -1,6 +1,6 @@
 <?php
 
-include_once "config.inc.php";
+include_once "../../../config.inc.php";
 
 // Configuration
 $target_path = APP_PATH . "uploads/";
@@ -52,23 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-<!DOCTYPE html>
-<html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload d'image</title>
-</head>
-
-<body>
-    <h1>Formulaire d'upload d'image</h1>
-
-    <form action="<?= $_SERVER["PHP_SELF"] ?>" method="post" enctype="multipart/form-data">
-        <input type="file" name="image" id="image" required>
-        <br><br>
-        <input type="submit" name="submit" value="Envoyer">
-    </form>
-</body>
-
-</html>
+<form action="<?= $_SERVER["PHP_SELF"] ?>" method="post" enctype="multipart/form-data">
+    <input type="file" name="image" id="image" required>
+    <br>
+    <input type="submit" name="submit" value="Envoyer">
+</form>

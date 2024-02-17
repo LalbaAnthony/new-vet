@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ path: '/produits', query: { categories: [props.category.slug] } }"> 
+  <router-link :to="{ path: '/produits', query: { categories: [props.category.slug] } }">
     <div class="category-item">
       <img
         :src="props.category.image_path && imageExists(URL_BACKEND_UPLOAD + props.category.image_path) ? `${URL_BACKEND_UPLOAD}${props.category.image_path}` : '/helpers/no-img-available.webp'"
@@ -30,7 +30,7 @@ const props = defineProps({
 
 .category-item:hover {
   scale: 1.05;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
 }
 
 .category-item>img {
@@ -59,5 +59,4 @@ const props = defineProps({
 .category-item:hover .category-item-libelle {
   transform: translate(10%, -100%);
 }
-
 </style>

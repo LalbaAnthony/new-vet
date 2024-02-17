@@ -66,7 +66,7 @@ function getSalesByDay($date_start = null, $date_end = null)
 }
 
 
-include_once "config.inc.php";
+include_once "../../config.inc.php";
 include_once APP_PATH . "helpers/rand_color.php";
 
 $date_start = isset($_POST['date_start']) ? $_POST['date_start'] : null;
@@ -142,13 +142,13 @@ if (!$orderCountByCategories || !$salesByDay) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Tableau de bord - NEW VET</title>
-    <link href="<?= APP_URL ?>style/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>style/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
-        <?php include APP_PATH . "partials/header.php"; ?>
+        <?php include APP_PATH . "bo/partials/header.php"; ?>
 
         <div>
             <!-- Infos & Alerts -->

@@ -1,7 +1,7 @@
 <?php
 
-include_once "../config.inc.php";
-include_once APP_PATH . "/partials/header.php";
+include_once "../../../config.inc.php";
+include_once APP_PATH . "/bo/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/models/category.php";
 include_once APP_PATH . "/models/material.php";
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
     $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat;
 
     // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'products/index.php?updated=' . $sucess);
+    header('Location:' . APP_URL . 'bo/pages/products/index.php?updated=' . $sucess);
 }
 
 // Affichage
@@ -57,8 +57,8 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Modification - NEW VET</title>
-    <link href="<?= APP_URL ?>style/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>style/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -123,7 +123,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="<?= APP_URL ?>products/index.php" class="btn btn-secondary">Retour</a>
+                <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
             </div>
         </form>

@@ -1,7 +1,7 @@
 <?php
 
-include_once "../config.inc.php";
-include_once APP_PATH . "/partials/header.php";
+include_once "../../../config.inc.php";
+include_once APP_PATH . "/bo/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/helpers/fr_date.php";
 include_once APP_PATH . "/helpers/three_dots_string.php";
@@ -50,14 +50,14 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     <meta name="description" content="Site de vente de vêtement pour femme." />
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
     <title>Lise des produits - NEW VET</title>
-    <link href="<?= APP_URL ?>style/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>style/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
 
-        <?php include_once APP_PATH . "/partials/alert_message.php"; ?>
+        <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
 
         <div class="container p-4 p-lg-5">
             <h1 class="text-center">Liste des produits</h1>
@@ -122,9 +122,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                             <!-- Date de création -->
                             <td><?= fr_date($product['created_at']) ?></td>
                             <!-- Bouton de modification -->
-                            <td> <a href="<?= APP_URL ?>products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
+                            <td> <a href="<?= APP_URL ?>bo/pages/products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
                             <!-- Bouton de suppression -->
-                            <td> <a href="<?= APP_URL ?>products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
+                            <td> <a href="<?= APP_URL ?>bo/pages/products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
                         </tr>
                     <?php
                     }
@@ -151,7 +151,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
             <!-- Actions en bas de page -->
             <div class="d-flex justify-content-start gap-2 my-5">
                 <button id="delete-products" class="btn btn-danger" disabled onclick="deleteSelectedProducts()">Supprimer</button>
-                <a href="<?= APP_URL ?>products/create_product.php" class="btn btn-primary">Ajouter</a>
+                <a href="<?= APP_URL ?>bo/pages/products/create_product.php" class="btn btn-primary">Ajouter</a>
             </div>
         </div>
 
