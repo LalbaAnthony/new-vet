@@ -6,7 +6,7 @@
 
       <slide v-for="item in props.items" :key="item.id" @click.stop="router.push(item.link)">
         <img
-          :src="item?.image_path && imageExists(URL_BACKEND_UPLOAD + item.image_path) ? `${URL_BACKEND_UPLOAD}${item.image_path}` : '/helpers/no-img-available.webp'"
+          :src="item?.path && imageExists(URL_BACKEND_UPLOAD + item.path) ? `${URL_BACKEND_UPLOAD}${item.path}` : '/helpers/no-img-available.webp'"
           :alt="`Image ${item.name || item.libelle}`" class="carousel-img" />
       </slide>
       <template #addons>

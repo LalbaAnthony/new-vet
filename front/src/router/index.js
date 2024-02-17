@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
 import { useAuthStore } from '@/stores/auth'
 
-
 const router = createRouter({
   history: createWebHistory(),
   scrollBehavior: () => ({ left: 0, top: 0, behavior: 'smooth' }),
@@ -11,7 +10,6 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - NEW VET` || 'NEW VET';
-
 
   const privatePages = ['account', 'orders', 'order', 'checkout']
   const authStore = useAuthStore()

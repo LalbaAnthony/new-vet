@@ -190,14 +190,14 @@ function insertCategory($category)
 {
     $dbh = db_connect();
 
-    $sql = "INSERT INTO category (slug, libelle, image_path, sort_order, is_quick_access, is_highlander, color) VALUES (:slug, :libelle, :image_path, :sort_order, :is_quick_access, :is_highlander, :color)";
+    $sql = "INSERT INTO category (slug, libelle, path, sort_order, is_quick_access, is_highlander, color) VALUES (:slug, :libelle, :path, :sort_order, :is_quick_access, :is_highlander, :color)";
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
-    if (!$category['image_path']) $category['image_path'] = "/assets/others/default-img.webp";
+    if (!$category['path']) $category['path'] = "/assets/others/default-img.webp";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']));
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":path" => $category['path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Category registered in back office: slug " . $category['slug']);
             return true;
@@ -213,11 +213,11 @@ function updateCategory($category)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE category SET libelle = :libelle, image_path = :image_path, sort_order = :sort_order, is_quick_access = :is_quick_access, is_highlander = :is_highlander, color = :color WHERE slug = :slug";
+    $sql = "UPDATE category SET libelle = :libelle, path = :path, sort_order = :sort_order, is_quick_access = :is_quick_access, is_highlander = :is_highlander, color = :color WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_path" => $category['image_path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']));
+        $sth->execute(array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":path" => $category['path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']));
         if ($sth->rowCount() > 0) {
             log_txt("Category updated in back office: slug " . $category['slug']);
             return true;

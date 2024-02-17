@@ -35,7 +35,7 @@ onMounted(() => {
       slug: item.slug,
       libelle: item.libelle,
       link: `/categorie/${item.slug}`,
-      image_path: item.image_path
+      path: item.path
     }))
   })
   // Load & compute products to be displayed in carousel
@@ -44,7 +44,7 @@ onMounted(() => {
       slug: item.slug,
       name: item.name,
       link: `/produits/${item.slug}`,
-      image_path: item.image_path
+      path: item.path
     }))
   })
 })

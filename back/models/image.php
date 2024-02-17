@@ -1,12 +1,12 @@
 <?php
 
-function getImage($image_id)
+function getImage($slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM image WHERE image_id = :image_id;";
+    $sql = "SELECT * FROM image WHERE slug = :slug;";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":image_id" => $image_id));
+        $sth->execute(array(":slug" => $slug));
         $image = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
@@ -33,7 +33,11 @@ function getImages()
 function getImagesFromProduct($product_slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM image WHERE is_deleted = 0 AND product_slug = :product_slug ORDER BY sort_order ASC;";
+    $sql = "SELECT * FROM image, product_image 
+    WHERE image.slug = product_image.image_slug 
+    AND product_image.product_slug = :product_slug
+    AND is_deleted = 0 
+    ORDER BY sort_order ASC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
@@ -48,7 +52,12 @@ function getImagesFromProduct($product_slug)
 function getFirstImagePathFromProduct($product_slug)
 {
     $dbh = db_connect();
-    $sql = "SELECT * FROM image WHERE is_deleted = 0 AND product_slug = :product_slug ORDER BY sort_order ASC LIMIT 1;";
+    $sql = "SELECT * FROM image, product_image 
+    WHERE image.slug = product_image.image_slug
+    AND product_image.product_slug = :product_slug
+    AND is_deleted = 0
+    ORDER BY sort_order ASC
+    LIMIT 1;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
@@ -58,27 +67,21 @@ function getFirstImagePathFromProduct($product_slug)
     }
 
     if ($image) {
-        return $image['image_path'];
+        return $image['path'];
     } else {
         return null;
     }
 }
 
-function insertImage($image)
+function createImage($image)
 {
     $dbh = db_connect();
-
-    $sql = "INSERT INTO image (product_slug, image_path) VALUES (:product_slug, :image_path)";
-
+    $sql = "INSERT INTO image (slug, name, alt, path, weight, extention) VALUES (:slug, :name, :alt, :path, :weight, :extention);";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $image['product_slug'], ":image_path" => $image['image_path']));
-        if ($sth->rowCount() > 0) {
-            log_txt("Image registered in back office: slug " . $image['product_slug']);
-            return true;
-        } else {
-            return false;
-        }
+        $sth->execute(array(":slug" => $image["slug"], ":name" => $image["name"], ":alt" => $image["alt"], ":path" => $image["path"], ":weight" => $image["weight"], ":extention" => $image["extention"]));
+        log_txt("Image created in back office: id " . $dbh->lastInsertId());
+        return $dbh->lastInsertId();
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -87,14 +90,12 @@ function insertImage($image)
 function updateImage($image)
 {
     $dbh = db_connect();
-
-    $sql = "UPDATE image SET product_slug = :product_slug, image_path = :image_path WHERE image_id = :image_id";
-
+    $sql = "UPDATE image SET name = :name, alt = :alt, path = :path, weight = :weight, extention = :extention WHERE slug = :slug;";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $image['product_slug'], ":image_path" => $image['image_path'], ":image_id" => $image['image_id']));
+        $sth->execute(array(":name" => $image["name"], ":alt" => $image["alt"], ":path" => $image["path"], ":weight" => $image["weight"], ":extention" => $image["extention"], ":slug" => $image["slug"]));
         if ($sth->rowCount() > 0) {
-            log_txt("Image updated in back office: slug " . $image['image_id']);
+            log_txt("Image updated in back office: id " . $image["slug"]);
             return true;
         } else {
             return false;
@@ -104,17 +105,17 @@ function updateImage($image)
     }
 }
 
-function deleteImage($image_id)
+function deleteImage($slug)
 {
     $dbh = db_connect();
 
-    $sql = "UPDATE image SET is_deleted = 1 WHERE image_id = :image_id";
+    $sql = "UPDATE image SET is_deleted = 1 WHERE slug = :slug";
 
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":image_id" => $image_id));
+        $sth->execute(array(":slug" => $slug));
         if ($sth->rowCount() > 0) {
-            log_txt("Image deleted in back office: id " . $image_id);
+            log_txt("Image deleted in back office: id " . $slug);
             return true;
         } else {
             return false;

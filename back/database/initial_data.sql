@@ -1,18 +1,43 @@
 DELETE FROM contact;
+
 DELETE FROM order_product;
+
 DELETE FROM `order`;
+
 DELETE FROM status;
+
 DELETE FROM card;
+
 DELETE FROM address;
+
 DELETE FROM customer;
+
 DELETE FROM country;
-DELETE FROM image;
-DELETE FROM product;
-DELETE FROM category;
-DELETE FROM material;
+
 DELETE FROM product_category;
+
 DELETE FROM product_material;
+
+DELETE FROM product_image;
+
+DELETE FROM image;
+
+DELETE FROM product;
+
+DELETE FROM category;
+
+DELETE FROM material;
+
 DELETE FROM admin;
+
+INSERT INTO image (slug, name, path) VALUES 
+('robe-elegante-1', 'Image de robe élégante', 'robe-elegante-1.jpg'),
+('robe-elegante-2', 'Image de robe élégante', 'robe-elegante-2.jpg'),
+('robe-elegante-3', 'Image de robe élégante', 'robe-elegante-3.jpg'),
+('robe-elegante-4', 'Image de robe élégante', 'robe-elegante-4.jpg'),
+('accessoires', 'Image de Accessoire', 'accessoires.webp'),
+('chaussures', 'Image de Chaussures', 'chaussures.webp'),
+('vetements', 'Image de Vêtements', 'vetements.webp');
 
 INSERT INTO material (slug, libelle, color) VALUES 
 ('cuire', 'Cuire', '#c31e1e'),
@@ -28,10 +53,10 @@ INSERT INTO material (slug, libelle, color) VALUES
 ('lacet', 'Lacet', '#b05b2d'),
 ('lin', 'Lin', '#637c46');
 
-INSERT INTO category (slug, libelle, image_path, is_highlander, sort_order, color) VALUES 
-('vetements', 'Vêtements', 'vetements.webp', 1, 1, '#32a852'),
-('chaussures', 'Chaussures', 'chaussures.webp', 1, 2, '#7ba832'),
-('accessoires', 'Accessoires', 'accessoires.webp', 0, 3, '#7c2d96'),
+INSERT INTO category (slug, libelle, image_slug, is_highlander, sort_order, color) VALUES 
+('vetements', 'Vêtements', 'vetements', 1, 1, '#32a852'),
+('chaussures', 'Chaussures', 'chaussures', 1, 2, '#7ba832'),
+('accessoires', 'Accessoires', 'accessoires', 0, 3, '#7c2d96'),
 ('pantalons', 'Pantalons', NULL, 0, 4, '#2d7c96'),
 ('jupes', 'Jupes', NULL, 0, 5, '#96322d'),
 ('robes', 'Robes', NULL, 0, 6, '#99832d'),
@@ -85,11 +110,11 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 ('veste-en-cuir', 'vetements'),
 ('veste-en-cuir', 'vestes');
 
-INSERT INTO image (product_slug, image_path, sort_order) VALUES 
-('robe-elegante', 'robe-elegante-1.jpg', 1),
-('robe-elegante', 'robe-elegante-2.jpg', 2),
-('robe-elegante', 'robe-elegante-3.jpg', 3),
-('robe-elegante', 'robe-elegante-4.jpg', 4);
+INSERT INTO product_image (product_slug, image_slug) VALUES 
+('robe-elegante', 'robe-elegante-1'),
+('robe-elegante', 'robe-elegante-2'),
+('robe-elegante', 'robe-elegante-3'),
+('robe-elegante', 'robe-elegante-4');
 
 INSERT INTO country (country_id, name) VALUES 
 (1, 'France'),

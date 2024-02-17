@@ -3,7 +3,7 @@
     <div class="darken-background" v-if="isMainOpen" @click="hideMainImage()"></div>
     <div class="main-display" v-if="isMainOpen">
       <img
-        :src="props.images[indexImage]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.images[indexImage].image_path) ? `${URL_BACKEND_UPLOAD}${props.images[indexImage].image_path}` : '/helpers/no-img-available.webp'"
+        :src="props.images[indexImage]?.path && imageExists(URL_BACKEND_UPLOAD + props.images[indexImage].path) ? `${URL_BACKEND_UPLOAD}${props.images[indexImage].path}` : '/helpers/no-img-available.webp'"
         :alt="`Image de ${props.alt}`" class="main-display-image" />
       <button class="main-display-close" @click="hideMainImage">
         <IconX />
@@ -12,13 +12,13 @@
     <div v-if="props.images && props.images.length > 0">
       <div class="carousel">
         <img
-          :src="props.images[indexImage]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.images[indexImage].image_path) ? `${URL_BACKEND_UPLOAD}${props.images[indexImage].image_path}` : '/helpers/no-img-available.webp'"
+          :src="props.images[indexImage]?.path && imageExists(URL_BACKEND_UPLOAD + props.images[indexImage].path) ? `${URL_BACKEND_UPLOAD}${props.images[indexImage].path}` : '/helpers/no-img-available.webp'"
           :alt="`Image de ${props.alt}`" class="carousel-main-image"
           @click="isMainOpen ? hideMainImage() : showMainImage()" />
         <ul class="carousel-other-images">
           <li v-for="(image, i) in props.images" :key="i">
-            <img v-if="image.image_path && imageExists(URL_BACKEND_UPLOAD + image.image_path)"
-              :src="`${URL_BACKEND_UPLOAD}${image.image_path}`" :alt="`Image de ${props.alt}`"
+            <img v-if="image.path && imageExists(URL_BACKEND_UPLOAD + image.path)"
+              :src="`${URL_BACKEND_UPLOAD}${image.path}`" :alt="`Image de ${props.alt}`"
               @click="setCarouselImage(i)" :class="indexImage === i ? 'active' : ''">
           </li>
         </ul>

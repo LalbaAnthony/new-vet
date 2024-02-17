@@ -1,7 +1,7 @@
 <template>
   <div class="cart-item">
     <img
-      :src="props.product.images[0]?.image_path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].image_path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].image_path}` : '/helpers/no-img-available.webp'"
+      :src="props.product.images[0]?.path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].path}` : '/helpers/no-img-available.webp'"
       :alt="`Image de ${props.product.name}`" />
     <h2 class="cart-item-name">{{ props.product.name }}</h2>
     <div class="cart-item-actions">

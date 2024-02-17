@@ -2,7 +2,7 @@
   <router-link :to="{ path: '/produits', query: { categories: [props.category.slug] } }">
     <div class="category-item">
       <img
-        :src="props.category.image_path && imageExists(URL_BACKEND_UPLOAD + props.category.image_path) ? `${URL_BACKEND_UPLOAD}${props.category.image_path}` : '/helpers/no-img-available.webp'"
+        :src="props.category.path && imageExists(URL_BACKEND_UPLOAD + props.category.path) ? `${URL_BACKEND_UPLOAD}${props.category.path}` : '/helpers/no-img-available.webp'"
         :alt="`Image de ${props.category.name}`" />
       <h2 class="category-item-libelle">{{ props.category.libelle }}</h2>
     </div>
