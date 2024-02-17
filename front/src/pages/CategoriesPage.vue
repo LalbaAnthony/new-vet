@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2 class="page-title">Nos catégories</h2>
+    <Breadcrumb />
     <Loader v-if="categoryStore.categories.loading" />
     <div v-else>
       <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0" class="categories-grid">
@@ -15,6 +16,7 @@
 </template>
 
 <script setup>
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import Pagination from '@/components/PaginationComponent.vue'
 import CategoryItem from '@/components/CategoryItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'

@@ -74,7 +74,7 @@ const search = ref('')
 categoryStore.fetchQuickAccessCategories();
 
 function triggerSearch() {
-  router.push(`/recherche/${search.value}`)
+  router.push(`/recherche?search=${search.value}`)
   search.value = ''
 }
 

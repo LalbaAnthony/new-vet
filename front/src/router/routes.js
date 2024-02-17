@@ -38,21 +38,30 @@ const routes = [
   {
     path: '/produits',
     name: 'products',
-    component: () => import('../pages/ProductsPage.vue'),
-    meta: { title: 'Produits' },
+    children: [
+      {
+        path: '',
+        name: 'products',
+        component: () => import('../pages/ProductsPage.vue'),
+        meta: { title: 'Produits' },
+      },
+      {
+        path: ':slug',
+        name: 'product',
+        component: () => import('../pages/ProductPage.vue'),
+        meta: { title: 'Produit' },
+      },
+    ],
+    meta: {
+      title: 'Produits',
+    },
   },
   {
-    path: '/produit/:slug',
-    name: 'product',
-    component: () => import('../pages/ProductPage.vue'),
-    meta: { title: 'Produit' },
-  },
-  {
-    path: '/recherche/:searched?',
+    path: '/recherche',
     name: 'search',
     component: () => import('../pages/SearchPage.vue'),
     meta: { title: 'Recherche' },
-  },  
+  },
   {
     path: '/paiement',
     name: 'checkout',

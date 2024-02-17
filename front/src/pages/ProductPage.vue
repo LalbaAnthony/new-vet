@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2 class="page-title">{{ productStore.product.data.name }}</h2>
+    <Breadcrumb />
     <Loader v-if="productStore.product.loading" />
     <div v-else class="product">
       <div class="product-images">
@@ -55,6 +56,7 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import Stock from '@/components/StockComponent.vue'
 import Pill from '@/components/PillComponent.vue'

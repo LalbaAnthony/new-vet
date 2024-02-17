@@ -1,6 +1,7 @@
 <template>
       <div>
             <h2 class="page-title">Contactez nous !</h2>
+            <Breadcrumb />
             <div class="contact-form">
                   <div class="split-half">
                         <div class="form-group">
@@ -33,6 +34,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { notify } from '@/helpers/notif.js'
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import { isValidEmail } from '@/helpers/helpers.js'
 import router from "@/router";
 import { post } from '@/helpers/api';
