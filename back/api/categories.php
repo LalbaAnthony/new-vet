@@ -3,6 +3,7 @@
 
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/category.php';
+include_once APP_PATH . '/models/image.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -29,6 +30,9 @@ $categories = getCategories($search, $is_highlander, $is_quick_access, $exclude,
 if (count($categories) > 0) {
     $json['status'] = 200;
     $json['error'] = null;
+    foreach ($categories as &$category) {
+        $category['image'] = getImage($category['image_slug']);
+    }
     $json['pagination'] = array(
         'page' => intval($page),
         'per_page' => intval($per_page),

@@ -124,6 +124,7 @@ CREATE TABLE product_image(
         product_image_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         product_slug VARCHAR (50) NOT NULL,
         image_slug VARCHAR (50) NOT NULL,
+        sort_order INT,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT product_image_PK PRIMARY KEY (product_image_id),

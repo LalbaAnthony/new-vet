@@ -2,7 +2,7 @@
   <div class="cart-item">
     <img
       :src="props.product.images[0]?.path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].path}` : '/helpers/no-img-available.webp'"
-      :alt="`Image de ${props.product.name}`" />
+      :alt="props.product.images[0].alt || `Image de ${props.product.name}`" />
     <h2 class="cart-item-name">{{ props.product.name }}</h2>
     <div class="cart-item-actions">
       <select v-if="props.product.stock_quantity > 0" v-model="authStore.cart[props.product.slug]">

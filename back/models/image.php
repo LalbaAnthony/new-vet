@@ -30,14 +30,29 @@ function getImages()
     return $images;
 }
 
+function getImagesCount()
+{
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM image WHERE is_deleted = 0;";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
+}
+
 function getImagesFromProduct($product_slug)
 {
     $dbh = db_connect();
     $sql = "SELECT * FROM image, product_image 
     WHERE image.slug = product_image.image_slug 
     AND product_image.product_slug = :product_slug
-    AND is_deleted = 0 
-    ORDER BY sort_order ASC;";
+    AND image.is_deleted = 0 
+    ORDER BY product_image.sort_order ASC;";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
@@ -55,7 +70,7 @@ function getFirstImagePathFromProduct($product_slug)
     $sql = "SELECT * FROM image, product_image 
     WHERE image.slug = product_image.image_slug
     AND product_image.product_slug = :product_slug
-    AND is_deleted = 0
+    AND image.is_deleted = 0 
     ORDER BY sort_order ASC
     LIMIT 1;";
     try {

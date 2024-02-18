@@ -35,9 +35,9 @@ INSERT INTO image (slug, name, path) VALUES
 ('robe-elegante-2', 'Image de robe élégante', 'robe-elegante-2.jpg'),
 ('robe-elegante-3', 'Image de robe élégante', 'robe-elegante-3.jpg'),
 ('robe-elegante-4', 'Image de robe élégante', 'robe-elegante-4.jpg'),
-('accessoires', 'Image de Accessoire', 'accessoires.webp'),
-('chaussures', 'Image de Chaussures', 'chaussures.webp'),
-('vetements', 'Image de Vêtements', 'vetements.webp');
+('accessoires', 'Image Accessoire', 'accessoires.webp'),
+('chaussures', 'Image Chaussures', 'chaussures.webp'),
+('vetements', 'Image Vêtements', 'vetements.webp');
 
 INSERT INTO material (slug, libelle, color) VALUES 
 ('cuire', 'Cuire', '#c31e1e'),

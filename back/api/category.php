@@ -2,6 +2,7 @@
 
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/category.php';
+include_once APP_PATH . '/models/image.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -24,6 +25,7 @@ if ($slug) {
     if ($category) {
         $json['status'] = 200;
         $json['error'] = null;
+        $category['image'] = getImage($category['image_slug']);
         $json['data'] = $category;
     } else {
         $json['status'] = 400;
