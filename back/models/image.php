@@ -88,7 +88,7 @@ function getFirstImagePathFromProduct($product_slug)
     }
 }
 
-function createImage($image)
+function insertImage($image)
 {
     $dbh = db_connect();
     $sql = "INSERT INTO image (slug, name, alt, path, weight, extention) VALUES (:slug, :name, :alt, :path, :weight, :extention);";

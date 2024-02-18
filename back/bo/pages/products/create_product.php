@@ -14,7 +14,6 @@ $materials = getMaterials();
 if (isset($_POST['submit'])) {
 
     $product = array();
-    $missing_fields = array();
 
     // Lecture du formulaire
     $product['name'] = isset($_POST['name']) ? $_POST['name'] : null;

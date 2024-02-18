@@ -1,6 +1,8 @@
 <?php
 
 include_once "../../../config.inc.php";
+include_once APP_PATH . "/helpers/slugify.php";
+include_once APP_PATH . "/models/image.php";
 
 // Configuration
 $target_path = APP_PATH . "uploads/";
@@ -10,6 +12,8 @@ $max_size = 2000000; // 2 Mo
 if (isset($_POST['submit'])) {
 
     $error = null;
+    $sucessUpload = false;
+    $sucessInsertDb = false;
 
     $target_file = $target_path . basename($_FILES["image"]["name"]);
     $extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -34,19 +38,45 @@ if (isset($_POST['submit'])) {
         $error = "Désolé, seuls les fichiers " . implode(", ", $alowed_extensions) . " sont autorisés.";
     }
 
+    // Si tout est ok, téléchargez le fichier
     if (!$error) {
-        // Si tout est ok, téléchargez le fichier
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            echo "Le fichier " . htmlspecialchars(basename($_FILES["image"]["name"])) . " a été téléchargé.";
+            $sucessUpload = true;
         } else {
             $error = "Désolé, une erreur inconnue s'est produite lors du téléchargement de votre fichier.";
         }
     }
 
-    if ($error) {
-        echo $error;
-    } else {
-        echo "Le fichier a été téléchargé avec succès";
+    // Si tout est ok, on insère dans la base
+    // if (!$error) {
+    //     $image = array();
+
+    //     // Lecture du formulaire
+    //     $image['name'] = isset($_POST['name']) ? $_POST['name'] : null;
+    //     $image['alt'] = isset($_POST['alt']) ? $_POST['alt'] : null;
+    //     $image['path'] = basename($_FILES["image"]["name"]);
+
+    //     // Generate le slug
+    //     $image['slug'] = slugify($image['name']);
+
+    //     // Formulaire validé : on modifie l'enregistrement
+    //     $sucessInsertDb = insertImage($image);
+    // }
+
+    // $sucess = $sucessUpload && $sucessInsertDb;
+    $sucess = $sucessUpload;
+
+    if (!$sucess) {
+        $error = "Une erreur est survenue lors de l'envoie de l'image.";
+    }
+
+    echo "error: " . var_dump($error) . "<br>";
+    echo "sucessUpload: " . var_dump($sucessUpload) . "<br>";
+    echo "sucessInsertDb: " . var_dump($sucessInsertDb) . "<br>";
+    echo "sucess: " . var_dump($sucess) . "<br>";
+
+    if (!$error) {
+        // header('Location:' . APP_URL . 'bo/pages/images/index.php?created=' . $sucess);
     }
 }
 ?>
@@ -68,7 +98,11 @@ if (isset($_POST['submit'])) {
     <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
     <div class="container mt-5">
 
-        <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
+        <?php if (isset($error)) : ?>
+            <div class="alert alert-danger" role="alert">
+                <?= $error ?>
+            </div>
+        <?php endif; ?>
 
         <h2 class="mb-4">Ajout d'une image :</h2>
 
@@ -77,20 +111,20 @@ if (isset($_POST['submit'])) {
                 <label class="required" for="name">Nom:</label>
                 <input class="form-control" type="text" id="name" name="name" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="alt">Description:</label>
                 <input class="form-control" type="text" id="alt" name="alt">
             </div>
-            
+
             <div class="form-group mb-4">
                 <label class="required" for="image">Image:</label>
                 <input class="form-control" type="file" name="image" id="image" required>
             </div>
 
             <div class="d-flex justify-content-between">
-                <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
-                <button type="submit" name="submit" class="btn btn-primary">Créer</button>
+                <a href="<?= APP_URL ?>bo/pages/images/index.php" class="btn btn-secondary">Retour</a>
+                <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
             </div>
         </form>
     </div>

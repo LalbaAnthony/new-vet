@@ -31,6 +31,17 @@
         </div>
     <?php endif; ?>
 <?php endif; ?>
+<?php if (isset($_GET['uploaded'])) : ?>
+    <?php if ($_GET['uploaded'] === '1') : ?>
+        <div class="alert alert-success" role="alert">
+            Le fichier a bien été téléchargé !
+        </div>
+    <?php else : ?>
+        <div class="alert alert-danger" role="alert">
+            Le fichier n'a pas pu été téléchargé. Veuillez réessayer !
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
 <?php if (isset($_GET['missing_fields'])) : ?>
     <div class="alert alert-danger" role="alert">
         Les champs suivants sont manquants : <?= $_GET['missing_fields'] ?>
