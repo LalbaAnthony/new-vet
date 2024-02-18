@@ -3,7 +3,7 @@
     <div class="product">
       <img
         :src="props.product.images[0]?.path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].path}` : '/helpers/no-img-available.webp'"
-        :alt="`Image de ${props.product.name}`" />
+        :alt="props.product.images[0]?.alt || `Image de ${props.product.name}`" />
       <div>
         <div class="product-categories">
           <Pill v-for="cat in props.product.categories" :key="cat.slug" :text="cat.libelle" :link="`/produits?categories=${cat.slug}`" />
