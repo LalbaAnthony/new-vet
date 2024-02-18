@@ -1,7 +1,6 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/bo/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/helpers/slugify.php";
 include_once APP_PATH . "/models/category.php";
@@ -59,6 +58,9 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+
+    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+
     <div class="container mt-5">
 
         <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
@@ -67,17 +69,17 @@ if (isset($_POST['submit'])) {
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <div class="form-group">
-                <label for="name">Nom:</label>
+                <label class="required" for="name">Nom:</label>
                 <input class="form-control" type="text" id="name" name="name" required>
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label class="required" for="description">Description:</label>
                 <input class="form-control" type="text" id="description" name="description" required>
             </div>
 
             <div class="form-group">
-                <label for="price">Prix:</label>
+                <label class="required" for="price">Prix:</label>
                 <input class="form-control" type="number" id="price" name="price" required>
             </div>
 
@@ -87,7 +89,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="form-group">
-                <label for="stock_quantity">Quantité en stock:</label>
+                <label class="required" for="stock_quantity">Quantité en stock:</label>
                 <input class="form-control" type="number" id="stock_quantity" name="stock_quantity" required>
             </div>
 

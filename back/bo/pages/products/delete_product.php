@@ -1,7 +1,6 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/bo/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 
 // Réception du produit à modifier
@@ -34,6 +33,9 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+
+    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+
     <div class="container mt-5">
         <h2 style="margin: 30vh 0">Supprimer <?= $product['name'] ?> ?</h2>
 

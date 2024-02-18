@@ -1,11 +1,9 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/bo/partials/header.php";
 include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/models/category.php";
 include_once APP_PATH . "/models/material.php";
-
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
@@ -62,6 +60,10 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+
+    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+
+
     <div class="container mt-5">
 
         <?php if ($product["is_deleted"] == 1) : ?>
@@ -75,18 +77,18 @@ if (isset($_POST['submit'])) {
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $product['slug']; ?>">
             <div class="form-group">
-                <label for="name">Nom:</label>
-                <input class="form-control" type="text" id="name" name="name" value="<?= $product['name'] ?>">
+                <label class="required" for="name">Nom:</label>
+                <input class="form-control" type="text" id="name" name="name" value="<?= $product['name'] ?>" required>
             </div>
 
             <div class="form-group">
-                <label for="description">Description:</label>
-                <input class="form-control" type="text" id="description" name="description" value="<?= $product['description'] ?>">
+                <label class="required" for="description">Description:</label>
+                <input class="form-control" type="text" id="description" name="description" value="<?= $product['description'] ?>" required>
             </div>
 
             <div class="form-group">
-                <label for="price">Prix:</label>
-                <input class="form-control" type="number" id="price" name="price" value="<?= $product['price'] ?>">
+                <label class="required" for="price">Prix:</label>
+                <input class="form-control" type="number" id="price" name="price" value="<?= $product['price'] ?>" required>
             </div>
 
             <div class="form-group">
@@ -95,8 +97,8 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="form-group">
-                <label for="stock_quantity">Quantité en stock:</label>
-                <input class="form-control" type="number" id="stock_quantity" name="stock_quantity" value="<?= $product['stock_quantity'] ?>">
+                <label class="required" for="stock_quantity">Quantité en stock:</label>
+                <input class="form-control" type="number" id="stock_quantity" name="stock_quantity" value="<?= $product['stock_quantity'] ?>" required>
             </div>
 
             <div class="form-group">

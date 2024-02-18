@@ -18,9 +18,9 @@ include_once "../../config.inc.php";
 </head>
 
 <body>
-    <main>
-        <?php include APP_PATH . "bo/partials/header.php"; ?>
+    <?php include APP_PATH . "bo/partials/header.php"; ?>
 
+    <div class="container mt-5">
         <div class="container">
             <div class="row justify-content-center align-items-center vh-100">
                 <div class="col-md-4">
@@ -29,7 +29,7 @@ include_once "../../config.inc.php";
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </body>
 
 </html>

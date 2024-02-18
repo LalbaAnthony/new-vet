@@ -10,3 +10,9 @@ input[type="checkbox"] {
   width: 15px;
   height: 15px;
 }
+
+.required::after {
+  content: " *";
+  font-weight: 600;
+  color: red
+}
