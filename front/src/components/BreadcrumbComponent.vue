@@ -12,11 +12,10 @@
       </li>
     </ol> -->
     <!-- <pre>
-      {{ route }}
+      {{ route.matched }}
     </pre> -->
   </div>
 </template>
-
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
