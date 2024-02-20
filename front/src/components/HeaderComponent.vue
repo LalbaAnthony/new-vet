@@ -142,7 +142,7 @@ ul.header-action-btn {
 }
 
 ul.header-action-btn>* {
-  margin: 0 0.25rem;
+  margin: 0 0 0 0.5rem;
 }
 
 .header-action-btn-icon {

@@ -1,20 +1,20 @@
 <template>
-  <div>
-    <!-- <ol class="breadcrumb">
-      <li class="el" @click="goHome">
-        <IconHouse class="icon-offset" />
-      </li>
-      <li v-for="(crumb, index) in route.matched" :key="index">
-        <IconChevronRight class="chevron" />
-        <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
-          {{ crumb.path.includes("slug") && route.params.slug ? route.params.slug : crumb.meta.title }}
-        </span>
-      </li>
-    </ol> -->
-    <!-- <pre>
+  <ol class="breadcrumb">
+    <li class="el" @click="goHome">
+      <IconHouse class="icon-offset" />
+    </li>
+    <li v-for="(crumb, index) in route.matched" :key="index">
+      <!-- <div v-if="route.matched[index].name !== route.matched[index - 1].name"> -->
+      <IconChevronRight class="chevron" />
+      <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
+        {{ crumb.path.includes("slug") && route.params.slug ? route.params.slug : crumb.meta.title }}
+      </span>
+      <!-- </div> -->
+    </li>
+  </ol>
+  <!-- <pre>
       {{ route.matched }}
     </pre> -->
-  </div>
 </template>
 
 <script setup>
@@ -49,7 +49,6 @@ ol.breadcrumb {
   justify-content: flex-start;
   align-items: center;
   padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
 }
 
 ol.breadcrumb .el {
