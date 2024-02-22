@@ -17,22 +17,46 @@ function getContact($id)
     return $contact;
 }
 
-function getContacts()
+function getContacts($search = null)
 {
     $dbh = db_connect();
 
-    $sql = "SELECT * FROM contact ";
+    $sql = "SELECT contact.* FROM contact 
+    LEFT JOIN customer ON customer.customer_id = contact.contact_id";
+ 
+ // Use WHERE 1 = 1 to be able to add conditions with AND
+ $sql .= " WHERE 1 = 1";
 
-    $sql .= " WHERE is_deleted = 0";
+ $sql .= " AND contact.is_deleted = 0";
 
-    $sql .= " ORDER BY created_at DESC";
+ if ($search) {
+    $sql .= " AND (
+    customer.first_name LIKE :search OR 
+    customer.last_name LIKE :search OR
+    contact.email LIKE :search OR
+    contact.subject LIKE :search OR
+    contact.message LIKE :search OR
+    SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
+    SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
+    SOUNDEX(contact.email) = SOUNDEX(:search) OR
+    SOUNDEX(contact.subject) = SOUNDEX(:search) OR
+    SOUNDEX(contact.message) = SOUNDEX(:search) 
+
+)";
+ }
+
+ $sql .= " ORDER BY contact.created_at DESC";
 
     try {
         $sth = $dbh->prepare($sql);
+
+          // Bind others values
+          if ($search) $sth->bindValue(":search", "%$search%");
+
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL : " . $sql);
     }
 
     return $contacts;
@@ -83,7 +107,7 @@ function deleteContact($id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":id" => $id));
         if ($sth->rowCount() > 0) {
-            log_txt("Product deleted in back office: slug " . $slug);
+            log_txt("Product deleted in back office: slug " . $id);
             return true;
         } else {
             return false;

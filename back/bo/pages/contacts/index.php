@@ -1,7 +1,7 @@
 <?php
 
-include_once "../config.inc.php";
-include_once APP_PATH . "/partials/header.php";
+include_once "../../../config.inc.php";
+include_once APP_PATH . "bo/partials/header.php";
 include_once APP_PATH . "/models/contact.php";
 include_once APP_PATH . "/helpers/fr_date.php";
 include_once APP_PATH . "/helpers/three_dots_string.php";
@@ -22,7 +22,7 @@ $per_page = 10;
 $offset = ($page - 1) * $per_page;
 
 // Fetch contacts with sorting
-$contacts = getContacts();
+$contacts = getContacts($search);
 
 // Bottom action: delete selected contacts, ...
 if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
@@ -41,19 +41,19 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="../assets/favicon.ico">
+    <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site de vente de vêtement pour femme." />
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
     <title>Lise des produits - NEW VET</title>
-    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
 
-        <?php include_once APP_PATH . "/partials/alert_message.php"; ?>
+        <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
 
         <div class="container p-4 p-lg-5">
             <h1 class="text-center">Liste des contacts</h1>
@@ -91,7 +91,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                              <!-- Date -->
                             <td><?= fr_date($contact['created_at']) ?></td>
                             <!-- Bouton de suppression -->
-                            <td> <a href="<?= APP_URL ?>contacts/delete_contact.php?contact_id=<?= $contact['contact_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
+                            <td> <a href="<?= APP_URL ?>/bo/pages/contacts/delete_contact.php?contact_id=<?= $contact['contact_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
                         </tr>
                     <?php
                     }

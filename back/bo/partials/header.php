@@ -16,17 +16,6 @@ include APP_PATH . "auth.php";
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-<<<<<<< HEAD:back/partials/header.php
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>index.php">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>dashboard.php">Tableau de bord</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>products/index.php">Produits</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>categories/index.php">Catégories</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>materials/index.php">Matériaux</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>orders/index.php">Commandes</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>contacts/index.php">Contacts</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>customers/index.php">Clients</a></li>
-                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>logout.php">Se déconnecter</a></li>
-=======
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>bo/pages/index.php">Accueil</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>bo/pages/dashboard.php">Tableau de bord</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>bo/pages/images/index.php">Images</a></li>
@@ -37,7 +26,6 @@ include APP_PATH . "auth.php";
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>bo/pages/customers/index.php">Clients</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>bo/pages/contacts/index.php">Contacts</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>bo/pages/logout.php">Se déconnecter</a></li>
->>>>>>> a7922b14fdb555146e6b4d429bd97eda0ed996a8:back/bo/partials/header.php
             </ul>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <?php
 
-include_once "../config.inc.php";
-include_once APP_PATH . "/partials/header.php";
+include_once "../../../config.inc.php";
+include_once APP_PATH . "bo/partials/header.php";
 include_once APP_PATH . "/models/contact.php";
 
 // Réception du produit à modifier
@@ -14,8 +14,8 @@ if (isset($_POST['submit'])) {
     // Formulaire validé : on supprime l'enregistrement
     $sucess = deleteContact($_POST['contact_id']);
 
-    // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'contacts/index.php?deleted=' . $sucess);
+    // Redirection vers la liste des contacts
+    header('Location:' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $sucess);
 }
 
 // Affichage
@@ -25,12 +25,12 @@ if (isset($_POST['submit'])) {
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="assets/favicon.ico">
+    <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="NEW VET" />
     <title>Suppression - NEW VET</title>
-    <link href="<?= APP_URL ?>css/bootstrap.css" rel="stylesheet">
-    <link href="<?= APP_URL ?>css/main.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
+    <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -61,7 +61,7 @@ if (isset($_POST['submit'])) {
             <br>
 
             <div class="d-flex justify-content-between">
-                <a href="<?= APP_URL ?>contacts/index.php" class="btn btn-secondary">Retour</a>
+                <a href="<?= APP_URL ?>bo/pages/contacts/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-danger">Supprimer</button>
             </div>
         </form>
