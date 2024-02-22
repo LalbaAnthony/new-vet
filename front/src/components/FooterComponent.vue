@@ -25,6 +25,10 @@
         <span class="link">Mentions légales</span>
       </router-link>
       <br>
+      <router-link to="/conditions-generales-d-utilisation">
+        <span class="link">Conditions générales d'utilisation</span>
+      </router-link>
+      <br>
       <router-link to="/contact">
         <span class="link">Contact</span>
       </router-link>

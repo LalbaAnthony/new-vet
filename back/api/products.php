@@ -1,42 +1,57 @@
 
 <?php
 
-// ? exemple d'url: http://localhost/projects/new-vet/back/api/products.php?order_by=slug&order=ASC&search=sac
-
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/product.php';
 include_once APP_PATH . '/models/image.php';
 include_once APP_PATH . '/models/category.php';
 include_once APP_PATH . '/models/material.php';
 
-$slug = isset($_GET['slug']) ? $_GET['slug'] : '';
-$category = isset($_GET['category']) ? $_GET['category'] : array();
-$material = isset($_GET['material']) ? $_GET['material'] : array();
+$categories = isset($_GET['categories']) ? $_GET['categories'] : array();
+$materials = isset($_GET['materials']) ? $_GET['materials'] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
-$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'sort_order';
-$order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
+$sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
-$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
+$exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
+$include = isset($_GET['include']) ? $_GET['include'] : array();
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 
-$products = array();
+if ($categories) $categories = explode(',', $categories[0]);
+if ($materials) $materials = explode(',', $materials[0]);
+if ($exclude) $exclude = explode(',', $exclude[0]);
+if ($include) $include = explode(',', $include[0]);
 
-if ($slug) { // Si on a un slug, on recupere un produit
-    $product = getProduct($slug);
-    if ($product) {
-        array_push($products, $product);
-    }
-} else { // Sinon on recupere tous les produits, selon les parametres
-    $products = getProducts($category, $material, $search, $order_by, $order, $offset, $per_page, $is_highlander);
-}
+$products_count = getProductsCount($categories, $materials, $search, $is_highlander, $exclude, $include);
 
-// Si il y a des produits, on recupere les images et la categorie associée
+$offset = ($page - 1) * $per_page;
+$total = ceil($products_count / $per_page);
+
+$json = array();
+$products = getProducts($categories, $materials, $search, $is_highlander, $exclude, $include, $sort, $offset, $per_page);
+
 if (count($products) > 0) {
+    $json['status'] = 200;
+    $json['error'] = null;
     foreach ($products as &$product) {
         $product['images'] = getImagesFromProduct($product['slug']);
         $product['categories'] = getCategoriesFromProduct($product['slug']);
         $product['materials'] = getMaterialsFromProduct($product['slug']);
     }
+    $json['pagination'] = array(
+        'page' => intval($page),
+        'per_page' => intval($per_page),
+        'total' => intval($total),
+    );
+    $json['data'] = $products;
+} else if (count($products) === 0) {
+    $json['status'] = 400;
+    $json['error'] = 'No element found';
+    $json['data'] = array();
+} else {
+    $json['status'] = 500;
+    $json['error'] = 'Error while getting getting elements';
 }
 
 // Return  JSON
@@ -45,5 +60,5 @@ header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-type: application/json; charset=utf-8");
 
-$products = json_encode($products);
-echo $products;
+$json = json_encode($json);
+echo $json;

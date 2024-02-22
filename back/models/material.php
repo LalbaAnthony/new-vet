@@ -10,7 +10,6 @@ function getMaterial($slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));
         $material = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read material: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -18,7 +17,7 @@ function getMaterial($slug)
     return $material;
 }
 
-function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', $offset = null, $per_page = 10)
+function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'libelle')), $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
 
@@ -31,9 +30,25 @@ function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', 
     $sql .= " AND is_deleted = 0";
 
     // Filter by search
-    if ($search) $sql .= " AND libelle LIKE :search";
+    if ($search) {
+        $sql .= " AND (
+        libelle LIKE :search OR
+        slug LIKE :search OR
+        SOUNDEX(libelle) = SOUNDEX(:search) OR
+        SOUNDEX(slug) = SOUNDEX(:search)
+        )";
+    }
 
-    $sql .= " ORDER BY $order_by $order";
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(" . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }
+
+    // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
@@ -48,12 +63,26 @@ function getMaterials($search = null, $order_by = 'created_at', $order = 'ASC', 
         $sth->execute();
 
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read materials");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
     return $materials;
+}
+
+function getMaterialsCount()
+{
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM material WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
 }
 
 function getMaterialsFromProduct($product_slug)
@@ -66,7 +95,6 @@ function getMaterialsFromProduct($product_slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read materials");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

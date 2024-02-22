@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+:root {
+  --primary: #F1452B;
+  --secondary: #FEBD21;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 15px;
+  height: 15px;
+}
+
+.required::after {
+  content: " *";
+  font-weight: 600;
+  color: red
+}

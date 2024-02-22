@@ -2,16 +2,16 @@
   <header>
     <div class="header-bloc">
       <router-link to="/">
-        <div class="center">
+        <div class="bloc-logo">
           <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
         </div>
       </router-link>
       <div class="header-actions">
-        <input type="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
+        <input type="search" class="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
-            <span v-if="authStore.cart.length > 0" class="cart-number">{{ authStore.cart.length }}</span>
+            <span v-if="authStore.cart > 0" class="cart-number">{{ authStore.cartTotal }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
@@ -42,10 +42,10 @@
         <span>Contact</span>
       </router-link>
     </nav>
-    <div class="center">
+    <div v-if="categoryStore.quickAccessCategories?.data?.length > 0" class="header-categories">
       <div class="header-quick-access">
-        <Pill v-for="item in quickAccess" :key="item.slug" :text="item.libelle" :link="`/categories/${item.slug}`"
-          type="light" />
+        <Pill v-for="item in categoryStore.quickAccessCategories.data" :key="item.slug" :text="item.libelle"
+        :link="`/produits?categories=${item.slug}`" type="light" />
       </div>
     </div>
   </header>
@@ -62,54 +62,21 @@ import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.
 import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
 import router from '@/router';
+import { randSearchPlaceholder } from '@/helpers/helpers.js'
+import { useCategoryStore } from '@/stores/category'
 
 const authStore = useAuthStore()
-const quickAccess = ref(getQuickAccess())
-const searchPlaceholder = ref(randomPlaceholder())
+const categoryStore = useCategoryStore()
+
+const searchPlaceholder = ref(randSearchPlaceholder())
 const search = ref('')
 
-function randomPlaceholder() {
-  const placeholders = [
-    'Rechercher ...',
-    'Chercher un produit ...',
-    'Chercher une catégorie ...',
-    'Chercher un article ...',
-    'Rechercher un produit ...',
-    'Rechercher une catégorie ...',
-    'Rechercher un article ...',
-    'Trouver un produit ...',
-    'Trouver un article ...',
-    'Trouver une catégorie ...'
-  ]
-  return placeholders[Math.floor(Math.random() * placeholders.length)]
-}
+categoryStore.fetchQuickAccessCategories();
 
 function triggerSearch() {
-  router.push(`/recherche/${search.value}`)
+  router.push(`/recherche?search=${search.value}`)
   search.value = ''
 }
-
-function getQuickAccess() {
-  return [
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    },
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    },
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    },
-    {
-      slug: 'vetements',
-      libelle: 'Vêtements',
-    }
-  ]
-}
-
 
 </script>
 
@@ -118,6 +85,8 @@ function getQuickAccess() {
 @media (min-width: 1024px) {
   .header-bloc {
     display: flex;
+    max-width: 900px;
+    margin: 0 auto;
     flex-direction: row;
   }
 }
@@ -144,7 +113,8 @@ header {
   color: var(--light);
 }
 
-.center {
+.bloc-logo,
+.header-categories {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -156,11 +126,6 @@ header {
   align-items: center;
   width: 100%;
   padding: 0 0.5rem;
-}
-
-#search {
-  max-width: 750px;
-  margin: 0 auto;
 }
 
 .main-logo {
@@ -177,7 +142,7 @@ ul.header-action-btn {
 }
 
 ul.header-action-btn>* {
-  margin: 0 0.25rem;
+  margin: 0 0 0 0.5rem;
 }
 
 .header-action-btn-icon {
@@ -206,10 +171,10 @@ ul.header-action-btn>* {
 .cart-number {
   z-index: 1;
   position: absolute;
-  padding: 0 7px;
+  padding: 0 8px;
   background-color: var(--secondary);
   color: var(--light);
-  border-radius: 50%;
+  border-radius: 50px;
   transform: translate(80%, -50%);
 }
 
@@ -240,7 +205,7 @@ ul.header-action-btn>* {
 .header-pages>* {
   color: var(--light);
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   animation-duration: 0.3s;
   transition: all 0.3s;
 }

@@ -1,26 +1,72 @@
 DELETE FROM contact;
+
 DELETE FROM order_product;
+
 DELETE FROM `order`;
+
 DELETE FROM status;
+
 DELETE FROM card;
+
 DELETE FROM address;
+
 DELETE FROM customer;
+
 DELETE FROM country;
-DELETE FROM image;
-DELETE FROM product;
-DELETE FROM category;
-DELETE FROM material;
+
 DELETE FROM product_category;
+
 DELETE FROM product_material;
+
+DELETE FROM product_image;
+
+DELETE FROM image;
+
+DELETE FROM product;
+
+DELETE FROM category;
+
+DELETE FROM material;
+
 DELETE FROM admin;
 
-INSERT INTO material (slug, libelle, color) VALUES 
-('cuire', 'Cuire', '#227553');
+INSERT INTO image (slug, name, path) VALUES 
+('robe-elegante-1', 'Image de robe élégante', 'robe-elegante-1.jpg'),
+('robe-elegante-2', 'Image de robe élégante', 'robe-elegante-2.jpg'),
+('robe-elegante-3', 'Image de robe élégante', 'robe-elegante-3.jpg'),
+('robe-elegante-4', 'Image de robe élégante', 'robe-elegante-4.jpg'),
+('accessoires', 'Image Accessoire', 'accessoires.webp'),
+('chaussures', 'Image Chaussures', 'chaussures.webp'),
+('vetements', 'Image Vêtements', 'vetements.webp');
 
-INSERT INTO category (slug, libelle, image_path, sort_order, color) VALUES 
-('vetements', 'Vêtements', 'uploads/categories/vetements.webp', 1, '#32a852'),
-('chaussures', 'Chaussures', 'uploads/categories/chaussures.webp', 2, '#7ba832'),
-('accessoires', 'Accessoires', 'uploads/categories/accessoires.webp', 3, '#7c2d96');
+INSERT INTO material (slug, libelle, color) VALUES 
+('cuire', 'Cuire', '#c31e1e'),
+('coton', 'Coton', '#187dab'),
+('laine', 'Laine', '#6b4522'),
+('soie', 'Soie', '#ad6b95'),
+('denim', 'Denim', '#2b4f6d'),
+('polyester', 'Polyester', '#836bb0'),
+('elasthane', 'Elasthane', '#b04782'),
+('lurex', 'Lurex', '#b09833'),
+('viscose', 'Viscose', '#8b9937'),
+('nylon', 'Nylon', '#375b99'),
+('lacet', 'Lacet', '#b05b2d'),
+('lin', 'Lin', '#637c46');
+
+INSERT INTO category (slug, libelle, image_slug, is_highlander, sort_order, color) VALUES 
+('vetements', 'Vêtements', 'vetements', 1, 1, '#32a852'),
+('chaussures', 'Chaussures', 'chaussures', 1, 2, '#7ba832'),
+('accessoires', 'Accessoires', 'accessoires', 0, 3, '#7c2d96'),
+('pantalons', 'Pantalons', NULL, 0, 4, '#2d7c96'),
+('jupes', 'Jupes', NULL, 0, 5, '#96322d'),
+('robes', 'Robes', NULL, 0, 6, '#99832d'),
+('manteaux', 'Manteaux', NULL, 0, 7, '#322d96'),
+('chemisiers', 'Chemisiers', NULL, 0, 8, '#56854c'),
+('pulls', 'Pulls', NULL, 0, 9, '#7c9632'),
+('vestes', 'Vestes', NULL, 0, 10, '#32963d'),
+('sacs', 'Sacs', NULL, 0, 11, '#96327b'),
+('ceintures', 'Ceintures', NULL, 0, 12, '#2d9696'),
+('bijoux', 'Bijoux', NULL, 0, 13, '#96327c');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
@@ -35,11 +81,10 @@ INSERT INTO product (slug, name, description, is_highlander, price, stock_quanti
 ('collier-fantaisie', 'Collier fantaisie', 'Collier original pour sublimer votre cou', 0, 29.99, 22),
 ('blouse-florale', 'Blouse florale', 'Blouse légère et féminine avec motif floral', 0, 44.99, 32),
 ('sweat-a-capuche', 'Sweat à capuche', 'Sweat confortable et stylé pour les journées fraîches', 0, 39.99, 27),
-('chaussettes-colorées', 'Chaussettes colorées', 'Chaussettes amusantes pour égayer votre tenue', 0, 9.99, 50),
+('chaussettes-colorees', 'Chaussettes colorées', 'Chaussettes amusantes pour égayer votre tenue', 0, 9.99, 50),
 ('ceinture-elegante', 'Ceinture élégante', 'Ceinture pour mettre en valeur votre taille', 0, 19.99, 15),
 ('casquette-tendance', 'Casquette tendance', 'Casquette stylée pour compléter votre look décontracté', 0, 14.99, 25),
 ('veste-en-cuir', 'Veste en cuir', 'Veste élégante pour une allure moderne', 0, 89.99, 10);
-
 
 INSERT INTO product_material (product_slug, material_slug) VALUES 
 ('sac-a-main-chic', 'cuire'),
@@ -62,33 +107,14 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 ('chaussettes-colorées', 'accessoires'),
 ('ceinture-elegante', 'accessoires'),
 ('casquette-tendance', 'accessoires'),
-('veste-en-cuir', 'vetements');
+('veste-en-cuir', 'vetements'),
+('veste-en-cuir', 'vestes');
 
-INSERT INTO image (product_slug, image_path, sort_order) VALUES 
-('robe-elegante', 'uploads/products/robe-elegante-1.jpg', 1),
-('robe-elegante', 'uploads/products/robe-elegante-2.jpg', 2),
-('escarpins-classiques', 'uploads/products/escarpins-classiques-1.jpg', 1),
-('escarpins-classiques', 'uploads/products/escarpins-classiques-2.jpg', 2),
-('sac-a-main-chic', 'uploads/products/sac-a-main-chic-1.jpg', 1),
-('sac-a-main-chic', 'uploads/products/sac-a-main-chic-2.jpg', 2),
-('t-shirt-decontracte', 'uploads/products/t-shirt-decontracte-1.jpg', 1),
-('t-shirt-decontracte', 'uploads/products/t-shirt-decontracte-2.jpg', 2),
-('jean-slim', 'uploads/products/jean-slim-1.jpg', 1),
-('jean-slim', 'uploads/products/jean-slim-2.jpg', 2),
-('baskets-sportives', 'uploads/products/baskets-sportives-1.jpg', 1),
-('baskets-sportives', 'uploads/products/baskets-sportives-2.jpg', 2),
-('montre-elegante', 'uploads/products/montre-elegante-1.jpg', 1),
-('montre-elegante', 'uploads/products/montre-elegante-2.jpg', 2),
-('chapeau-de-soleil', 'uploads/products/chapeau-de-soleil-1.jpg', 1),
-('chapeau-de-soleil', 'uploads/products/chapeau-de-soleil-2.jpg', 2),
-('pantalon-chic', 'uploads/products/pantalon-chic-1.jpg', 1),
-('pantalon-chic', 'uploads/products/pantalon-chic-2.jpg', 2),
-('collier-fantaisie', 'uploads/products/collier-fantaisie-1.jpg', 1),
-('collier-fantaisie', 'uploads/products/collier-fantaisie-2.jpg', 2),
-('blouse-florale', 'uploads/products/blouse-florale-1.jpg', 1),
-('blouse-florale', 'uploads/products/blouse-florale-2.jpg', 2),
-('sweat-a-capuche', 'uploads/products/sweat-a-capuche-1.jpg', 1),
-('sweat-a-capuche', 'uploads/products/sweat-a-capuche-2.jpg', 2);
+INSERT INTO product_image (product_slug, image_slug) VALUES 
+('robe-elegante', 'robe-elegante-1'),
+('robe-elegante', 'robe-elegante-2'),
+('robe-elegante', 'robe-elegante-3'),
+('robe-elegante', 'robe-elegante-4');
 
 INSERT INTO country (country_id, name) VALUES 
 (1, 'France'),

@@ -8,7 +8,6 @@ function getStatus($status_id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":status_id" => $status_id));
         $status = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read status: slug $status_id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -16,7 +15,7 @@ function getStatus($status_id)
     return $status;
 }
 
-function getStatuses($order_by = 'sort_order', $order = 'ASC')
+function getStatuses()
 {
     $dbh = db_connect();
 
@@ -25,7 +24,7 @@ function getStatuses($order_by = 'sort_order', $order = 'ASC')
 
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY $order_by $order";
+    $sql .= " ORDER BY sort_order ASC";
 
     try {
         $sth = $dbh->prepare($sql);
@@ -33,7 +32,6 @@ function getStatuses($order_by = 'sort_order', $order = 'ASC')
         $sth->execute();
 
         $statuses = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read statuses");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }

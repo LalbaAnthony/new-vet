@@ -10,7 +10,6 @@ function getContact($id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":id" => $id));
         $contact = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read contact: id $id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -32,7 +31,6 @@ function getContacts()
         $sth = $dbh->prepare($sql);
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read contacts");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -40,9 +38,25 @@ function getContacts()
     return $contacts;
 }
 
+function getContactsCount() {
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM contact WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
+}
+
 function insertContact($contact)
 {
     $dbh = db_connect();
+
+    if(!isset($contact['customer_id'])) $contact['customer_id'] = null;
 
     $sql = "INSERT INTO contact (customer_id, email, subject, message) VALUES (:customer_id, :email, :subject, :message)";
 

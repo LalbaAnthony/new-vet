@@ -31,8 +31,9 @@
 .Vue-Toastification__toast {
   /* background-color: var(--secondary) !important; */
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2) !important;
-  border: solid 2px var(--light) !important;
-  border-radius: 50px !important;
+  /* border: solid 2px var(--light) !important; */
+  border: solid 2px transparent !important;
+  border-radius: 25px !important;
 }
 
 *,

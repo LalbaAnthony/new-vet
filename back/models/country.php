@@ -8,7 +8,6 @@ function getCountry($country_id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":country_id" => $country_id));
         $country = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read country: slug $country_id");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -16,7 +15,7 @@ function getCountry($country_id)
     return $country;
 }
 
-function getCountries($order_by = 'name', $order = 'ASC')
+function getCountries()
 {
     $dbh = db_connect();
 
@@ -25,7 +24,7 @@ function getCountries($order_by = 'name', $order = 'ASC')
 
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY $order_by $order";
+    $sql .= " ORDER BY name ASC";
 
     try {
         $sth = $dbh->prepare($sql);
@@ -33,12 +32,25 @@ function getCountries($order_by = 'name', $order = 'ASC')
         $sth->execute();
 
         $countries = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read countries");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
     return $countries;
+}
+
+function getCountryCount() {
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM country WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
 }
 
 function insertCountry($country)

@@ -8,7 +8,6 @@ function getAdmin($login)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":login" => $login));
         $admin = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read admin: login $login");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -16,7 +15,7 @@ function getAdmin($login)
     return $admin;
 }
 
-function getAdmins($order_by = 'login', $order = 'ASC')
+function getAdmins()
 {
     $dbh = db_connect();
 
@@ -24,8 +23,7 @@ function getAdmins($order_by = 'login', $order = 'ASC')
     $sql = "SELECT * FROM admin";
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY $order_by $order";
-
+    $sql .= " ORDER BY created_at DESC";
 
     try {
         $sth = $dbh->prepare($sql);
@@ -33,12 +31,26 @@ function getAdmins($order_by = 'login', $order = 'ASC')
         $sth->execute();
 
         $admins = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read admins");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
     return $admins;
+}
+
+function getAdminsCount()
+{
+    $dbh = db_connect();
+    $sql = "SELECT COUNT(*) FROM admin WHERE is_deleted = 0";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute();
+        $count = $sth->fetchColumn();
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $count;
 }
 
 function insertAdmin($login, $password)

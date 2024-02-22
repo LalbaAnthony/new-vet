@@ -48,6 +48,7 @@ Il est conçu en VueJS, le style est entierement custom, écrit à la main par n
 * vue: `https://vuejs.org/`
 * vue-router: `https://router.vuejs.org/`
 * pinia: `https://pinia.esm.dev/`
+* pinia-plugin-persistedstate: `https://prazdevs.github.io/pinia-plugin-persistedstate/guide/`
 * headlessui: `https://headlessui.dev/`
 * vue-axios: `https://www.npmjs.com/package/vue-axios`
 * axios: `https://axios-http.com/`
@@ -68,7 +69,7 @@ Il est conçu en VueJS, le style est entierement custom, écrit à la main par n
 
 ***Accessibilité***
 
-Des `sr-only` sont présents sur les éléments non visibles par l'utilisateur, afin de garantir une bonne accessibilité.<br>
+Des `sr-only` sont présents sur les éléments cliquables par l'utilisateur, afin de garantir une bonne accessibilité.<br>
 
 ***SEO***
 

@@ -1,27 +1,55 @@
 <template>
     <div>
         <h2 class="page-title">Nos produits</h2>
+        <Breadcrumb />
         <SortFilter />
-        <Loader v-if="productStore.loading" />
+        <Loader v-if="productStore.products.loading" />
         <div v-else>
-            <div v-if="productStore.products && productStore.products.length > 0" class="products-grid">
-                <Product v-for="product in productStore.products" :key="product.slug" :product="product" />
+            <div v-if="productStore.products.data && productStore.products.data.length > 0" class="products-grid">
+                <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
             </div>
             <NoItem what="produit" v-else />
         </div>
+        <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.page"
+            :perPage="productStore.products.pagination.per_page" @update-page="(page) => productStore.changePage(page)" />
     </div>
 </template>
 
 <script setup>
+import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import SortFilter from '@/components/SortFilterComponent.vue'
-import Product from '@/components/ProductComponent.vue'
+import Pagination from '@/components/PaginationComponent.vue'
+import Product from '@/components/ProductCardComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'
+import { useRoute } from 'vue-router'
+import { watch } from 'vue'
 
+const route = useRoute()
 const productStore = useProductStore()
 
-productStore.fetchProducts();
+function loadProducts() {
+    productStore.fetchProducts({
+        materials: [route.query.materials || null],
+        categories: [route.query.categories || null],
+        sort: route.query.sort ? [{
+            order_by: route.query.sort?.split('-')[0] || null,
+            order: route.query.sort?.split('-')[1] || null
+        }] : [
+            { order: 'ASC', order_by: 'sort_order' },
+            { order: 'DESC', order_by: 'stock_quantity' }
+        ]
+    })
+}
+
+// Fetch products on component mount
+loadProducts()
+
+// Fetch products when route query changes
+watch(() => route.query, () =>
+    loadProducts()
+)
 
 </script>
 

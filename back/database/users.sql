@@ -13,25 +13,30 @@ GRANT INSERT ON `new-vet`.material TO 'new-vet-user'@'localhost';
 GRANT UPDATE ON `new-vet`.material TO 'new-vet-user'@'localhost';
 GRANT DELETE ON `new-vet`.material TO 'new-vet-user'@'localhost';
 
-GRANT SELECT ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
-GRANT INSERT ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
-GRANT UPDATE ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
-GRANT DELETE ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
+GRANT SELECT ON `new-vet`.image TO 'new-vet-user'@'localhost';
+GRANT INSERT ON `new-vet`.image TO 'new-vet-user'@'localhost';
+GRANT UPDATE ON `new-vet`.image TO 'new-vet-user'@'localhost';
+GRANT DELETE ON `new-vet`.image TO 'new-vet-user'@'localhost';
 
 GRANT SELECT ON `new-vet`.product_category TO 'new-vet-user'@'localhost';
 GRANT INSERT ON `new-vet`.product_category TO 'new-vet-user'@'localhost';
 GRANT UPDATE ON `new-vet`.product_category TO 'new-vet-user'@'localhost';
 GRANT DELETE ON `new-vet`.product_category TO 'new-vet-user'@'localhost';
 
+GRANT SELECT ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
+GRANT INSERT ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
+GRANT UPDATE ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
+GRANT DELETE ON `new-vet`.product_material TO 'new-vet-user'@'localhost';
+
+GRANT SELECT ON `new-vet`.product_image TO 'new-vet-user'@'localhost';
+GRANT INSERT ON `new-vet`.product_image TO 'new-vet-user'@'localhost';
+GRANT UPDATE ON `new-vet`.product_image TO 'new-vet-user'@'localhost';
+GRANT DELETE ON `new-vet`.product_image TO 'new-vet-user'@'localhost';
+
 GRANT SELECT ON `new-vet`.product TO 'new-vet-user'@'localhost';
 GRANT INSERT ON `new-vet`.product TO 'new-vet-user'@'localhost';
 GRANT UPDATE ON `new-vet`.product TO 'new-vet-user'@'localhost';
 GRANT DELETE ON `new-vet`.product TO 'new-vet-user'@'localhost';
-
-GRANT SELECT ON `new-vet`.image TO 'new-vet-user'@'localhost';
-GRANT INSERT ON `new-vet`.image TO 'new-vet-user'@'localhost';
-GRANT UPDATE ON `new-vet`.image TO 'new-vet-user'@'localhost';
-GRANT DELETE ON `new-vet`.image TO 'new-vet-user'@'localhost';
 
 GRANT SELECT ON `new-vet`.country TO 'new-vet-user'@'localhost';
 GRANT INSERT ON `new-vet`.country TO 'new-vet-user'@'localhost';

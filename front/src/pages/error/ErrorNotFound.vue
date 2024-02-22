@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <h1>Erreur 404</h1>
+    <span class="error">Erreur 404</span>
     <p><span class="gradient">Aucune</span> page trouvé</p>
     <button class="button" @click="$router.go(-1)">Retour</button>
   </div>
@@ -19,7 +19,7 @@
   height: 50vh;
 }
 
-.center h1 {
+.center span.error {
   font-size: 2rem;
   margin-bottom: 1rem;
 }

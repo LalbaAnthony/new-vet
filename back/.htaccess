@@ -1,0 +1,24 @@
+# This .htaccess file is made to anticipate production environments (Apache)
+# NB : Do not forgot to run the command "a2enmod rewrite" to enable the rewrite module
+
+# Rewirte .php into none
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Prevent access to .htaccess
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
+
+# Prevent /database, /helpers, /logs, /models
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(database|helpers|logs|models) - [F,L]
+</IfModule>

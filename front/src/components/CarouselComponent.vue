@@ -1,11 +1,13 @@
 <template>
-  <section v-if="items && items.length > 0">
-    <h3 class="section-title">{{ title }}</h3>
+  <div v-if="props.items && props.items.length > 0">
+    <h3 class="section-title">{{ props.title }}</h3>
+    <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="props.autoplay ? 3000 : 0"
+      :loop="props.autoplay ? true : false" :transition="500">
 
-    <carousel :items-to-show="mobile ? 1 : 2.5" :autoplay="autoplay ? 3000 : 0" :loop="autoplay ? true : false"
-      :transition="500">
-      <slide v-for="item in items" :key="item.id" @click.stop="router.push(item.link)">
-        <img class="carousel-img" :src="item.image_path" :alt="`Image ${item.name || item.libelle}`" />
+      <slide v-for="item in props.items" :key="item.id" @click.stop="router.push(item.link)">
+        <img
+          :src="item?.path && imageExists(URL_BACKEND_UPLOAD + item.path) ? `${URL_BACKEND_UPLOAD}${item.path}` : '/helpers/no-img-available.webp'"
+          :alt="`Image ${item.name || item.libelle}`" class="carousel-img" />
       </slide>
       <template #addons>
         <navigation v-if="!mobile" />
@@ -13,18 +15,20 @@
       </template>
     </carousel>
 
-  </section>
+  </div>
 </template>
 
 <script setup>
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
+import { imageExists } from '@/helpers/helpers.js'
+import { URL_BACKEND_UPLOAD } from '@/config';
 import { isMobile } from '@/helpers/helpers.js'
 import router from '@/router';
 
 const mobile = isMobile()
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     default: 'Nos produits',

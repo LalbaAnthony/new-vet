@@ -36,29 +36,32 @@ const routes = [
     meta: { title: 'Catégories' },
   },
   {
-    path: '/categories/:slug',
-    name: 'category',
-    component: () => import('../pages/CategoryPage.vue'),
-    meta: { title: 'Catégorie' },
-  },
-  {
     path: '/produits',
     name: 'products',
-    component: () => import('../pages/ProductsPage.vue'),
-    meta: { title: 'Produits' },
+    children: [
+      {
+        path: '',
+        name: 'products',
+        component: () => import('../pages/ProductsPage.vue'),
+        meta: { title: 'Produits' },
+      },
+      {
+        path: ':slug',
+        name: 'product',
+        component: () => import('../pages/ProductPage.vue'),
+        meta: { title: 'Produit' },
+      },
+    ],
+    meta: {
+      title: 'Produits',
+    },
   },
   {
-    path: '/produits/:slug',
-    name: 'product',
-    component: () => import('../pages/ProductPage.vue'),
-    meta: { title: 'Produit' },
-  },
-  {
-    path: '/recherche/:searched?',
+    path: '/recherche',
     name: 'search',
     component: () => import('../pages/SearchPage.vue'),
     meta: { title: 'Recherche' },
-  },  
+  },
   {
     path: '/paiement',
     name: 'checkout',
@@ -79,15 +82,21 @@ const routes = [
   },
   {
     path: '/plan-du-site',
-    name: 'planDuSite',
-    component: () => import('../pages/PlanDuSitePage.vue'),
+    name: 'sitemap',
+    component: () => import('../pages/SitemapPage.vue'),
     meta: { title: 'Plan du site' },
   },
   {
     path: '/mentions-legales',
-    name: 'mentionsLegales',
-    component: () => import('../pages/MentionsLegalesPage.vue'),
+    name: 'legal-notices',
+    component: () => import('../pages/LegalNoticesPage.vue'),
     meta: { title: 'Mentions légales' },
+  },
+  {
+    path: '/conditions-generales-d-utilisation',
+    name: 'gcu',
+    component: () => import('../pages/GcuPage.vue'),
+    meta: { title: 'Conditions générales d\'utilisation' },
   },
   {
     path: '/:catchAll(.*)*',

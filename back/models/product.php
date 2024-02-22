@@ -10,7 +10,6 @@ function getProduct($slug)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));
         $product = $sth->fetch(PDO::FETCH_ASSOC);
-        log_txt("Read product: slug $slug");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
@@ -18,7 +17,7 @@ function getProduct($slug)
     return $product;
 }
 
-function getProducts($categories_slugs = array(), $materials_slugs = array(), $search = null, $order_by = 'sort_order', $order = 'ASC', $offset = null, $per_page = 10, $is_highlander = false)
+function getProducts($categories = array(), $materials = array(), $search = null, $is_highlander = false, $exclude = array(), $include = array(), $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity')), $offset = null, $per_page = 10)
 {
 
     $dbh = db_connect();
@@ -35,48 +34,107 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
 
     $sql .= " AND product.is_deleted = 0";
 
-    // Filter by category slug (loop through the array of category slugs)
-    if ($categories_slugs) {
+    // Exclude products
+    if ($exclude && !$include) {
         $sql .= " AND (";
-        foreach ($categories_slugs as $key => $value) {
+        foreach ($exclude as $key => $value) {
+            $sql .= "product.slug != :exclude_$key";
+            if ($key < count($exclude) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
+
+    // Include products
+    if ($include && !$exclude) {
+        $sql .= " AND (";
+        foreach ($include as $key => $value) {
+            $sql .= "product.slug = :include_$key";
+            if ($key < count($include) - 1) $sql .= " OR ";
+        }
+        $sql .= ")";
+    }
+
+    // Filter by category slug (loop through the array of category slugs)
+    if ($categories) {
+        $sql .= " AND (";
+        foreach ($categories as $key => $value) {
             $sql .= "category.slug = :category_slug_$key";
-            if ($key < count($categories_slugs) - 1) $sql .= " OR ";
+            if ($key < count($categories) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
 
     // Filter by material slug (loop through the array of material slugs)
-    if ($materials_slugs) {
+    if ($materials) {
         $sql .= " AND (";
-        foreach ($materials_slugs as $key => $value) {
+        foreach ($materials as $key => $value) {
             $sql .= "material.slug = :material_slug_$key";
-            if ($key < count($materials_slugs) - 1) $sql .= " OR ";
+            if ($key < count($materials) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
 
-    // Filter by search (search in name, description, price, category libelle and material libelle)
-    if ($search) $sql .= " AND (name LIKE :search OR description LIKE :search OR price LIKE :search OR category.libelle LIKE :search OR material.libelle LIKE :search)";
+    // Filter by search
+    if ($search) {
+        $sql .= " AND (
+        product.slug LIKE :search OR 
+        product.name LIKE :search OR
+        product.description LIKE :search OR
+        product.price LIKE :search OR
+        category.slug LIKE :search OR
+        material.slug LIKE :search OR
+        category.libelle LIKE :search OR
+        material.libelle LIKE :search OR
+        SOUNDEX(product.name) = SOUNDEX(:search) OR
+        SOUNDEX(product.description) = SOUNDEX(:search) OR
+        SOUNDEX(product.price) = SOUNDEX(:search) OR
+        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
+        SOUNDEX(material.libelle) = SOUNDEX(:search)
+    )";
+    }
 
-    if ($is_highlander) $sql .= " AND is_highlander = 1";
+    if ($is_highlander) $sql .= " AND product.is_highlander = 1";
 
-    $sql .= " ORDER BY $order_by $order";
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(product." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }
+
+    // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
     try {
         $sth = $dbh->prepare($sql);
 
+        // Bind values for exclude (loop through the array of slugs to exclude)
+        if ($exclude && count($exclude) > 0 && count($include) == 0) {
+            foreach ($exclude as $key => $value) {
+                $sth->bindValue(":exclude_$key", $value);
+            }
+        }
+
+        // Bind values for include (loop through the array of slugs to include)
+        if ($include&& count($include) > 0 && count($exclude) == 0) {
+            foreach ($include as $key => $value) {
+                $sth->bindValue(":include_$key", $value);
+            }
+        }
+
         // Bind values for category slug (loop through the array of category slugs)
-        if ($categories_slugs) {
-            foreach ($categories_slugs as $key => $value) {
+        if ($categories) {
+            foreach ($categories as $key => $value) {
                 $sth->bindValue(":category_slug_$key", $value);
             }
         }
 
         // Bind values for material slug (loop through the array of material slugs)
-        if ($materials_slugs) {
-            foreach ($materials_slugs as $key => $value) {
+        if ($materials) {
+            foreach ($materials as $key => $value) {
                 $sth->bindValue(":material_slug_$key", $value);
             }
         }
@@ -89,12 +147,132 @@ function getProducts($categories_slugs = array(), $materials_slugs = array(), $s
         $sth->execute();
 
         $products = $sth->fetchAll(PDO::FETCH_ASSOC);
-        log_txt("Read products");
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
     return $products;
+}
+
+function getProductsCount($categories = array(), $materials = array(), $search = null, $is_highlander = false, $exclude = array(), $include = array())
+{
+    $dbh = db_connect();
+
+    // Select all products, with their categories and materials (we use LEFT JOIN to get products without categories or materials)
+    $sql = "SELECT COUNT(DISTINCT product.slug) as count FROM product
+    LEFT JOIN product_category ON product_category.product_slug = product.slug
+    LEFT JOIN category ON product_category.category_slug = category.slug
+    LEFT JOIN product_material ON product_material.product_slug = product.slug
+    LEFT JOIN material ON product_material.material_slug = material.slug";
+
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
+
+    $sql .= " AND product.is_deleted = 0";
+
+    // Exclude products
+    if ($exclude && !$include) {
+        $sql .= " AND (";
+        foreach ($exclude as $key => $value) {
+            $sql .= "product.slug != :exclude_$key";
+            if ($key < count($exclude) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
+
+    // Include products
+    if ($include && !$exclude) {
+        $sql .= " AND (";
+        foreach ($include as $key => $value) {
+            $sql .= "product.slug = :include_$key";
+            if ($key < count($include) - 1) $sql .= " OR ";
+        }
+        $sql .= ")";
+    }
+
+    // Filter by category slug (loop through the array of category slugs)
+    if ($categories) {
+        $sql .= " AND (";
+        foreach ($categories as $key => $value) {
+            $sql .= "category.slug = :category_slug_$key";
+            if ($key < count($categories) - 1) $sql .= " OR ";
+        }
+        $sql .= ")";
+    }
+
+    // Filter by material slug (loop through the array of material slugs)
+    if ($materials) {
+        $sql .= " AND (";
+        foreach ($materials as $key => $value) {
+            $sql .= "material.slug = :material_slug_$key";
+            if ($key < count($materials) - 1) $sql .= " OR ";
+        }
+        $sql .= ")";
+    }
+
+    // Filter by search
+    if ($search) {
+        $sql .= " AND (
+        product.slug LIKE :search OR 
+        product.name LIKE :search OR
+        product.description LIKE :search OR
+        product.price LIKE :search OR
+        category.slug LIKE :search OR
+        material.slug LIKE :search OR
+        category.libelle LIKE :search OR
+        material.libelle LIKE :search OR
+        SOUNDEX(product.name) = SOUNDEX(:search) OR
+        SOUNDEX(product.description) = SOUNDEX(:search) OR
+        SOUNDEX(product.price) = SOUNDEX(:search) OR
+        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
+        SOUNDEX(material.libelle) = SOUNDEX(:search)
+    )";
+    }
+
+    if ($is_highlander) $sql .= " AND product.is_highlander = 1";
+
+    try {
+        $sth = $dbh->prepare($sql);
+
+        // Bind values for exclude (loop through the array of slugs to exclude)
+        if ($exclude && count($exclude) > 0 && count($include) == 0) {
+            foreach ($exclude as $key => $value) {
+                $sth->bindValue(":exclude_$key", $value);
+            }
+        }
+
+        // Bind values for include (loop through the array of slugs to include)
+        if ($include&& count($include) > 0 && count($exclude) == 0) {
+            foreach ($include as $key => $value) {
+                $sth->bindValue(":include_$key", $value);
+            }
+        }
+
+        // Bind values for category slug (loop through the array of category slugs)
+        if ($categories) {
+            foreach ($categories as $key => $value) {
+                $sth->bindValue(":category_slug_$key", $value);
+            }
+        }
+
+        // Bind values for material slug (loop through the array of material slugs)
+        if ($materials) {
+            foreach ($materials as $key => $value) {
+                $sth->bindValue(":material_slug_$key", $value);
+            }
+        }
+
+        // Bind others values
+        if ($search) $sth->bindValue(":search", "%$search%");
+
+        $sth->execute();
+
+        $products = $sth->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $products[0]['count'];
 }
 
 function insertProduct($product)
@@ -139,7 +317,7 @@ function updateProduct($product)
     }
 }
 
-function updateProductCategories($product_slug, $categories_slugs)
+function updateProductCategories($product_slug, $categories)
 {
     $dbh = db_connect();
 
@@ -157,7 +335,7 @@ function updateProductCategories($product_slug, $categories_slugs)
     $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
     try {
         $sth = $dbh->prepare($sql);
-        foreach ($categories_slugs as $key => $value) {
+        foreach ($categories as $key => $value) {
             $sth->execute(array(":product_slug" => $product_slug, ":category_slug" => $value));
         }
         log_txt("Product categories inserted in back office: slug " . $product_slug);
@@ -167,7 +345,7 @@ function updateProductCategories($product_slug, $categories_slugs)
     }
 }
 
-function updateProductMaterials($product_slug, $materials_slugs)
+function updateProductMaterials($product_slug, $materials)
 {
     $dbh = db_connect();
 
@@ -185,7 +363,7 @@ function updateProductMaterials($product_slug, $materials_slugs)
     $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
     try {
         $sth = $dbh->prepare($sql);
-        foreach ($materials_slugs as $key => $value) {
+        foreach ($materials as $key => $value) {
             $sth->execute(array(":product_slug" => $product_slug, ":material_slug" => $value));
         }
         log_txt("Product materials inserted in back office: slug " . $product_slug);
