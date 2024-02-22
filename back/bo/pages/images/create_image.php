@@ -11,7 +11,7 @@ $max_size = 2000000; // 2 Mo
 
 if (isset($_POST['submit'])) {
 
-    $error = null;
+    $error = null; 
     $sucessUpload = false;
     $sucessInsertDb = false;
 
