@@ -22,6 +22,7 @@ include APP_PATH . "auth.php";
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>categories/index.php">Catégories</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>materials/index.php">Matériaux</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>orders/index.php">Commandes</a></li>
+                <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>contacts/index.php">Contacts</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>customers/index.php">Clients</a></li>
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="<?= APP_URL ?>logout.php">Se déconnecter</a></li>
             </ul>
