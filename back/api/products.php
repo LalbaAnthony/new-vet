@@ -7,21 +7,25 @@ include_once APP_PATH . '/models/image.php';
 include_once APP_PATH . '/models/category.php';
 include_once APP_PATH . '/models/material.php';
 
-$categories = isset($_GET['categories']) ? $_GET['categories'] : array();
-$materials = isset($_GET['materials']) ? $_GET['materials'] : array();
+$categories_string = isset($_GET['categories'][0]) ? $_GET['categories'][0] : array();
+$materials_string = isset($_GET['materials'][0]) ? $_GET['materials'][0] : array();
+$exclude_string = isset($_GET['exclude'][0]) ? $_GET['exclude'][0] : array();
+$include_string = isset($_GET['include'][0]) ? $_GET['include'][0] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
-$exclude = isset($_GET['exclude']) ? $_GET['exclude'] : array();
-$include = isset($_GET['include']) ? $_GET['include'] : array();
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
 
-if ($categories) $categories = explode(',', $categories[0]);
-if ($materials) $materials = explode(',', $materials[0]);
-if ($exclude) $exclude = explode(',', $exclude[0]);
-if ($include) $include = explode(',', $include[0]);
+$categories = array();
+$materials = array();
+$exclude = array();
+$include = array();
+if ($categories_string && strlen($categories_string)) $categories = explode(',', $categories_string);
+if ($materials_string && strlen($materials_string)) $materials = explode(',', $materials_string);
+if ($exclude_string && strlen($exclude_string)) $exclude = explode(',', $exclude_string);
+if ($include_string && strlen($include_string)) $include = explode(',', $include_string);
 
 $products_count = getProductsCount($categories, $materials, $search, $is_highlander, $exclude, $include);
 

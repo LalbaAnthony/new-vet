@@ -49,7 +49,7 @@ function getProducts($categories = array(), $materials = array(), $search = null
         $sql .= " AND (";
         foreach ($include as $key => $value) {
             $sql .= "product.slug = :include_$key";
-            if ($key < count($include) - 1) $sql .= " OR ";
+            if ($key < count($include) - 1) $sql .= " AND ";
         }
         $sql .= ")";
     }
@@ -185,7 +185,7 @@ function getProductsCount($categories = array(), $materials = array(), $search =
         $sql .= " AND (";
         foreach ($include as $key => $value) {
             $sql .= "product.slug = :include_$key";
-            if ($key < count($include) - 1) $sql .= " OR ";
+            if ($key < count($include) - 1) $sql .= " AND ";
         }
         $sql .= ")";
     }
@@ -377,7 +377,6 @@ function deleteProduct($slug)
 {
     $dbh = db_connect();
     $sql = "UPDATE product SET is_deleted = 1 WHERE slug = :slug";
-    echo $sql;
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":slug" => $slug));

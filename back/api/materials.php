@@ -4,7 +4,6 @@
 include_once "../config.inc.php";
 include_once APP_PATH . '/models/material.php';
 
-$slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'libelle'));
 $offset = isset($_GET['offset']) ? $_GET['offset'] : null;

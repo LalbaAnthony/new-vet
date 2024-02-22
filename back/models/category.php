@@ -39,6 +39,16 @@ function getCategories($search = null, $is_highlander = false, $is_quick_access 
         $sql .= ")";
     }
 
+    // Include categories
+    if ($include) {
+        $sql .= " AND (";
+        foreach ($include as $key => $value) {
+            $sql .= "slug = :include_$key";
+            if ($key < count($include) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
+
     // Filter by search
     if ($search) {
         $sql .= " AND (
@@ -118,6 +128,16 @@ function getCategoriesCount($search = null, $is_highlander = false, $is_quick_ac
         foreach ($exclude as $key => $value) {
             $sql .= "slug != :exclude_$key";
             if ($key < count($exclude) - 1) $sql .= " AND ";
+        }
+        $sql .= ")";
+    }
+
+    // Include categories
+    if ($include) {
+        $sql .= " AND (";
+        foreach ($include as $key => $value) {
+            $sql .= "slug = :include_$key";
+            if ($key < count($include) - 1) $sql .= " AND ";
         }
         $sql .= ")";
     }

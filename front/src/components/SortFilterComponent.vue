@@ -104,7 +104,7 @@ function toggleCategory(category) {
     if (categories.includes(category)) {
       query.categories = categories.filter((c) => c !== category).join(',')
     } else {
-      query.categories = [...categories, category].join(',')
+      query.categories = categories.concat(category).join(',')
     }
   } else {
     query.categories = category
@@ -119,7 +119,7 @@ function toggleMaterial(material) {
     if (materials.includes(material)) {
       query.materials = materials.filter((m) => m !== material).join(',')
     } else {
-      query.materials = [...materials, material].join(',')
+      query.materials = materials.concat(material).join(',')
     }
   } else {
     query.materials = material
