@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
-  window.scrollTo(0, 0);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 export default router

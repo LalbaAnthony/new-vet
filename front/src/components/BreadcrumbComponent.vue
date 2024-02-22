@@ -4,12 +4,13 @@
       <IconHouse class="icon-offset" />
     </li>
     <li v-for="(crumb, index) in route.matched" :key="index">
-      <!-- <div v-if="route.matched[index].name !== route.matched[index - 1].name"> -->
-      <IconChevronRight class="chevron" />
-      <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
-        {{ crumb.path.includes("slug") && route.params.slug ? route.params.slug : crumb.meta.title }}
-      </span>
-      <!-- </div> -->
+      <div
+        v-if="(route.matched[index - 1] && (route.matched[index].name !== route.matched[index - 1].name)) || index === 0">
+        <IconChevronRight class="chevron" />
+        <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
+          {{ crumb.meta.title }}
+        </span>
+      </div>
     </li>
   </ol>
   <!-- <pre>

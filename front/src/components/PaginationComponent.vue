@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination-bloc">
+  <div v-if="props.total > 1" class="pagination-bloc">
     <IconChevronLeft class="arrow left" @click="$emit('updatePage', (props.page > 1 ? props.page - 1 : 1) || 1)" />
 
     <!-- Page 1 -->
