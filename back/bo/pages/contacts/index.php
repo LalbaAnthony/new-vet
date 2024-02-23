@@ -14,15 +14,17 @@ $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
 $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-// Comput new order 
+
+// Comput new order and sort
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
+$sort = array(array('order' => $order, 'order_by' => $order_by));
 
 // Comput offset & per_page
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
 
 // Fetch contacts with sorting
-$contacts = getContacts($search);
+$contacts = getContacts($search,$sort);
 
 // Bottom action: delete selected contacts, ...
 if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
@@ -68,10 +70,10 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                 <thead>
                     <tr class="table-primary">
                         <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=name&order=<?= $new_order ?>">Email</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">Email</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=description&order=<?= $new_order ?>">Subject</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=price&order=<?= $new_order ?>">Message</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=stock_quantity&order=<?= $new_order ?>">Date</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Date</a></th>
                         <th scope='col' colspan='2'>&nbsp;</th>
                     </tr>
                 </thead>

@@ -17,7 +17,7 @@ function getContact($id)
     return $contact;
 }
 
-function getContacts($search = null)
+function getContacts($search = null,$sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')))
 {
     $dbh = db_connect();
 
@@ -45,7 +45,15 @@ function getContacts($search = null)
 )";
  }
 
- $sql .= " ORDER BY contact.created_at DESC";
+ if ($sort) {
+    $sql .= " ORDER BY ";
+    foreach ($sort as $key => $value) {
+        $sql .= "COALESCE(contact." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+        if ($key < count($sort) - 1) $sql .= ", ";
+    }
+}
+
+
 
     try {
         $sth = $dbh->prepare($sql);
