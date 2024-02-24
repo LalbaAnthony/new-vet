@@ -4,7 +4,7 @@ function getContact($id)
 {
     $dbh = db_connect();
 
-    $sql = "SELECT * FROM contact WHERE id = :id";
+    $sql = "SELECT * FROM contact WHERE contact_id = :id";
 
     try {
         $sth = $dbh->prepare($sql);
@@ -17,22 +17,54 @@ function getContact($id)
     return $contact;
 }
 
-function getContacts()
+function getContacts($search = null,$sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')))
 {
     $dbh = db_connect();
 
-    $sql = "SELECT * FROM contact ORDER BY created_at DESC";
+    $sql = "SELECT contact.* FROM contact 
+    LEFT JOIN customer ON customer.customer_id = contact.contact_id";
+ 
+ // Use WHERE 1 = 1 to be able to add conditions with AND
+ $sql .= " WHERE 1 = 1";
 
-    $sql .= " WHERE is_deleted = 0";
+ $sql .= " AND contact.is_deleted = 0";
 
-    $sql .= " ORDER BY created_at DESC";
+ if ($search) {
+    $sql .= " AND (
+    customer.first_name LIKE :search OR 
+    customer.last_name LIKE :search OR
+    contact.email LIKE :search OR
+    contact.subject LIKE :search OR
+    contact.message LIKE :search OR
+    SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
+    SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
+    SOUNDEX(contact.email) = SOUNDEX(:search) OR
+    SOUNDEX(contact.subject) = SOUNDEX(:search) OR
+    SOUNDEX(contact.message) = SOUNDEX(:search) 
+
+)";
+ }
+
+ if ($sort) {
+    $sql .= " ORDER BY ";
+    foreach ($sort as $key => $value) {
+        $sql .= "COALESCE(contact." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+        if ($key < count($sort) - 1) $sql .= ", ";
+    }
+}
+
+
 
     try {
         $sth = $dbh->prepare($sql);
+
+          // Bind others values
+          if ($search) $sth->bindValue(":search", "%$search%");
+
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL : " . $sql);
     }
 
     return $contacts;
@@ -70,5 +102,25 @@ function insertContact($contact)
         }
     } catch (PDOException $e) {
         return "Erreur lors de la requête SQL : " . $e->getMessage();
+    }
+}
+
+
+function deleteContact($id)
+{
+    $dbh = db_connect();
+    $sql = "UPDATE contact SET is_deleted = 1 WHERE contact_id = :id";
+    echo $sql;
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":id" => $id));
+        if ($sth->rowCount() > 0) {
+            log_txt("Product deleted in back office: slug " . $id);
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 }
