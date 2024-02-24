@@ -48,22 +48,28 @@ if (isset($_POST['submit'])) {
     }
 
     // Si tout est ok, on insère dans la base
-    // if (!$error) {
-    //     $image = array();
+    if (!$error) {
+        $image = array();
 
-    //     // Lecture du formulaire
-    //     $image['name'] = isset($_POST['name']) ? $_POST['name'] : null;
-    //     $image['alt'] = isset($_POST['alt']) ? $_POST['alt'] : null;
-    //     $image['path'] = basename($_FILES["image"]["name"]);
+        // Lecture du formulaire
+        $image['name'] = isset($_POST['name']) ? $_POST['name'] : null;
+        $image['alt'] = isset($_POST['alt']) ? $_POST['alt'] : null;
+        $image['path'] = basename($_FILES["image"]["name"]);
 
-    //     // Generate le slug
-    //     $image['slug'] = slugify($image['name']);
+        // Get the weight of the image
+        $image['weight'] = $_FILES["image"]["size"];
+        
+        // Get the extension of the image
+        $image['extention'] = $extension;
 
-    //     // Formulaire validé : on modifie l'enregistrement
-    //     $sucessInsertDb = insertImage($image);
-    // }
+        // Generate le slug
+        $image['slug'] = slugify($image['name']);
 
-    // $sucess = $sucessUpload && $sucessInsertDb;
+        // Formulaire validé : on modifie l'enregistrement
+        $sucessInsertDb = insertImage($image);
+    }
+
+    $sucess = $sucessUpload && $sucessInsertDb;
     $sucess = $sucessUpload;
 
     if (!$sucess) {

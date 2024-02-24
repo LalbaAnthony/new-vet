@@ -16,3 +16,9 @@ input[type="checkbox"] {
   font-weight: 600;
   color: red
 }
+
+svg.bi {
+  position: relative;
+  top: -2px;
+  right: 3px;
+}
