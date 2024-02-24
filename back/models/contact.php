@@ -17,20 +17,20 @@ function getContact($id)
     return $contact;
 }
 
-function getContacts($search = null,$sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')))
+function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')))
 {
     $dbh = db_connect();
 
     $sql = "SELECT contact.* FROM contact 
     LEFT JOIN customer ON customer.customer_id = contact.contact_id";
- 
- // Use WHERE 1 = 1 to be able to add conditions with AND
- $sql .= " WHERE 1 = 1";
 
- $sql .= " AND contact.is_deleted = 0";
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
 
- if ($search) {
-    $sql .= " AND (
+    $sql .= " AND contact.is_deleted = 0";
+
+    if ($search) {
+        $sql .= " AND (
     customer.first_name LIKE :search OR 
     customer.last_name LIKE :search OR
     contact.email LIKE :search OR
@@ -43,23 +43,23 @@ function getContacts($search = null,$sort =  array(array('order' => 'ASC', 'orde
     SOUNDEX(contact.message) = SOUNDEX(:search) 
 
 )";
- }
-
- if ($sort) {
-    $sql .= " ORDER BY ";
-    foreach ($sort as $key => $value) {
-        $sql .= "COALESCE(contact." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
-        if ($key < count($sort) - 1) $sql .= ", ";
     }
-}
+
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(contact." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }
 
 
 
     try {
         $sth = $dbh->prepare($sql);
 
-          // Bind others values
-          if ($search) $sth->bindValue(":search", "%$search%");
+        // Bind others values
+        if ($search) $sth->bindValue(":search", "%$search%");
 
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -70,7 +70,8 @@ function getContacts($search = null,$sort =  array(array('order' => 'ASC', 'orde
     return $contacts;
 }
 
-function getContactsCount() {
+function getContactsCount()
+{
     $dbh = db_connect();
     $sql = "SELECT COUNT(*) FROM contact WHERE is_deleted = 0";
     try {
@@ -88,7 +89,7 @@ function insertContact($contact)
 {
     $dbh = db_connect();
 
-    if(!isset($contact['customer_id'])) $contact['customer_id'] = null;
+    if (!isset($contact['customer_id'])) $contact['customer_id'] = null;
 
     $sql = "INSERT INTO contact (customer_id, email, subject, message) VALUES (:customer_id, :email, :subject, :message)";
 

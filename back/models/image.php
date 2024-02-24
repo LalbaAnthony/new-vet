@@ -15,13 +15,53 @@ function getImage($slug)
     return $image;
 }
 
-function getImages()
+function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_by' => 'created_at')), $offset = null, $per_page = 10)
 {
+
     $dbh = db_connect();
-    $sql = "SELECT * FROM image WHERE is_deleted = 0 ORDER BY created_at DESC;";
+
+    $sql = "SELECT * FROM image";
+
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
+
+    $sql .= " AND is_deleted = 0";
+
+    // Filter by search
+    if ($search) {
+        $sql .= " AND (
+            name LIKE :search OR 
+            slug LIKE :search OR 
+            alt LIKE :search OR
+            SOUNDEX(name) = SOUNDEX(:search) OR
+            SOUNDEX(slug) = SOUNDEX(:search) OR
+            SOUNDEX(alt) = SOUNDEX(:search)
+        )";
+    }
+
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(" . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+        }
+    }
+
+    // Limit and offset
+    if ($per_page) $sql .= " LIMIT :per_page";
+    if ($offset) $sql .= " OFFSET :offset";
+
     try {
         $sth = $dbh->prepare($sql);
+
+        // Bind others values
+        if ($search) $sth->bindValue(":search", "%$search%");
+        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
+        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
+
         $sth->execute();
+
         $images = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
@@ -30,13 +70,32 @@ function getImages()
     return $images;
 }
 
-function getImagesCount()
+function getImagesCount($search = null)
 {
     $dbh = db_connect();
-    $sql = "SELECT COUNT(*) FROM image WHERE is_deleted = 0;";
+
+    $sql = "SELECT COUNT(*) FROM image WHERE 1 = 1 AND is_deleted = 0";
+
+    // Filter by search
+    if ($search) {
+        $sql .= " AND (
+            name LIKE :search OR 
+            slug LIKE :search OR 
+            alt LIKE :search OR
+            SOUNDEX(name) = SOUNDEX(:search) OR
+            SOUNDEX(slug) = SOUNDEX(:search) OR
+            SOUNDEX(alt) = SOUNDEX(:search)
+        )";
+    }
+
     try {
         $sth = $dbh->prepare($sql);
+
+        // Bind others values
+        if ($search) $sth->bindValue(":search", "%$search%");
+
         $sth->execute();
+
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());

@@ -22,3 +22,7 @@ svg.bi {
   top: -2px;
   right: 3px;
 }
+
+.object-fit-cover {
+  object-fit: cover;
+}
