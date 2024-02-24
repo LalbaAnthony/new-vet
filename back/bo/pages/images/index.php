@@ -150,19 +150,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
         btn.disabled = false;
     }
 
-    // Fonction pour cocher/décocher toutes les cases
-    function toggleAll() {
-        var checkboxes = document.getElementsByName('selected_images[]');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = event.target.checked;
-        }
-        if (event.target.checked) {
-            enableSupprButton();
-        } else {
-            disableSupprButton();
-        }
-    }
-
     // Fonction pour supprimer les images sélectionnés
     function deleteSelectedImages() {
         var checkboxes = document.getElementsByName('selected_images[]');
@@ -185,7 +172,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
     var checkboxes = document.getElementsByName('selected_images[]');
     for (var checkbox of checkboxes) {
         checkbox.addEventListener('change', function() {
-            if (this.checked) {
+            if (this.checked || document.querySelector('input[name="selected_images[]"]:checked')) {
                 enableSupprButton();
             } else {
                 disableSupprButton();

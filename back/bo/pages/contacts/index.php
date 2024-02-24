@@ -174,7 +174,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
     var checkboxes = document.getElementsByName('selected_contacts[]');
     for (var checkbox of checkboxes) {
         checkbox.addEventListener('change', function() {
-            if (this.checked) {
+            if (this.checked || document.querySelector('input[name="selected_images[]"]:checked')) {
                 enableSupprButton();
             } else {
                 disableSupprButton();
