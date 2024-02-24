@@ -2,7 +2,7 @@
 
 function fr_date($inputDate) {
     $dateTime = new DateTime($inputDate);
-    $formattedDate = $dateTime->format('d/m/Y à H:i');
+    $formattedDate = $dateTime->format('d/m/Y');
 
     return $formattedDate;
 }

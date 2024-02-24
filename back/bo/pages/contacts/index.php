@@ -3,7 +3,7 @@
 include_once "../../../config.inc.php";
 include_once APP_PATH . "bo/partials/header.php";
 include_once APP_PATH . "/models/contact.php";
-include_once APP_PATH . "/helpers/fr_date.php";
+include_once APP_PATH . "/helpers/fr_datetime.php";
 include_once APP_PATH . "/helpers/three_dots_string.php";
 include_once APP_PATH . "/helpers/float_to_price.php";
 include_once APP_PATH . "/models/image.php";
@@ -91,7 +91,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                             <!-- Message -->
                             <td><?= $contact['message']?></td>
                              <!-- Date -->
-                            <td><?= fr_date($contact['created_at']) ?></td>
+                            <td><?= fr_datetime($contact['created_at']) ?></td>
                             <!-- Bouton de suppression -->
                             <td> <a href="<?= APP_URL ?>/bo/pages/contacts/delete_contact.php?contact_id=<?= $contact['contact_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
                         </tr>

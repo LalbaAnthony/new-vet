@@ -2,10 +2,9 @@
 
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/image.php";
-include_once APP_PATH . "/helpers/fr_date.php";
 include_once APP_PATH . "/helpers/three_dots_string.php";
-include_once APP_PATH . "/helpers/float_to_price.php";
 include_once APP_PATH . "/helpers/fr_date.php";
+include_once APP_PATH . "/helpers/nice_file_size.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;
@@ -89,9 +88,24 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
                                 <?= three_dots_string($image['name'], 20) ?>
                             </h5>
                             <p class="card-text">
-                                <small class="text-muted">
-                                    Ajoutée le <?= fr_date($image['created_at']) ?>
-                                </small>
+                                <?php if ($image['created_at']) : ?>
+                                    <small class="text-muted">
+                                        <?= fr_date($image['created_at']) ?>
+                                    </small>
+                                <?php endif; ?>
+                                <?php if ($image['weight'] || $image['extention']) : ?>
+                                    <small class="text-muted">|</small>
+                                <?php endif; ?>
+                                <?php if ($image['weight']) : ?>
+                                    <small class="text-muted">
+                                        <?= nice_file_size($image['weight']) ?>
+                                    </small>
+                                <?php endif; ?>
+                                <?php if ($image['extention']) : ?>
+                                    <small class="text-muted">
+                                        <?= strtoupper($image['extention']) ?>
+                                    </small>
+                                <?php endif; ?>
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <input type="checkbox" name="selected_images[]" value="<?= $image['slug'] ?>" onclick="enableSupprButton()">

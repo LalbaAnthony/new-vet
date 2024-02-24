@@ -76,13 +76,8 @@ if (isset($_POST['submit'])) {
         $error = "Une erreur est survenue lors de l'envoie de l'image.";
     }
 
-    echo "error: " . var_dump($error) . "<br>";
-    echo "sucessUpload: " . var_dump($sucessUpload) . "<br>";
-    echo "sucessInsertDb: " . var_dump($sucessInsertDb) . "<br>";
-    echo "sucess: " . var_dump($sucess) . "<br>";
-
     if (!$error) {
-        // header('Location:' . APP_URL . 'bo/pages/images/index.php?created=' . $sucess);
+        header('Location:' . APP_URL . 'bo/pages/images/index.php?created=' . $sucess);
     }
 }
 ?>

@@ -2,7 +2,7 @@
 
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/product.php";
-include_once APP_PATH . "/helpers/fr_date.php";
+include_once APP_PATH . "/helpers/fr_datetime.php";
 include_once APP_PATH . "/helpers/three_dots_string.php";
 include_once APP_PATH . "/helpers/float_to_price.php";
 include_once APP_PATH . "/models/image.php";
@@ -120,7 +120,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                         <!-- Ordre d'affichage -->
                         <td><?= $product['sort_order'] ? $product['sort_order'] : '-' ?></td>
                         <!-- Date de création -->
-                        <td><?= fr_date($product['created_at']) ?></td>
+                        <td><?= fr_datetime($product['created_at']) ?></td>
                         <!-- Bouton de modification -->
                         <td> <a href="<?= APP_URL ?>bo/pages/products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
                         <!-- Bouton de suppression -->
