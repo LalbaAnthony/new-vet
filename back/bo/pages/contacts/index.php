@@ -24,7 +24,7 @@ $per_page = 10;
 $offset = ($page - 1) * $per_page;
 
 // Fetch contacts with sorting
-$contacts = getContacts($search,$sort);
+$contacts = getContacts($search, $sort);
 
 // Bottom action: delete selected contacts, ...
 if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
@@ -62,7 +62,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
 
             <!-- Barre de recherche -->
             <form class="d-flex justify-content-between my-4" method="GET">
-                <input class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Search" name="search" value="<?= $search ?>">
+                <input class="form-control mr-sm-2" id="search" type="search" placeholder="Rechercher" aria-label="Search" name="search" value="<?= $search ?>">
                 <button class="btn btn-primary mx-2 my-sm-0" type="submit">Rechercher</button>
             </form>
 
@@ -89,8 +89,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                             <!-- Subject -->
                             <td><?= $contact['subject'] ?></td>
                             <!-- Message -->
-                            <td><?= $contact['message']?></td>
-                             <!-- Date -->
+                            <td><?= $contact['message'] ?></td>
+                            <!-- Date -->
                             <td><?= fr_datetime($contact['created_at']) ?></td>
                             <!-- Bouton de suppression -->
                             <td> <a href="<?= APP_URL ?>/bo/pages/contacts/delete_contact.php?contact_id=<?= $contact['contact_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
@@ -126,6 +126,18 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
 </html>
 
 <script>
+    // Auto submit search form on change (with a delay)
+    var searchInput = document.getElementById('search');
+    var searchForm = document.querySelector('form');
+    const delay = 1000;
+    var timeout = null;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            searchForm.submit();
+        }, delay);
+    });
+
     // Fonction disbale suppr button
     function disableSupprButton() {
         var btn = document.getElementById('delete-contacts');

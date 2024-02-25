@@ -5,6 +5,7 @@ include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/helpers/slugify.php";
 include_once APP_PATH . "/models/category.php";
 include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "/models/image.php";
 
 // Réception des tables enfants
 $categories = getCategories();
@@ -24,8 +25,9 @@ if (isset($_POST['submit'])) {
     $product['is_highlander'] = isset($_POST['is_highlander']) ? $_POST['is_highlander'] : null;
     $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : 0; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE (encore)
 
-    $productsMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : array();
-    $productsCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : array();
+    $productMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : array();
+    $productCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : array();
+    $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 
     // Generate le slug
     $product['slug'] = slugify($product['name']);
@@ -33,10 +35,11 @@ if (isset($_POST['submit'])) {
     // Formulaire validé : on modifie l'enregistrement
     $sucessProduct = insertProduct($product);
 
-    $sucessProductCat = updateProductCategories($product['slug'], $productsMaterials);
-    $sucessProductMat = updateProductMaterials($product['slug'], $productsCategories);
+    $sucessProductCat = updateProductCategories($product['slug'], $productMaterials);
+    $sucessProductMat = updateProductMaterials($product['slug'], $productCategories);
+    $sucessProductImg = updateProductImages($product['slug'], $productImages);
 
-    $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat;
+    $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat && $sucessProductImg;
 
     // Redirection vers la liste des produits
     header('Location:' . APP_URL . 'bo/pages/products/index.php?created=' . $sucess);
@@ -114,6 +117,9 @@ if (isset($_POST['submit'])) {
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander">
             </div>
+
+            <?php $max_nb_images = 4; ?>
+            <?php include_once APP_PATH . "/bo/partials/image_select.php"; ?>
 
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>

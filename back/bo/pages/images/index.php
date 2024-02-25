@@ -31,6 +31,13 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
     $selected_images = explode(",", $_GET['selected_images']);
     foreach ($selected_images as $slug) {
         deleteImage($slug);
+
+        // Suppression de l'image dans le dossier uploads
+        $image = getImage($slug);
+        $fullImgPath = APP_PATH . "uploads/" . $image['path'];
+        if (file_exists($fullImgPath)) {
+            unlink($fullImgPath);
+        }
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;
@@ -64,7 +71,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
 
         <!-- Barre de recherche -->
         <form class="d-flex justify-content-between my-4" method="GET">
-            <input class="form-control mr-sm-2" type="search" placeholder="Rechercher" aria-label="Search" name="search" value="<?= $search ?>">
+            <input class="form-control mr-sm-2" id="search" type="search" placeholder="Rechercher" aria-label="Search" name="search" value="<?= $search ?>">
             <button class="btn btn-primary mx-2 my-sm-0" type="submit">Rechercher</button>
         </form>
 
@@ -109,10 +116,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
                             </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <input type="checkbox" name="selected_images[]" value="<?= $image['slug'] ?>" onclick="enableSupprButton()">
-                                <div class="d-flex justify-content-end align-items-center gap-2">
-                                    <a href="<?= APP_URL ?>bo/pages/images/edit_image.php?slug=<?= $image['slug'] ?>" class="btn btn-primary">Modifier</a>
-                                    <a href="<?= APP_URL ?>bo/pages/images/delete_image.php?slug=<?= $image['slug'] ?>" class="btn btn-danger">Supprimer</a>
-                                </div>
+                                <a href="<?= APP_URL ?>bo/pages/images/delete_image.php?slug=<?= $image['slug'] ?>" class="btn btn-danger">Supprimer</a>
                             </div>
                         </div>
                     </div>
@@ -152,6 +156,18 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
 </html>
 
 <script>
+    // Auto submit search form on change (with a delay)
+    var searchInput = document.getElementById('search');
+    var searchForm = document.querySelector('form');
+    const delay = 1000;
+    var timeout = null;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            searchForm.submit();
+        }, delay);
+    });
+
     // Fonction disbale suppr button
     function disableSupprButton() {
         var btn = document.getElementById('delete-images');

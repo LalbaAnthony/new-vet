@@ -373,6 +373,34 @@ function updateProductMaterials($product_slug, $materials)
     }
 }
 
+function updateProductImages($product_slug, $images)
+{
+    $dbh = db_connect();
+
+    // Delete all images for this product
+    $sql = "DELETE FROM product_image WHERE product_slug = :product_slug";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":product_slug" => $product_slug));
+        log_txt("Product images deleted in back office: slug " . $product_slug);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    // Insert all images for this product
+    $sql = "INSERT INTO product_image (product_slug, image_slug) VALUES (:product_slug, :image_slug)";
+    try {
+        $sth = $dbh->prepare($sql);
+        foreach ($images as $key => $value) {
+            $sth->execute(array(":product_slug" => $product_slug, ":image_slug" => $value));
+        }
+        log_txt("Product images inserted in back office: slug " . $product_slug);
+        return true;
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+}
+
 function deleteProduct($slug)
 {
     $dbh = db_connect();

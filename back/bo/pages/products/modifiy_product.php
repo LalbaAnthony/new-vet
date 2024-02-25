@@ -4,14 +4,16 @@ include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/product.php";
 include_once APP_PATH . "/models/category.php";
 include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "/models/image.php";
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
 $product = getProduct($urlSlug);
 
-$productsMaterials = getMaterialsFromProduct($urlSlug);
-$productsCategories = getCategoriesFromProduct($urlSlug);
+$productMaterials = getMaterialsFromProduct($urlSlug);
+$productCategories = getCategoriesFromProduct($urlSlug);
+$productImages = getImagesFromProduct($urlSlug);
 
 // Réception des tables enfants
 $categories = getCategories();
@@ -29,16 +31,18 @@ if (isset($_POST['submit'])) {
     $product['stock_quantity'] = isset($_POST['stock_quantity']) ? $_POST['stock_quantity'] : $product['stock_quantity'];
     $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : $product['is_highlander']; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE
 
-    $productsMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : $productsMaterials;
-    $productsCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : $productsCategories;
+    $productMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : $productMaterials;
+    $productCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : $productCategories;
+    $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 
     // Formulaire validé : on modifie l'enregistrement
     $sucessProduct = updateProduct($product);
 
-    $sucessProductCat = updateProductCategories($product['slug'], $productsMaterials);
-    $sucessProductMat = updateProductMaterials($product['slug'], $productsCategories);
+    $sucessProductCat = updateProductCategories($product['slug'], $productMaterials);
+    $sucessProductMat = updateProductMaterials($product['slug'], $productCategories);
+    $sucessProductImg = updateProductImages($product['slug'], $productImages);
 
-    $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat;
+    $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat && $sucessProductImg;
 
     // Redirection vers la liste des produits
     header('Location:' . APP_URL . 'bo/pages/products/index.php?updated=' . $sucess);
@@ -62,7 +66,6 @@ if (isset($_POST['submit'])) {
 <body>
 
     <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
-
 
     <div class="container mt-5">
 
@@ -105,7 +108,7 @@ if (isset($_POST['submit'])) {
                 <label for="categories_slugs">Catégorie:</label>
                 <select class="form-control" name="categories_slugs[]" id="categories_slugs" multiple>
                     <?php foreach ($categories as $category) : ?>
-                        <option value="<?= $category['slug'] ?>" <?php echo in_array($category['slug'], array_column($productsCategories, 'slug')) ? 'selected' : '' ?>><?= $category['libelle'] ?></option>
+                        <option value="<?= $category['slug'] ?>" <?php echo in_array($category['slug'], array_column($productCategories, 'slug')) ? 'selected' : '' ?>><?= $category['libelle'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -114,7 +117,7 @@ if (isset($_POST['submit'])) {
                 <label for="materials_slugs">Materiaux:</label>
                 <select class="form-control" name="materials_slugs[]" id="materials_slugs" multiple>
                     <?php foreach ($materials as $material) : ?>
-                        <option value="<?= $material['slug'] ?>" <?php echo in_array($material['slug'], array_column($productsMaterials, 'slug')) ? 'selected' : '' ?>><?= $material['libelle'] ?></option>
+                        <option value="<?= $material['slug'] ?>" <?php echo in_array($material['slug'], array_column($productMaterials, 'slug')) ? 'selected' : '' ?>><?= $material['libelle'] ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -123,6 +126,13 @@ if (isset($_POST['submit'])) {
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander" <?php echo $product['is_highlander'] === 1 ? 'checked' : '' ?>>
             </div>
+
+            <?php
+            $max_nb_images = 4;
+            $selected_images = array();
+            foreach ($productImages as $image) $selected_images[] = $image['slug'];
+            ?>
+            <?php include_once APP_PATH . "/bo/partials/image_select.php"; ?>
 
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
