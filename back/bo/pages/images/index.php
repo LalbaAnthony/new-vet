@@ -34,9 +34,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
 
         // Suppression de l'image dans le dossier uploads
         $image = getImage($slug);
-        $fullImgPath = APP_PATH . "uploads/" . $image['path'];
-        if (file_exists($fullImgPath)) {
-            unlink($fullImgPath);
+        $full_img_path = APP_PATH . "uploads/" . $image['path'];
+        if (file_exists($full_img_path)) {
+            unlink($full_img_path);
         }
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
@@ -83,9 +83,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
                 <div class="col-md-4 mb-5">
                     <div class="card mb-2">
                         <?php
-                        $fullImgPath = APP_PATH . "uploads/" . $image['path'];
+                        $full_img_path = APP_PATH . "uploads/" . $image['path'];
                         ?>
-                        <?php if (file_exists($fullImgPath)) : ?>
+                        <?php if (file_exists($full_img_path)) : ?>
                             <img src="<?= APP_URL . "uploads/" . $image['path'] ?>" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">
                         <?php else : ?>
                             <img src="<?= APP_URL ?>assets/img/default-img.webp" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">

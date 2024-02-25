@@ -81,7 +81,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=is_highlander&order=<?= $new_order ?>">Highlander</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=sort_order&order=<?= $new_order ?>">Ordre</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Création</a></th>
-                    <th scope='col' colspan='2'>&nbsp;</th>
+                    <th scope='col' colspan='3'>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,9 +95,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                         <td>
                             <?php
                             $dbImgPath = getFirstImagePathFromProduct($product['slug']);
-                            $fullImgPath = APP_PATH . $dbImgPath;
+                            $full_img_path = APP_PATH . $dbImgPath;
                             ?>
-                            <?php if ($dbImgPath && file_exists($fullImgPath)) : ?>
+                            <?php if ($dbImgPath && file_exists($full_img_path)) : ?>
                                 <img src="<?= APP_URL . $dbImgPath ?>" class="img-thumbnail" width="100">
                             <?php else : ?>
                                 <img src="<?= APP_URL ?>assets/img/default-img.webp" class="img-thumbnail" width="100">
@@ -121,10 +121,12 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                         <td><?= $product['sort_order'] ? $product['sort_order'] : '-' ?></td>
                         <!-- Date de création -->
                         <td><?= fr_datetime($product['created_at']) ?></td>
+                        <!-- Bouton de voir sur le site -->
+                        <td><a href="<?= FRONT_URL ?>produits/<?= $product['slug'] ?>" class="btn btn-outline-primary btn-sm" target="_blank">Voir</a></td>
                         <!-- Bouton de modification -->
-                        <td> <a href="<?= APP_URL ?>bo/pages/products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a> </td>
+                        <td><a href="<?= APP_URL ?>bo/pages/products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
                         <!-- Bouton de suppression -->
-                        <td> <a href="<?= APP_URL ?>bo/pages/products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
+                        <td><a href="<?= APP_URL ?>bo/pages/products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a></td>
                     </tr>
                 <?php
                 }

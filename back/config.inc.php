@@ -24,6 +24,7 @@ define('DB_NAME', 'new-vet');
  * Paramètre de l'application for XAMPP
  */
 define('APP_NAME', 'NewVet');
+define('FRONT_URL', 'http://localhost:5173/');
 define('APP_PATH', '/xampp/htdocs/projects/new-vet/back/');
 define('APP_URL', 'http://localhost/projects/new-vet/back/');
 

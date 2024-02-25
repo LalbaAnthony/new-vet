@@ -14,8 +14,8 @@ $images = getImages();
     <div class="d-flex justify-content-between align-items-center" style="overflow-x: scroll; max-width: 100%;">
         <!-- Images list -->
         <?php foreach ($images as $image) : ?>
-            <?php $fullImgPath = APP_PATH . "uploads/" . $image['path']; ?>
-            <?php if (file_exists($fullImgPath)) : ?>
+            <?php $full_img_path = APP_PATH . "uploads/" . $image['path']; ?>
+            <?php if (file_exists($full_img_path)) : ?>
                 <div class="d-flex flex-column align-items-center">
                     <img src="<?= APP_URL . "uploads/" . $image['path'] ?>" class="m-1 object-fit-cover" alt="<?= $image['alt'] ?>" width="100px" height="100px">
                     <input type="checkbox" name="images_slugs[]" value="<?= $image['slug'] ?>" <?php echo (isset($selected_images) && in_array($image['slug'], $selected_images)) ? 'checked' : '' ?>>

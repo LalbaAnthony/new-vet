@@ -11,9 +11,9 @@ $image = getImage($urlSlug);
 if (isset($_POST['submit'])) {
 
     // Suppression du fichier
-    $fullImgPath = APP_PATH . "uploads/" . $image['path'];
-    if (file_exists($fullImgPath)) {
-        unlink($fullImgPath);
+    $full_img_path = APP_PATH . "uploads/" . $image['path'];
+    if (file_exists($full_img_path)) {
+        unlink($full_img_path);
     }
 
     // Formulaire validé : on supprime l'enregistrement

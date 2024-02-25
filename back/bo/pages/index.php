@@ -22,10 +22,13 @@ include_once "../../config.inc.php";
 
     <div class="container mt-5">
         <div class="container">
-            <div class="row justify-content-center align-items-center vh-100">
+            <div class="row justify-content-center align-items-center" style="height: 80vh;">
                 <div class="col-md-4">
                     <h2 class="text-center mb-4">Bienvenue sur le back office de NEW VET</h2>
-                    <p class="text-center">Vous pouvez gérer les produits et les catégories, et plein d'autres choses encore !</p>
+                    <p class="text-center">Vous pouvez gérer les produits, les clients, les images, et plein d'autres choses encore !</p>
+                    <div class="d-flex justify-content-center">
+                        <a href="<?= FRONT_URL ?>" class="btn btn-outline-primary">Aller sur le site</a>
+                    </div>
                 </div>
             </div>
         </div>
