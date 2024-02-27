@@ -11,9 +11,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - NEW VET` || 'NEW VET';
 
-  const privatePages = ['account', 'orders', 'order', 'checkout']
   const authStore = useAuthStore()
-  if (!authStore.authenticated && privatePages.includes(to.name)) {
+  if (to.meta.private === true && !authStore.authenticated) {
     next({ path: '/' });
   }
 
