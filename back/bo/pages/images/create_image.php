@@ -93,6 +93,7 @@ if (isset($_POST['submit'])) {
     <title>Création - NEW VET</title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
+    <script src="<?= APP_URL ?>bo/script/autosave.js"></script>
 </head>
 
 <body>
