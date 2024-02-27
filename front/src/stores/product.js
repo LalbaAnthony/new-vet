@@ -113,8 +113,12 @@ export const useProductStore = defineStore('product', {
       this.cartProducts.data = []
 
       const productSlugs = Object.keys(authStore.cart);
-      const resp = await get('products', { include: [productSlugs.join(',')] });
-      this.cartProducts.data = resp.data;
+      if (productSlugs.length) {
+        const resp = await get('products', { include: [productSlugs.join(',')] });
+        this.cartProducts.data = resp.data;
+      } else {
+        this.cartProducts.data = [];
+      }
 
       // Loading
       this.cartProducts.loading = false
