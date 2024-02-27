@@ -64,13 +64,15 @@ import ProductsImages from '@/components/ProductsImagesComponent.vue'
 import MoreProducts from '@/components/MoreProductsComponent.vue'
 import { useProductStore } from '@/stores/product'
 import { useAuthStore } from '@/stores/auth'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const productStore = useProductStore()
 const authStore = useAuthStore()
 
 productStore.fetchProduct(route.params.slug)
+if (!productStore.product.data.name) router.push('/404')
 
 const qty = ref(1)
 

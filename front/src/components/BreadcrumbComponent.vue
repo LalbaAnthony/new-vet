@@ -5,7 +5,7 @@
     </li>
     <li v-for="(crumb, index) in route.matched" :key="index">
       <div
-        v-if="(route.matched[index - 1] && (route.matched[index].name !== route.matched[index - 1].name)) || index === 0">
+        v-if="index === 0 || (route.matched[index - 1] && (route.matched[index].name !== route.matched[index - 1].name))">
         <IconChevronRight class="chevron" />
         <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
           {{ crumb.meta.title }}
@@ -13,9 +13,6 @@
       </div>
     </li>
   </ol>
-  <!-- <pre>
-      {{ route.matched }}
-    </pre> -->
 </template>
 
 <script setup>

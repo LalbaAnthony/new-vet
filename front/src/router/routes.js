@@ -129,6 +129,11 @@ const routes = [
     },
   },
   {
+    path: '/404',
+    name: '404',
+    component: () => import('../pages/error/ErrorNotFound.vue'),
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('../pages/error/ErrorNotFound.vue'),
   },
