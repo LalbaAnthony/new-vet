@@ -1,7 +1,7 @@
 <?php
 
 function float_to_price($float) {
-    $price = number_format($float, 2, ',', ' ') . ' €';
+    $price = number_format($float, 2, ',', ' ') . '&nbsp;€';
 
     return $price;
 }
