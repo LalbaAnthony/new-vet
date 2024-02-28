@@ -3,8 +3,8 @@
     <span class="error">Erreur 404</span>
     <p><span class="gradient">Aucune</span> page trouvé</p>
     <div class="button-bloc">  
-      <!-- <button class="button outline" @click="$router.go(-1)">Retour</button> -->
-      <button class="button" @click="$router.push('/')">Accueil</button>
+      <!-- <button class="button outline" @click="$router.push('/')">Accueil</button> -->
+      <button class="button" @click="$router.go(-1)">Retour</button>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@
 
 .center p {
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .button-bloc {

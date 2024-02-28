@@ -1,7 +1,9 @@
 <template>
-  <div class="main-center">
-    <span class="message-no-item"><span class="gradient bold">Aucun</span> {{ props.what }} disponible.</span>
-    <button v-if="props.back" class="button" @click="$router.go(-1)">Retour</button>
+  <div class="center">
+    <p><span class="gradient bold">Aucune</span> {{ props.what }} trouvé</p>
+    <div class="button-bloc">
+      <router-link :to="props.cta.to" class="button">{{ props.cta.text }}</router-link>
+    </div>
   </div>
 </template>
 
@@ -13,31 +15,31 @@ const props = defineProps({
     default: 'élément',
     required: false,
   },
-  back: {
-    type: Boolean,
-    default: false,
-    required: false,
-  },
+  cta: {
+    type: Object,
+    default: () => ({ text: 'Retour', to: '/' }),
+    required: false
+  }
 })
 </script>
 
 <style scoped>
-.main-center {
-  margin: 225px auto;
+.center {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
 }
 
-span.message-no-item {
-  color: var(--dark);
-  background-color: var(--light);
-  justify-content: center;
-  align-items: center;
-  font-size: 1.25rem;
-  font-weight: 500;
+.center p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.button-bloc {
+  display: flex;
+  gap: 1rem;
 }
 
 .bold {
