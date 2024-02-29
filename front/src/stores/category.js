@@ -39,8 +39,8 @@ export const useCategoryStore = defineStore('category', {
 
       // Request
       const params = {
-        page: this.categories.pagination.page,
-        per_page: this.categories.pagination.per_page,
+        page: this.categories.pagination.page || 1,
+        per_page: this.categories.pagination.per_page || 10,
         sort: [
           { order: 'ASC', order_by: 'sort_order' },
           { order: 'ASC', order_by: 'libelle' },

@@ -62,6 +62,7 @@
 import IconArrowRepeat from '@/components/icons/IconArrowRepeat.vue'
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { defineEmits } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCategoryStore } from '@/stores/category'
 import { useMaterialStore } from '@/stores/material'
@@ -74,17 +75,21 @@ const materialStore = useMaterialStore()
 categoryStore.fetchCategories();
 materialStore.fetchMaterials();
 
+const emit = defineEmits(['updateQuery'])
+
 function resetFilter() {
   const query = { ...route.query }
   delete query.categories
   delete query.materials
   router.push({ query })
+  emit('updateQuery', true)
 }
 
 function resetSort() {
   const query = { ...route.query }
   delete query.sort
   router.push({ query })
+  emit('updateQuery', true)
 }
 
 function toggleSort(value) {
@@ -95,6 +100,7 @@ function toggleSort(value) {
     query.sort = value
   }
   router.push({ query })
+  emit('updateQuery', true)
 }
 
 function toggleCategory(category) {
@@ -110,6 +116,7 @@ function toggleCategory(category) {
     query.categories = category
   }
   router.push({ query })
+  emit('updateQuery', true)
 }
 
 function toggleMaterial(material) {
@@ -125,6 +132,7 @@ function toggleMaterial(material) {
     query.materials = material
   }
   router.push({ query })
+  emit('updateQuery', true)
 }
 
 
@@ -135,7 +143,7 @@ function toggleMaterial(material) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 .dropdown {

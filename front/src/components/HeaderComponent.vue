@@ -11,7 +11,7 @@
           @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
-            <span v-if="authStore.cart > 0" class="cart-number">{{ authStore.cartTotal }}</span>
+            <span v-if="Object.keys(authStore.cart).length > 0" class="cart-number">{{ authStore.cartTotal }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>

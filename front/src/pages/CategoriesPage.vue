@@ -6,12 +6,12 @@
     <div v-else>
       <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0" class="categories-grid">
         <CategoryItem v-for="category in categoryStore.categories.data" :key="category.slug" :category="category" />
+        <Pagination :total="categoryStore.categories.pagination.total" :page="categoryStore.categories.pagination.page"
+          :perPage="categoryStore.categories.pagination.per_page"
+          @update-page="(page) => categoryStore.changePage(page)" />
       </div>
-      <NoItem what="produit" v-else />
+      <NoItem what="catégorie" :cta="{ text: 'Retour', to: '/categories' }" v-else />
     </div>
-    <Pagination :total="categoryStore.categories.pagination.total"
-      :page="categoryStore.categories.pagination.page" :perPage="categoryStore.categories.pagination.per_page"
-      @update-page="(page) => categoryStore.changePage(page)" />
   </div>
 </template>
 

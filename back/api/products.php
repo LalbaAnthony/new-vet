@@ -35,6 +35,11 @@ $total = ceil($products_count / $per_page);
 $json = array();
 $products = getProducts($categories, $materials, $search, $is_highlander, $exclude, $include, $sort, $offset, $per_page);
 
+$json['pagination'] = array(
+    'page' => intval($page),
+    'per_page' => intval($per_page),
+    'total' => intval($total),
+);
 if (count($products) > 0) {
     $json['status'] = 200;
     $json['error'] = null;
@@ -43,11 +48,6 @@ if (count($products) > 0) {
         $product['categories'] = getCategoriesFromProduct($product['slug']);
         $product['materials'] = getMaterialsFromProduct($product['slug']);
     }
-    $json['pagination'] = array(
-        'page' => intval($page),
-        'per_page' => intval($per_page),
-        'total' => intval($total),
-    );
     $json['data'] = $products;
 } else if (count($products) === 0) {
     $json['status'] = 400;

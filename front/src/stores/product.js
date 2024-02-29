@@ -59,8 +59,8 @@ export const useProductStore = defineStore('product', {
 
       // Request
       const params = {
-        page: this.products.pagination.page,
-        per_page: this.products.pagination.per_page,
+        page: this.products.pagination.page || 1,
+        per_page: this.products.pagination.per_page || 10,
         sort: [
           { order: 'ASC', order_by: 'sort_order' },
           { order: 'DESC', order_by: 'stock_quantity' }
@@ -72,7 +72,7 @@ export const useProductStore = defineStore('product', {
       const resp = await get('products', params);
       this.products.data = resp.data;
       this.products.pagination = resp.pagination;
-
+      
       // Loading
       this.products.loading = false
     },

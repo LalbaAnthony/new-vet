@@ -30,17 +30,17 @@ $total = ceil($categories_count / $per_page);
 $json = array();
 $categories = getCategories($search, $is_highlander, $is_quick_access, $exclude, $include, $sort, $offset, $per_page);
 
+$json['pagination'] = array(
+    'page' => intval($page),
+    'per_page' => intval($per_page),
+    'total' => intval($total),
+);
 if (count($categories) > 0) {
     $json['status'] = 200;
     $json['error'] = null;
     foreach ($categories as &$category) {
         $category['image'] = getImage($category['image_slug']);
     }
-    $json['pagination'] = array(
-        'page' => intval($page),
-        'per_page' => intval($per_page),
-        'total' => intval($total),
-    );
     $json['data'] = $categories;
 } else if (count($categories) === 0) {
     $json['status'] = 400;

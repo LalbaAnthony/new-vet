@@ -2,16 +2,17 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <Breadcrumb />
-        <SortFilter />
+        <SortFilter @update-query="loadProducts" />
         <Loader v-if="productStore.products.loading" />
         <div v-else>
             <div v-if="productStore.products.data && productStore.products.data.length > 0" class="products-grid">
                 <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
+                <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.page"
+                    :perPage="productStore.products.pagination.per_page"
+                    @update-page="(page) => productStore.changePage(page)" />
             </div>
-            <NoItem what="produit" v-else />
+            <NoItem what="produit" :cta="{ text: 'Retour', to: '/produits' }" v-else />
         </div>
-        <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.page"
-            :perPage="productStore.products.pagination.per_page" @update-page="(page) => productStore.changePage(page)" />
     </div>
 </template>
 
@@ -24,13 +25,12 @@ import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'
 import { useRoute } from 'vue-router'
-import { watch } from 'vue'
 
 const route = useRoute()
 const productStore = useProductStore()
 
-function loadProducts() {
-    productStore.fetchProducts({
+async function loadProducts() {
+    await productStore.fetchProducts({
         materials: [route.query.materials || null],
         categories: [route.query.categories || null],
         sort: route.query.sort ? [{
@@ -45,11 +45,6 @@ function loadProducts() {
 
 // Fetch products on component mount
 loadProducts()
-
-// Fetch products when route query changes
-watch(() => route.query, () =>
-    loadProducts()
-)
 
 </script>
 

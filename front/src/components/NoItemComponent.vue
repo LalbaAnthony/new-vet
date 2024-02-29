@@ -17,7 +17,7 @@ const props = defineProps({
   },
   cta: {
     type: Object,
-    default: () => ({ text: 'Retour', to: '/' }),
+    default: () => ({ text: 'Accueil', to: '/' }),
     required: false
   }
 })
