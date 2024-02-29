@@ -3,16 +3,16 @@
     <div>
       <h5>Réseaux</h5>
       <a href="https://www.facebook.com/NEWVET/" target="_blank">
-        <IconFacebook class="social-icon" />
+        <IconFacebook class="social-icon facebook" />
       </a>
       <a href="hhttps://twitter.com/NEWVET" target="_blank">
-        <IconTwitterX class="social-icon" />
+        <IconTwitterX class="social-icon twitter" />
       </a>
       <a href="https://www.instagram.com/NEWVET/?hl=fr" target="_blank">
-        <IconInstagram class="social-icon" />
+        <IconInstagram class="social-icon instagram" />
       </a>
       <a href="https://www.youtube.com/@NEWVET" target="_blank">
-        <IconYoutube class="social-icon" />
+        <IconYoutube class="social-icon youtube" />
       </a>
     </div>
     <div>
@@ -95,6 +95,22 @@ footer h5 {
   height: 2rem;
   margin-right: 0.75rem;
   transition: all 0.3s;
+}
+
+.social-icon.facebook {
+  color: #486CB4 !important;
+}
+
+.social-icon.twitter {
+  color: #000 !important;
+}
+
+.social-icon.instagram {
+  color: #E1306C !important;
+}
+
+.social-icon.youtube {
+  color: #FF0000 !important;
 }
 
 .social-icon:hover {
