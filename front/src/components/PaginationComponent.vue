@@ -31,8 +31,8 @@
 </template>
 
 <script setup>
-import IconChevronLeft from '@/components/icons/IconChevronLeft.vue'
-import IconChevronRight from '@/components/icons/IconChevronRight.vue'
+import IconChevronLeft from '@/icons/IconChevronLeft.vue'
+import IconChevronRight from '@/icons/IconChevronRight.vue'
 
 const props = defineProps({
   total: {

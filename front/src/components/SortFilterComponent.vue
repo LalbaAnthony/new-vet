@@ -60,10 +60,9 @@
 </template>
 
 <script setup>
-import IconArrowRepeat from '@/components/icons/IconArrowRepeat.vue'
-import IconChevronDown from '@/components/icons/IconChevronDown.vue'
+import IconArrowRepeat from '@/icons/IconArrowRepeat.vue'
+import IconChevronDown from '@/icons/IconChevronDown.vue'
 import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { defineEmits } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCategoryStore } from '@/stores/category'
 import { useMaterialStore } from '@/stores/material'

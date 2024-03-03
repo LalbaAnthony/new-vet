@@ -20,7 +20,7 @@
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import SortFilter from '@/components/SortFilterComponent.vue'
 import Pagination from '@/components/PaginationComponent.vue'
-import Product from '@/components/ProductCardComponent.vue'
+import Product from '@/components/product/ProductItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'
