@@ -8,14 +8,6 @@ const routes = [
     },
   },
   {
-    path: '/se-connecter',
-    name: 'sign',
-    component: () => import('../pages/SignPage.vue'),
-    meta: {
-      title: 'Se connecter', private: false,
-    },
-  },
-  {
     path: '/mon-compte',
     name: 'account',
     component: () => import('../pages/AccountPage.vue'),
@@ -26,7 +18,7 @@ const routes = [
   {
     path: '/mes-commandes',
     name: 'orders',
-    component: () => import('../pages/OrdersPage.vue'),
+    component: () => import('../pages/order/OrdersPage.vue'),
     meta: {
       title: 'Mes commandes', private: true,
     },
@@ -34,7 +26,7 @@ const routes = [
   {
     path: '/mes-commandes/:id',
     name: 'order',
-    component: () => import('../pages/OrderPage.vue'),
+    component: () => import('../pages/order/OrderPage.vue'),
     meta: {
       title: 'Ma commande', private: true,
     },
@@ -42,7 +34,7 @@ const routes = [
   {
     path: '/categories',
     name: 'categories',
-    component: () => import('../pages/CategoriesPage.vue'),
+    component: () => import('../pages/category/CategoriesPage.vue'),
     meta: {
       title: 'Catégories', private: false,
     },
@@ -54,7 +46,7 @@ const routes = [
       {
         path: '',
         name: 'products',
-        component: () => import('../pages/ProductsPage.vue'),
+        component: () => import('../pages/product/ProductsPage.vue'),
         meta: {
           title: 'Produits', private: false,
         },
@@ -62,7 +54,7 @@ const routes = [
       {
         path: ':slug',
         name: 'product',
-        component: () => import('../pages/ProductPage.vue'),
+        component: () => import('../pages/product/ProductPage.vue'),
         meta: {
           title: 'Produit', private: false,
         },

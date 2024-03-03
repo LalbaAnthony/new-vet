@@ -9,8 +9,10 @@ export const useAuthStore = defineStore('auth',
       authenticated: false,
       customer: {},
       cart: {},
-      showForgotPasswordModal: false,
-      showResetPasswordModal: false,
+      signModal: {
+        component: 'login',
+        show: false,
+      }
     }),
 
     actions: {
