@@ -46,7 +46,8 @@
             croissant</li>
           <li :class="[route.query.sort === 'price-desc' ? 'selected' : '']" @click="toggleSort('price-desc')">Prix
             décroissant</li>
-          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']" @click="toggleSort('created_at-desc')">
+          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']"
+            @click="toggleSort('created_at-desc')">
             Plus récents</li>
           <li :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']" @click="toggleSort('created_at-asc')">
             Plus anciens</li>
@@ -61,7 +62,7 @@
 <script setup>
 import IconArrowRepeat from '@/components/icons/IconArrowRepeat.vue'
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
 import { defineEmits } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCategoryStore } from '@/stores/category'
