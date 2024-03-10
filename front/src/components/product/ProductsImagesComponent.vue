@@ -34,7 +34,7 @@
 import { ref } from 'vue'
 import { imageExists } from '@/helpers/helpers.js'
 import { URL_BACKEND_UPLOAD } from '@/config';
-import IconX from '@/components/icons/IconX.vue'
+import IconX from '@/icons/IconX.vue'
 
 // const mobile = isMobile()
 

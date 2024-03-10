@@ -41,10 +41,10 @@
 </template>
 
 <script setup>
-import IconFacebook from '@/components/icons/IconFacebook.vue';
-import IconTwitterX from '@/components/icons/IconTwitterX.vue';
-import IconInstagram from '@/components/icons/IconInstagram.vue';
-import IconYoutube from '@/components/icons/IconYoutube.vue';
+import IconFacebook from '@/icons/IconFacebook.vue';
+import IconTwitterX from '@/icons/IconTwitterX.vue';
+import IconInstagram from '@/icons/IconInstagram.vue';
+import IconYoutube from '@/icons/IconYoutube.vue';
 
 </script>
 

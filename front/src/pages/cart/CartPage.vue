@@ -27,7 +27,7 @@
 
 <script setup>
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
-import CartItem from '@/components/CartItemComponent.vue'
+import CartItem from '@/components/cart/CartItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import MoreProducts from '@/components/MoreProductsComponent.vue'

@@ -83,7 +83,7 @@ const routes = [
   {
     path: '/panier',
     name: 'cart',
-    component: () => import('../pages/CartPage.vue'),
+    component: () => import('../pages/cart/CartPage.vue'),
     meta: {
       title: 'Panier', private: false,
     },

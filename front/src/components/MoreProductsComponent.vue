@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import Product from '@/components/ProductCardComponent.vue'
+import Product from '@/components/product/ProductItemComponent.vue'
 import { useProductStore } from '@/stores/product'
 
 const props = defineProps({

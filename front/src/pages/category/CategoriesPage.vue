@@ -18,7 +18,7 @@
 <script setup>
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import Pagination from '@/components/PaginationComponent.vue'
-import CategoryItem from '@/components/CategoryItemComponent.vue'
+import CategoryItem from '@/components/category/CategoryItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useCategoryStore } from '@/stores/category'

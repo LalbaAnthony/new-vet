@@ -16,7 +16,7 @@
 
 <script setup>
 import { imageExists } from '@/helpers/helpers.js'
-import IconTrash from '@/components/icons/IconTrash.vue'
+import IconTrash from '@/icons/IconTrash.vue'
 import { URL_BACKEND_UPLOAD } from '@/config';
 import { useAuthStore } from '@/stores/auth'
 

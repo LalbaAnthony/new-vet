@@ -54,12 +54,12 @@
 <script setup>
 import { ref } from 'vue'
 import Pill from '@/components/PillComponent.vue'
-import IconCartFill from '@/components/icons/IconCartFill.vue'
-import IconPersonFill from '@/components/icons/IconPersonFill.vue'
-import IconHouseFill from '@/components/icons/IconHouseFill.vue'
-import IconTagFill from '@/components/icons/IconTagFill.vue'
-import IconPersonStandingDress from '@/components/icons/IconPersonStandingDress.vue'
-import IconEnvelopeFill from '@/components/icons/IconEnvelopeFill.vue'
+import IconCartFill from '@/icons/IconCartFill.vue'
+import IconPersonFill from '@/icons/IconPersonFill.vue'
+import IconHouseFill from '@/icons/IconHouseFill.vue'
+import IconTagFill from '@/icons/IconTagFill.vue'
+import IconPersonStandingDress from '@/icons/IconPersonStandingDress.vue'
+import IconEnvelopeFill from '@/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
 import router from '@/router';
 import { randSearchPlaceholder } from '@/helpers/helpers.js'

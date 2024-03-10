@@ -17,8 +17,8 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import IconHouse from '@/components/icons/IconHouse.vue'
-import IconChevronRight from '@/components/icons/IconChevronRight.vue'
+import IconHouse from '@/icons/IconHouse.vue'
+import IconChevronRight from '@/icons/IconChevronRight.vue'
 
 const route = useRoute()
 const router = useRouter()
