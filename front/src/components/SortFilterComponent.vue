@@ -63,7 +63,6 @@
 import IconArrowRepeat from '@/components/icons/IconArrowRepeat.vue'
 import IconChevronDown from '@/components/icons/IconChevronDown.vue'
 import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { defineEmits } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCategoryStore } from '@/stores/category'
 import { useMaterialStore } from '@/stores/material'
@@ -82,14 +81,16 @@ function resetFilter() {
   const query = { ...route.query }
   delete query.categories
   delete query.materials
-  router.push({ query })
+  router.replace({ query })
+  router.go() // hack to avoid non-page reload on query change
   emit('updateQuery', true)
 }
 
 function resetSort() {
   const query = { ...route.query }
   delete query.sort
-  router.push({ query })
+  router.replace({ query })
+  router.go() // hack to avoid non-page reload on query change
   emit('updateQuery', true)
 }
 
@@ -100,7 +101,8 @@ function toggleSort(value) {
   } else {
     query.sort = value
   }
-  router.push({ query })
+  router.replace({ query })
+  router.go() // hack to avoid non-page reload on query change
   emit('updateQuery', true)
 }
 
@@ -116,7 +118,8 @@ function toggleCategory(category) {
   } else {
     query.categories = category
   }
-  router.push({ query })
+  router.replace({ query })
+  router.go() // hack to avoid non-page reload on query change
   emit('updateQuery', true)
 }
 
@@ -132,7 +135,8 @@ function toggleMaterial(material) {
   } else {
     query.materials = material
   }
-  router.push({ query })
+  router.replace({ query })
+  router.go() // hack to avoid non-page reload on query change
   emit('updateQuery', true)
 }
 
