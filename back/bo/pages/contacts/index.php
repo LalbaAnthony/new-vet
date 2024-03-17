@@ -2,6 +2,7 @@
 
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/contact.php";
+include_once APP_PATH . "/models/customer.php";
 include_once APP_PATH . "/helpers/fr_datetime.php";
 include_once APP_PATH . "/helpers/float_to_price.php";
 include_once APP_PATH . "/models/image.php";
@@ -74,6 +75,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                     <tr class="table-primary">
                         <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Date</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_name&order=<?= $new_order ?>">Client</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">Email</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=subject&order=<?= $new_order ?>">Subject</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=message&order=<?= $new_order ?>">Message</a></th>
@@ -89,6 +91,16 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                             <td><input id="contact_id" type="checkbox" name="selected_contacts[]" value="<?= $contact['contact_id'] ?>"></td>
                             <!-- Date -->
                             <td><?= fr_datetime($contact['created_at']) ?></td>
+                            <!-- Client -->
+                            <td><?php
+                                if ($contact['customer_id']) {
+                                    $customer = getCustomer($contact['customer_id']);
+                                    echo "<a href='" . APP_URL . "/bo/pages/customers/edit_customer.php?customer_id=" . $contact['customer_id'] . "'>" . $customer['last_name'] . " " . $customer['first_name'] . "</a>";
+                                } else {
+                                    echo "<span class='text-muted'>Non renseigné</span>";
+                                }
+                                ?>
+                            </td>
                             <!-- Email -->
                             <td><?= $contact['email'] ?></td>
                             <!-- Subject -->
