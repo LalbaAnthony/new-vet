@@ -1,7 +1,6 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "bo/partials/header.php";
 include_once APP_PATH . "/models/contact.php";
 include_once APP_PATH . "/helpers/fr_datetime.php";
 include_once APP_PATH . "/helpers/float_to_price.php";
@@ -55,6 +54,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
 
 <body>
     <main>
+
+        <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
 
         <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
 

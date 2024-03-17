@@ -135,7 +135,7 @@ function deleteContact($id)
 {
     $dbh = db_connect();
     $sql = "UPDATE contact SET is_deleted = 1 WHERE contact_id = :id";
-    echo $sql;
+
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":id" => $id));
