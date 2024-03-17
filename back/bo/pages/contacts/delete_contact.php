@@ -34,31 +34,14 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
+
+    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+
     <div class="container mt-5">
-        <h2 class="mb-4">Suppression de : <?= $contact['email'] ?></h2>
+        <h2 class="mb-4">Suppression de cette demande de contact ?</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="contact_id" id="contact_id" value="<?= $contact['contact_id']; ?>">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input class="form-control" type="text" id="email" name="email" disabled value="<?= $contact['email'] ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="subject">subject:</label>
-                <input class="form-control" type="text" id="subject" name="subject" disabled value="<?= $contact['subject'] ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="message">message:</label>
-                <input class="form-control" type="text" id="message" name="message" disabled value="<?= $contact['message'] ?>">
-            </div>
-
-            <div class="form-group">
-                <label for="stock_quantity">Date:</label>
-                <input class="form-control" type="text" id="date" name="date" disabled value="<?= $contact['created_at'] ?>">
-            </div>
-            <br>
 
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>bo/pages/contacts/index.php" class="btn btn-secondary">Retour</a>

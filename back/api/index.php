@@ -1,3 +1,9 @@
+<?php
+
+include_once "../config.inc.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 

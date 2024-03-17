@@ -17,7 +17,7 @@ function getContact($id)
     return $contact;
 }
 
-function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')))
+function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')), $offset = null, $per_page = 10)
 {
     $dbh = db_connect();
 
@@ -31,18 +31,17 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
 
     if ($search) {
         $sql .= " AND (
-    customer.first_name LIKE :search OR 
-    customer.last_name LIKE :search OR
-    contact.email LIKE :search OR
-    contact.subject LIKE :search OR
-    contact.message LIKE :search OR
-    SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
-    SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
-    SOUNDEX(contact.email) = SOUNDEX(:search) OR
-    SOUNDEX(contact.subject) = SOUNDEX(:search) OR
-    SOUNDEX(contact.message) = SOUNDEX(:search) 
-
-)";
+            customer.first_name LIKE :search OR 
+            customer.last_name LIKE :search OR
+            contact.email LIKE :search OR
+            contact.subject LIKE :search OR
+            contact.message LIKE :search OR
+            SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
+            SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
+            SOUNDEX(contact.email) = SOUNDEX(:search) OR
+            SOUNDEX(contact.subject) = SOUNDEX(:search) OR
+            SOUNDEX(contact.message) = SOUNDEX(:search) 
+        )";
     }
 
     if ($sort) {
@@ -53,13 +52,17 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
         }
     }
 
-
+    // Limit and offset
+    if ($per_page) $sql .= " LIMIT :per_page";
+    if ($offset) $sql .= " OFFSET :offset";
 
     try {
         $sth = $dbh->prepare($sql);
 
         // Bind others values
         if ($search) $sth->bindValue(":search", "%$search%");
+        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
+        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
 
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -70,19 +73,40 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
     return $contacts;
 }
 
-function getContactsCount()
+function getContactsCount($search = null)
 {
     $dbh = db_connect();
-    $sql = "SELECT COUNT(*) FROM contact WHERE is_deleted = 0";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute();
-        $count = $sth->fetchColumn();
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+
+    $sql = "SELECT COUNT(contact_id) as count FROM contact WHERE is_deleted = 0";
+
+    if ($search) {
+        $sql .= " AND (
+            customer.first_name LIKE :search OR 
+            customer.last_name LIKE :search OR
+            contact.email LIKE :search OR
+            contact.subject LIKE :search OR
+            contact.message LIKE :search OR
+            SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
+            SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
+            SOUNDEX(contact.email) = SOUNDEX(:search) OR
+            SOUNDEX(contact.subject) = SOUNDEX(:search) OR
+            SOUNDEX(contact.message) = SOUNDEX(:search) 
+        )";
     }
 
-    return $count;
+    try {
+        $sth = $dbh->prepare($sql);
+
+        // Bind others values
+        if ($search) $sth->bindValue(":search", "%$search%");
+
+        $sth->execute();
+        $count = $sth->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $sql);
+    }
+
+    return $count['count'];
 }
 
 function insertContact($contact)

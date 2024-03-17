@@ -119,7 +119,7 @@ function getProducts($categories = array(), $materials = array(), $search = null
         }
 
         // Bind values for include (loop through the array of slugs to include)
-        if ($include&& count($include) > 0 && count($exclude) == 0) {
+        if ($include && count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }
@@ -213,20 +213,20 @@ function getProductsCount($categories = array(), $materials = array(), $search =
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        product.slug LIKE :search OR 
-        product.name LIKE :search OR
-        product.description LIKE :search OR
-        product.price LIKE :search OR
-        category.slug LIKE :search OR
-        material.slug LIKE :search OR
-        category.libelle LIKE :search OR
-        material.libelle LIKE :search OR
-        SOUNDEX(product.name) = SOUNDEX(:search) OR
-        SOUNDEX(product.description) = SOUNDEX(:search) OR
-        SOUNDEX(product.price) = SOUNDEX(:search) OR
-        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:search)
-    )";
+            product.slug LIKE :search OR 
+            product.name LIKE :search OR
+            product.description LIKE :search OR
+            product.price LIKE :search OR
+            category.slug LIKE :search OR
+            material.slug LIKE :search OR
+            category.libelle LIKE :search OR
+            material.libelle LIKE :search OR
+            SOUNDEX(product.name) = SOUNDEX(:search) OR
+            SOUNDEX(product.description) = SOUNDEX(:search) OR
+            SOUNDEX(product.price) = SOUNDEX(:search) OR
+            SOUNDEX(category.libelle) = SOUNDEX(:search) OR
+            SOUNDEX(material.libelle) = SOUNDEX(:search)
+        )";
     }
 
     if ($is_highlander) $sql .= " AND product.is_highlander = 1";
@@ -242,7 +242,7 @@ function getProductsCount($categories = array(), $materials = array(), $search =
         }
 
         // Bind values for include (loop through the array of slugs to include)
-        if ($include&& count($include) > 0 && count($exclude) == 0) {
+        if ($include && count($include) > 0 && count($exclude) == 0) {
             foreach ($include as $key => $value) {
                 $sth->bindValue(":include_$key", $value);
             }

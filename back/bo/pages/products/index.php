@@ -156,8 +156,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
             <a href="<?= APP_URL ?>bo/pages/products/create_product.php" class="btn btn-primary">Ajouter</a>
         </div>
     </div>
-
-
 </body>
 
 </html>

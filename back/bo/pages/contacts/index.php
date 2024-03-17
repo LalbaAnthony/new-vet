@@ -4,7 +4,6 @@ include_once "../../../config.inc.php";
 include_once APP_PATH . "bo/partials/header.php";
 include_once APP_PATH . "/models/contact.php";
 include_once APP_PATH . "/helpers/fr_datetime.php";
-include_once APP_PATH . "/helpers/three_dots_string.php";
 include_once APP_PATH . "/helpers/float_to_price.php";
 include_once APP_PATH . "/models/image.php";
 
@@ -14,25 +13,27 @@ $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
 $order = isset($_GET['order']) && $_GET['order'] == 'desc' ? 'DESC' : 'ASC';
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
-
 // Comput new order and sort
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
 $sort = array(array('order' => $order, 'order_by' => $order_by));
 
+$contacts_count = getContactsCount($search);
+
 // Comput offset & per_page
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
+$maxPage = ceil($contacts_count / $per_page);
 
 // Fetch contacts with sorting
-$contacts = getContacts($search, $sort);
+$contacts = getContacts($search, $sort, $offset, $per_page);
 
 // Bottom action: delete selected contacts, ...
 if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
     $selected_contacts = explode(",", $_GET['selected_contacts']);
-    foreach ($selected_contacts as $slug) {
-        deletecontact($slug);
+    foreach ($selected_contacts as $id) {
+        deleteContact($id);
     }
-    header("Location: " . $_SERVER['PHP_SELF'] . "?delete");
+    header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;
 }
 
@@ -47,7 +48,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site de vente de vêtement pour femme." />
     <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
-    <title>Lise des produits - NEW VET</title>
+    <title>Lise des contacts - NEW VET</title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
@@ -59,6 +60,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
 
         <div class="container p-4 p-lg-5">
             <h1 class="text-center">Liste des contacts</h1>
+            <p class="text-center"><?= $contacts_count ?> demande<?php if ($contacts_count > 1) : ?>s<?php endif; ?> de contact</p>
 
             <!-- Barre de recherche -->
             <form class="d-flex justify-content-between my-4" method="GET">
@@ -70,10 +72,10 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                 <thead>
                     <tr class="table-primary">
                         <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">Email</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=description&order=<?= $new_order ?>">Subject</a></th>
-                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=price&order=<?= $new_order ?>">Message</a></th>
                         <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Date</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">Email</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=subject&order=<?= $new_order ?>">Subject</a></th>
+                        <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=message&order=<?= $new_order ?>">Message</a></th>
                         <th scope='col' colspan='2'>&nbsp;</th>
                     </tr>
                 </thead>
@@ -84,14 +86,14 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                         <tr class="align-middle">
                             <!-- Checkbox pour la suppression multiple -->
                             <td><input id="contact_id" type="checkbox" name="selected_contacts[]" value="<?= $contact['contact_id'] ?>"></td>
+                            <!-- Date -->
+                            <td><?= fr_datetime($contact['created_at']) ?></td>
                             <!-- Email -->
                             <td><?= $contact['email'] ?></td>
                             <!-- Subject -->
                             <td><?= $contact['subject'] ?></td>
                             <!-- Message -->
                             <td><?= $contact['message'] ?></td>
-                            <!-- Date -->
-                            <td><?= fr_datetime($contact['created_at']) ?></td>
                             <!-- Bouton de suppression -->
                             <td> <a href="<?= APP_URL ?>/bo/pages/contacts/delete_contact.php?contact_id=<?= $contact['contact_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a> </td>
                         </tr>
@@ -106,20 +108,22 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                 <?php if ($page > 1) : ?>
                     <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page précédent (<?= $page - 1 ?>)</a>
                 <?php else : ?>
-                    <span>Page précédent</span>
+                    <span>&nbsp;</span>
                 <?php endif; ?>
                 <!-- Page Actuelle -->
                 <span>Page <?= $page ?></span>
                 <!-- Page suivante -->
-                <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant (<?= $page + 1 ?>)</a>
+                <?php if ($page < $maxPage) : ?>
+                    <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>&order_by=<?= $order_by ?>&order=<?= $order ?>">Page suivant (<?= $page + 1 ?>)</a>
+                <?php else : ?>
+                    <span>&nbsp;</span>
+                <?php endif; ?>
             </div>
             <!-- Actions en bas de page -->
             <div class="d-flex justify-content-start gap-2 my-5">
                 <button id="delete-contacts" class="btn btn-danger" disabled onclick="deleteSelectedcontacts()">Supprimer</button>
             </div>
         </div>
-
-
     </main>
 </body>
 
@@ -172,7 +176,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                 selected_contacts.push(checkbox.value);
             }
         }
-        console.log(selected_contacts);
         if (selected_contacts.length > 0) {
             if (confirm("Voulez-vous vraiment supprimer les éléments sélectionnés ?")) {
                 window.location.href = "<?= $_SERVER['PHP_SELF'] ?>?delete&selected_contacts=" + selected_contacts.join(",");
