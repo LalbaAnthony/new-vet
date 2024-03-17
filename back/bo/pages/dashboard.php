@@ -208,7 +208,12 @@ if (!$orderCountByCategories || !$salesByDay) {
                             <?php foreach ($salesByDay as $day) : ?>
                                 <div>
                                     <div class="bar" style="background: linear-gradient(0deg, #007bff <?= $day['percent'] ?>%, #fff <?= $day['percent'] ?>%);"></div>
-                                    <span><?= fr_mindate($day['day']) ?></span>
+                                    <span class="text-center">
+                                        <?php if ($day['nbSales'] > 0) : ?>
+                                            <b><?= $day['nbSales'] ?></b>
+                                        <?php endif; ?>
+                                        <br><?= fr_mindate($day['day']) ?>
+                                    </span>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -293,7 +298,7 @@ if (!$orderCountByCategories || !$salesByDay) {
     }
 
     #sales-by-day div .bar {
-        height: 90%;
+        height: 80%;
         width: 100%;
         background-color: #007bff;
     }
