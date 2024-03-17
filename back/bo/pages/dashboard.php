@@ -2,6 +2,8 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . "helpers/rand_color.php";
+include_once APP_PATH . "helpers/fr_mindate.php";
+include_once APP_PATH . "helpers/dates_between.php";
 
 function getSalesByDay($date_start = null, $date_end = null)
 {
@@ -16,7 +18,7 @@ function getSalesByDay($date_start = null, $date_end = null)
     if ($date_start) $sql .= " AND order_date >= :date_start";
     if ($date_end) $sql .= " AND order_date <= :date_end";
 
-    $sql .= " GROUP BY day ORDER BY day DESC";
+    $sql .= " GROUP BY day ORDER BY day ASC";
 
     try {
         $sth = $dbh->prepare($sql);
@@ -72,7 +74,6 @@ $date_start = isset($_POST['date_start']) ? $_POST['date_start'] : null;
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : null;
 
 if (!$date_start && !$date_end) {
-    $date_start = date("Y-m-d", strtotime("-7 days"));
     $date_end = date("Y-m-d");
 } else if ($date_start > $date_end) {
     $error = "La date de début doit être inférieure à la date de fin";
@@ -89,40 +90,43 @@ $salesByDay = getSalesByDay($date_start, $date_end);
 
 // Graphique historique des commandes
 if (count($salesByDay) > 0) {
+    $nbSalesDay = count($salesByDay);
     $maxSalesByDay = max(array_column($salesByDay, 'nbSales'));
     $minSalesByDay = min(array_column($salesByDay, 'nbSales'));
-    $nbSalesByDay = count($salesByDay);
-    $avgSalesByDay = round(array_sum(array_column($salesByDay, 'nbSales')) / $nbSalesByDay);
+    $avgSalesByDay = round(array_sum(array_column($salesByDay, 'nbSales')) / $nbSalesDay);
 
-    // Write CSS style for sales-by-day-graph
-    echo "<style>
-    #sales-by-day-graph {
-        background-image: linear-gradient(to top, ";
-    for ($i = 0; $i < count($salesByDay); $i++) {
-        if (($i + 1) === count($salesByDay)) {
-            echo "rgba(0, 123, 255, " . ($salesByDay[$i]["nbSales"] / $maxSalesByDay) . ") " . (100 - ($i / $nbSalesByDay) * 100) . "%);"; // si c'est la derniere ligne, format: "color degre%"
-        } else {
-            echo "rgba(0, 123, 255, " . ($salesByDay[$i]["nbSales"] / $maxSalesByDay) . ") " . (100 - ($i / $nbSalesByDay) * 100) . "%, "; // sinon, format: "color degre%,"
+    // Fill missing days
+    foreach (dates_between($date_start, $date_end) as $date) {
+        if (!in_array($date, array_column($salesByDay, 'day'))) {
+            $salesByDay[] = ['day' => $date, 'nbSales' => 0];
         }
     }
-    echo  "} </style>";
 
+    // Compute percent
+    foreach ($salesByDay as &$day) {
+        $day['percent'] = round(($day['nbSales'] / $maxSalesByDay) * 100);
+    }
 
-    // echo print_r($salesByDay);
+    // Tri par date
+    usort($salesByDay, function ($a, $b) {
+        return strtotime($a['day']) - strtotime($b['day']);
+    });
+
+    // dd($salesByDay);
 }
 // Graphique camembert des catégories dans les commandes
 if (count($orderCountByCategories) > 0) {
-    // Calc degre and percent_libelle
+    // Calc degre and percent
     $orderNbTotal = array_sum(array_column($orderCountByCategories, 'order_nb'));
     foreach ($orderCountByCategories as &$item) {
         $item['deg'] = round(($item["order_nb"] / $orderNbTotal) * 360); // convert on % on 360
-        $item['percent_libelle'] = round(($item["order_nb"] / $orderNbTotal) * 100) . "%";
+        $item['percent'] = round(($item["order_nb"] / $orderNbTotal) * 100) . "%";
         if (!$item["color"]) $item["color"] = rand_color(); // generate random color if not exist
     }
 
     // Write CSS style for order-count-by-cats-piechart
     echo "<style>
-    #order-count-by-cats-piechart {
+    #order-count-by-cats {
         background-image: conic-gradient(";
 
     $degDejaConstruit = 0;
@@ -139,7 +143,7 @@ if (count($orderCountByCategories) > 0) {
 
     echo  "} </style>";
 
-    // echo print_r($orderCountByCategories);
+    // dd($orderCountByCategories);
 }
 if (!$orderCountByCategories || !$salesByDay) {
     $info = "Aucune donnée à afficher";
@@ -200,12 +204,14 @@ if (!$orderCountByCategories || !$salesByDay) {
                 <section class="col-md-4">
                     <h4 class="text-center">Historique des commandes</h4>
                     <div class="my-4 d-flex justify-content-center">
-                        <div id="sales-by-day-graph"></div>
-                        <!-- <pre>
-                            <?php
-                            print_r($salesByDay);
-                            ?>
-                        </pre> -->
+                        <div id="sales-by-day">
+                            <?php foreach ($salesByDay as $day) : ?>
+                                <div>
+                                    <div class="bar" style="background: linear-gradient(0deg, #007bff <?= $day['percent'] ?>%, #fff <?= $day['percent'] ?>%);"></div>
+                                    <span><?= fr_mindate($day['day']) ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                     <div class="my-4 d-flex justify-content-center">
                         <div>
@@ -231,15 +237,15 @@ if (!$orderCountByCategories || !$salesByDay) {
                 <section class="col-md-4">
                     <h4 class="text-center">Catégories dans les commandes</h4>
                     <div class="my-4 d-flex justify-content-center">
-                        <div id="order-count-by-cats-piechart" class="piechart"></div>
+                        <div id="order-count-by-cats"></div>
                     </div>
                     <div class="my-4 d-flex justify-content-center">
                         <div>
                             <?php $orderCountByCategories = array_reverse($orderCountByCategories); ?> <!-- reverse array to display legend in the right order -->
-                            <?php foreach ($orderCountByCategories as &$item) : ?>
+                            <?php foreach ($orderCountByCategories as $item) : ?>
                                 <div class="d-flex align-items-center px-3">
                                     <div class='p-2 px-3 rounded' style='background: <?= $item["color"] ?>;'></div>
-                                    <span class='mx-2'><?= $item["percent_libelle"] ?></span>
+                                    <span class='mx-2'><?= $item["percent"] ?>%</span>
                                     <span class='mx-2'><?= $item["category_name"] ?></span>
                                 </div>
                             <?php endforeach; ?>
@@ -258,7 +264,7 @@ if (!$orderCountByCategories || !$salesByDay) {
     document.getElementById('date_start').addEventListener('change', function() {
         let date_start = new Date(this.value);
         let date_end = new Date(this.value);
-        date_end.setDate(date_end.getDate() + 7);
+        date_end.setDate(date_end.getDate() + 6);
         document.getElementById('date_end').value = date_end.toISOString().split('T')[0];
     });
 
@@ -266,22 +272,35 @@ if (!$orderCountByCategories || !$salesByDay) {
     document.getElementById('date_end').addEventListener('change', function() {
         let date_end = new Date(this.value);
         let date_start = new Date(this.value);
-        date_start.setDate(date_start.getDate() - 7);
+        date_start.setDate(date_start.getDate() - 6);
         document.getElementById('date_start').value = date_start.toISOString().split('T')[0];
     });
 </script>
 
 <style>
-    .piechart {
+    #sales-by-day {
+        width: 400px;
+        height: 200px;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+    }
+
+    #sales-by-day div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #sales-by-day div .bar {
+        height: 90%;
+        width: 100%;
+        background-color: #007bff;
+    }
+
+    #order-count-by-cats {
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        box-shadow: inset 5px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    #sales-by-day-graph {
-        width: 400px;
-        height: 200px;
-        /* ... */
     }
 </style>

@@ -38,3 +38,10 @@ session_start();
  */
 include_once APP_PATH . 'helpers/log_txt.php';
 include_once APP_PATH . 'helpers/db_connect.php';
+include_once APP_PATH . 'helpers/dd.php';
+
+/**
+ * Paramétrage de la langue
+ */
+setlocale(LC_TIME, 'fr_FR.UTF-8', 'fra');
+date_default_timezone_set('Europe/Paris');
