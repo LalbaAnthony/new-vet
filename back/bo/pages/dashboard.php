@@ -1,9 +1,11 @@
 <?php
 
 include_once "../../config.inc.php";
+include_once APP_PATH . "models/category.php";
 include_once APP_PATH . "helpers/rand_color.php";
 include_once APP_PATH . "helpers/fr_mindate.php";
 include_once APP_PATH . "helpers/dates_between.php";
+include_once APP_PATH . "helpers/diff_days.php";
 
 function getSalesByDay($date_start = null, $date_end = null)
 {
@@ -36,6 +38,49 @@ function getSalesByDay($date_start = null, $date_end = null)
     return $rows;
 }
 
+function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = null)
+{
+    $dbh = db_connect();
+
+    // $sql = "SELECT category.slug AS category_slug, category.libelle AS category_libelle, AVG(product.price) AS avg_cart
+    // FROM `order`, order_line, product, product_category, category
+    // WHERE `order`.order_id = order_line.order_id
+    // AND order_line.product_slug = product.slug
+    // AND product.slug = product_category.product_slug
+    // AND product_category.category_slug = category.slug";
+    $sql = "SELECT c.slug AS category_slug, c.libelle AS category_libelle, AVG(p.price) AS avg_cart
+    FROM category c
+    LEFT JOIN product_category pc ON c.slug = pc.category_slug
+    LEFT JOIN product p ON pc.product_slug = p.slug
+    LEFT JOIN order_line ol ON p.slug = ol.product_slug
+    LEFT JOIN `order` o ON ol.order_id = o.order_id";
+
+    $sql .= " WHERE 1 = 1";
+
+    if ($category_slug) $sql .= " AND category.slug = :category_slug";
+
+    if ($date_start) $sql .= " AND o.order_date >= :date_start";
+    if ($date_end) $sql .= " AND o.order_date <= :date_end";
+
+    $sql .= " GROUP BY c.slug ORDER BY c.sort_order;";
+
+    try {
+        $sth = $dbh->prepare($sql);
+
+        if ($category_slug) $sth->bindParam(':category_slug', $category_slug, PDO::PARAM_STR);
+        if ($date_start) $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
+        if ($date_end) $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
+
+        $sth->execute();
+
+        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $rows;
+}
+
 function getOrderCountByCategories($date_start = null, $date_end = null)
 {
     $dbh = db_connect();
@@ -44,7 +89,7 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
     FROM category c 
     LEFT JOIN product_category pc ON c.slug = pc.category_slug
     LEFT JOIN product p ON pc.product_slug = p.slug
-    LEFT JOIN order_product op ON p.slug = op.product_slug
+    LEFT JOIN order_line op ON p.slug = op.product_slug
     LEFT JOIN `order` o ON op.order_id = o.order_id";
 
     $sql .= " WHERE 1 = 1";
@@ -70,10 +115,12 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
     return $rows;
 }
 
+$error = null;
 $date_start = isset($_POST['date_start']) ? $_POST['date_start'] : null;
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : null;
 
 if (!$date_start && !$date_end) {
+    $date_start = date("Y-m-d", strtotime("-7 days"));
     $date_end = date("Y-m-d");
 } else if ($date_start > $date_end) {
     $error = "La date de début doit être inférieure à la date de fin";
@@ -83,10 +130,21 @@ if (!$date_start && !$date_end) {
     $error = "Les dates doivent être antérieures à aujourd'hui";
     $date_start = null;
     $date_end = null;
+} else if (diff_days($date_start, $date_end) > 7) {
+    $error = "Le delta des dates ne doit pas dépasser 7 jours";
+    $date_start = null;
+    $date_end = null;
 }
 
-$orderCountByCategories = getOrderCountByCategories($date_start, $date_end);
-$salesByDay = getSalesByDay($date_start, $date_end);
+$orderCountByCategories = array();
+$avgCartByCat = array();
+$salesByDay = array();
+
+if (!$error && $date_start && $date_end) {
+    $orderCountByCategories = getOrderCountByCategories($date_start, $date_end);
+    $categories = getCategories(null, false, false, null, null, array(array('order' => 'ASC', 'order_by' => 'sort_order')), null, 9999999);
+    $salesByDay = getSalesByDay($date_start, $date_end);
+}
 
 // Graphique historique des commandes
 if (count($salesByDay) > 0) {
@@ -114,13 +172,23 @@ if (count($salesByDay) > 0) {
 
     // dd($salesByDay);
 }
+
+if (isset($categories)) {
+
+    foreach ($categories as $category) {
+        $avgCartByCat[$category['slug']] = getAvgCartByCat($date_start, $date_end);
+    }
+
+    // dd($avgCartByCat);
+}
+
 // Graphique camembert des catégories dans les commandes
 if (count($orderCountByCategories) > 0) {
     // Calc degre and percent
     $orderNbTotal = array_sum(array_column($orderCountByCategories, 'order_nb'));
     foreach ($orderCountByCategories as &$item) {
         $item['deg'] = round(($item["order_nb"] / $orderNbTotal) * 360); // convert on % on 360
-        $item['percent'] = round(($item["order_nb"] / $orderNbTotal) * 100) . "%";
+        $item['percent'] = round(($item["order_nb"] / $orderNbTotal) * 100);
         if (!$item["color"]) $item["color"] = rand_color(); // generate random color if not exist
     }
 
@@ -145,9 +213,11 @@ if (count($orderCountByCategories) > 0) {
 
     // dd($orderCountByCategories);
 }
-if (!$orderCountByCategories || !$salesByDay) {
+
+if (!$orderCountByCategories && !$avgCartByCat && !$salesByDay) {
     $info = "Aucune donnée à afficher";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -225,14 +295,14 @@ if (!$orderCountByCategories || !$salesByDay) {
                                     <span class='mx-2'>Min.: <?= $minSalesByDay ?> ventes</span>
                                 </div>
                             <?php endif; ?>
-                            <?php if (isset($maxSalesByDay)) : ?>
-                                <div class="d-flex align-items-center px-3">
-                                    <span class='mx-2'>Max.: <?= $maxSalesByDay ?> ventes</span>
-                                </div>
-                            <?php endif; ?>
                             <?php if (isset($avgSalesByDay)) : ?>
                                 <div class="d-flex align-items-center px-3">
                                     <span class='mx-2'>Moy.: <?= $avgSalesByDay ?> ventes</span>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (isset($maxSalesByDay)) : ?>
+                                <div class="d-flex align-items-center px-3">
+                                    <span class='mx-2'>Max.: <?= $maxSalesByDay ?> ventes</span>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -250,8 +320,8 @@ if (!$orderCountByCategories || !$salesByDay) {
                             <?php foreach ($orderCountByCategories as $item) : ?>
                                 <div class="d-flex align-items-center px-3">
                                     <div class='p-2 px-3 rounded' style='background: <?= $item["color"] ?>;'></div>
-                                    <span class='mx-2'><?= $item["percent"] ?>%</span>
-                                    <span class='mx-2'><?= $item["category_name"] ?></span>
+                                    <span class='mx-1'><?= $item["percent"] ?>%</span>
+                                    <span class='mx-1'><?= $item["category_name"] ?></span>
                                 </div>
                             <?php endforeach; ?>
                         </div>

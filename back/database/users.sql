@@ -68,10 +68,10 @@ GRANT INSERT ON `new-vet`.order TO 'new-vet-user'@'localhost';
 GRANT UPDATE ON `new-vet`.order TO 'new-vet-user'@'localhost';
 GRANT DELETE ON `new-vet`.order TO 'new-vet-user'@'localhost';
 
-GRANT SELECT ON `new-vet`.order_product TO 'new-vet-user'@'localhost';
-GRANT INSERT ON `new-vet`.order_product TO 'new-vet-user'@'localhost';
-GRANT UPDATE ON `new-vet`.order_product TO 'new-vet-user'@'localhost';
-GRANT DELETE ON `new-vet`.order_product TO 'new-vet-user'@'localhost';
+    GRANT SELECT ON `new-vet`.order_line TO 'new-vet-user'@'localhost';
+    GRANT INSERT ON `new-vet`.order_line TO 'new-vet-user'@'localhost';
+    GRANT UPDATE ON `new-vet`.order_line TO 'new-vet-user'@'localhost';
+    GRANT DELETE ON `new-vet`.order_line TO 'new-vet-user'@'localhost';
 
 GRANT SELECT ON `new-vet`.contact TO 'new-vet-user'@'localhost';
 GRANT INSERT ON `new-vet`.contact TO 'new-vet-user'@'localhost';

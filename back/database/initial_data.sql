@@ -1,6 +1,6 @@
 DELETE FROM contact;
 
-DELETE FROM order_product;
+DELETE FROM order_line;
 
 DELETE FROM `order`;
 
@@ -173,7 +173,7 @@ INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, s
 (29, 2, 2, '2024-02-05 08:00:00', 39.99, 2),
 (30, 3, 3, '2024-02-06 01:30:00', 29.99, 3);
 
-INSERT INTO order_product (order_id, product_slug, quantity, item_price) VALUES 
+INSERT INTO order_line (order_id, product_slug, quantity, line_price) VALUES 
 (1, 'robe-elegante', 2, 59.99),
 (2, 'escarpins-classiques', 1, 39.99),
 (3, 'sac-a-main-chic', 1, 29.99),

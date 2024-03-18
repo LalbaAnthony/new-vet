@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS contact;
 
-DROP TABLE IF EXISTS order_product;
+DROP TABLE IF EXISTS order_line;
 
 DROP TABLE IF EXISTS `order`;
 
@@ -230,18 +230,18 @@ CREATE TABLE `order`(
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
-# Table: order_product
+# Table: order_line
 #------------------------------------------------------------
-CREATE TABLE order_product(
+CREATE TABLE order_line(
         order_id INT NOT NULL,
         product_slug VARCHAR (50) NOT NULL,
         quantity INT NOT NULL,
-        item_price FLOAT NOT NULL,
+        line_price FLOAT NOT NULL,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT order_product_PK PRIMARY KEY (order_id, product_slug),
-        CONSTRAINT order_product_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id),
-        CONSTRAINT order_product_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
+        CONSTRAINT order_line_PK PRIMARY KEY (order_id, product_slug),
+        CONSTRAINT order_line_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id),
+        CONSTRAINT order_line_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
