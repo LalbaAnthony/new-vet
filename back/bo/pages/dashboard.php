@@ -214,7 +214,7 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
 }
 
 // dd($salesByDay);
-dd($avgCartByCat);
+// dd($avgCartByCat);
 // dd($orderCountByCategories);
 
 ?>
