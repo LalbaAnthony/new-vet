@@ -42,13 +42,7 @@ function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = 
 {
     $dbh = db_connect();
 
-    // $sql = "SELECT category.slug AS category_slug, category.libelle AS category_libelle, AVG(product.price) AS avg_cart
-    // FROM `order`, order_line, product, product_category, category
-    // WHERE `order`.order_id = order_line.order_id
-    // AND order_line.product_slug = product.slug
-    // AND product.slug = product_category.product_slug
-    // AND product_category.category_slug = category.slug";
-    $sql = "SELECT c.slug AS category_slug, c.libelle AS category_libelle, AVG(p.price) AS avg_cart
+    $sql = "SELECT c.slug AS category_slug, c.libelle AS category_libelle, DATE(order_date) AS day, AVG(p.price) AS avg_cart
     FROM category c
     LEFT JOIN product_category pc ON c.slug = pc.category_slug
     LEFT JOIN product p ON pc.product_slug = p.slug
@@ -57,7 +51,7 @@ function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = 
 
     $sql .= " WHERE 1 = 1";
 
-    if ($category_slug) $sql .= " AND category.slug = :category_slug";
+    if ($category_slug) $sql .= " AND c.slug = :category_slug";
 
     if ($date_start) $sql .= " AND o.order_date >= :date_start";
     if ($date_end) $sql .= " AND o.order_date <= :date_end";
@@ -119,21 +113,23 @@ $error = null;
 $date_start = isset($_POST['date_start']) ? $_POST['date_start'] : null;
 $date_end = isset($_POST['date_end']) ? $_POST['date_end'] : null;
 
-if (!$date_start && !$date_end) {
+if ($date_start && $date_end) {
+    if ($date_start > $date_end) {
+        $error = "La date de début doit être inférieure à la date de fin";
+        $date_start = null;
+        $date_end = null;
+    } else if ($date_start > date("Y-m-d") || $date_end > date("Y-m-d")) {
+        $error = "Les dates doivent être antérieures à aujourd'hui";
+        $date_start = null;
+        $date_end = null;
+    } else if (diff_days($date_start, $date_end) > 7) {
+        $error = "Le delta des dates ne doit pas dépasser 7 jours";
+        $date_start = null;
+        $date_end = null;
+    }
+} else {
     $date_start = date("Y-m-d", strtotime("-7 days"));
     $date_end = date("Y-m-d");
-} else if ($date_start > $date_end) {
-    $error = "La date de début doit être inférieure à la date de fin";
-    $date_start = null;
-    $date_end = null;
-} else if ($date_start > date("Y-m-d") || $date_end > date("Y-m-d")) {
-    $error = "Les dates doivent être antérieures à aujourd'hui";
-    $date_start = null;
-    $date_end = null;
-} else if (diff_days($date_start, $date_end) > 7) {
-    $error = "Le delta des dates ne doit pas dépasser 7 jours";
-    $date_start = null;
-    $date_end = null;
 }
 
 $orderCountByCategories = array();
@@ -141,82 +137,85 @@ $avgCartByCat = array();
 $salesByDay = array();
 
 if (!$error && $date_start && $date_end) {
+
     $orderCountByCategories = getOrderCountByCategories($date_start, $date_end);
     $categories = getCategories(null, false, false, null, null, array(array('order' => 'ASC', 'order_by' => 'sort_order')), null, 9999999);
     $salesByDay = getSalesByDay($date_start, $date_end);
-}
 
-// Graphique historique des commandes
-if (count($salesByDay) > 0) {
-    $nbSalesDay = count($salesByDay);
-    $maxSalesByDay = max(array_column($salesByDay, 'nbSales'));
-    $minSalesByDay = min(array_column($salesByDay, 'nbSales'));
-    $avgSalesByDay = round(array_sum(array_column($salesByDay, 'nbSales')) / $nbSalesDay);
+    // Graphique historique des commandes
+    if (count($salesByDay) > 0) {
+        $nbSalesDay = count($salesByDay);
+        $maxSalesByDay = max(array_column($salesByDay, 'nbSales'));
+        $minSalesByDay = min(array_column($salesByDay, 'nbSales'));
+        $avgSalesByDay = round(array_sum(array_column($salesByDay, 'nbSales')) / $nbSalesDay);
 
-    // Fill missing days
-    foreach (dates_between($date_start, $date_end) as $date) {
-        if (!in_array($date, array_column($salesByDay, 'day'))) {
-            $salesByDay[] = ['day' => $date, 'nbSales' => 0];
+        // Fill missing days
+        foreach (dates_between($date_start, $date_end) as $date) {
+            if (!in_array($date, array_column($salesByDay, 'day'))) {
+                $salesByDay[] = ['day' => $date, 'nbSales' => 0];
+            }
+        }
+
+        // Compute percent
+        foreach ($salesByDay as &$day) {
+            $day['percent'] = round(($day['nbSales'] / $maxSalesByDay) * 100);
+        }
+
+        // Tri par date
+        usort($salesByDay, function ($a, $b) {
+            return strtotime($a['day']) - strtotime($b['day']);
+        });
+    }
+
+    // Graphique panier moyen par catégorie
+    if (count($categories) > 0) {
+
+        foreach ($categories as $category) {
+            $avg = getAvgCartByCat($date_start, $date_end, $category['slug']);
+            if (count($avg) > 0) {
+                $avgCartByCat[] = $avg[0];
+            }
         }
     }
 
-    // Compute percent
-    foreach ($salesByDay as &$day) {
-        $day['percent'] = round(($day['nbSales'] / $maxSalesByDay) * 100);
-    }
+    // Graphique camembert des catégories dans les commandes
+    if (count($orderCountByCategories) > 0) {
+        // Calc degre and percent
+        $orderNbTotal = array_sum(array_column($orderCountByCategories, 'order_nb'));
+        foreach ($orderCountByCategories as &$item) {
+            $item['deg'] = round(($item["order_nb"] / $orderNbTotal) * 360); // convert on % on 360
+            $item['percent'] = round(($item["order_nb"] / $orderNbTotal) * 100);
+            if (!$item["color"]) $item["color"] = rand_color(); // generate random color if not exist
+        }
 
-    // Tri par date
-    usort($salesByDay, function ($a, $b) {
-        return strtotime($a['day']) - strtotime($b['day']);
-    });
-
-    // dd($salesByDay);
-}
-
-if (isset($categories)) {
-
-    foreach ($categories as $category) {
-        $avgCartByCat[$category['slug']] = getAvgCartByCat($date_start, $date_end);
-    }
-
-    // dd($avgCartByCat);
-}
-
-// Graphique camembert des catégories dans les commandes
-if (count($orderCountByCategories) > 0) {
-    // Calc degre and percent
-    $orderNbTotal = array_sum(array_column($orderCountByCategories, 'order_nb'));
-    foreach ($orderCountByCategories as &$item) {
-        $item['deg'] = round(($item["order_nb"] / $orderNbTotal) * 360); // convert on % on 360
-        $item['percent'] = round(($item["order_nb"] / $orderNbTotal) * 100);
-        if (!$item["color"]) $item["color"] = rand_color(); // generate random color if not exist
-    }
-
-    // Write CSS style for order-count-by-cats-piechart
-    echo "<style>
+        // Write CSS style for order-count-by-cats-piechart
+        echo "<style>
     #order-count-by-cats {
         background-image: conic-gradient(";
 
-    $degDejaConstruit = 0;
-    for ($i = 0; $i < count($orderCountByCategories); $i++) {
-        if (($i + 1) === count($orderCountByCategories) || count($orderCountByCategories) === 1) {
-            echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg);"; // si c'est la derniere ligne, ou qu'il n'y à qu'un élément, format: "color degre"
-        } else if ($i === 0) {
-            echo $orderCountByCategories[$i]["color"] . " " . $orderCountByCategories[$i]["deg"] . "deg"  . ", "; // si c'est la permiere ligne, format: "color degre,"
-        } else {
-            echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg" . ","; // sinon, format: "color degredebut degrefin,"
+        $degDejaConstruit = 0;
+        for ($i = 0; $i < count($orderCountByCategories); $i++) {
+            if (($i + 1) === count($orderCountByCategories) || count($orderCountByCategories) === 1) {
+                echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg);"; // si c'est la derniere ligne, ou qu'il n'y à qu'un élément, format: "color degre"
+            } else if ($i === 0) {
+                echo $orderCountByCategories[$i]["color"] . " " . $orderCountByCategories[$i]["deg"] . "deg"  . ", "; // si c'est la permiere ligne, format: "color degre,"
+            } else {
+                echo $orderCountByCategories[$i]["color"] . " " . intval($degDejaConstruit) . "deg" . " " . intval($degDejaConstruit + $orderCountByCategories[$i]["deg"]) . "deg" . ","; // sinon, format: "color degredebut degrefin,"
+            }
+            $degDejaConstruit += $orderCountByCategories[$i]["deg"];
         }
-        $degDejaConstruit += $orderCountByCategories[$i]["deg"];
+
+        echo  "} </style>";
     }
-
-    echo  "} </style>";
-
-    // dd($orderCountByCategories);
 }
 
-if (!$orderCountByCategories && !$avgCartByCat && !$salesByDay) {
+if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count($salesByDay) === 0) {
     $info = "Aucune donnée à afficher";
 }
+
+// dd($salesByDay);
+dd($avgCartByCat);
+// dd($orderCountByCategories);
 
 ?>
 
