@@ -1,21 +1,23 @@
-<?php
+<?php 
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/contact.php";
+include_once APP_PATH . "/models/category.php";
 
-// Réception du produit à modifier
-$url_id = isset($_GET['contact_id']) ? $_GET['contact_id'] : '';
-$contact = getContact($url_id);
+
+$url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
+$category =  getCategory($url_slug);
+
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = deleteContact($_POST['contact_id']);
+    $sucess = deleteCategory($_POST['slug']);
 
     // Redirection vers la liste des contacts
-    header('Location: ' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?deleted=' . $sucess);
 }
+
 
 // Affichage
 ?>
@@ -37,13 +39,13 @@ if (isset($_POST['submit'])) {
     <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
 
     <div class="container mt-5">
-        <h2 class="mb-4">Suppression de cette demande de contact ?</h2>
+        <h2 class="mb-4">Suppression de cette catégorie ?</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
-            <input type="hidden" name="contact_id" id="contact_id" value="<?= $contact['contact_id']; ?>">
+            <input type="hidden" name="slug" id="slug" value="<?= $category['slug']; ?>">
 
             <div class="d-flex justify-content-between">
-                <a href="<?= APP_URL ?>bo/pages/contacts/index.php" class="btn btn-secondary">Retour</a>
+                <a href="<?= APP_URL ?>bo/pages/categories/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-danger">Supprimer</button>
             </div>
         </form>
@@ -53,3 +55,5 @@ if (isset($_POST['submit'])) {
 </body>
 
 </html>
+
+?> 
