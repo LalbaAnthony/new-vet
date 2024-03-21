@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat && $sucessProductImg;
 
     // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'bo/pages/products/index.php?updated=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php?updated=' . $sucess);
 }
 
 // Affichage

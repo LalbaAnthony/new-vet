@@ -16,7 +16,7 @@ if ($login && $password) {
                 $_SESSION['admin'] = $admin;
                 $success = "Connexion réussie";
                 log_txt("User logged in back office: login $login");
-                header('Location:' . APP_URL . 'bo/pages/index.php');
+                header('Location: ' . APP_URL . 'bo/pages/index.php');
             } else {
                 $error = "Vous n'avez pas accès au back office";
                 log_txt("User tried to log in back office but has no access: login $login");

@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
     $sucess = deleteProduct($_POST['slug']);
 
     // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'bo/pages/products/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php?deleted=' . $sucess);
 }
 
 // Affichage

@@ -1,7 +1,6 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "bo/partials/header.php";
 include_once APP_PATH . "/models/contact.php";
 
 // Réception du produit à modifier
@@ -15,7 +14,7 @@ if (isset($_POST['submit'])) {
     $sucess = deleteContact($_POST['contact_id']);
 
     // Redirection vers la liste des contacts
-    header('Location:' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $sucess);
 }
 
 // Affichage

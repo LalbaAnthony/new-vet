@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
     $sucess = deleteImage($_POST['slug']);
 
     // Redirection vers la liste des produits
-    header('Location:' . APP_URL . 'bo/pages/images/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/images/index.php?deleted=' . $sucess);
 }
 
 // Affichage

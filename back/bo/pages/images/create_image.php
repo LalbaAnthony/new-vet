@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
     }
 
     if (!$error) {
-        header('Location:' . APP_URL . 'bo/pages/images/index.php?created=' . $sucess);
+        header('Location: ' . APP_URL . 'bo/pages/images/index.php?created=' . $sucess);
     }
 }
 ?>
