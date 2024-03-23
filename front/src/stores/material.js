@@ -36,7 +36,7 @@ export const useMaterialStore = defineStore('material', {
       this.material.data = {}
 
       const resp = await get('material', { slug: slug, per_page: 1 });
-      this.material.data = resp.data;
+      this.material.data = resp.data[0];
 
       // Loading
       this.material.loading = false

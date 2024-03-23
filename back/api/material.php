@@ -13,7 +13,7 @@ if ($slug) {
     if ($material) {
         $json['status'] = 200;
         $json['error'] = null;
-        $json['data'] = $material;
+        $json['data'] = array($material);
     } else {
         $json['status'] = 400;
         $json['error'] = 'No element found';

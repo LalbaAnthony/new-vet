@@ -15,7 +15,7 @@ if ($slug) {
         $json['status'] = 200;
         $json['error'] = null;
         $category['image'] = getImage($category['image_slug']);
-        $json['data'] = $category;
+        $json['data'] = array($category);
     } else {
         $json['status'] = 400;
         $json['error'] = 'No element found';

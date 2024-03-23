@@ -21,7 +21,7 @@ if ($slug) {
 
         $json['status'] = 200;
         $json['error'] = null;
-        $json['data'] = $product;
+        $json['data'] = array($product);
     } else {
         $json['status'] = 400;
         $json['error'] = 'No product found';

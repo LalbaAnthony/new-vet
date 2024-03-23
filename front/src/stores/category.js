@@ -93,7 +93,7 @@ export const useCategoryStore = defineStore('category', {
       this.category.data = {}
 
       const resp = await get('category', { slug: slug, per_page: 1 });
-      this.category.data = resp.data
+      this.category.data = resp.data[0]
 
       // Loading
       this.category.loading = false
