@@ -1,36 +1,69 @@
 <template>
   <div>
     <h2 class="page-title">{{ productStore.product.data.name }}</h2>
-    <Breadcrumb />
+    <Breadcrumb
+      :breadcrumb="[
+        {
+          title: 'Produits',
+          path: '/produits',
+          active: false
+        },
+        {
+          title: productStore.product.data.name,
+          path: `/produit/${productStore.product.data.slug}`,
+          active: true
+        }
+      ]"
+    />
     <Loader v-if="productStore.product.loading" />
     <div v-else class="product">
       <div class="product-images">
-        <ProductsImages :images="productStore.product.data.images" :alt="productStore.product.data.name" />
+        <ProductsImages
+          :images="productStore.product.data.images"
+          :alt="productStore.product.data.name"
+        />
       </div>
       <div class="product-details">
-        <div v-if="productStore.product.data.categories && productStore.product.data.categories.length > 0">
-          <h3>Catégories: </h3>
+        <div
+          v-if="
+            productStore.product.data.categories && productStore.product.data.categories.length > 0
+          "
+        >
+          <h3>Catégories:</h3>
           <div class="product-details-categories">
-            <Pill v-for="cat in productStore.product.data.categories" :key="cat.slug" :text="cat.libelle"
-              :link="`/produits?categories=${cat.slug}`" type="gradient" />
+            <Pill
+              v-for="cat in productStore.product.data.categories"
+              :key="cat.slug"
+              :text="cat.libelle"
+              :link="`/produits?categories=${cat.slug}`"
+              type="gradient"
+            />
           </div>
         </div>
 
-        <div v-if="productStore.product.data.materials && productStore.product.data.materials.length > 0">
-          <h3>Materiaux: </h3>
+        <div
+          v-if="
+            productStore.product.data.materials && productStore.product.data.materials.length > 0
+          "
+        >
+          <h3>Materiaux:</h3>
           <div class="product-details-materials">
-            <Pill v-for="mat in productStore.product.data.materials" :key="mat.slug" :text="mat.libelle" type="light" />
+            <Pill
+              v-for="mat in productStore.product.data.materials"
+              :key="mat.slug"
+              :text="mat.libelle"
+              type="light"
+            />
           </div>
         </div>
-        <h3>Description: </h3>
+        <h3>Description:</h3>
         <p class="product-details-description">{{ productStore.product.data.description }}</p>
       </div>
       <div class="product-actions">
-
         <div class="product-actions-left">
-          <span :class="['price', productStore.product.data.stock_quantity < 1 ? 'overline' : '']">{{
-            productStore.product.data.price
-          }} €</span>
+          <span :class="['price', productStore.product.data.stock_quantity < 1 ? 'overline' : '']"
+            >{{ productStore.product.data.price }} €</span
+          >
         </div>
         <div class="product-actions-left">
           <Stock :stock="productStore.product.data.stock_quantity" />
@@ -38,19 +71,31 @@
 
         <div class="product-actions-ctas">
           <select v-if="productStore.product.data.stock_quantity > 0" v-model="qty">
-            <option v-for="qty in productStore.product.data.stock_quantity" :key="qty" :value="qty">{{ qty }}</option>
+            <option v-for="qty in productStore.product.data.stock_quantity" :key="qty" :value="qty">
+              {{ qty }}
+            </option>
           </select>
-          <button class="button outline" :disabled="productStore.product.data.stock_quantity < 1"
-            @click="authStore.addToCart(productStore.product.data.slug, qty)">Ajouter au
-            panier</button>
-          <button class="button" :disabled="productStore.product.data.stock_quantity < 1"
-            @click="authStore.buyNow(productStore.product.data.slug, qty)">Acheter
-            maintenant</button>
+          <button
+            class="button outline"
+            :disabled="productStore.product.data.stock_quantity < 1"
+            @click="authStore.addToCart(productStore.product.data.slug, qty)"
+          >
+            Ajouter au panier
+          </button>
+          <button
+            class="button"
+            :disabled="productStore.product.data.stock_quantity < 1"
+            @click="authStore.buyNow(productStore.product.data.slug, qty)"
+          >
+            Acheter maintenant
+          </button>
         </div>
       </div>
     </div>
-    <MoreProducts v-if="productStore.product.data.categories && productStore.product.data.categories.length > 0"
-      :category="productStore.product.data.categories[0].slug" />
+    <MoreProducts
+      v-if="productStore.product.data.categories && productStore.product.data.categories.length > 0"
+      :category="productStore.product.data.categories[0].slug"
+    />
   </div>
 </template>
 
@@ -74,10 +119,12 @@ productStore.fetchProduct(route.params.slug)
 
 const qty = ref(1)
 
-watch(() => route.params.slug, (slug) => {
-  productStore.fetchProduct(slug)
-})
-
+watch(
+  () => route.params.slug,
+  (slug) => {
+    productStore.fetchProduct(slug)
+  }
+)
 </script>
 
 <style scoped>

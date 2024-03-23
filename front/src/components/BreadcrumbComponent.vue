@@ -1,18 +1,40 @@
 <template>
-  <ol class="breadcrumb">
-    <li class="el" @click="goHome">
-      <IconHouse class="icon-offset" />
-    </li>
-    <li v-for="(crumb, index) in route.matched" :key="index">
-      <div
-        v-if="index === 0 || (route.matched[index - 1] && (route.matched[index].name !== route.matched[index - 1].name))">
+  <!-- Si un breadcrumb est passé en props, on l'affiche -->
+  <div v-if="props.breadcrumb">
+    <ol class="breadcrumb">
+      <li class="el" @click="goHome">
+        <IconHouse class="icon-offset" />
+      </li>
+      <li v-for="(crumb, index) in props.breadcrumb" :key="index">
         <IconChevronRight class="chevron" />
-        <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
-          {{ crumb.meta.title }}
+        <span :class="['el', crumb.active ? 'active' : '']" @click="goTo(crumb.path)">
+          {{ crumb.title }}
         </span>
-      </div>
-    </li>
-  </ol>
+      </li>
+    </ol>
+  </div>
+  <!-- sinon on génère le breadcrumb en fonction de la route actuelle. -->
+  <div v-else>
+    <ol class="breadcrumb">
+      <li class="el" @click="goHome">
+        <IconHouse class="icon-offset" />
+      </li>
+      <li v-for="(crumb, index) in route.matched" :key="index">
+        <div
+          v-if="
+            index === 0 ||
+            (route.matched[index - 1] &&
+              route.matched[index].name !== route.matched[index - 1].name)
+          "
+        >
+          <IconChevronRight class="chevron" />
+          <span :class="['el', crumb.name == route.name ? 'active' : '']" @click="goTo(crumb.path)">
+            {{ crumb.meta.title }}
+          </span>
+        </div>
+      </li>
+    </ol>
+  </div>
 </template>
 
 <script setup>
@@ -22,6 +44,13 @@ import IconChevronRight from '@/icons/IconChevronRight.vue'
 
 const route = useRoute()
 const router = useRouter()
+
+const props = defineProps({
+  breadcrumb: {
+    type: Array,
+    required: false
+  }
+})
 
 function goHome() {
   router.push('/')
@@ -38,7 +67,6 @@ function goBack() {
 function goForward() {
   router.go(1)
 }
-
 </script>
 
 <style scoped>
