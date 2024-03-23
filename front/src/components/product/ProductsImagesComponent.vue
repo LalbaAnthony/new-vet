@@ -14,7 +14,7 @@
         <img
           :src="props.images[indexImage]?.path && imageExists(URL_BACKEND_UPLOAD + props.images[indexImage].path) ? `${URL_BACKEND_UPLOAD}${props.images[indexImage].path}` : '/helpers/no-img-available.webp'"
           :alt="props.images[indexImage].alt || `Image de ${props.alt}`" class="carousel-main-image"
-          @click="isMainOpen ? hideMainImage() : showMainImage()" />
+          @click="props.images[indexImage]?.path && imageExists(URL_BACKEND_UPLOAD + props.images[indexImage].path) && !isMainOpen ? showMainImage() : hideMainImage()" />
         <ul class="carousel-other-images">
           <li v-for="(image, i) in props.images" :key="i">
             <img v-if="image.path && imageExists(URL_BACKEND_UPLOAD + image.path)"
