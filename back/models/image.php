@@ -147,28 +147,6 @@ function getFirstImagePathFromProduct($product_slug)
     }
 } 
 
-function getFirstImagePathFromCategory($category_slug)
-{
-    $dbh = db_connect();
-    $sql = "SELECT * 
-    FROM image
-    WHERE image.slug = :category_slug 
-    LIMIT 1;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":category_slug" => $category_slug));
-        $image = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
-    }
-
-    if ($image) {
-        return $image['path'];
-    } else {
-        return null;
-    }
-}
-
 function insertImage($image)
 {
     $dbh = db_connect();

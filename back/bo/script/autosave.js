@@ -17,3 +17,15 @@ window.addEventListener('DOMContentLoaded', function () {
     input.value = localStorage.getItem(`saved_input_${input.id}`);
   });
 });
+
+// Delete saved input fields on submit
+window.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('form').forEach(function (form) {
+    form.addEventListener('submit', function () {
+      document.querySelectorAll('input').forEach(function (input) {
+        if (!input.type === 'password') return;
+        localStorage.removeItem(`saved_input_${input.id}`);
+      });
+    });
+  });
+});

@@ -27,6 +27,8 @@ define('APP_NAME', 'NewVet');
 define('FRONT_URL', 'http://localhost:5173/');
 define('APP_PATH', '/xampp/htdocs/projects/new-vet/back/');
 define('APP_URL', 'http://localhost/projects/new-vet/back/');
+define('UPLOAD_PATH', '/xampp/htdocs/projects/new-vet/back/uploads/');
+define('UPLOAD_URL', 'http://localhost/projects/new-vet/back/uploads/');
 
 /**
  * Démarrage de la session

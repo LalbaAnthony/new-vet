@@ -70,19 +70,42 @@ function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'or
     return $materials;
 }
 
-function getMaterialsCount()
+function getMaterialsCount($search = null)
 {
     $dbh = db_connect();
-    $sql = "SELECT COUNT(*) FROM material WHERE is_deleted = 0";
+
+    // Select all materials
+    $sql = "SELECT COUNT(*) as count FROM material";
+
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
+
+    $sql .= " AND is_deleted = 0";
+
+    // Filter by search
+    if ($search) {
+        $sql .= " AND (
+        libelle LIKE :search OR
+        slug LIKE :search OR
+        SOUNDEX(libelle) = SOUNDEX(:search) OR
+        SOUNDEX(slug) = SOUNDEX(:search)
+        )";
+    }
+
     try {
         $sth = $dbh->prepare($sql);
+
+        // Bind values
+        if ($search) $sth->bindValue(":search", "%$search%");
+
         $sth->execute();
-        $count = $sth->fetchColumn();
+
+        $count = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
 
-    return $count;
+    return $count['count'];
 }
 
 function getMaterialsFromProduct($product_slug)

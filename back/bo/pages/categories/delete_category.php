@@ -1,12 +1,11 @@
-<?php 
+<?php
 
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/category.php";
 
-
-$url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
-$category =  getCategory($url_slug);
-
+// Réception du produit à modifier
+$urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
+$category = getCategory($urlSlug);
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
@@ -14,10 +13,9 @@ if (isset($_POST['submit'])) {
     // Formulaire validé : on supprime l'enregistrement
     $sucess = deleteCategory($_POST['slug']);
 
-    // Redirection vers la liste des contacts
+    // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/categories/index.php?deleted=' . $sucess);
 }
-
 
 // Affichage
 ?>
@@ -39,7 +37,7 @@ if (isset($_POST['submit'])) {
     <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
 
     <div class="container mt-5">
-        <h2 class="mb-4">Suppression de cette catégorie ?</h2>
+        <h2 style="margin: 30vh 0">Supprimer <?= $category['libelle'] ?> ?</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $category['slug']; ?>">
@@ -51,9 +49,6 @@ if (isset($_POST['submit'])) {
         </form>
     </div>
 
-
 </body>
 
 </html>
-
-?> 
