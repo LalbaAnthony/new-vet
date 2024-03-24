@@ -60,13 +60,6 @@ function goTo(route) {
   router.push(route)
 }
 
-function goBack() {
-  router.go(-1)
-}
-
-function goForward() {
-  router.go(1)
-}
 </script>
 
 <style scoped>

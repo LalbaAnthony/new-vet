@@ -2,7 +2,7 @@
     <div>
         <h2 class="page-title">Nos produits</h2>
         <Breadcrumb />
-        <SortFilter @update-query="loadProducts" />
+        <SortFilter />
         <Loader v-if="productStore.products.loading" />
         <div v-else>
             <div v-if="productStore.products.data && productStore.products.data.length > 0" class="products-grid">
@@ -25,11 +25,13 @@ import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useProductStore } from '@/stores/product'
 import { useRoute } from 'vue-router'
+import { watch } from 'vue'
 
 const route = useRoute()
 const productStore = useProductStore()
 
 async function loadProducts() {
+    console.log(route.query)
     await productStore.fetchProducts({
         materials: [route.query.materials || null],
         categories: [route.query.categories || null],
@@ -45,6 +47,9 @@ async function loadProducts() {
 
 // Fetch products on component mount
 loadProducts()
+
+// Watch route changes
+watch(() => route.query, loadProducts)
 
 </script>
 

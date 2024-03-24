@@ -25,10 +25,7 @@
       </div>
       <div class="product-details">
         <div
-          v-if="
-            productStore.product.data.categories && productStore.product.data.categories.length > 0
-          "
-        >
+          v-if="productStore.product.data.categories && productStore.product.data.categories.length > 0">
           <h3>Catégories:</h3>
           <div class="product-details-categories">
             <Pill
@@ -41,11 +38,7 @@
           </div>
         </div>
 
-        <div
-          v-if="
-            productStore.product.data.materials && productStore.product.data.materials.length > 0
-          "
-        >
+        <div v-if="productStore.product.data.materials && productStore.product.data.materials.length > 0">
           <h3>Materiaux:</h3>
           <div class="product-details-materials">
             <Pill

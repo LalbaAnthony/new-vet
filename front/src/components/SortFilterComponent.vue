@@ -10,21 +10,35 @@
         <div @click="resetFilter()" class="dropdown-list-reset">
           <IconArrowRepeat />Tous les produits
         </div>
-        <hr>
+        <hr />
         <ul>
-          <li v-for="category in categoryStore.categories.data" :key="category.slug"
-            @click="toggleCategory(category.slug)">
-            <input type="checkbox" :id="category.slug" :value="category.slug"
-              :checked="route.query.categories?.split(',').includes(category.slug)">
+          <li
+            v-for="category in categoryStore.categories.data"
+            :key="category.slug"
+            @click="toggleCategory(category.slug)"
+          >
+            <input
+              type="checkbox"
+              :id="category.slug"
+              :value="category.slug"
+              :checked="route.query.categories?.split(',').includes(category.slug)"
+            />
             {{ category.libelle }}
           </li>
         </ul>
-        <hr>
+        <hr />
         <ul>
-          <li v-for="material in materialStore.materials.data" :key="material.slug"
-            @click="toggleMaterial(material.slug)">
-            <input type="checkbox" :id="material.slug" :value="material.slug"
-              :checked="route.query.materials?.split(',').includes(material.slug)">
+          <li
+            v-for="material in materialStore.materials.data"
+            :key="material.slug"
+            @click="toggleMaterial(material.slug)"
+          >
+            <input
+              type="checkbox"
+              :id="material.slug"
+              :value="material.slug"
+              :checked="route.query.materials?.split(',').includes(material.slug)"
+            />
             {{ material.libelle }}
           </li>
         </ul>
@@ -37,22 +51,45 @@
         <IconChevronDown :class="['chevron', open ? 'open' : '']" />
       </MenuButton>
       <MenuItems class="dropdown-list">
-        <div @click="resetSort()" class="dropdown-list-reset">
-          <IconArrowRepeat />Par défaut
-        </div>
-        <hr>
+        <div @click="resetSort()" class="dropdown-list-reset"><IconArrowRepeat />Par défaut</div>
+        <hr />
         <ul>
-          <li :class="[route.query.sort === 'price-asc' ? 'selected' : '']" @click="toggleSort('price-asc')">Prix
-            croissant</li>
-          <li :class="[route.query.sort === 'price-desc' ? 'selected' : '']" @click="toggleSort('price-desc')">Prix
-            décroissant</li>
-          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']"
-            @click="toggleSort('created_at-desc')">
-            Plus récents</li>
-          <li :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']" @click="toggleSort('created_at-asc')">
-            Plus anciens</li>
-          <li :class="[route.query.sort === 'name-asc' ? 'selected' : '']" @click="toggleSort('name-asc')">A à Z</li>
-          <li :class="[route.query.sort === 'name-desc' ? 'selected' : '']" @click="toggleSort('name-desc')">Z à A</li>
+          <li
+            :class="[route.query.sort === 'price-asc' ? 'selected' : '']"
+            @click="toggleSort('price-asc')"
+          >
+            Prix croissant
+          </li>
+          <li
+            :class="[route.query.sort === 'price-desc' ? 'selected' : '']"
+            @click="toggleSort('price-desc')"
+          >
+            Prix décroissant
+          </li>
+          <li
+            :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']"
+            @click="toggleSort('created_at-desc')"
+          >
+            Plus récents
+          </li>
+          <li
+            :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']"
+            @click="toggleSort('created_at-asc')"
+          >
+            Plus anciens
+          </li>
+          <li
+            :class="[route.query.sort === 'name-asc' ? 'selected' : '']"
+            @click="toggleSort('name-asc')"
+          >
+            A à Z
+          </li>
+          <li
+            :class="[route.query.sort === 'name-desc' ? 'selected' : '']"
+            @click="toggleSort('name-desc')"
+          >
+            Z à A
+          </li>
         </ul>
       </MenuItems>
     </Menu>
@@ -72,26 +109,20 @@ const router = useRouter()
 const categoryStore = useCategoryStore()
 const materialStore = useMaterialStore()
 
-categoryStore.fetchCategories();
-materialStore.fetchMaterials();
-
-const emit = defineEmits(['updateQuery'])
+categoryStore.fetchCategories()
+materialStore.fetchMaterials()
 
 function resetFilter() {
   const query = { ...route.query }
   delete query.categories
   delete query.materials
-  router.replace({ query })
-  router.go() // hack to avoid non-page reload on query change
-  emit('updateQuery', true)
+  router.push({ path: route.path, query })
 }
 
 function resetSort() {
   const query = { ...route.query }
   delete query.sort
-  router.replace({ query })
-  router.go() // hack to avoid non-page reload on query change
-  emit('updateQuery', true)
+  router.push({ path: route.path, query })
 }
 
 function toggleSort(value) {
@@ -101,9 +132,7 @@ function toggleSort(value) {
   } else {
     query.sort = value
   }
-  router.replace({ query })
-  router.go() // hack to avoid non-page reload on query change
-  emit('updateQuery', true)
+  router.push({ path: route.path, query })
 }
 
 function toggleCategory(category) {
@@ -118,9 +147,7 @@ function toggleCategory(category) {
   } else {
     query.categories = category
   }
-  router.replace({ query })
-  router.go() // hack to avoid non-page reload on query change
-  emit('updateQuery', true)
+  router.push({ path: route.path, query })
 }
 
 function toggleMaterial(material) {
@@ -135,12 +162,8 @@ function toggleMaterial(material) {
   } else {
     query.materials = material
   }
-  router.replace({ query })
-  router.go() // hack to avoid non-page reload on query change
-  emit('updateQuery', true)
+  router.push({ path: route.path, query })
 }
-
-
 </script>
 
 <style scoped>
@@ -164,7 +187,7 @@ function toggleMaterial(material) {
   cursor: pointer;
   display: flex;
   align-items: center;
-  font-family: "Ubuntu", "Roboto", sans-serif;
+  font-family: 'Ubuntu', 'Roboto', sans-serif;
 }
 
 .dropdown-button .chevron {
@@ -203,7 +226,7 @@ function toggleMaterial(material) {
   color: var(--dark);
 }
 
-.dropdown-list ul>* {
+.dropdown-list ul > * {
   padding: 0.0125rem 1rem;
   min-width: 150px;
   cursor: pointer;
@@ -212,7 +235,7 @@ function toggleMaterial(material) {
   gap: 0.5rem;
 }
 
-.dropdown-list input[type="checkbox"] {
+.dropdown-list input[type='checkbox'] {
   accent-color: var(--primary);
 }
 
