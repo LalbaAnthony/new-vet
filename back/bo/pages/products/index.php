@@ -95,10 +95,11 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                         <td>
                             <?php
                             $dbImgPath = getFirstImagePathFromProduct($product['slug']);
-                            $full_img_path = APP_PATH . $dbImgPath;
+                            $full_img_path = $dbImgPath ? UPLOAD_PATH . $dbImgPath : null;
+                            $full_img_url = $dbImgPath ? UPLOAD_URL . $dbImgPath : null;
                             ?>
-                            <?php if ($dbImgPath && file_exists($full_img_path)) : ?>
-                                <img src="<?= APP_URL . $dbImgPath ?>" class="img-thumbnail" width="100">
+                            <?php if (file_exists($full_img_path)) : ?>
+                                <img src="<?= $full_img_url ?>" class="img-thumbnail" width="100">
                             <?php else : ?>
                                 <img src="<?= APP_URL ?>assets/img/default-img.webp" class="img-thumbnail" width="100">
                             <?php endif; ?>
@@ -124,7 +125,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
                         <!-- Bouton de voir sur le site -->
                         <td><a href="<?= FRONT_URL ?>produits/<?= $product['slug'] ?>" class="btn btn-outline-primary btn-sm" target="_blank">Voir</a></td>
                         <!-- Bouton de modification -->
-                        <td><a href="<?= APP_URL ?>bo/pages/products/modifiy_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
+                        <td><a href="<?= APP_URL ?>bo/pages/products/modify_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
                         <!-- Bouton de suppression -->
                         <td><a href="<?= APP_URL ?>bo/pages/products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a></td>
                     </tr>

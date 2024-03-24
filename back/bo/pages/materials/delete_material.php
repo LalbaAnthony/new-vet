@@ -3,10 +3,8 @@
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/material.php";
 
-
 $url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $material =  getMaterial($url_slug);
-
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
@@ -39,7 +37,7 @@ if (isset($_POST['submit'])) {
     <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
 
     <div class="container mt-5">
-        <h2 class="mb-4">Suppression de ce matérial ?</h2>
+        <h2 class="mb-4">Suppression de ce matériau ?</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $material['slug']; ?>">

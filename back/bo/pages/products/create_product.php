@@ -122,7 +122,7 @@ if (isset($_POST['submit'])) {
             <?php $max_nb_images = 4; ?>
             <?php include_once APP_PATH . "/bo/partials/image_select.php"; ?>
 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between my-4">
                 <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-primary">Créer</button>
             </div>

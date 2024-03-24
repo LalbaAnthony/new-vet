@@ -4,8 +4,6 @@ include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/contact.php";
 include_once APP_PATH . "/models/customer.php";
 include_once APP_PATH . "/helpers/fr_datetime.php";
-include_once APP_PATH . "/helpers/float_to_price.php";
-include_once APP_PATH . "/models/image.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;

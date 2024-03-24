@@ -5,7 +5,6 @@ include_once APP_PATH . "/helpers/slugify.php";
 include_once APP_PATH . "/models/image.php";
 
 // Configuration
-$target_path = APP_PATH . "uploads/";
 $alowed_extensions = array("jpg", "jpeg", "png", "webp");
 $max_size = 2000000; // 2 Mo
 
@@ -15,7 +14,7 @@ if (isset($_POST['submit'])) {
     $sucessUpload = false;
     $sucessInsertDb = false;
 
-    $target_file = $target_path . basename($_FILES["image"]["name"]);
+    $target_file = UPLOAD_PATH . basename($_FILES["image"]["name"]);
     $extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
     // Vérifier si le fichier est une image réelle ou une fausse image
@@ -119,12 +118,12 @@ if (isset($_POST['submit'])) {
                 <input class="form-control" type="text" id="alt" name="alt">
             </div>
 
-            <div class="form-group mb-4">
+            <div class="form-group">
                 <label class="required" for="image">Image:</label>
                 <input class="form-control" type="file" name="image" id="image" required>
             </div>
 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between my-4">
                 <a href="<?= APP_URL ?>bo/pages/images/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
             </div>
