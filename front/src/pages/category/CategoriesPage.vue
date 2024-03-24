@@ -4,11 +4,13 @@
     <Breadcrumb />
     <Loader v-if="categoryStore.categories.loading" />
     <div v-else>
-      <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0" class="categories-grid">
-        <CategoryItem v-for="category in categoryStore.categories.data" :key="category.slug" :category="category" />
+      <div v-if="categoryStore.categories.data && categoryStore.categories.data.length > 0">
+        <div class="categories-grid">
+          <Category v-for="category in categoryStore.categories.data" :key="category.slug" :category="category" />
+        </div>
         <Pagination :total="categoryStore.categories.pagination.total" :page="categoryStore.categories.pagination.page"
-          :perPage="categoryStore.categories.pagination.per_page"
-          @update-page="(page) => categoryStore.changePage(page)" />
+        :perPage="categoryStore.categories.pagination.per_page"
+        @update-page="(page) => categoryStore.changePage(page)" />
       </div>
       <NoItem what="catégorie" :cta="{ text: 'Retour', to: '/categories' }" v-else />
     </div>
@@ -18,7 +20,7 @@
 <script setup>
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import Pagination from '@/components/PaginationComponent.vue'
-import CategoryItem from '@/components/category/CategoryItemComponent.vue'
+import Category from '@/components/category/CategoryItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Loader from '@/components/LoaderComponent.vue'
 import { useCategoryStore } from '@/stores/category'

@@ -5,11 +5,13 @@
         <SortFilter />
         <Loader v-if="productStore.products.loading" />
         <div v-else>
-            <div v-if="productStore.products.data && productStore.products.data.length > 0" class="products-grid">
-                <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
+            <div v-if="productStore.products.data && productStore.products.data.length > 0">
+                <div class="products-grid">
+                    <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
+                </div>
                 <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.page"
-                    :perPage="productStore.products.pagination.per_page"
-                    @update-page="(page) => productStore.changePage(page)" />
+                :perPage="productStore.products.pagination.per_page"
+                @update-page="(page) => productStore.changePage(page)" />
             </div>
             <NoItem what="produit" :cta="{ text: 'Retour', to: '/produits' }" v-else />
         </div>
@@ -31,7 +33,6 @@ const route = useRoute()
 const productStore = useProductStore()
 
 async function loadProducts() {
-    console.log(route.query)
     await productStore.fetchProducts({
         materials: [route.query.materials || null],
         categories: [route.query.categories || null],
