@@ -14,10 +14,13 @@ $images = getImages();
     <div class="d-flex justify-content-between align-items-center" style="overflow-x: scroll; max-width: 100%;">
         <!-- Images list -->
         <?php foreach ($images as $image) : ?>
-            <?php $full_img_path = UPLOAD_PATH . $image['path']; ?>
+            <?php
+                $full_img_path = UPLOAD_PATH . $image['path'];
+                $full_img_url = UPLOAD_URL . $image['path'];
+            ?>
             <?php if (file_exists($full_img_path)) : ?>
                 <div class="d-flex flex-column align-items-center">
-                    <img src="<?= $full_img_path ?>" class="m-1 object-fit-cover" alt="<?= $image['alt'] ?>" width="100px" height="100px">
+                    <img src="<?= $full_img_url ?>" class="m-1 object-fit-cover" alt="<?= $image['alt'] ?>" width="100px" height="100px">
                     <input type="checkbox" name="images_slugs[]" value="<?= $image['slug'] ?>" <?php echo (isset($selected_images) && in_array($image['slug'], $selected_images)) ? 'checked' : '' ?>>
                 </div>
             <?php endif; ?>
@@ -45,6 +48,4 @@ $images = getImages();
             }
         });
     }
-
-
 </script>
