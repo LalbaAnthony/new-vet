@@ -23,6 +23,11 @@ export const useAuthStore = defineStore('auth',
           router.push(redirect)
         }
       },
+
+      toggleModal(component = 'login') {
+        this.authModal.component = component;
+        this.authModal.show = !this.authModal.show;
+      },
       
       clearCart() {
         this.cart = {};

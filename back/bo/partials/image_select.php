@@ -3,8 +3,6 @@
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/models/image.php";
 
-// echo var_dump($selected_images);
-// echo var_dump($max_nb_images);
 $images = getImages();
 
 ?>
