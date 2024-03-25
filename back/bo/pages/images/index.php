@@ -84,9 +84,10 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
                     <div class="card mb-2">
                         <?php
                         $full_img_path = UPLOAD_PATH . $image['path'];
+                        $full_img_url = UPLOAD_URL . $image['path'];
                         ?>
                         <?php if (file_exists($full_img_path)) : ?>
-                            <img src="<?= $full_img_path ?>" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">
+                            <img src="<?= $full_img_url ?>" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">
                         <?php else : ?>
                             <img src="<?= APP_URL ?>assets/img/default-img.webp" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">
                         <?php endif; ?>
