@@ -23,31 +23,31 @@ const props = defineProps({
 <style scpoed>
 .tabs-actions {
   display: flex;
-  margin-top: 20px;
 }
 
 .tabs-actions > button.tab {
   padding: 10px 20px;
-  border: 1px solid #ccc;
-  border-bottom: 2px solid #ccc;
-  border-top: 2px solid #ccc;
+  border: 1px solid var(--secondary);
+  border-bottom: 2px solid var(--secondary);
+  border-top: 2px solid var(--secondary);
   background-color: var(--light);
-  color: var(--dark);
+  color: var(--secondary);
   cursor: pointer;
 }
 
 .tabs-actions > button.tab:first-child {
   border-radius: 25px 0 0 25px;
-  border-left: 2px solid #ccc;
+  border-left: 2px solid var(--secondary);
 }
 
 .tabs-actions > button.tab:last-child {
   border-radius: 0 25px 25px 0;
-  border-right: 2px solid #ccc;
+  border-right: 2px solid var(--secondary);
 }
 
 button.tab.active {
-  background-color: var(--secondary);
+  background: var(--secondary);
+  background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
   color: var(--light);
 }
 </style>

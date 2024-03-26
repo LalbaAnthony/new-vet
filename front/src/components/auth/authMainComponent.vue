@@ -12,9 +12,7 @@
 
       <h2 class="page-title">{{ authStore.allModals[authStore.authModal.type].title }}</h2>
 
-      <div>
-        {{ authStore.allModals[authStore.authModal.type] }}
-      </div>
+      <component :is="getComponent(authStore.allModals[authStore.authModal.type].component)" />
 
       <div class="password-links">
         <span
@@ -55,12 +53,36 @@
 </template>
 
 <script setup>
-// import { ref } from 'vue'
+// eslint-disable-next-line no-unused-vars
+import AuthLogin from '@/components/auth/AuthLoginComponent.vue'
+// eslint-disable-next-line no-unused-vars
+import AuthRegister from '@/components/auth/AuthRegisterComponent.vue'
+// eslint-disable-next-line no-unused-vars
+import AuthForgotPassword from '@/components/auth/AuthForgotPasswordComponent.vue'
+// eslint-disable-next-line no-unused-vars
+import AuthResetPassword from '@/components/auth/AuthResetPasswordComponent.vue'
 import TabsActions from '@/components/TabsActionsComponent.vue'
 import IconX from '@/icons/IconX.vue'
+// import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+
+const getComponent = (comp) => {
+  switch (comp) {
+    case 'AuthLogin':
+      return AuthLogin;
+    case 'AuthRegister':
+      return AuthRegister;
+    case 'AuthForgotPassword':
+      return AuthForgotPassword;
+    case 'AuthResetPassword':
+      return AuthResetPassword;
+    default:
+      return AuthLogin;
+  }
+};
+
 </script>
 
 <style scoped>

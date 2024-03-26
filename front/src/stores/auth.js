@@ -16,19 +16,19 @@ export const useAuthStore = defineStore('auth',
       allModals: {
         'login': {
           title: 'Connexion',
-          component: 'login',
+          component: 'AuthLogin',
         },
         'register': {
           title: 'Inscription',
-          component: 'register',
+          component: 'AuthRegister',
         },
         'forgotPassword': {
           title: 'Mot de passe oublié',
-          component: 'forgotPassword',
+          component: 'AuthForgotPassword',
         },
         'resetPassword': {
           title: 'Confirmation',
-          component: 'resetPassword',
+          component: 'AuthResetPassword',
         },
       }
     }),
