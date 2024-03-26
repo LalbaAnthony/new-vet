@@ -15,11 +15,11 @@ export const useAuthStore = defineStore('auth',
       },
       allModals: {
         'login': {
-          title: 'Connexion',
+          title: 'Connectez-vous',
           component: 'AuthLogin',
         },
         'register': {
-          title: 'Inscription',
+          title: 'Inscrivez-vous',
           component: 'AuthRegister',
         },
         'forgotPassword': {
@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('auth',
           component: 'AuthForgotPassword',
         },
         'resetPassword': {
-          title: 'Confirmation',
+          title: 'Confirmez votre mot de passe',
           component: 'AuthResetPassword',
         },
       }

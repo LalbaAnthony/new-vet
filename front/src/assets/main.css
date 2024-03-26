@@ -358,3 +358,25 @@ ul.fancy-list>li::before {
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
+
+label.required::after {
+    content: " *";
+    font-weight: 500;
+    color: red;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.auth-form .auth-form-actions {
+    margin: 0.75rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center
+}
