@@ -10,8 +10,26 @@ export const useAuthStore = defineStore('auth',
       customer: {},
       cart: {},
       authModal: {
-        component: 'login',
+        type: 'register',
         show: false,
+      },
+      allModals: {
+        'login': {
+          title: 'Connexion',
+          component: 'login',
+        },
+        'register': {
+          title: 'Inscription',
+          component: 'register',
+        },
+        'forgotPassword': {
+          title: 'Mot de passe oublié',
+          component: 'forgotPassword',
+        },
+        'resetPassword': {
+          title: 'Confirmation',
+          component: 'resetPassword',
+        },
       }
     }),
 
@@ -24,11 +42,16 @@ export const useAuthStore = defineStore('auth',
         }
       },
 
-      toggleModal(component = 'login') {
-        this.authModal.component = component;
+      toggleModal(el = 'login') {
+        this.authModal.type = el;
         this.authModal.show = !this.authModal.show;
       },
-      
+
+      setModal(el) {
+        this.authModal.type = el;
+        this.authModal.show = true;
+      },
+
       clearCart() {
         this.cart = {};
         notify('Panié vidé !', 'success');

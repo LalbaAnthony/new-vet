@@ -2,16 +2,38 @@
   <div>
     <div class="darken-background" v-if="authStore.authModal.show" @click="authStore.toggleModal()"></div>
     <div class="main-display" v-if="authStore.authModal.show">
-      {{ authStore.authModal }}
+
       <button class="main-display-close" @click="authStore.toggleModal()">
         <IconX />
       </button>
+
+      <h2 class="page-title">{{authStore.allModals[authStore.authModal.type].title}}</h2>
+
+      <div>
+        {{ authStore.allModals[authStore.authModal.type] }}
+      </div>
+
+      <TabsActions :tabs="[{
+        title: 'Connexion',
+        active: authStore.authModal.type === 'login',
+        action: () => authStore.setModal('login')
+      }, {
+        title: 'Incritpion',
+        active: authStore.authModal.type === 'register',
+        action: () => authStore.setModal('register')
+      },{
+        title: 'Test',
+        active: authStore.authModal.type === 'forgotPassword',
+        action: () => authStore.setModal('forgotPassword')
+      }]" />
+
     </div>
   </div>
 </template>
 
 <script setup>
 // import { ref } from 'vue'
+import TabsActions from '@/components/TabsActionsComponent.vue'
 import IconX from '@/icons/IconX.vue'
 import { useAuthStore } from '@/stores/auth'
 
@@ -55,8 +77,7 @@ button.main-display-close {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background-color: var(--dark);
-  color: var(--light);
+  color: var(--dark);
   border: none;
   border-radius: 50%;
   padding: 0.5rem;
