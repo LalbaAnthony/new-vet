@@ -10,7 +10,7 @@ export const useAuthStore = defineStore('auth',
       customer: {},
       cart: {},
       authModal: {
-        type: 'register',
+        type: 'forgotPassword',
         show: false,
       },
       allModals: {

@@ -1,32 +1,55 @@
 <template>
   <div>
-    <div class="darken-background" v-if="authStore.authModal.show" @click="authStore.toggleModal()"></div>
+    <div
+      class="darken-background"
+      v-if="authStore.authModal.show"
+      @click="authStore.toggleModal()"
+    ></div>
     <div class="main-display" v-if="authStore.authModal.show">
-
       <button class="main-display-close" @click="authStore.toggleModal()">
         <IconX />
       </button>
 
-      <h2 class="page-title">{{authStore.allModals[authStore.authModal.type].title}}</h2>
+      <h2 class="page-title">{{ authStore.allModals[authStore.authModal.type].title }}</h2>
 
       <div>
         {{ authStore.allModals[authStore.authModal.type] }}
       </div>
 
-      <TabsActions :tabs="[{
-        title: 'Connexion',
-        active: authStore.authModal.type === 'login',
-        action: () => authStore.setModal('login')
-      }, {
-        title: 'Incritpion',
-        active: authStore.authModal.type === 'register',
-        action: () => authStore.setModal('register')
-      },{
-        title: 'Test',
-        active: authStore.authModal.type === 'forgotPassword',
-        action: () => authStore.setModal('forgotPassword')
-      }]" />
+      <div class="password-links">
+        <span
+          v-if="authStore.authModal.type === 'login' || authStore.authModal.type === 'register'"
+          class="local-link"
+          @click="authStore.setModal('forgotPassword')"
+          >Mot de passe oublié ?</span
+        >
+        <span
+          v-if="authStore.authModal.type === 'forgotPassword'"
+          class="local-link"
+          @click="authStore.setModal('login')"
+          >Retour</span
+        >
+      </div>
 
+      <TabsActions
+        v-if="authStore.authModal.type === 'login' || authStore.authModal.type === 'register'"
+        :tabs="[
+          {
+            title: 'Connexion',
+            active: authStore.authModal.type === 'login',
+            action: () => {
+              authStore.setModal('login')
+            }
+          },
+          {
+            title: 'Incription',
+            active: authStore.authModal.type === 'register',
+            action: () => {
+              authStore.setModal('register')
+            }
+          }
+        ]"
+      />
     </div>
   </div>
 </template>
@@ -38,11 +61,9 @@ import IconX from '@/icons/IconX.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
-
 </script>
 
 <style scoped>
-
 .darken-background {
   position: fixed;
   top: 0;
@@ -84,10 +105,25 @@ button.main-display-close {
   cursor: pointer;
 }
 
-button.main-display-close>svg {
+button.main-display-close > svg {
   width: 20px;
   height: 20px;
   transform: translate(0, 2px);
 }
 
+.password-links {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.local-link {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--dark);
+}
+
+.local-link:hover {
+  text-decoration: underline;
+}
 </style>

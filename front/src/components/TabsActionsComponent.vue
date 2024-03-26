@@ -28,23 +28,26 @@ const props = defineProps({
 
 .tabs-actions > button.tab {
   padding: 10px 20px;
-  border: none;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid #ccc;
   background-color: var(--light);
   color: var(--dark);
   cursor: pointer;
 }
 
-
 .tabs-actions > button.tab:first-child {
   border-radius: 25px 0 0 25px;
+  border-left: 2px solid #ccc;
 }
 
 .tabs-actions > button.tab:last-child {
   border-radius: 0 25px 25px 0;
+  border-right: 2px solid #ccc;
 }
 
 button.tab.active {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   color: var(--light);
 }
 </style>
