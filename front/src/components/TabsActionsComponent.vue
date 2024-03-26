@@ -20,7 +20,7 @@ const props = defineProps({
 })
 </script>
 
-<style scpoed>
+<style scoped>
 .tabs-actions {
   display: flex;
 }
