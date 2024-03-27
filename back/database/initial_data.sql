@@ -139,7 +139,8 @@ INSERT INTO card (card_id, customer_id, number, expiration_date, cvv) VALUES
 INSERT INTO status (status_id, libelle) VALUES 
 (1, 'En cours de traitement'),
 (2, 'Expédiée'),
-(3, 'Livrée');
+(3, 'Livrée'),
+(4, 'Annulée');
 
 INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, status_id) VALUES 
 (1, 1, 1, '2024-01-13 12:30:00', 89.99, 2),
