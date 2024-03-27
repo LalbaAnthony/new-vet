@@ -10,9 +10,9 @@
         <IconX />
       </button>
 
-      <h2 class="page-title">{{ authStore.allModals[authStore.authModal.type].title }}</h2>
+      <h2 class="page-title">{{ allModals[authStore.authModal.type].title }}</h2>
 
-      <component :is="getComponent(authStore.allModals[authStore.authModal.type].component)" />
+      <component :is="allModals[authStore.authModal.type].component" />
 
       <div class="password-links">
         <span
@@ -63,25 +63,29 @@ import AuthForgotPassword from '@/components/auth/AuthForgotPasswordComponent.vu
 import AuthResetPassword from '@/components/auth/AuthResetPasswordComponent.vue'
 import TabsActions from '@/components/TabsActionsComponent.vue'
 import IconX from '@/icons/IconX.vue'
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-const getComponent = (comp) => {
-  switch (comp) {
-    case 'AuthLogin':
-      return AuthLogin;
-    case 'AuthRegister':
-      return AuthRegister;
-    case 'AuthForgotPassword':
-      return AuthForgotPassword;
-    case 'AuthResetPassword':
-      return AuthResetPassword;
-    default:
-      return AuthLogin;
+const allModals = ref({
+  login: {
+    title: 'Connectez-vous',
+    component: AuthLogin,
+  },
+  register: {
+    title: 'Inscrivez-vous',
+    component: AuthRegister,
+  },
+  forgotPassword: {
+    title: 'Mot de passe oublié',
+    component: AuthForgotPassword,
+  },
+  resetPassword: {
+    title: 'Confirmez votre mot de passe',
+    component: AuthResetPassword,
   }
-};
+})
 
 </script>
 

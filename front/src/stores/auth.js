@@ -13,24 +13,6 @@ export const useAuthStore = defineStore('auth',
         type: 'forgotPassword',
         show: false,
       },
-      allModals: {
-        'login': {
-          title: 'Connectez-vous',
-          component: 'AuthLogin',
-        },
-        'register': {
-          title: 'Inscrivez-vous',
-          component: 'AuthRegister',
-        },
-        'forgotPassword': {
-          title: 'Mot de passe oublié',
-          component: 'AuthForgotPassword',
-        },
-        'resetPassword': {
-          title: 'Confirmez votre mot de passe',
-          component: 'AuthResetPassword',
-        },
-      }
     }),
 
     actions: {
