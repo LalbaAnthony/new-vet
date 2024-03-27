@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { notify } from '@/helpers/notif.js'
+import { hello } from '@/helpers/helpers.js'
 import router from '@/router';
 
 export const useAuthStore = defineStore('auth',
@@ -16,12 +17,27 @@ export const useAuthStore = defineStore('auth',
     }),
 
     actions: {
+
+      login(email, password, redirect = '/') {
+        console.log('loged in: ', email, password);
+
+        this.authenticated = true
+        this.authModal.show = false
+
+        if (redirect) {
+          router.push(redirect)
+        }
+
+        notify(`${hello()} ! Vous êtes maintenant connecté`, 'success');
+      },
+
       logout(redirect = '/') {
         this.authenticated = false
         this.customer = {}
         if (redirect) {
           router.push(redirect)
         }
+        notify('Vous avez été déconnecté !', 'error');
       },
 
       toggleModal(el = 'login') {

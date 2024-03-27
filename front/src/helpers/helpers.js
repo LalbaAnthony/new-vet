@@ -57,3 +57,8 @@ export function isValidEmail(email) {
 export function roundNb(nb, precision = 2) {
     return nb.toFixed(precision);
 }
+
+export function hello() {
+    const hour = new Date().getHours();
+    return hour >= 6 && hour < 18 ? 'Bonjour' : 'Bonsoir';
+}

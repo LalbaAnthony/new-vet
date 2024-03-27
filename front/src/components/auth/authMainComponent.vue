@@ -53,17 +53,13 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line no-unused-vars
 import AuthLogin from '@/components/auth/AuthLoginComponent.vue'
-// eslint-disable-next-line no-unused-vars
 import AuthRegister from '@/components/auth/AuthRegisterComponent.vue'
-// eslint-disable-next-line no-unused-vars
 import AuthForgotPassword from '@/components/auth/AuthForgotPasswordComponent.vue'
-// eslint-disable-next-line no-unused-vars
 import AuthResetPassword from '@/components/auth/AuthResetPasswordComponent.vue'
 import TabsActions from '@/components/TabsActionsComponent.vue'
 import IconX from '@/icons/IconX.vue'
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -71,19 +67,19 @@ const authStore = useAuthStore()
 const allModals = ref({
   login: {
     title: 'Connectez-vous',
-    component: AuthLogin,
+    component: shallowRef(AuthLogin),
   },
   register: {
     title: 'Inscrivez-vous',
-    component: AuthRegister,
+    component: shallowRef(AuthRegister),
   },
   forgotPassword: {
     title: 'Mot de passe oublié',
-    component: AuthForgotPassword,
+    component: shallowRef(AuthForgotPassword),
   },
   resetPassword: {
     title: 'Confirmez votre mot de passe',
-    component: AuthResetPassword,
+    component: shallowRef(AuthResetPassword),
   }
 })
 
