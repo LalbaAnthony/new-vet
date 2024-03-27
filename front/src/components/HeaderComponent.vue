@@ -91,12 +91,12 @@ categoryStore.fetchQuickAccessCategories()
 
 function triggerSearch() {
   router.push(`/recherche?search=${search.value}`)
-  search.value = ''
+  // search.value = ''
 }
 
 function handleProfil() {
   if (authStore.authenticated) {
-    router.push('/profil')
+    router.push('/mon-compte')
   } else {
     authStore.toggleModal()
   }

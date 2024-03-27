@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ path: '/produits', query: { categories: [props.category.slug] } }">
+  <router-link :to="{ path: '/produits', query: { categories: props.category.slug } }">
     <div class="category-item">
       <img
         :src="props.category?.image?.path && imageExists(URL_BACKEND_UPLOAD + props.category.image.path) ? `${URL_BACKEND_UPLOAD}${props.category.image.path}` : '/helpers/no-img-available.webp'"
