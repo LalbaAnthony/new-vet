@@ -92,7 +92,7 @@ export const useCategoryStore = defineStore('category', {
       // Data
       this.category.data = {}
 
-      const resp = await get('category', { slug: slug, per_page: 1 });
+      const resp = await get('category', { slug: slug });
       this.category.data = resp.data[0]
 
       // Loading
