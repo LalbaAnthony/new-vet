@@ -49,7 +49,7 @@ function getProducts($categories = array(), $materials = array(), $search = null
         $sql .= " AND (";
         foreach ($include as $key => $value) {
             $sql .= "product.slug = :include_$key";
-            if ($key < count($include) - 1) $sql .= " AND ";
+            if ($key < count($include) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
@@ -185,7 +185,7 @@ function getProductsCount($categories = array(), $materials = array(), $search =
         $sql .= " AND (";
         foreach ($include as $key => $value) {
             $sql .= "product.slug = :include_$key";
-            if ($key < count($include) - 1) $sql .= " AND ";
+            if ($key < count($include) - 1) $sql .= " OR ";
         }
         $sql .= ")";
     }
