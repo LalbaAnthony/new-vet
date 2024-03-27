@@ -91,7 +91,7 @@ categoryStore.fetchQuickAccessCategories()
 
 function triggerSearch() {
   router.push(`/recherche?search=${search.value}`)
-  search.value = ''
+  // search.value = ''
 }
 
 function handleProfil() {

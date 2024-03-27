@@ -77,8 +77,13 @@ function getContactsCount($search = null)
 {
     $dbh = db_connect();
 
-    $sql = "SELECT COUNT(contact_id) as count FROM contact WHERE is_deleted = 0";
+    $sql = "SELECT COUNT(contact_id) as count FROM contact 
+    LEFT JOIN customer ON customer.customer_id = contact.contact_id";
 
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
+
+    $sql .= " AND contact.is_deleted = 0";
     if ($search) {
         $sql .= " AND (
             customer.first_name LIKE :search OR 

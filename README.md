@@ -13,7 +13,7 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
 ***Local***
 
 * Installez et configurez XAMPP si ce n'est pas déjà fait, depuis `https://www.apachefriends.org/fr/index.html`
-* LAncez XAMPP, rendez-vous `C:/xampp/htdocs/` et créez un dossier `projects`
+* Lancez XAMPP, rendez-vous `C:/xampp/htdocs/` et créez un dossier `projects`
 * Allez `C:/xampp/htdocs/projects` et executez la commande `git git clone git@github.com:LalbaAnthony/new-vet.git`
 * Installation du front
     * Allez dans `new-vet/front` 
