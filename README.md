@@ -73,6 +73,17 @@ Le back (`/back`) est elle, la partie immergée, c'est la partie invisible par l
 C'est notamment ici que se trouve la base de données, l'interface API REST, et où se trouve le back-office.<br>
 Il est entièrement conçu en PHP natif, et utilise bootstrap pour le style du back-office.<br>
 
+***Structure***
+
+* `back/api/` contient les fichiers de l'API REST, c'est ici que sont gérées les requêtes FRONT
+* `back/assets/` contient les images et les fichiers statiques 
+* `back/bo/` contient les fichiers du back-office
+* `back/database/` contient les fichiers de la base de données: les scripts de création, les scripts d'insertion/suppression de données fictives, et les scripts de création d'utilisateurs
+* `back/helpers/` contient les fichiers d'aide, c'est ici que sont gérées les fonctions réutilisables
+* `back/logs/` contient les fichiers de logs 
+* `back/models/` contient les fichiers de modèles, c'est ici que sont gérées les requêtes SQL
+* `back/uplaods/` contient les fichiers uploadés par les administrateurs du site
+
 ***REST API***
 
 L'API REST est disponible à l'adresse `http://localhost/projects/new-vet/back/api/`<br>
