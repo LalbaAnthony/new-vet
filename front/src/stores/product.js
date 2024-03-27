@@ -98,7 +98,7 @@ export const useProductStore = defineStore('product', {
       // Data
       this.moreProducts.data[categorySlug] = []
 
-      const resp = await get('products', { categories: [categorySlug], per_page: 3, exclude: [this.product.data.slug] });
+      const resp = await get('products', { categories: [categorySlug], per_page: 6, exclude: [this.product.data.slug] });
       this.moreProducts.data[categorySlug] = resp.data;
 
       // Loading
