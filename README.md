@@ -67,15 +67,6 @@ Il est conçu en VueJS, le style est entierement custom, écrit à la main par n
 * `front/public` contient les images et les fichiers statiques, pour des raison de performances, l'extension des images est en `.webp`
 * `front/package.json` contient les dépendances du projet
 
-***Accessibilité***
-
-Des `sr-only` sont présents sur les éléments cliquables par l'utilisateur, afin de garantir une bonne accessibilité.<br>
-
-***SEO***
-
-Les balises `meta` sont présentes dans le `index.html` afin de garantir un bon référencement.<br>
-Les bonnes pratiques SEO sont respectées; la sémantique des balises `h1`, `h2`, `h3`, `h4`, `h5`, `h6` est respecté, Les images sont dotées d'un attribut `alt` afin de garantir une bonne accessibilité et un référencement optimal, ...<br>
-
 ### 📄 - BACKEND
 
 Le back (`/back`) est elle, la partie immergée, c'est la partie invisible par l'utilisateur.<br>
