@@ -57,14 +57,14 @@ Il est conçu en VueJS, le style est entierement custom, écrit à la main par n
 
 ***Structure***
 
-* `front/src/assets` contient les fichiers de styles
-* `front/src/components` contient les composants réutilisables
-* `front/src/router` contient les routes de l'application
-* `front/src/stores` contient les stores de l'application, c'est à dire les variables globales, gérées par Pinia
-* `front/src/pages` contient les pages de l'application
+* `front/src/assets/` contient les fichiers de styles
+* `front/src/components/` contient les composants réutilisables
+* `front/src/router/` contient les routes de l'application
+* `front/src/stores/` contient les stores de l'application, c'est à dire les variables globales, gérées par Pinia
+* `front/src/pages/` contient les pages de l'application
 * `front/src/App.vue` est le composant principal de l'application
 * `front/src/main.js` est le point d'entrée de l'application
-* `front/public` contient les images et les fichiers statiques, pour des raison de performances, l'extension des images est en `.webp`
+* `front/public/` contient les images et les fichiers statiques, pour des raison de performances, l'extension des images est en `.webp`
 * `front/package.json` contient les dépendances du projet
 
 ### 📄 - BACKEND
