@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { get } from '@/helpers/api';
+import { post } from '@/helpers/api';
 import { notify } from '@/helpers/notif.js'
 import { hello } from '@/helpers/helpers.js'
 import router from '@/router';
@@ -18,6 +20,49 @@ export const useAuthStore = defineStore('auth',
 
     actions: {
 
+      toggleModal(el = 'login') {
+        this.authModal.type = el;
+        this.authModal.show = !this.authModal.show;
+      },
+
+      setModal(el) {
+        this.authModal.type = el;
+        this.authModal.show = true;
+      },
+
+      async register(user, redirect = '/') {
+        console.log('registered: ', user);
+
+        let missing_fields = [];
+        if (!user.first_name) missing_fields.push('Prénom');
+        if (!user.last_name) missing_fields.push('Nom');
+        if (!user.country_id) missing_fields.push('Pays');
+        if (!user.email) missing_fields.push('Email');
+        if (!user.password) missing_fields.push('Mot de passe');
+
+        if (missing_fields.length > 0) {
+          notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
+          return;
+        }
+
+        const resp = await post('customer/register', { customer: user });
+
+        if (resp.error || !resp.data) {
+          notify(`Une erreur est survenue: ${resp.error}`, 'error');
+          return;
+        }
+
+        this.authenticated = false
+        this.authModal.show = true
+        this.authModal.type = 'login'
+
+        if (redirect) {
+          router.push(redirect)
+        }
+
+        notify(`Vous vous êtes inscrit avec succès !`, 'success');
+      },
+
       login(email, password, redirect = '/') {
         console.log('loged in: ', email, password);
 
@@ -32,22 +77,15 @@ export const useAuthStore = defineStore('auth',
       },
 
       logout(redirect = '/') {
+
         this.authenticated = false
+        this.authModal.show = false
+
         this.customer = {}
         if (redirect) {
           router.push(redirect)
         }
         notify('Vous avez été déconnecté !', 'error');
-      },
-
-      toggleModal(el = 'login') {
-        this.authModal.type = el;
-        this.authModal.show = !this.authModal.show;
-      },
-
-      setModal(el) {
-        this.authModal.type = el;
-        this.authModal.show = true;
       },
 
       clearCart() {

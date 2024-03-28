@@ -3,7 +3,7 @@
             <h2 class="page-title">Contactez nous !</h2>
             <Breadcrumb />
             <div class="contact-form">
-                  <div class="split-half">
+                  <div class="form-split-half">
                         <div class="form-group">
                               <label for="email" class="hidden">E-mail</label>
                               <input type="text" id="email" name="email" placeholder="E-mail" v-model="email" />
@@ -102,7 +102,7 @@ onMounted(() => {
 <style scoped>
 /* DESKTOP */
 @media (min-width: 1024px) {
-      .contact-form .split-half {
+      .contact-form {
             flex-direction: row;
       }
 
@@ -110,7 +110,7 @@ onMounted(() => {
 
 /* TABLET */
 @media (min-width: 768px) and (max-width: 1023px) {
-      .contact-form .split-half {
+      .contact-form {
             flex-direction: row;
       }
 
@@ -118,7 +118,7 @@ onMounted(() => {
 
 /* MOBILE */
 @media (max-width: 767px) {
-      .contact-form .split-half {
+      .contact-form {
             flex-direction: column;
       }
 
@@ -133,12 +133,12 @@ onMounted(() => {
       margin: 0 auto;
 }
 
-.contact-form .split-half {
+.contact-form {
       display: flex;
       gap: 1rem;
 }
 
-.contact-form .form-group {
+.contact-form {
       display: flex;
       flex-direction: column;
       gap: 0.25rem;

@@ -5,7 +5,7 @@
       v-if="authStore.authModal.show"
       @click="authStore.toggleModal()"
     ></div>
-    <div class="main-display" v-if="authStore.authModal.show">
+    <div class="main-display" v-if="authStore.authModal.show" >
       <button class="main-display-close" @click="authStore.toggleModal()">
         <IconX />
       </button>
@@ -102,8 +102,8 @@ const allModals = ref({
   border-radius: 20px;
   width: 500px;
   max-width: 90%;
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.1);

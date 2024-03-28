@@ -1,10 +1,10 @@
 <template>
   <div class="auth-form">
-    <div>
+    <div class="form-group">
       <label class="required" for="email">E-mail</label>
       <input type="text" id="email" placeholder="exemple@new-vet.com" v-model="email" />
     </div>
-    <div>
+    <div class="form-group">
       <label class="required" for="password">Mot de passe</label>
       <input type="password" id="password" placeholder="••••••••••••" v-model="password" />
     </div>
