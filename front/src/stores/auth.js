@@ -25,9 +25,10 @@ export const useAuthStore = defineStore('auth',
         this.authModal.show = !this.authModal.show;
       },
 
-      setModal(el) {
-        this.authModal.type = el;
+      setModal(type) {
+        this.authModal.type = type;
         this.authModal.show = true;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
 
       async register(user, redirect = '/') {
