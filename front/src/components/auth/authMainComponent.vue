@@ -129,7 +129,6 @@ button.main-display-close {
 
 button.main-display-close > svg {
   width: 20px;
-  height: 20px;
   transform: translate(0, 2px);
 }
 
