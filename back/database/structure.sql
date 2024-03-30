@@ -276,7 +276,7 @@ CREATE TABLE admin(
 #------------------------------------------------------------
 CREATE
 OR REPLACE TRIGGER before_select_customer BEFORE
-INSERT
+SELECT
         ON customer FOR EACH ROW
 SET
         NEW.last_login = NOW();
@@ -286,7 +286,7 @@ SET
 #------------------------------------------------------------
 CREATE
 OR REPLACE TRIGGER before_select_admin BEFORE
-INSERT
+SELECT
         ON admin FOR EACH ROW
 SET
         NEW.last_login = NOW();

@@ -2,6 +2,7 @@
   <div>
     <h2 class="page-title">Mon compte</h2>
     <Breadcrumb />
+    {{ authStore.user }}
     <button class="button danger" @click="authStore.logout()">Se déconnecter</button>
   </div>
 </template>

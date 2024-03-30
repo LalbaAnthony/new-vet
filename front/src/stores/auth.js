@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { post } from '@/helpers/api';
+import { get, post } from '@/helpers/api';
 import { notify } from '@/helpers/notif.js'
 import { hello } from '@/helpers/helpers.js'
 import router from '@/router';
@@ -9,7 +9,8 @@ export const useAuthStore = defineStore('auth',
     persist: true,
     state: () => ({
       authenticated: false,
-      customer: {},
+      token: null,
+      user: {},
       cart: {},
       authModal: {
         type: 'forgotPassword',
@@ -31,7 +32,6 @@ export const useAuthStore = defineStore('auth',
       },
 
       async register(user, redirect = '/') {
-        console.log('registered: ', user);
 
         let missing_fields = [];
         if (!user.first_name) missing_fields.push('Prénom');
@@ -39,11 +39,16 @@ export const useAuthStore = defineStore('auth',
         if (!user.email) missing_fields.push('Email');
         if (!user.password) missing_fields.push('Mot de passe');
         if (!user.collect_data) missing_fields.push('Accepter les conditions');
-
+        
         if (missing_fields.length > 0) {
           notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
           return;
         }
+        
+        if (user.first_name) user.first_name = user.first_name.trim();
+        if (user.last_name) user.last_name = user.last_name.trim();
+        if (user.email) user.email = user.email.trim();
+        if (user.password) user.password = user.password.trim();
 
         const resp = await post('customer/register', { customer: user });
 
@@ -63,9 +68,25 @@ export const useAuthStore = defineStore('auth',
         notify(`Vous vous êtes inscrit avec succès !`, 'success');
       },
 
-      login(email, password, redirect = '/') {
-        console.log('loged in: ', email, password);
+      async login(email, password, redirect = '/') {
 
+        if (!email || !password) {
+          notify('Veuillez renseigner votre email et mot de passe', 'error');
+          return;
+        }
+
+        if (email) email = email.trim();
+        if (password) password = password.trim();
+
+        const resp = await get('customer/login', { password, email });
+
+        if (resp.error) {
+          notify(`Une erreur est survenue: ${resp.error}`, 'error');
+          return;
+        }
+        
+        this.user = resp.data[0]
+        this.token = resp.data[0].token
         this.authenticated = true
         this.authModal.show = false
 
@@ -81,7 +102,7 @@ export const useAuthStore = defineStore('auth',
         this.authenticated = false
         this.authModal.show = false
 
-        this.customer = {}
+        this.user = {}
         if (redirect) {
           router.push(redirect)
         }

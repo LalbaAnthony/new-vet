@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import { missingElementsPassword } from '@/helpers/helpers.js'
 import IconXCircle from '@/icons/IconXCircle.vue'
 import CheckCircle from '@/icons/IconCheckCircle.vue'
