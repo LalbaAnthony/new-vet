@@ -381,6 +381,12 @@ label.required::after {
     justify-content: center
 }
 
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;

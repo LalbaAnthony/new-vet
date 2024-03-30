@@ -144,7 +144,7 @@ onMounted(() => {
       gap: 0.25rem;
 }
 
-.contact-form .checkbox-group {
+.contact-form {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 1.5rem;

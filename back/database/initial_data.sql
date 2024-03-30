@@ -121,10 +121,10 @@ INSERT INTO country (country_id, name) VALUES
 (2, 'Belgique'),
 (3, 'Canada');
 
-INSERT INTO customer (customer_id, first_name, last_name, email, has_validated_email, country_id, password) VALUES 
-(1, 'Alice', 'Dupont', 'alice@example.com', 1, 1, 'motdepasse123'),
-(2, 'Jean', 'Martin', 'jean@example.com', 1, 2, 'mdp123456'),
-(3, 'Sophie', 'Lefevre', 'sophie@example.com', 1, 3, 'password789');
+INSERT INTO customer (customer_id, first_name, last_name, email, has_validated_email, password) VALUES 
+(1, 'Alice', 'Dupont', 'alice@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'), -- MPD: motDeP@sseT3st
+(2, 'Jean', 'Martin', 'jean@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'), -- MPD: motDeP@sseT3st
+(3, 'Sophie', 'Lefevre', 'sophie@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'); -- MPD: motDeP@sseT3st
 
 INSERT INTO address (customer_id, first_name, last_name, address1, city, postal_code, country_id, tel) VALUES 
 (1, 'Alice', 'Dupont', '123 Rue de la Mode', 'Paris', 75001, 1, '0123456789'),

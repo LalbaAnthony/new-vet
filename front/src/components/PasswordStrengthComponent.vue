@@ -1,13 +1,13 @@
 <template>
   <div class="missing-requirements" v-if="props.password && props.password.length > 0">
     <div v-if="missings.length > 0">
-      <div v-for="requirement in missings" :key="requirement" class="missing-requirement-ko">
+      <div v-for="requirement in missings" :key="requirement" class="missing-requirement danger">
         <IconXCircle />
         <span>Votre mot de passe doit contenir {{ requirement }}</span>
       </div>
     </div>
     <div v-else>
-      <div class="missing-requirement-ok">
+      <div class="missing-requirement success">
         <CheckCircle />
         <span>Votre mot de passe est sécurisé</span>
       </div>
@@ -34,24 +34,24 @@ const missings = computed(() => {
 </script>
 
 <style scoped>
-.missing-requirements {
-  margin-top: 10px;
-}
 
-.missing-requirement-ko,
-.missing-requirement-ok {
+.missing-requirement {
   display: flex;
   align-items: center;
   gap: 5px;
   margin-top: 5px;
-  color: var(--dark);
+  animation-name: slidFromLeft;
+  animation-duration: 0.5s;
 }
 
-.missing-requirement-ko {
-  color: var(--danger);
-}
-
-.missing-requirement-ok {
-  color: var(--success);
+@keyframes slidFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 </style>

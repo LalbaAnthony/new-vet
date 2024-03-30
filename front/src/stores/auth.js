@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { get } from '@/helpers/api';
 import { post } from '@/helpers/api';
 import { notify } from '@/helpers/notif.js'
 import { hello } from '@/helpers/helpers.js'
@@ -37,9 +36,9 @@ export const useAuthStore = defineStore('auth',
         let missing_fields = [];
         if (!user.first_name) missing_fields.push('Prénom');
         if (!user.last_name) missing_fields.push('Nom');
-        if (!user.country_id) missing_fields.push('Pays');
         if (!user.email) missing_fields.push('Email');
         if (!user.password) missing_fields.push('Mot de passe');
+        if (!user.collect_data) missing_fields.push('Accepter les conditions');
 
         if (missing_fields.length > 0) {
           notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
@@ -48,7 +47,7 @@ export const useAuthStore = defineStore('auth',
 
         const resp = await post('customer/register', { customer: user });
 
-        if (resp.error || !resp.data) {
+        if (resp.error) {
           notify(`Une erreur est survenue: ${resp.error}`, 'error');
           return;
         }

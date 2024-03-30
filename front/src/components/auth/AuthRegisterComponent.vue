@@ -10,20 +10,28 @@
         <input type="text" id="last_name" v-model="last_name" />
       </div>
     </div>
-  
-      <div class="form-group">
-        <label class="required" for="email">E-mail</label>
-        <input type="text" id="email" v-model="email" />
-      </div>
-      <div class="form-group">
-        <label class="required" for="password">Mot de passe</label>
-        <input type="password" id="password" v-model="password" />
-      </div>
-      <div class="form-group">
-        <label class="required" for="password">Confirmez votre mot de passe</label>
-        <input type="password" id="confirmPassword" v-model="confirmPassword" />
-      </div>
-      <PasswordStrength :password="password || confirmPassword" />
+
+    <div class="form-group">
+      <label class="required" for="email">E-mail</label>
+      <input type="text" id="email" v-model="email" />
+    </div>
+    <div class="form-group">
+      <label class="required" for="password">Mot de passe</label>
+      <input type="password" id="password" v-model="password" />
+    </div>
+    <div class="form-group">
+      <label class="required" for="password">Confirmez votre mot de passe</label>
+      <input type="password" id="confirmPassword" v-model="confirmPassword" />
+    </div>
+    <PasswordStrength :password="password || confirmPassword" />
+    <div class="checkbox-group">
+      <input type="checkbox" id="collect_data" name="collect_data" v-model="collect_data" />
+      <label for="collect_data"
+        >En cochant cette case, j'accepte que mes données soient collectées et exploitées par NEW
+        VET. Pour plus d'informations, consultez nos
+        <router-link to="/mentions-legales" class="link">mentions légales</router-link>.</label
+      >
+    </div>
     <div class="auth-form-actions">
       <button class="button" @click="handleRegister()">S'inscrire</button>
     </div>
@@ -36,21 +44,29 @@ import { notify } from '@/helpers/notif.js'
 import PasswordStrength from '@/components/PasswordStrengthComponent.vue'
 import { isValidEmail } from '@/helpers/helpers.js'
 import { useAuthStore } from '@/stores/auth'
-import { get } from '@/helpers/api'
 
 const authStore = useAuthStore()
 
-const first_name = ref('')
-const last_name = ref('')
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+// const first_name = ref('')
+// const last_name = ref('')
+// const email = ref('')
+// const password = ref('')
+// const confirmPassword = ref('')
+// const collect_data = ref(false)
+const first_name = ref('test')
+const last_name = ref('test')
+const email = ref('test@test.com')
+const password = ref('zerzerI1UYG&*^%$')
+const confirmPassword = ref('zerzerI1UYG&*^%$')
+const collect_data = ref(true)
 
 function valid() {
   // return false; // ? uncomment this line to enable form validation
   if (password.value.length < 1) return 'Veuillez entrer votre mot de passe'
   if (email.value.length < 1) return 'Veuillez entrer votre adresse e-mail'
   if (!isValidEmail(email.value)) return 'Veuillez entrer une adresse e-mail valide'
+  if (password.value !== confirmPassword.value) return 'Les mots de passe ne correspondent pas'
+  if (!collect_data.value) return 'Veuillez accepter la collecte de données'
   return false
 }
 
@@ -59,7 +75,13 @@ async function handleRegister() {
   if (error) {
     notify(error, 'error')
   } else {
-    authStore.login(email.value, password.value)
+    authStore.register({
+      first_name: first_name.value,
+      last_name: last_name.value,
+      email: email.value,
+      password: password.value,
+      collect_data: collect_data.value
+    })
   }
 }
 </script>
