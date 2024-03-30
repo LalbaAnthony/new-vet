@@ -32,7 +32,7 @@
         <router-link to="/mentions-legales" class="link">mentions légales</router-link>.</label
       >
     </div>
-    <div class="auth-form-actions">
+    <div class="form-actions">
       <button class="button" @click="handleRegister()">S'inscrire</button>
     </div>
   </div>
@@ -47,18 +47,12 @@ import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-// const first_name = ref('')
-// const last_name = ref('')
-// const email = ref('')
-// const password = ref('')
-// const confirmPassword = ref('')
-// const collect_data = ref(false)
-const first_name = ref('test')
-const last_name = ref('test')
-const email = ref('test@test.com')
-const password = ref('zerzerI1UYG&*^%$')
-const confirmPassword = ref('zerzerI1UYG&*^%$')
-const collect_data = ref(true)
+const first_name = ref('')
+const last_name = ref('')
+const email = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+const collect_data = ref(false)
 
 function valid() {
   // return false; // ? uncomment this line to enable form validation

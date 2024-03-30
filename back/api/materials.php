@@ -22,7 +22,7 @@ if (count($materials) > 0) {
     $json['data'] = array();
 } else {
     $json['status'] = 500;
-    $json['error'] = 'Error while getting getting elements';
+    $json['error'] = 'Error while getting elements';
 }
 
 // Return  JSON

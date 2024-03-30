@@ -2,13 +2,13 @@
   <div class="auth-form">
     <div class="form-group">
       <label class="required" for="email">E-mail</label>
-      <input type="text" id="email" placeholder="exemple@new-vet.com" v-model="email" />
+      <input type="text" id="email" v-model="email" />
     </div>
     <div class="form-group">
       <label class="required" for="password">Mot de passe</label>
-      <input type="password" id="password" placeholder="••••••••••••" v-model="password" />
+      <input type="password" id="password" v-model="password" />
     </div>
-    <div class="auth-form-actions">
+    <div class="form-actions">
       <button class="button" @click="handleLogin()">Se connecter</button>
     </div>
   </div>

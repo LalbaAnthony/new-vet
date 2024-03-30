@@ -12,8 +12,8 @@ router.beforeEach((to, from, next) => {
   document.title = `${to.meta.title} - NEW VET` || 'NEW VET';
 
   const authStore = useAuthStore()
-  if (to.meta.private === true && !authStore.authenticated) {
-    next({ path: '/' });
+  if (to.meta.private === true) {
+    authStore.validateToken()
   }
 
   next();

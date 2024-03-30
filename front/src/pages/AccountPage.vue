@@ -2,6 +2,7 @@
   <div>
     <h2 class="page-title">Mon compte</h2>
     <Breadcrumb />
+    {{ authStore.user }}
     <button class="button danger" @click="authStore.logout()">Se déconnecter</button>
   </div>
 </template>
@@ -11,4 +12,5 @@ import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+
 </script>

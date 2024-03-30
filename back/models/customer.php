@@ -1,20 +1,15 @@
 <?php
 
-function getCustomer($customer_id)
-{
+function setConnectionTokenByEmail($email, $token = null) {
+    if ($token == null) $token = token_gen(32);
     $dbh = db_connect();
-
-    $sql = "SELECT * FROM customer WHERE customer_id = :customer_id";
-
+    $sql = "UPDATE customer SET connection_token = :connection_token WHERE email = :email";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":customer_id" => $customer_id));
-        $customer = $sth->fetch(PDO::FETCH_ASSOC);
+        $sth->execute(array(":connection_token" => $token, ":email" => $email));
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
     }
-
-    return $customer;
 }
 
 function getCustomerByEmail($email)
@@ -26,6 +21,23 @@ function getCustomerByEmail($email)
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":email" => $email));
+        $customer = $sth->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL : " . $e->getMessage());
+    }
+
+    return $customer;
+}
+
+function getCustomer($customer_id)
+{
+    $dbh = db_connect();
+
+    $sql = "SELECT * FROM customer WHERE customer_id = :customer_id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":customer_id" => $customer_id));
         $customer = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL : " . $e->getMessage());
