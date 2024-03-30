@@ -365,15 +365,18 @@ label.required::after {
     color: red;
 }
 
-.auth-form {
+.form-split-half {
     display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    max-width: 500px;
-    margin: 0 auto;
+    gap: 1rem;
 }
 
-.auth-form .auth-form-actions {
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.form-actions {
     margin: 0.75rem;
     display: flex;
     flex-direction: row;
@@ -385,17 +388,6 @@ label.required::after {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 1.5rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.form-split-half {
-    display: flex;
-    gap: 1rem;
 }
 
 /* DESKTOP */

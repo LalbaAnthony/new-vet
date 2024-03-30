@@ -31,41 +31,72 @@ export const useAuthStore = defineStore('auth',
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
 
+      async validateToken() {
+
+        if (!this.authenticated) {
+          router.push('/')
+          return;
+        }
+
+        await get('customer/validate_token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
+
+          if (resp.error) {
+            this.logout()
+            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            return;
+          }
+
+          if (!resp.data[0].token_ok) {
+            this.logout()
+            return;
+          }
+
+        }).catch(error => {
+          this.logout()
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return;
+        });
+      },
+
       async register(user, redirect = '/') {
 
         let missing_fields = [];
         if (!user.first_name) missing_fields.push('Prénom');
+        else user.first_name = user.first_name.trim();
         if (!user.last_name) missing_fields.push('Nom');
+        else user.last_name = user.last_name.trim();
         if (!user.email) missing_fields.push('Email');
+        else user.email = user.email.trim();
         if (!user.password) missing_fields.push('Mot de passe');
+        else user.password = user.password.trim();
         if (!user.collect_data) missing_fields.push('Accepter les conditions');
-        
+
         if (missing_fields.length > 0) {
           notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
           return;
         }
-        
-        if (user.first_name) user.first_name = user.first_name.trim();
-        if (user.last_name) user.last_name = user.last_name.trim();
-        if (user.email) user.email = user.email.trim();
-        if (user.password) user.password = user.password.trim();
 
-        const resp = await post('customer/register', { customer: user });
+        await post('customer/register', { customer: user }).then(resp => {
 
-        if (resp.error) {
-          notify(`Une erreur est survenue: ${resp.error}`, 'error');
+          if (resp.error) {
+            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            return;
+          }
+
+          this.authenticated = false
+          this.authModal.show = true
+          this.authModal.type = 'login'
+
+          notify(`Vous vous êtes inscrit avec succès !`, 'success');
+        }).catch(error => {
+          this.authenticated = false
+          notify(`Une erreur est survenue: ${error}`, 'error');
           return;
-        }
-
-        this.authenticated = false
-        this.authModal.show = true
-        this.authModal.type = 'login'
+        });
 
         if (redirect) {
           router.push(redirect)
         }
-
-        notify(`Vous vous êtes inscrit avec succès !`, 'success');
       },
 
       async login(email, password, redirect = '/') {
@@ -78,23 +109,27 @@ export const useAuthStore = defineStore('auth',
         if (email) email = email.trim();
         if (password) password = password.trim();
 
-        const resp = await get('customer/login', { password, email });
+        await get('customer/login', { password, email }).then(resp => {
 
-        if (resp.error) {
-          notify(`Une erreur est survenue: ${resp.error}`, 'error');
+          if (resp.error) {
+            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            return;
+          }
+
+          this.user = resp.data[0]
+          this.token = resp.data[0].connection_token
+          this.authenticated = true
+          this.authModal.show = false
+          notify(`${hello()} ! Vous êtes maintenant connecté`, 'success');
+        }).catch(error => {
+          this.authenticated = false
+          notify(`Une erreur est survenue: ${error}`, 'error');
           return;
-        }
-        
-        this.user = resp.data[0]
-        this.token = resp.data[0].token
-        this.authenticated = true
-        this.authModal.show = false
+        });
 
         if (redirect) {
           router.push(redirect)
         }
-
-        notify(`${hello()} ! Vous êtes maintenant connecté`, 'success');
       },
 
       logout(redirect = '/') {
@@ -106,7 +141,7 @@ export const useAuthStore = defineStore('auth',
         if (redirect) {
           router.push(redirect)
         }
-        notify('Vous avez été déconnecté !', 'error');
+        notify('Vous avez été déconnecté !', 'info');
       },
 
       clearCart() {

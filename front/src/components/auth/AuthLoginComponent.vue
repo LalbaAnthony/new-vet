@@ -8,7 +8,7 @@
       <label class="required" for="password">Mot de passe</label>
       <input type="password" id="password" v-model="password" />
     </div>
-    <div class="auth-form-actions">
+    <div class="form-actions">
       <button class="button" @click="handleLogin()">Se connecter</button>
     </div>
   </div>

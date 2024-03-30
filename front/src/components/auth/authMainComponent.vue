@@ -147,4 +147,12 @@ button.main-display-close > svg {
 .local-link:hover {
   text-decoration: underline;
 }
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
 </style>

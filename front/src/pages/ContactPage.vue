@@ -100,29 +100,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* DESKTOP */
-@media (min-width: 1024px) {
-      .contact-form {
-            flex-direction: row;
-      }
-
-}
-
-/* TABLET */
-@media (min-width: 768px) and (max-width: 1023px) {
-      .contact-form {
-            flex-direction: row;
-      }
-
-}
-
-/* MOBILE */
-@media (max-width: 767px) {
-      .contact-form {
-            flex-direction: column;
-      }
-
-}
 
 .contact-form {
       display: flex;
@@ -136,23 +113,6 @@ onMounted(() => {
 .contact-form {
       display: flex;
       gap: 1rem;
-}
-
-.contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-}
-
-.contact-form {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 1.5rem;
-}
-
-.contact-form .form-actions {
-      display: flex;
-      justify-content: center;
 }
 
 label {

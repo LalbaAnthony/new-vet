@@ -12,4 +12,5 @@ import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+
 </script>
