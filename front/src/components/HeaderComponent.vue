@@ -3,23 +3,32 @@
     <div class="header-bloc">
       <router-link to="/">
         <div class="bloc-logo">
-          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET">
+          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET" />
         </div>
       </router-link>
       <div class="header-actions">
-        <input type="search" class="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
-          @keyup.enter="triggerSearch" />
+        <input
+          type="search"
+          class="search"
+          id="search"
+          name="search"
+          :placeholder="searchPlaceholder"
+          v-model="search"
+          @keyup.enter="triggerSearch"
+        />
         <ul class="header-action-btn">
           <li>
-            <span v-if="Object.keys(authStore.cart).length > 0" class="cart-number">{{ authStore.cartTotal }}</span>
+            <span v-if="Object.keys(authStore.cart).length > 0" class="cart-number">{{
+              authStore.cartTotal
+            }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
           </li>
           <li>
-            <router-link to="/profil">
+            <span @click="handleProfil()">
               <IconPersonFill class="header-action-btn-icon primary" />
-            </router-link>
+            </span>
           </li>
         </ul>
       </div>
@@ -44,8 +53,13 @@
     </nav>
     <div v-if="categoryStore.quickAccessCategories?.data?.length > 0" class="header-categories">
       <div class="header-quick-access">
-        <Pill v-for="item in categoryStore.quickAccessCategories.data" :key="item.slug" :text="item.libelle"
-        :link="`/produits?categories=${item.slug}`" type="light" />
+        <Pill
+          v-for="item in categoryStore.quickAccessCategories.data"
+          :key="item.slug"
+          :text="item.libelle"
+          :link="`/produits?categories=${item.slug}`"
+          type="light"
+        />
       </div>
     </div>
   </header>
@@ -61,9 +75,11 @@ import IconTagFill from '@/icons/IconTagFill.vue'
 import IconPersonStandingDress from '@/icons/IconPersonStandingDress.vue'
 import IconEnvelopeFill from '@/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
-import router from '@/router';
 import { randSearchPlaceholder } from '@/helpers/helpers.js'
 import { useCategoryStore } from '@/stores/category'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const authStore = useAuthStore()
 const categoryStore = useCategoryStore()
@@ -71,13 +87,20 @@ const categoryStore = useCategoryStore()
 const searchPlaceholder = ref(randSearchPlaceholder())
 const search = ref('')
 
-categoryStore.fetchQuickAccessCategories();
+categoryStore.fetchQuickAccessCategories()
 
 function triggerSearch() {
   router.push(`/recherche?search=${search.value}`)
-  search.value = ''
+  // search.value = ''
 }
 
+function handleProfil() {
+  if (authStore.authenticated) {
+    router.push('/mon-compte')
+  } else {
+    authStore.toggleModal()
+  }
+}
 </script>
 
 <style scoped>
@@ -141,7 +164,7 @@ ul.header-action-btn {
   padding: auto;
 }
 
-ul.header-action-btn>* {
+ul.header-action-btn > * {
   margin: 0 0 0 0.5rem;
 }
 
@@ -166,6 +189,7 @@ ul.header-action-btn>* {
 
 .header-action-btn-icon:hover {
   transform: scale(1.1);
+  cursor: pointer;
 }
 
 .cart-number {
@@ -202,7 +226,7 @@ ul.header-action-btn>* {
   }
 }
 
-.header-pages>* {
+.header-pages > * {
   color: var(--light);
   font-size: 1rem;
   font-weight: 600;
@@ -210,7 +234,7 @@ ul.header-action-btn>* {
   transition: all 0.3s;
 }
 
-.header-pages>*:hover {
+.header-pages > *:hover {
   transform: translateY(-3px);
 }
 

@@ -57,3 +57,19 @@ export function isValidEmail(email) {
 export function roundNb(nb, precision = 2) {
     return nb.toFixed(precision);
 }
+
+export function hello() {
+    const hour = new Date().getHours();
+    return hour >= 6 && hour < 18 ? 'Bonjour' : 'Bonsoir';
+}
+
+export function missingElementsPassword(password) {
+    let missing_element = [];
+    if (password.length <= 10) missing_element.push('10 caractères');
+    if (!password.match(/[a-z]/)) missing_element.push('1 minuscule');
+    if (!password.match(/[A-Z]/)) missing_element.push('1 majuscule');
+    if (!password.match(/[0-9]/)) missing_element.push('1 chiffre');
+    if (!password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) missing_element.push('1 caractère spécial');
+
+    return missing_element;
+}

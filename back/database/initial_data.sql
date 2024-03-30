@@ -121,10 +121,10 @@ INSERT INTO country (country_id, name) VALUES
 (2, 'Belgique'),
 (3, 'Canada');
 
-INSERT INTO customer (customer_id, first_name, last_name, email, has_validated_email, country_id, password) VALUES 
-(1, 'Alice', 'Dupont', 'alice@example.com', 1, 1, 'motdepasse123'),
-(2, 'Jean', 'Martin', 'jean@example.com', 1, 2, 'mdp123456'),
-(3, 'Sophie', 'Lefevre', 'sophie@example.com', 1, 3, 'password789');
+INSERT INTO customer (customer_id, first_name, last_name, email, has_validated_email, password) VALUES 
+(1, 'Alice', 'Dupont', 'alice@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'), -- MPD: motDeP@sseT3st
+(2, 'Jean', 'Martin', 'jean@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'), -- MPD: motDeP@sseT3st
+(3, 'Sophie', 'Lefevre', 'sophie@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'); -- MPD: motDeP@sseT3st
 
 INSERT INTO address (customer_id, first_name, last_name, address1, city, postal_code, country_id, tel) VALUES 
 (1, 'Alice', 'Dupont', '123 Rue de la Mode', 'Paris', 75001, 1, '0123456789'),
@@ -139,7 +139,8 @@ INSERT INTO card (card_id, customer_id, number, expiration_date, cvv) VALUES
 INSERT INTO status (status_id, libelle) VALUES 
 (1, 'En cours de traitement'),
 (2, 'Expédiée'),
-(3, 'Livrée');
+(3, 'Livrée'),
+(4, 'Annulée');
 
 INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, status_id) VALUES 
 (1, 1, 1, '2024-01-13 12:30:00', 89.99, 2),

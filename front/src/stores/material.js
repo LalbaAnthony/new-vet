@@ -10,6 +10,7 @@ export const useMaterialStore = defineStore('material', {
     materials: {
       loading: false,
       data: [],
+      pagination: { page: 1, per_page: 10, total: 1 },
     },
   }),
 
@@ -35,7 +36,7 @@ export const useMaterialStore = defineStore('material', {
       // Data
       this.material.data = {}
 
-      const resp = await get('material', { slug: slug, per_page: 1 });
+      const resp = await get('material', { slug: slug });
       this.material.data = resp.data[0];
 
       // Loading

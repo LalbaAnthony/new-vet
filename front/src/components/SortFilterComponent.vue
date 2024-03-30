@@ -199,7 +199,7 @@ function toggleMaterial(material) {
 
 .dropdown-button .chevron.open {
   transform: rotate(180deg);
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 .dropdown-list {

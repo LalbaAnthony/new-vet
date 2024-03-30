@@ -13,7 +13,7 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
 ***Local***
 
 * Installez et configurez XAMPP si ce n'est pas déjà fait, depuis `https://www.apachefriends.org/fr/index.html`
-* LAncez XAMPP, rendez-vous `C:/xampp/htdocs/` et créez un dossier `projects`
+* Lancez XAMPP, rendez-vous `C:/xampp/htdocs/` et créez un dossier `projects`
 * Allez `C:/xampp/htdocs/projects` et executez la commande `git git clone git@github.com:LalbaAnthony/new-vet.git`
 * Installation du front
     * Allez dans `new-vet/front` 
@@ -57,30 +57,32 @@ Il est conçu en VueJS, le style est entierement custom, écrit à la main par n
 
 ***Structure***
 
-* `front/src/assets` contient les fichiers de styles
-* `front/src/components` contient les composants réutilisables
-* `front/src/router` contient les routes de l'application
-* `front/src/stores` contient les stores de l'application, c'est à dire les variables globales, gérées par Pinia
-* `front/src/pages` contient les pages de l'application
+* `front/src/assets/` contient les fichiers de styles
+* `front/src/components/` contient les composants réutilisables
+* `front/src/router/` contient les routes de l'application
+* `front/src/stores/` contient les stores de l'application, c'est à dire les variables globales, gérées par Pinia
+* `front/src/pages/` contient les pages de l'application
 * `front/src/App.vue` est le composant principal de l'application
 * `front/src/main.js` est le point d'entrée de l'application
-* `front/public` contient les images et les fichiers statiques, pour des raison de performances, l'extension des images est en `.webp`
+* `front/public/` contient les images et les fichiers statiques, pour des raison de performances, l'extension des images est en `.webp`
 * `front/package.json` contient les dépendances du projet
-
-***Accessibilité***
-
-Des `sr-only` sont présents sur les éléments cliquables par l'utilisateur, afin de garantir une bonne accessibilité.<br>
-
-***SEO***
-
-Les balises `meta` sont présentes dans le `index.html` afin de garantir un bon référencement.<br>
-Les bonnes pratiques SEO sont respectées; la sémantique des balises `h1`, `h2`, `h3`, `h4`, `h5`, `h6` est respecté, Les images sont dotées d'un attribut `alt` afin de garantir une bonne accessibilité et un référencement optimal, ...<br>
 
 ### 📄 - BACKEND
 
 Le back (`/back`) est elle, la partie immergée, c'est la partie invisible par l'utilisateur.<br>
 C'est notamment ici que se trouve la base de données, l'interface API REST, et où se trouve le back-office.<br>
 Il est entièrement conçu en PHP natif, et utilise bootstrap pour le style du back-office.<br>
+
+***Structure***
+
+* `back/api/` contient les fichiers de l'API REST, c'est ici que sont gérées les requêtes FRONT
+* `back/assets/` contient les images et les fichiers statiques 
+* `back/bo/` contient les fichiers du back-office
+* `back/database/` contient les fichiers de la base de données: les scripts de création, les scripts d'insertion/suppression de données fictives, et les scripts de création d'utilisateurs
+* `back/helpers/` contient les fichiers d'aide, c'est ici que sont gérées les fonctions réutilisables
+* `back/logs/` contient les fichiers de logs 
+* `back/models/` contient les fichiers de modèles, c'est ici que sont gérées les requêtes SQL
+* `back/uplaods/` contient les fichiers uploadés par les administrateurs du site
 
 ***REST API***
 
@@ -91,6 +93,52 @@ Les routes sont disponibles dans le fichier `back/api/index.php`<br>
 
 ***Back-office***
 
-Un utilisateur est disponible par défaut, il s'agit de l'utilisateur `testAdmin` avec le mot de passe `pA0!7MkB73ef`.<br>
 Il est possible de créer un nouvel utilisateur en utilisant le formulaire d'inscription.<br>
 Il n'est possible de se connecter qu'une fois le compte validé par un administrateur.<br>
+
+## 📦 - Données initials
+
+Le projet est livré avec des données initiales, pour faciliter la prise en main du projet.<br>
+Ces données sont disponibles dans le fichier `back/database/initial_data.sql`<br>
+
+## 📝 - Admin (Back-office)
+
+<table>
+    <tr>
+        <th>Login</th>
+        <th>Mot de passe</th>
+    </tr>
+    <tr>
+        <td>testAdmin</td>
+        <td>pA0!7MkB73ef</td>
+    </tr>
+</table>
+
+## 📝 - Clients (Front-office)
+
+<table>
+    <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>E-mail</th>
+        <th>Mot de passe</th>
+    </tr>
+    <tr>
+        <td>Alice</td>
+        <td>Dupont</td>
+        <td>alice@example.com</td>
+        <td>motDeP@sseT3st</td>
+    </tr>
+    <tr>
+        <td>Jean</td>
+        <td>Martin</td>
+        <td>jean@example.com</td>
+        <td>motDeP@sseT3st</td>
+    </tr>
+    <tr>
+        <td>Sophie</td>
+        <td>Lefevre</td>
+        <td>sophie@example.com</td>
+        <td>motDeP@sseT3st</td>
+    </tr>
+</table>
