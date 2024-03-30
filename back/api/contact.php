@@ -17,19 +17,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') $error = "Request method not allowed"
 if (!$error) {
 
   if (!isset($POST_data['email']) || !$POST_data['email']) $error = "Missing email";
-  else $contact["email"] = htmlspecialchars(strip_tags($POST_data['email']));
+  else $contact["email"] = strip_tags($POST_data['email']);
 
   if (!isset($POST_data['subject']) || !$POST_data['subject']) $error = "Missing subject";
-  else $contact["subject"] = htmlspecialchars(strip_tags($POST_data['subject']));
+  else $contact["subject"] = strip_tags($POST_data['subject']);
 
   if (!isset($POST_data['message']) || !$POST_data['message']) $error = "Missing message";
-  else $contact["message"] = htmlspecialchars(strip_tags($POST_data['message']));
+  else $contact["message"] = strip_tags($POST_data['message']);
 }
 
 // check if customer_id is valid
 if (!$error) {
   if (isset($POST_data['customer_id']) && $POST_data['customer_id'] !== "null") {
-    $cust_id = intval(htmlspecialchars(strip_tags($POST_data['customer_id'])));
+    $cust_id = intval(strip_tags($POST_data['customer_id']));
     if (getCustomer($cust_id) === false) {
       $error = "Invalid customer_id";
     } else {
@@ -38,9 +38,12 @@ if (!$error) {
   }
 }
 
-// send contact to db
 if (!$error) {
   $error = insertContact($contact);
+}
+
+// send contact to db
+if (!$error) {
   $json['message'] = 'Demande de contact envoyée !';
   $json['status'] = 200;
   $json['error'] = null;

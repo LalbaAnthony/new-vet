@@ -93,6 +93,52 @@ Les routes sont disponibles dans le fichier `back/api/index.php`<br>
 
 ***Back-office***
 
-Un utilisateur est disponible par défaut, il s'agit de l'utilisateur `testAdmin` avec le mot de passe `pA0!7MkB73ef`.<br>
 Il est possible de créer un nouvel utilisateur en utilisant le formulaire d'inscription.<br>
 Il n'est possible de se connecter qu'une fois le compte validé par un administrateur.<br>
+
+## 📦 - Données initials
+
+Le projet est livré avec des données initiales, pour faciliter la prise en main du projet.<br>
+Ces données sont disponibles dans le fichier `back/database/initial_data.sql`<br>
+
+## 📝 - Admin (Back-office)
+
+<table>
+    <tr>
+        <th>Login</th>
+        <th>Mot de passe</th>
+    </tr>
+    <tr>
+        <td>testAdmin</td>
+        <td>pA0!7MkB73ef</td>
+    </tr>
+</table>
+
+## 📝 - Clients (Front-office)
+
+<table>
+    <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>E-mail</th>
+        <th>Mot de passe</th>
+    </tr>
+    <tr>
+        <td>Alice</td>
+        <td>Dupont</td>
+        <td>alice@example.com</td>
+        <td>motDeP@sseT3st</td>
+    </tr>
+    <tr>
+        <td>Jean</td>
+        <td>Martin</td>
+        <td>jean@example.com</td>
+        <td>motDeP@sseT3st</td>
+    </tr>
+    <tr>
+        <td>Sophie</td>
+        <td>Lefevre</td>
+        <td>sophie@example.com</td>
+        <td>motDeP@sseT3st</td>
+    </tr>
+</table>

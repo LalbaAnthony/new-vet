@@ -33,6 +33,7 @@ const props = defineProps({
   background-color: var(--light);
   color: var(--secondary);
   cursor: pointer;
+  font-family: "Ubuntu", "Roboto", sans-serif;
 }
 
 .tabs-actions > button.tab:first-child {

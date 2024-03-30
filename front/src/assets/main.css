@@ -184,7 +184,7 @@ input[type="search"] {
 input:not([type="search"]),
 textarea {
     border: none;
-    border-radius: 15px;
+    border-radius: 25px;
     border: 2px solid #ccc;
     font-size: 1rem;
     margin: 0;
@@ -379,4 +379,42 @@ label.required::after {
     flex-direction: row;
     align-items: center;
     justify-content: center
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.form-split-half {
+    display: flex;
+    gap: 1rem;
+}
+
+/* DESKTOP */
+@media (min-width: 1024px) {
+    .form-split-half {
+        flex-direction: row;
+    }
+}
+
+/* TABLET */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .form-split-half {
+        flex-direction: row;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+    .form-split-half {
+        flex-direction: column;
+    }
 }

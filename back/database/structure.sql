@@ -150,7 +150,6 @@ CREATE TABLE customer(
         customer_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         first_name VARCHAR (50) NOT NULL,
         last_name VARCHAR (50) NOT NULL,
-        country_id INT NOT NULL,
         email VARCHAR (50) NOT NULL UNIQUE,
         connection_token VARCHAR (500),
         reset_password_token VARCHAR (500),
@@ -159,8 +158,7 @@ CREATE TABLE customer(
         last_login DATETIME NOT NULL DEFAULT NOW(),
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT customer_PK PRIMARY KEY (customer_id),
-        CONSTRAINT customer_country_FK FOREIGN KEY (country_id) REFERENCES country(country_id)
+        CONSTRAINT customer_PK PRIMARY KEY (customer_id)
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
