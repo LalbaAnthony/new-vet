@@ -27,6 +27,8 @@ export const useCategoryStore = defineStore('category', {
     changePage(page) {
       this.categories.pagination.page = page
       this.fetchCategories()
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
     },
 
     async fetchCategories(givenParams = {}) {

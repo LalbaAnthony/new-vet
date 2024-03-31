@@ -24,7 +24,8 @@
           v-if="
             index === 0 ||
             (route.matched[index - 1] &&
-              route.matched[index].name !== route.matched[index - 1].name)
+              route.matched[index].name !== route.matched[index - 1].name && 
+              crumb.meta.title)
           "
         >
           <IconChevronRight class="chevron" />

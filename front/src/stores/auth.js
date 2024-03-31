@@ -58,6 +58,28 @@ export const useAuthStore = defineStore('auth',
         });
       },
 
+      async getUserInfos() {
+
+        if (!this.authenticated) {
+          return;
+        }
+
+        await get('customer/infos', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
+
+          if (resp.error) {
+            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            return;
+          }
+
+          this.user = resp.data[0]
+          this.token = resp.data[0].connection_token
+          this.authenticated = true
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return;
+        });
+      },
+
       async register(user, redirect = '/') {
 
         let missing_fields = [];

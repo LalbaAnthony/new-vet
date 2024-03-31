@@ -96,7 +96,7 @@ function triggerSearch() {
 
 function handleProfil() {
   if (authStore.authenticated) {
-    router.push('/mon-compte')
+    router.push('/mon-compte/infos')
   } else {
     authStore.toggleModal()
   }

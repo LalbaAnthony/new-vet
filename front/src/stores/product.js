@@ -33,6 +33,7 @@ export const useProductStore = defineStore('product', {
     changePage(page) {
       this.products.pagination.page = page
       this.fetchProducts()
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     },
 
     async fetchProduct(slug) {

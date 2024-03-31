@@ -14,7 +14,7 @@ $customer = array();
 if (!$email) $error = "Missing email";
 if (!$token) $error = "Missing token";
 
-// Check if email already exists
+// Get user
 if (!$error) {
     $customer = getCustomerByEmail($email);
 }

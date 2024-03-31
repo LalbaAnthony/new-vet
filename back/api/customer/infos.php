@@ -14,7 +14,7 @@ $customer = array();
 if (!$email) $error = "Missing email";
 if (!$token) $error = "Missing token";
 
-// Check if email already exists
+// Get user
 if (!$error) {
     $customer = getCustomerByEmail($email);
 }
@@ -24,9 +24,6 @@ if (!$error && !$customer) $error = "Customer not found";
 
 // Check if token is correct
 if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token";
-
-// Remove token from response
-if (!$error) unset($customer["password"]);
 
 // send contact to db
 if (!$error) {
