@@ -151,7 +151,6 @@ button.button {
     border: 2px solid var(--danger);
 }
 
-
 .button:disabled {
     background: #ccc;
     color: var(--light);
@@ -225,8 +224,7 @@ select {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
 }
 
 select {
@@ -263,11 +261,14 @@ select:focus {
     outline: 0;
 }
 
-
 .icon-offset {
     position: relative;
     top: 2px;
     right: 5px;
+}
+
+.clickable {
+    cursor: pointer;
 }
 
 .primary {
@@ -302,7 +303,7 @@ select:focus {
     position: relative;
     display: inline-block;
     background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-    -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
@@ -315,7 +316,7 @@ select:focus {
     position: relative;
     display: inline-block;
     background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-    -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
     font-weight: 600;
     cursor: pointer;
@@ -341,7 +342,7 @@ ul.fancy-list>li::before {
     position: relative;
     display: inline-block;
     background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-    -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
     font-weight: bold;
     display: inline-block;

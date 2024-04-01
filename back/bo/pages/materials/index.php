@@ -47,6 +47,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_materials'])) {
     <title>Lise des matériaux - NEW VET</title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
+    <script src="<?= APP_URL ?>bo/script/autosubmit.js"></script>
 </head>
 
 <body>
@@ -134,18 +135,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_materials'])) {
 </html>
 
 <script>
-    // Auto submit search form on change (with a delay)
-    var searchInput = document.getElementById('search');
-    var searchForm = document.querySelector('form');
-    const delay = 1000;
-    var timeout = null;
-    searchInput.addEventListener('input', function() {
-        clearTimeout(timeout);
-        timeout = setTimeout(function() {
-            searchForm.submit();
-        }, delay);
-    });
-
     // Fonction disbale suppr button
     function disableSupprButton() {
         var btn = document.getElementById('delete-materials');

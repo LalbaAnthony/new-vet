@@ -339,16 +339,16 @@ function updateProductCategories($product_slug, $categories)
 
     // Insert all categories for this product
     $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
-    try {
-        $sth = $dbh->prepare($sql);
-        foreach ($categories as $key => $value) {
+    foreach ($categories as $key => $value) {
+        try {
+            $sth = $dbh->prepare($sql);
             $sth->execute(array(":product_slug" => $product_slug, ":category_slug" => $value));
+            log_txt("Product categories inserted in back office: slug " . $product_slug);
+        } catch (PDOException $e) {
+            die("Erreur lors de la requête SQL #56: " . $e->getMessage());
         }
-        log_txt("Product categories inserted in back office: slug " . $product_slug);
-        return true;
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #56: " . $e->getMessage());
     }
+    return true;
 }
 
 function updateProductMaterials($product_slug, $materials)
@@ -373,16 +373,16 @@ function updateProductMaterials($product_slug, $materials)
 
     // Insert all materials for this product
     $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
-    try {
-        $sth = $dbh->prepare($sql);
-        foreach ($materials as $key => $value) {
+    foreach ($materials as $key => $value) {
+        try {
+            $sth = $dbh->prepare($sql);
             $sth->execute(array(":product_slug" => $product_slug, ":material_slug" => $value));
+            log_txt("Product materials inserted in back office: slug " . $product_slug);
+        } catch (PDOException $e) {
+            die("Erreur lors de la requête SQL #57: " . $e->getMessage());
         }
-        log_txt("Product materials inserted in back office: slug " . $product_slug);
-        return true;
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #57: " . $e->getMessage());
     }
+    return true;
 }
 
 function updateProductImages($product_slug, $images)
@@ -407,17 +407,16 @@ function updateProductImages($product_slug, $images)
 
     // Insert all images for this product
     $sql = "INSERT INTO product_image (product_slug, image_slug) VALUES (:product_slug, :image_slug)";
-    try {
-        $sth = $dbh->prepare($sql);
-        foreach ($images as $key => $value) {
-            dd($value);
+    foreach ($images as $key => $value) {
+        try {
+            $sth = $dbh->prepare($sql);
             $sth->execute(array(":product_slug" => $product_slug, ":image_slug" => $value));
+            log_txt("Product images inserted in back office: slug " . $product_slug);
+        } catch (PDOException $e) {
+            die("Erreur lors de la requête SQL #60: " . $e->getMessage());
         }
-        log_txt("Product images inserted in back office: slug " . $product_slug);
-        return true;
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #60: " . $e->getMessage());
     }
+    return true;
 }
 
 function deleteProduct($slug)
