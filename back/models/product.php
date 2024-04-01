@@ -11,7 +11,7 @@ function getProduct($slug)
         $sth->execute(array(":slug" => $slug));
         $product = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #50: " . $e->getMessage());
     }
 
     return $product;
@@ -148,7 +148,7 @@ function getProducts($categories = array(), $materials = array(), $search = null
 
         $products = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #51: " . $e->getMessage());
     }
 
     return $products;
@@ -269,7 +269,7 @@ function getProductsCount($categories = array(), $materials = array(), $search =
 
         $products = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #:52 " . $e->getMessage());
     }
 
     return $products[0]['count'];
@@ -293,7 +293,7 @@ function insertProduct($product)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #53: " . $e->getMessage());
     }
 }
 
@@ -313,22 +313,28 @@ function updateProduct($product)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #54: " . $e->getMessage());
     }
 }
 
 function updateProductCategories($product_slug, $categories)
 {
+    // check if given array is not full of empty strings
+    if (count(array_filter($categories)) == 0) {
+        return false;
+    }
+
     $dbh = db_connect();
 
     // Delete all categories for this product
-    $sql = "DELETE FROM product_category WHERE product_slug = :product_slug";
+    $sql = "UPDATE product_category SET is_deleted = 1 WHERE product_slug = :product_slug";
+
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         log_txt("Product categories deleted in back office: slug " . $product_slug);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #55: " . $e->getMessage());
     }
 
     // Insert all categories for this product
@@ -341,22 +347,28 @@ function updateProductCategories($product_slug, $categories)
         log_txt("Product categories inserted in back office: slug " . $product_slug);
         return true;
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #56: " . $e->getMessage());
     }
 }
 
 function updateProductMaterials($product_slug, $materials)
 {
+    // check if given array is not full of empty strings
+    if (count(array_filter($materials)) == 0) {
+        return false;
+    }
+
     $dbh = db_connect();
 
     // Delete all materials for this product
-    $sql = "DELETE FROM product_material WHERE product_slug = :product_slug";
+    $sql = "UPDATE product_material SET is_deleted = 1 WHERE product_slug = :product_slug";
+
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         log_txt("Product materials deleted in back office: slug " . $product_slug);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #58: " . $e->getMessage());
     }
 
     // Insert all materials for this product
@@ -369,22 +381,28 @@ function updateProductMaterials($product_slug, $materials)
         log_txt("Product materials inserted in back office: slug " . $product_slug);
         return true;
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #57: " . $e->getMessage());
     }
 }
 
 function updateProductImages($product_slug, $images)
 {
+    // check if given array is not full of empty strings
+    if (count(array_filter($images)) == 0) {
+        return false;
+    }
+
     $dbh = db_connect();
 
     // Delete all images for this product
-    $sql = "DELETE FROM product_image WHERE product_slug = :product_slug";
+    $sql = "UPDATE product_image SET is_deleted = 1 WHERE product_slug = :product_slug";
+
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":product_slug" => $product_slug));
         log_txt("Product images deleted in back office: slug " . $product_slug);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #59: " . $e->getMessage());
     }
 
     // Insert all images for this product
@@ -392,12 +410,13 @@ function updateProductImages($product_slug, $images)
     try {
         $sth = $dbh->prepare($sql);
         foreach ($images as $key => $value) {
+            dd($value);
             $sth->execute(array(":product_slug" => $product_slug, ":image_slug" => $value));
         }
         log_txt("Product images inserted in back office: slug " . $product_slug);
         return true;
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #60: " . $e->getMessage());
     }
 }
 
@@ -415,6 +434,6 @@ function deleteProduct($slug)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #61: " . $e->getMessage());
     }
 }

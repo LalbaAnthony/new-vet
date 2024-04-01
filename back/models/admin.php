@@ -9,7 +9,7 @@ function getAdmin($login)
         $sth->execute(array(":login" => $login));
         $admin = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #4: " . $e->getMessage());
     }
 
     return $admin;
@@ -32,7 +32,7 @@ function getAdmins()
 
         $admins = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #5: " . $e->getMessage());
     }
 
     return $admins;
@@ -47,7 +47,7 @@ function getAdminsCount()
         $sth->execute();
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #6: " . $e->getMessage());
     }
 
     return $count;
@@ -69,7 +69,7 @@ function insertAdmin($login, $password)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #7: " . $e->getMessage());
     }
 }
 
@@ -89,7 +89,7 @@ function setHasAccess($login, $has_access = false)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #8: " . $e->getMessage());
     }
 }
 
@@ -109,6 +109,6 @@ function deleteAdmin($login)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #9: " . $e->getMessage());
     }
 }

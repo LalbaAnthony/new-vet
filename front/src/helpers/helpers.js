@@ -27,11 +27,23 @@ export function ageFromDate(birthDate) {
     return age;
 }
 
-export function imageExists(url) {
-    var img = new Image();
-    img.src = url;
-    return img.height != 0;
-    // return true;
+// need to improve this function
+export async function imageExists(url) {
+    new Promise((resolve) => {
+        var img = new Image();
+        img.onload = function () {
+            resolve(true);
+        };
+        img.onerror = function () {
+            resolve(false);
+        };
+
+        img.src = url;
+    }
+    ).then(exists => {
+        if (exists) return true;
+        return false;
+    });
 }
 
 export function randSearchPlaceholder() {

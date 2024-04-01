@@ -9,7 +9,7 @@ function getStatus($status_id)
         $sth->execute(array(":status_id" => $status_id));
         $status = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #62: " . $e->getMessage());
     }
 
     return $status;
@@ -33,7 +33,7 @@ function getStatuses()
 
         $statuses = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #63: " . $e->getMessage());
     }
 
     return $statuses;
@@ -55,7 +55,7 @@ function insertStatus($status)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #64: " . $e->getMessage());
     }
 }
 
@@ -75,7 +75,7 @@ function updateStatus($status)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #65: " . $e->getMessage());
     }
 }
 
@@ -95,6 +95,6 @@ function deleteStatus($status_id)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #66: " . $e->getMessage());
     }
 }

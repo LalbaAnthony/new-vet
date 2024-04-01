@@ -155,7 +155,7 @@ CREATE TABLE customer(
         reset_password_token VARCHAR (500),
         has_validated_email BOOLEAN NOT NULL DEFAULT 0,
         password VARCHAR (150) NOT NULL,
-        last_login DATETIME NOT NULL DEFAULT NOW(),
+        last_login DATETIME,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT customer_PK PRIMARY KEY (customer_id)
@@ -265,28 +265,8 @@ CREATE TABLE admin(
         login VARCHAR (50) NOT NULL,
         password VARCHAR (150) NOT NULL,
         has_access BOOLEAN NOT NULL DEFAULT 0,
-        last_login DATETIME NOT NULL DEFAULT NOW(),
+        last_login DATETIME,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT admin_PK PRIMARY KEY (admin_id)
 ) ENGINE = InnoDB;
-
-#------------------------------------------------------------
-# Trigger: before_select_customer
-#------------------------------------------------------------
-CREATE
-OR REPLACE TRIGGER before_select_customer BEFORE
-SELECT
-        ON customer FOR EACH ROW
-SET
-        NEW.last_login = NOW();
-
-#------------------------------------------------------------
-# Trigger: before_select_admin
-#------------------------------------------------------------
-CREATE
-OR REPLACE TRIGGER before_select_admin BEFORE
-SELECT
-        ON admin FOR EACH ROW
-SET
-        NEW.last_login = NOW();
