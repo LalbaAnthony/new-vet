@@ -99,8 +99,8 @@ CREATE TABLE product_category(
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT product_category_PK PRIMARY KEY (product_category_id),
-        CONSTRAINT product_category_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
-        CONSTRAINT product_category_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug)
+        CONSTRAINT product_category_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE,
+        CONSTRAINT product_category_category_FK FOREIGN KEY (category_slug) REFERENCES category(slug) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -113,8 +113,8 @@ CREATE TABLE product_material(
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT product_material_PK PRIMARY KEY (product_material_id),
-        CONSTRAINT product_material_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
-        CONSTRAINT product_material_material_FK FOREIGN KEY (material_slug) REFERENCES material(slug)
+        CONSTRAINT product_material_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE,
+        CONSTRAINT product_material_material_FK FOREIGN KEY (material_slug) REFERENCES material(slug) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -128,8 +128,8 @@ CREATE TABLE product_image(
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT product_image_PK PRIMARY KEY (product_image_id),
-        CONSTRAINT product_image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug),
-        CONSTRAINT product_image_image_FK FOREIGN KEY (image_slug) REFERENCES image(slug)
+        CONSTRAINT product_image_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug) ON DELETE CASCADE,
+        CONSTRAINT product_image_image_FK FOREIGN KEY (image_slug) REFERENCES image(slug) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -180,7 +180,7 @@ CREATE TABLE address(
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT address_PK PRIMARY KEY (address_id),
         CONSTRAINT address_country_FK FOREIGN KEY (country_id) REFERENCES country(country_id),
-        CONSTRAINT address_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+        CONSTRAINT address_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -195,7 +195,7 @@ CREATE TABLE card(
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT card_PK PRIMARY KEY (card_id),
-        CONSTRAINT card_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+        CONSTRAINT card_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 #------------------------------------------------------------
@@ -223,7 +223,7 @@ CREATE TABLE `order`(
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT order_card_FK FOREIGN KEY (card_id) REFERENCES card(card_id),
-        CONSTRAINT order_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+        CONSTRAINT order_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE,
         CONSTRAINT order_status_FK FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE = InnoDB;
 
@@ -238,7 +238,7 @@ CREATE TABLE order_line(
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
         CONSTRAINT order_line_PK PRIMARY KEY (order_id, product_slug),
-        CONSTRAINT order_line_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id),
+        CONSTRAINT order_line_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE,
         CONSTRAINT order_line_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 ) ENGINE = InnoDB;
 

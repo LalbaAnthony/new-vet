@@ -1,7 +1,7 @@
 <template>
   <ol class="breadcrumb" v-if="route.meta.breadcrumb">
     <li>
-      <IconHouse class="icon-offset" @click="goHome" />
+      <IconHouse class="icon-offset clickable" @click="goHome" />
     </li>
     <li v-for="(crumb, index) in route.meta.breadcrumb" :key="index">
         <IconChevronRight class="chevron" />

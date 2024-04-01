@@ -41,6 +41,7 @@ session_start();
 include_once APP_PATH . 'helpers/log_txt.php';
 include_once APP_PATH . 'helpers/db_connect.php';
 include_once APP_PATH . 'helpers/dd.php';
+include_once APP_PATH . 'helpers/debug.php';
 include_once APP_PATH . 'helpers/imageOrPlaceholder.php';
 
 /**
