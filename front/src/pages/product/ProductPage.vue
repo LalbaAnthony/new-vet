@@ -1,20 +1,7 @@
 <template>
   <div>
     <h2 class="page-title">{{ productStore.product.data.name }}</h2>
-    <Breadcrumb
-      :breadcrumb="[
-        {
-          title: 'Produits',
-          path: '/produits',
-          active: false
-        },
-        {
-          title: productStore.product.data.name,
-          path: `/produit/${productStore.product.data.slug}`,
-          active: true
-        }
-      ]"
-    />
+    <Breadcrumb/>
     <Loader v-if="productStore.product.loading" />
     <div v-else class="product">
       <div class="product-images">

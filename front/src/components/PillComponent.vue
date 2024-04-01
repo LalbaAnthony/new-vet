@@ -71,7 +71,7 @@ span.pill-text.light {
   position: relative;
   display: inline-block;
   background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 </style>

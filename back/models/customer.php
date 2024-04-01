@@ -8,7 +8,7 @@ function setConnectionTokenByEmail($email, $token = null) {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":connection_token" => $token, ":email" => $email));
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #28: " . $e->getMessage());
     }
 }
 
@@ -23,7 +23,7 @@ function getCustomerByEmail($email)
         $sth->execute(array(":email" => $email));
         $customer = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #29: " . $e->getMessage());
     }
 
     return $customer;
@@ -40,7 +40,7 @@ function getCustomer($customer_id)
         $sth->execute(array(":customer_id" => $customer_id));
         $customer = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #30: " . $e->getMessage());
     }
 
     return $customer;
@@ -57,7 +57,7 @@ function getCustomers()
         $sth->execute();
         $customers = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #31: " . $e->getMessage());
     }
 
     return $customers;
@@ -71,7 +71,7 @@ function getCustomersCount() {
         $sth->execute();
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #32: " . $e->getMessage());
     }
 
     return $count;
@@ -87,7 +87,7 @@ function insertCustomer($customer)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":first_name" => $customer['first_name'], ":last_name" => $customer['last_name'], ":email" => $customer['email'], ":password" => $customer['password']));
     } catch (PDOException $e) {
-        return "Erreur lors de la requête SQL : " . $e->getMessage();
+        return "Erreur lors de la requête SQL #33: " . $e->getMessage();
     }
 }
 
@@ -101,6 +101,6 @@ function deleteCustomer($customer_id)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":customer_id" => $customer_id));
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #34: " . $e->getMessage());
     }
 }

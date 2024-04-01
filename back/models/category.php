@@ -11,7 +11,7 @@ function getCategory($slug)
         $sth->execute(array(":slug" => $slug));
         $category = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #10: " . $e->getMessage());
     }
 
     return $category;
@@ -104,7 +104,7 @@ function getCategories($search = null, $is_highlander = false, $is_quick_access 
 
         $categories = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #11: " . $e->getMessage());
     }
 
     return $categories;
@@ -182,7 +182,7 @@ function getCategoriesCount($search = null, $is_highlander = false, $is_quick_ac
 
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #12: " . $e->getMessage());
     }
 
     return $count;
@@ -200,7 +200,7 @@ function getCategoriesFromProduct($product_slug)
         $sth->execute(array(":product_slug" => $product_slug));
         $categories = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #13: " . $e->getMessage());
     }
 
     return $categories;
@@ -225,7 +225,7 @@ function insertCategory($category)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #14: " . $e->getMessage());
     }
 }
 
@@ -245,7 +245,7 @@ function updateCategory($category)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #15: " . $e->getMessage());
     }
 }
 
@@ -265,6 +265,6 @@ function deleteCategory($slug)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #16: " . $e->getMessage());
     }
 }

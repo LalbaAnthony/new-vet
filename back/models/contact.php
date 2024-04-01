@@ -11,7 +11,7 @@ function getContact($id)
         $sth->execute(array(":id" => $id));
         $contact = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #17: " . $e->getMessage());
     }
 
     return $contact;
@@ -67,7 +67,7 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
         $sth->execute();
         $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $sql);
+        die("Erreur lors de la requête SQL #18: " . $sql);
     }
 
     return $contacts;
@@ -108,7 +108,7 @@ function getContactsCount($search = null)
         $sth->execute();
         $count = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $sql);
+        die("Erreur lors de la requête SQL #19: " . $sql);
     }
 
     return $count['count'];
@@ -131,7 +131,7 @@ function insertContact($contact)
             return "Erreur lors de l'ajout de la demande de contact";
         }
     } catch (PDOException $e) {
-        return "Erreur lors de la requête SQL : " . $e->getMessage();
+        return "Erreur lors de la requête SQL #20: " . $e->getMessage();
     }
 }
 
@@ -151,6 +151,6 @@ function deleteContact($id)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #21: " . $e->getMessage());
     }
 }

@@ -9,7 +9,7 @@ function getCountry($country_id)
         $sth->execute(array(":country_id" => $country_id));
         $country = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #22: " . $e->getMessage());
     }
 
     return $country;
@@ -33,7 +33,7 @@ function getCountries()
 
         $countries = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #23: " . $e->getMessage());
     }
 
     return $countries;
@@ -47,7 +47,7 @@ function getCountryCount() {
         $sth->execute();
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #24: " . $e->getMessage());
     }
 
     return $count;
@@ -69,7 +69,7 @@ function insertCountry($country)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #25: " . $e->getMessage());
     }
 }
 
@@ -89,7 +89,7 @@ function updateCountry($country)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #26: " . $e->getMessage());
     }
 }
 
@@ -109,6 +109,6 @@ function deleteCountry($country_id)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #27: " . $e->getMessage());
     }
 }

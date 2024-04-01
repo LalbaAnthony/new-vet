@@ -11,7 +11,7 @@ function getMaterial($slug)
         $sth->execute(array(":slug" => $slug));
         $material = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #43: " . $e->getMessage());
     }
 
     return $material;
@@ -64,7 +64,7 @@ function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'or
 
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #44: " . $e->getMessage());
     }
 
     return $materials;
@@ -102,7 +102,7 @@ function getMaterialsCount($search = null)
 
         $count = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #45: " . $e->getMessage());
     }
 
     return $count['count'];
@@ -119,7 +119,7 @@ function getMaterialsFromProduct($product_slug)
         $sth->execute(array(":product_slug" => $product_slug));
         $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #46: " . $e->getMessage());
     }
 
     return $materials;
@@ -143,7 +143,7 @@ function insertMaterial($material)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #47: " . $e->getMessage());
     }
 }
 
@@ -163,7 +163,7 @@ function updateMaterial($material)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #48: " . $e->getMessage());
     }
 }
 
@@ -183,6 +183,6 @@ function deleteMaterial($slug)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #49: " . $e->getMessage());
     }
 }

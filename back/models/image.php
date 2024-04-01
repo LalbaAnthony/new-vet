@@ -9,7 +9,7 @@ function getImage($slug)
         $sth->execute(array(":slug" => $slug));
         $image = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #35: " . $e->getMessage());
     }
 
     return $image;
@@ -64,7 +64,7 @@ function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_
 
         $images = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #36: " . $e->getMessage());
     }
 
     return $images;
@@ -98,7 +98,7 @@ function getImagesCount($search = null)
 
         $count = $sth->fetchColumn();
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #37: " . $e->getMessage());
     }
 
     return $count;
@@ -117,7 +117,7 @@ function getImagesFromProduct($product_slug)
         $sth->execute(array(":product_slug" => $product_slug));
         $images = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #38: " . $e->getMessage());
     }
 
     return $images;
@@ -137,7 +137,7 @@ function getFirstImagePathFromProduct($product_slug)
         $sth->execute(array(":product_slug" => $product_slug));
         $image = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #39: " . $e->getMessage());
     }
 
     if ($image) {
@@ -157,7 +157,7 @@ function insertImage($image)
         log_txt("Image created in back office: id " . $dbh->lastInsertId());
         return $dbh->lastInsertId();
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #40: " . $e->getMessage());
     }
 }
 
@@ -175,7 +175,7 @@ function updateImage($image)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #41: " . $e->getMessage());
     }
 }
 
@@ -195,6 +195,6 @@ function deleteImage($slug)
             return false;
         }
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #42: " . $e->getMessage());
     }
 }

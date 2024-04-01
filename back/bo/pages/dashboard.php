@@ -32,7 +32,7 @@ function getSalesByDay($date_start = null, $date_end = null)
 
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #1: " . $e->getMessage());
     }
 
     return $rows;
@@ -69,7 +69,7 @@ function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = 
 
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #2: " . $e->getMessage());
     }
 
     return $rows;
@@ -103,7 +103,7 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
 
         $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL : " . $e->getMessage());
+        die("Erreur lors de la requête SQL #3: " . $e->getMessage());
     }
 
     return $rows;
