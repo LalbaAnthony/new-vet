@@ -90,16 +90,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_categories'])) {
                         <td><input id="category_<?= $category['slug'] ?>" type="checkbox" name="selected_categories[]" value="<?= $category['slug'] ?>"></td>
                         <!-- Image -->
                         <td>
-                            <?php
-                            $image = getImage($category['image_slug']);
-                            $full_img_path = isset($category['image_slug']) ? UPLOAD_PATH . $image['path'] : null;
-                            $full_img_url = isset($category['image_slug']) ? UPLOAD_URL . $image['path'] : null;
-                            ?>
-                            <?php if (file_exists($full_img_path)) : ?>
-                                <img src="<?= $full_img_url ?>" class="img-thumbnail" width="100">
-                            <?php else : ?>
-                                <img src="<?= APP_URL ?>assets/img/default-img.webp" class="img-thumbnail" width="100">
-                            <?php endif; ?>
+                            <?php $image = getImage($category['image_slug']); ?>
+                            <img src="<?= imageOrPlaceholder(isset($image['path']) ? $image['path'] : '') ?>" class="img-thumbnail" width="100">
                         </td>
                         <!-- Couleur -->
                         <td>

@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth',
       user: {},
       cart: {},
       authModal: {
-        type: 'forgotPassword',
+        type: 'login',
         show: false,
       },
     }),
