@@ -1,7 +1,7 @@
 <template>
   <div class="missing-requirements" v-if="props.password && props.password.length > 0">
     <div v-if="missings.length > 0">
-      <div v-for="requirement in missings" :key="requirement" class="missing-requirement danger">
+      <div v-for="requirement in missings" :key="requirement" class="missing-requirement txt-danger">
         <IconXCircle />
         <span>Votre mot de passe doit contenir {{ requirement }}</span>
       </div>
