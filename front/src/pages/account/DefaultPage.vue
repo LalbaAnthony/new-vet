@@ -4,7 +4,7 @@
     <Breadcrumb />
     <AccountLayout />
     {{ authStore.user }}
-    
+    <button @click="authStore.logout()" class="button danger">Se déconnecter</button>
   </div>
 </template>
 
@@ -14,5 +14,4 @@ import AccountLayout from '@/components/account/AccountLayoutComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
-
 </script>
