@@ -4,7 +4,6 @@
     <Breadcrumb />
     <AccountLayout />
     {{ authStore.user }}
-    
   </div>
 </template>
 
