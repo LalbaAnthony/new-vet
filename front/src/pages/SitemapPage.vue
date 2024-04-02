@@ -6,7 +6,7 @@
       <ul class="fancy-list">
         <li><a href="/" class="dark">Accueil</a></li>
         <li><a href="/se-connecter" class="dark">Se connecter</a></li>
-        <li><a href="/mon-compte/infos" class="dark">Mon compte</a></li>
+        <li><a href="/mon-compte" class="dark">Mon compte</a></li>
         <li><a href="/mes-commandes" class="dark">Mes commandes</a></li>
         <li><a href="/categories" class="dark">Catégories</a></li>
         <li><a href="/produits" class="dark">Produits</a></li>

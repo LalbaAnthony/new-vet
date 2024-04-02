@@ -74,25 +74,6 @@ const routes = [
         },
       },
       {
-        path: 'mes-adresses',
-        name: 'account-addresses',
-        component: () => import('../pages/account/AddressesPage.vue'),
-        meta: {
-          title: 'Mes adresses', private: true, breadcrumb: [
-            {
-              title: 'Mon compte',
-              path: '/mon-compte',
-              active: false
-            },
-            {
-              title: 'Mes adresses',
-              path: null,
-              active: true
-            }
-          ],
-        },
-      },
-      {
         path: 'mes-commandes',
         name: 'account-orders',
         children: [

@@ -179,7 +179,7 @@ img {
 }
 
 img.active {
-  border: 2px solid var(--dark);
+  border: 2px solid var(--gray);
 }
 
 /* ============= DISPLAY MAIN IMAGE STUFF ============= */

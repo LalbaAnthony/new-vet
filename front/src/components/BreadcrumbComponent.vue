@@ -32,6 +32,7 @@ function goTo(route) {
 <style scoped>
 ol.breadcrumb {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
   padding: 0.75rem 1rem;
