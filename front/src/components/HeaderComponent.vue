@@ -75,7 +75,6 @@ import IconTagFill from '@/icons/IconTagFill.vue'
 import IconPersonStandingDress from '@/icons/IconPersonStandingDress.vue'
 import IconEnvelopeFill from '@/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
-import { randSearchPlaceholder } from '@/helpers/helpers.js'
 import { useCategoryStore } from '@/stores/category'
 import { useRouter } from 'vue-router'
 
@@ -88,6 +87,22 @@ const searchPlaceholder = ref(randSearchPlaceholder())
 const search = ref('')
 
 categoryStore.fetchQuickAccessCategories()
+
+function randSearchPlaceholder() {
+    const placeholders = [
+        'Rechercher ...',
+        'Chercher un produit ...',
+        'Chercher une catégorie ...',
+        'Chercher un article ...',
+        'Rechercher un produit ...',
+        'Rechercher une catégorie ...',
+        'Rechercher un article ...',
+        'Trouver un produit ...',
+        'Trouver une catégorie ...',
+        'Trouver un article ...'
+    ];
+    return placeholders[Math.floor(Math.random() * placeholders.length)]
+}
 
 function triggerSearch() {
   router.push(`/recherche?search=${search.value}`)
