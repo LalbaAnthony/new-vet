@@ -3,12 +3,16 @@
   --primary: #F1452B;
   --secondary: #FEBD21;
   --light: #ffffff;
-  --light-gray: #eeeeee;
   --gray: #cccccc;
+  --light-gray: #eeeeee;
   --dark: #363636;
+  --light-dark: #4a4a4a;
   --success: #3caf57;
+  --light-success: #b8ffc9;
   --warning: #cf4a02;
+  --light-warning: #fabd9c;
   --danger: #cf0d0d;
+  --light-danger: #fda8a8;
 
   /* Overload vue-carousel stuff */
   --vc-clr-primary: var(--primary) !important;

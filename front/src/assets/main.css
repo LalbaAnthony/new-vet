@@ -203,6 +203,13 @@ textarea {
     resize: none;
 }
 
+input[disabled],
+textarea[disabled] {
+    background: var(--light-gray);
+    color: var(--gray);
+    cursor: not-allowed;
+}
+
 ::placeholder {
     color: var(--dark);
     opacity: 0.7;
@@ -262,6 +269,25 @@ select:focus {
     outline: 0;
 }
 
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--light);
+    background: var(--secondary);
+}
+
+.badge.success {
+    color: var(--success) !important;
+    background: var(--light-success) !important;
+}
+
+.badge.danger {
+    color: var(--danger) !important;
+    background: var(--light-danger) !important;
+}
+
 
 .icon-offset {
     position: relative;
@@ -285,28 +311,44 @@ select:focus {
     color: var(--light) !important;
 }
 
-.txt-light-gray {
-    color: var(--light-gray) !important;
-}
-
 .txt-gray {
     color: var(--gray) !important;
+}
+
+.txt-light-gray {
+    color: var(--light-gray) !important;
 }
 
 .txt-dark {
     color: var(--dark) !important;
 }
 
+.txt-light-dark {
+    color: var(--light-dark) !important;
+}
+
 .txt-success {
     color: var(--success) !important;
+}
+
+.txt-light-success {
+    color: var(--light-success) !important;
 }
 
 .txt-warning {
     color: var(--warning) !important;
 }
 
+.txt-light-warning {
+    color: var(--light-warning) !important;
+}
+
 .txt-danger {
     color: var(--danger) !important;
+}
+
+.txt-light-danger {
+    color: var(--light-danger) !important;
 }
 
 .gradient {
