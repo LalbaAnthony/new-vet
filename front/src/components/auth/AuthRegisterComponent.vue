@@ -78,6 +78,12 @@ async function handleRegister() {
       password: password.value,
       collect_data: collect_data.value
     })
+    first_name.value = ''
+    last_name.value = ''
+    email.value = ''
+    password.value = ''
+    confirmPassword.value = ''
+    collect_data.value = false
   }
 }
 </script>

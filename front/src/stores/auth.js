@@ -38,11 +38,11 @@ export const useAuthStore = defineStore('auth',
           return;
         }
 
-        await get('customer/validate_token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
+        await get('customer/validate-token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             this.logout()
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
@@ -67,7 +67,7 @@ export const useAuthStore = defineStore('auth',
         await get('customer/infos', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
@@ -93,10 +93,10 @@ export const useAuthStore = defineStore('auth',
           return;
         }
 
-        await post('customer/change_password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token}).then(resp => {
+        await post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token}).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
@@ -128,7 +128,7 @@ export const useAuthStore = defineStore('auth',
         await post('customer/register', { customer: user }).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
@@ -161,7 +161,7 @@ export const useAuthStore = defineStore('auth',
         await get('customer/login', { password, email }).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 

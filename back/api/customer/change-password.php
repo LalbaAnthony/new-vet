@@ -43,7 +43,7 @@ if (!$error) {
 
 // Check token
 if (!$error) {
-    if (!isTokenOk($email, $token)) {
+    if ($customer && !$customer['connection_token'] === $token) {
         $error = "Token invalide";
     }
 }
@@ -69,7 +69,6 @@ if (!$error) {
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Content-type: application/json; charset=utf-8");
 

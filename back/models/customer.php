@@ -9,25 +9,8 @@ function setConnectionTokenByEmail($email, $token = null)
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":connection_token" => $token, ":email" => $email));
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #28: " . $e->getMessage());
+        die("Erreur lors de la requête SQL #987: " . $e->getMessage());
     }
-}
-
-function isTokenOk($email, $token)
-{
-    if (!$token) return false;
-    $dbh = db_connect();
-    $sql = "SELECT * FROM customer WHERE email = :email";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":email" => $email, ":connection_token" => $token));
-        $customer = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #29: " . $e->getMessage());
-    }
-
-    if ($customer && $customer['connection_token'] == $token) return true;
-    return false;
 }
 
 function changePassword($id, $password)

@@ -63,6 +63,7 @@
 import { ref } from 'vue'
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import AccountLayout from '@/components/account/AccountLayoutComponent.vue'
+import PasswordStrength from '@/components/PasswordStrengthComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 import { datetimeToNiceDatetime } from '@/helpers/helpers.js'
 import { missingElementsPassword } from '@/helpers/helpers.js'
@@ -81,6 +82,7 @@ function valid() {
   if (confirmPassword.value.length < 1) return 'Veuillez entrer la confirmation de votre nouveau mot de passe'
   if (missingElementsPassword(password.value).length > 0) return `Le nouveau mot de passe doit contenir au moins: ${missingElementsPassword(password.value).join(', ')}`
   if (password.value !== confirmPassword.value) return 'Les mots de passe ne correspondent pas'
+  if (currentPassword.value === password.value) return 'Le nouveau mot de passe doit être différent de l\'ancien'
   return false
 }
 
@@ -90,9 +92,10 @@ async function changePassword() {
     notify(error, 'error')
   } else {
     authStore.changePassword(currentPassword.value, password.value)
-    // currentPassword.value = ''
-    // password.value = ''
-    // confirmPassword.value = ''
+    currentPassword.value = ''
+    password.value = ''
+    confirmPassword.value = ''
+    authStore.logout()
   }
 }
 </script>
