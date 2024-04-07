@@ -38,11 +38,11 @@ export const useAuthStore = defineStore('auth',
           return;
         }
 
-        await get('customer/validate_token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
+        await get('customer/validate-token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             this.logout()
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
@@ -67,13 +67,40 @@ export const useAuthStore = defineStore('auth',
         await get('customer/infos', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
           this.user = resp.data[0]
           this.token = resp.data[0].connection_token
           this.authenticated = true
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return;
+        });
+      },
+
+      async changePassword(oldPassword, newPassword) {
+
+        let missing_fields = [];
+        if (!oldPassword) missing_fields.push('Ancien mot de passe');
+        else oldPassword = oldPassword.trim();
+        if (!newPassword) missing_fields.push('Nouveau mot de passe');
+        else newPassword = newPassword.trim();
+
+        if (missing_fields.length > 0) {
+          notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
+          return;
+        }
+
+        await post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token}).then(resp => {
+
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return;
+          }
+
+          notify(`Votre mot de passe a été modifié avec succès !`, 'success');
         }).catch(error => {
           notify(`Une erreur est survenue: ${error}`, 'error');
           return;
@@ -101,7 +128,7 @@ export const useAuthStore = defineStore('auth',
         await post('customer/register', { customer: user }).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 
@@ -134,7 +161,7 @@ export const useAuthStore = defineStore('auth',
         await get('customer/login', { password, email }).then(resp => {
 
           if (resp.error) {
-            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            notify(resp.error, 'error');
             return;
           }
 

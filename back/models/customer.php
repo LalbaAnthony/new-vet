@@ -1,12 +1,25 @@
 <?php
 
-function setConnectionTokenByEmail($email, $token = null) {
+function setConnectionTokenByEmail($email, $token = null)
+{
     if ($token == null) $token = token_gen(32);
     $dbh = db_connect();
     $sql = "UPDATE customer SET connection_token = :connection_token WHERE email = :email";
     try {
         $sth = $dbh->prepare($sql);
         $sth->execute(array(":connection_token" => $token, ":email" => $email));
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #987: " . $e->getMessage());
+    }
+}
+
+function changePassword($id, $password)
+{
+    $dbh = db_connect();
+    $sql = "UPDATE customer SET password = :password WHERE customer_id = :customer_id";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":password" => $password, ":customer_id" => $id));
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL #28: " . $e->getMessage());
     }
@@ -63,7 +76,8 @@ function getCustomers()
     return $customers;
 }
 
-function getCustomersCount() {
+function getCustomersCount()
+{
     $dbh = db_connect();
     $sql = "SELECT COUNT(*) FROM customer WHERE is_deleted = 0";
     try {

@@ -71,6 +71,9 @@ async function sendForm() {
                   notify(resp.message, 'error');
             } else {
                   notify('Demande de contact envoyé !', 'success');
+                  email.value = '';
+                  subject.value = '';
+                  message.value = '';
                   router.push('/');
             }
       }

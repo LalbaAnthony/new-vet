@@ -39,6 +39,8 @@ async function handleLogin() {
         notify(error, 'error');
       } else {
         authStore.login(email.value, password.value)
+        email.value = ''
+        password.value = ''
       }
 }
 </script>

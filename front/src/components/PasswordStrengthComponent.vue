@@ -7,7 +7,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="missing-requirement success">
+      <div class="missing-requirement txt-success">
         <CheckCircle />
         <span>Votre mot de passe est sécurisé</span>
       </div>

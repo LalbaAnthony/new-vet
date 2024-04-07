@@ -25,7 +25,7 @@ if (!$error) {
 if (!$error && !$customer) $error = "Customer not found";
 
 // Check if password is correct
-if (!$error && !password_verify($password, $customer["password"])) $error = "Invalid password";
+if (!$error && !password_verify($password, $customer["password"])) $error = "Le mot de passe est incorrect";
 
 // Remove password from response
 if (!$error) unset($customer["password"]);

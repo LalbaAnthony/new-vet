@@ -43,6 +43,7 @@ import { ref } from 'vue'
 import { notify } from '@/helpers/notif.js'
 import PasswordStrength from '@/components/PasswordStrengthComponent.vue'
 import { isValidEmail } from '@/helpers/helpers.js'
+import { missingElementsPassword } from '@/helpers/helpers.js'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
@@ -60,6 +61,7 @@ function valid() {
   if (email.value.length < 1) return 'Veuillez entrer votre adresse e-mail'
   if (!isValidEmail(email.value)) return 'Veuillez entrer une adresse e-mail valide'
   if (password.value !== confirmPassword.value) return 'Les mots de passe ne correspondent pas'
+  if (missingElementsPassword(password.value).length > 0) return `Le mot de passe doit contenir au moins: ${missingElementsPassword(password.value).join(', ')}`
   if (!collect_data.value) return 'Veuillez accepter la collecte de données'
   return false
 }
@@ -76,6 +78,12 @@ async function handleRegister() {
       password: password.value,
       collect_data: collect_data.value
     })
+    first_name.value = ''
+    last_name.value = ''
+    email.value = ''
+    password.value = ''
+    confirmPassword.value = ''
+    collect_data.value = false
   }
 }
 </script>
