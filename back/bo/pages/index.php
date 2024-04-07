@@ -11,8 +11,8 @@ include_once "../../config.inc.php";
     <meta charset="UTF-8">
     <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="NEW VET" />
-    <title>Accueil - NEW VET</title>
+    <meta name="author" content="<?= APP_NAME ?>" />
+    <title>Accueil - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>
@@ -24,7 +24,7 @@ include_once "../../config.inc.php";
         <div class="container">
             <div class="row justify-content-center align-items-center" style="height: 80vh;">
                 <div class="col-md-4">
-                    <h2 class="text-center mb-4">Bienvenue sur le back office de NEW VET</h2>
+                    <h2 class="text-center mb-4">Bienvenue sur le back office de <?= APP_NAME ?></h2>
                     <p class="text-center">Vous pouvez gérer les produits, les clients, les images, et plein d'autres choses encore !</p>
                     <div class="d-flex justify-content-center">
                         <a href="<?= FRONT_URL ?>" class="btn btn-outline-primary">Aller sur le site</a>

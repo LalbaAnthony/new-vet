@@ -1,6 +1,6 @@
 <?php
 
-function imageOrPlaceholder($img_path, $full_placeholder_path = 'assets/img/default-img.webp')
+function image_or_placeholder($img_path, $full_placeholder_path = 'assets/img/default-img.webp')
 {
     $full_img_path = UPLOAD_PATH . $img_path;
     $full_img_url = UPLOAD_URL . $img_path;

@@ -153,6 +153,7 @@ CREATE TABLE customer(
         email VARCHAR (50) NOT NULL UNIQUE,
         connection_token VARCHAR (500),
         reset_password_token VARCHAR (500),
+        validate_email_token VARCHAR (500),
         has_validated_email BOOLEAN NOT NULL DEFAULT 0,
         password VARCHAR (150) NOT NULL,
         last_login DATETIME,

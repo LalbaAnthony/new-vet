@@ -10,7 +10,7 @@ include APP_PATH . "auth.php";
 
         <a style="text-decoration: none" class="d-flex justify-content-start" href="<?= APP_URL ?>bo/pages/index.php">
             <img src="<?= APP_URL ?>assets/logo.jpg" alt="Logo" width="40" height="40">
-            <span class="mx-2 navbar-brand">NEW VET</span>
+            <span class="mx-2 navbar-brand"><?= APP_NAME ?></span>
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
