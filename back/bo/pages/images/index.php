@@ -53,8 +53,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
     <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site de vente de vêtement pour femme." />
-    <meta name="author" content="LALBA Anthony et SIREYJOL Victor" />
-    <title>Lise des images - NEW VET</title>
+    <meta name="author" content="<?= APP_NAME ?>" />
+    <title>Lise des images - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
     <script src="<?= APP_URL ?>bo/script/autosubmit.js"></script>
@@ -83,7 +83,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
 
                 <div class="col-md-4 mb-5">
                     <div class="card mb-2">
-                        <img src="<?= imageOrPlaceholder(isset($image['path']) ? $image['path'] : '') ?>" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">
+                        <img src="<?= image_or_placeholder(isset($image['path']) ? $image['path'] : '') ?>" class="card-img-top object-fit-cover" alt="<?= $image['alt'] ?>" width="100%" height="200px">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <?= three_dots_string($image['name'], 20) ?>

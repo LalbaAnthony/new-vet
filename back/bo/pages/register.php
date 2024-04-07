@@ -44,8 +44,8 @@ if ($login && $password && $passwordConfirm) {
     <meta charset="UTF-8">
     <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="NEW VET" />
-    <title>Inscription - NEW VET</title>
+    <meta name="author" content="<?= APP_NAME ?>" />
+    <title>Inscription - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>

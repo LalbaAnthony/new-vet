@@ -21,9 +21,14 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'new-vet');
 
 /**
+ * Paramètre de l'envoi d'email
+ */
+define('EMAIL_FROM', 'new-vet@noreply.com');
+
+/**
  * Paramètre de l'application for XAMPP
  */
-define('APP_NAME', 'NewVet');
+define('APP_NAME', 'NEW VET');
 define('FRONT_URL', 'http://localhost:5173/');
 define('APP_PATH', '/xampp/htdocs/projects/new-vet/back/');
 define('APP_URL', 'http://localhost/projects/new-vet/back/');
@@ -42,7 +47,7 @@ include_once APP_PATH . 'helpers/log_txt.php';
 include_once APP_PATH . 'helpers/db_connect.php';
 include_once APP_PATH . 'helpers/dd.php';
 include_once APP_PATH . 'helpers/debug.php';
-include_once APP_PATH . 'helpers/imageOrPlaceholder.php';
+include_once APP_PATH . 'helpers/image_or_placeholder.php';
 
 /**
  * Paramétrage de la langue

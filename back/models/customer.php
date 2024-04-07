@@ -2,7 +2,7 @@
 
 function setConnectionTokenByEmail($email, $token = null)
 {
-    if ($token == null) $token = token_gen(32);
+    if ($token === null) $token = token_gen(32);
     $dbh = db_connect();
     $sql = "UPDATE customer SET connection_token = :connection_token WHERE email = :email";
     try {
@@ -10,6 +10,75 @@ function setConnectionTokenByEmail($email, $token = null)
         $sth->execute(array(":connection_token" => $token, ":email" => $email));
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL #987: " . $e->getMessage());
+    }
+}
+
+function setValidateEmailTokenByEmail($email, $token = null)
+{
+    if ($token === null) $token = token_gen(32);
+    $dbh = db_connect();
+    $sql = "UPDATE customer SET validate_email_token = :validate_email_token WHERE email = :email";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":validate_email_token" => $token, ":email" => $email));
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #997: " . $e->getMessage());
+    }
+}
+
+function setResetPasswordTokenByEmail($email, $token = null)
+{
+    if ($token === null) $token = token_gen(32);
+    $dbh = db_connect();
+    $sql = "UPDATE customer SET reset_password_token = :reset_password_token WHERE email = :email";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":reset_password_token" => $token, ":email" => $email));
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #697: " . $e->getMessage());
+    }
+}
+
+function clearTokens($id, $tokenList = null)
+{
+    $possibleTokens = array('connection_token', 'validate_email_token', 'reset_password_token');
+
+    // If no token list is provided, clear all possible tokens
+    if (!$tokenList) $tokenList = $possibleTokens;
+
+    // Check if each token is in the list
+    foreach ($tokenList as $token) {
+        if (!in_array($token, $possibleTokens)) {
+            return;
+        }
+    }
+
+    $dbh = db_connect();
+
+    $sql = "UPDATE customer SET";
+    foreach ($tokenList as $token) {
+        $sql .= " $token = NULL,";
+    }
+    $sql = substr($sql, 0, -1); // remove last comma
+    $sql .= " WHERE customer_id = :customer_id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":customer_id" => $id));
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #987: " . $e->getMessage());
+    }
+}
+
+function setValidateEmail($email, $validate = true)
+{
+    $dbh = db_connect();
+    $sql = "UPDATE customer SET has_validated_email = :has_validated_email WHERE email = :email";
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":has_validated_email" => $validate, ":email" => $email));
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #977: " . $e->getMessage());
     }
 }
 

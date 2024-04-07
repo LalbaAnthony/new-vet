@@ -80,6 +80,27 @@ export const useAuthStore = defineStore('auth',
         });
       },
 
+      async verifyEmail(email, token) {
+
+        if (!email || !token) {
+          notify('Veuillez renseigner votre email et token', 'error');
+          return;
+        }
+
+        await get('customer/verify-email', { email, token }).then(resp => {
+
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return;
+          }
+
+          notify(`Votre email a été vérifié avec succès !`, 'success');
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return;
+        });
+      },
+
       async changePassword(oldPassword, newPassword) {
 
         let missing_fields = [];
@@ -93,7 +114,7 @@ export const useAuthStore = defineStore('auth',
           return;
         }
 
-        await post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token}).then(resp => {
+        await post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
