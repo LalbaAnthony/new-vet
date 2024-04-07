@@ -20,29 +20,42 @@
     <section class="section password">
       <div class="password-grid">
         <div class="form-group">
-          <label for="password">Mot de passe actuel</label>
+          <label for="current-password" class="required">Mot de passe actuel</label>
+          <input type="password" id="current-password" v-model="currentPassword" />
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="required">Nouveau mot de passe</label>
           <input type="password" id="password" v-model="password" />
         </div>
 
         <div class="form-group">
-          <label for="current-password">Nouveau mot de passe</label>
-          <input type="password" id="current-password" v-model="currentPassword" />
+          <label for="confirm-password" class="required"
+            >Confirmez votre nouveau mot de passe</label
+          >
+          <input type="password" id="confirm-password" v-model="confirmPassword" />
         </div>
       </div>
 
+      <PasswordStrength :password="password || confirmPassword" />
+
       <div class="password-actions">
-        <button class="button">Changer le mot de passe</button>
+        <button class="button" @click="changePassword()">Changer le mot de passe</button>
       </div>
     </section>
 
     <section class="section dates">
       <span
-        ><b>Dernière connexion:</b> {{ datetimeToNiceDatetime(authStore.user.last_login) }}</span
-      >
-      <span
         ><b>Création du compte:</b> {{ datetimeToNiceDatetime(authStore.user.created_at) }}</span
       >
+      <span
+        ><b>Dernière connexion:</b> {{ datetimeToNiceDatetime(authStore.user.last_login) }}</span
+      >
     </section>
+
+    <div class="actions">
+      <button @click="authStore.logout()" class="button danger">Se déconnecter</button>
+    </div>
   </div>
 </template>
 
@@ -52,11 +65,36 @@ import Breadcrumb from '@/components/BreadcrumbComponent.vue'
 import AccountLayout from '@/components/account/AccountLayoutComponent.vue'
 import { useAuthStore } from '@/stores/auth'
 import { datetimeToNiceDatetime } from '@/helpers/helpers.js'
+import { missingElementsPassword } from '@/helpers/helpers.js'
+import { notify } from '@/helpers/notif.js'
 
 const authStore = useAuthStore()
 
-const password = ref('')
 const currentPassword = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+
+function valid() {
+  // return false; // ? uncomment this line to enable form validation
+  if (currentPassword.value.length < 1) return 'Veuillez entrer votre mot de passe actuel'
+  if (password.value.length < 1) return 'Veuillez entrer votre nouveau mot de passe'
+  if (confirmPassword.value.length < 1) return 'Veuillez entrer la confirmation de votre nouveau mot de passe'
+  if (missingElementsPassword(password.value).length > 0) return `Le nouveau mot de passe doit contenir au moins: ${missingElementsPassword(password.value).join(', ')}`
+  if (password.value !== confirmPassword.value) return 'Les mots de passe ne correspondent pas'
+  return false
+}
+
+async function changePassword() {
+  const error = valid()
+  if (error) {
+    notify(error, 'error')
+  } else {
+    authStore.changePassword(currentPassword.value, password.value)
+    // currentPassword.value = ''
+    // password.value = ''
+    // confirmPassword.value = ''
+  }
+}
 </script>
 
 <style scoped>
@@ -88,7 +126,8 @@ section.section {
 .password-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  /* max-width: px; */
 }
 
 .password-actions {
@@ -101,6 +140,14 @@ section.section {
   display: flex;
   justify-content: start;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+.actions {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
 }
 </style>

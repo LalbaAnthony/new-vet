@@ -80,6 +80,33 @@ export const useAuthStore = defineStore('auth',
         });
       },
 
+      async changePassword(oldPassword, newPassword) {
+
+        let missing_fields = [];
+        if (!oldPassword) missing_fields.push('Ancien mot de passe');
+        else oldPassword = oldPassword.trim();
+        if (!newPassword) missing_fields.push('Nouveau mot de passe');
+        else newPassword = newPassword.trim();
+
+        if (missing_fields.length > 0) {
+          notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
+          return;
+        }
+
+        await post('customer/change_password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token}).then(resp => {
+
+          if (resp.error) {
+            notify(`Une erreur est survenue: ${resp.error}`, 'error');
+            return;
+          }
+
+          notify(`Votre mot de passe a été modifié avec succès !`, 'success');
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return;
+        });
+      },
+
       async register(user, redirect = '/') {
 
         let missing_fields = [];
