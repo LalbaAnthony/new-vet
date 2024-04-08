@@ -2,6 +2,7 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . '/models/customer.php';
+include_once APP_PATH . '/helpers/token_gen.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
 

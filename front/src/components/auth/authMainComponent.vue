@@ -78,7 +78,7 @@ const allModals = ref({
     component: shallowRef(AuthForgotPassword),
   },
   resetPassword: {
-    title: 'Confirmez votre mot de passe',
+    title: 'Réinitialiser votre mot de passe',
     component: shallowRef(AuthResetPassword),
   }
 })

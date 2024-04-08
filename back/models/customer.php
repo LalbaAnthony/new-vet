@@ -13,7 +13,7 @@ function setConnectionTokenByEmail($email, $token = null)
     }
 }
 
-function setValidateEmailTokenByEmail($email, $token = null)
+function setHasValidateEmailTokenByEmail($email, $token = null)
 {
     if ($token === null) $token = token_gen(32);
     $dbh = db_connect();
@@ -26,22 +26,22 @@ function setValidateEmailTokenByEmail($email, $token = null)
     }
 }
 
-function setResetPasswordTokenByEmail($email, $token = null)
+function setResetPasswordCodeByEmail($email, $code = null)
 {
-    if ($token === null) $token = token_gen(32);
+    if ($code === null) $code = code_gen(6);
     $dbh = db_connect();
-    $sql = "UPDATE customer SET reset_password_token = :reset_password_token WHERE email = :email";
+    $sql = "UPDATE customer SET reset_password_code = :reset_password_code WHERE email = :email";
     try {
         $sth = $dbh->prepare($sql);
-        $sth->execute(array(":reset_password_token" => $token, ":email" => $email));
+        $sth->execute(array(":reset_password_code" => $code, ":email" => $email));
     } catch (PDOException $e) {
         die("Erreur lors de la requête SQL #697: " . $e->getMessage());
     }
 }
 
-function clearTokens($id, $tokenList = null)
+function clearCodesAndTokens($id, $tokenList = null)
 {
-    $possibleTokens = array('connection_token', 'validate_email_token', 'reset_password_token');
+    $possibleTokens = array('connection_token', 'validate_email_token', 'reset_password_code');
 
     // If no token list is provided, clear all possible tokens
     if (!$tokenList) $tokenList = $possibleTokens;
@@ -70,7 +70,7 @@ function clearTokens($id, $tokenList = null)
     }
 }
 
-function setValidateEmail($email, $validate = true)
+function setHasValidateEmail($email, $validate = true)
 {
     $dbh = db_connect();
     $sql = "UPDATE customer SET has_validated_email = :has_validated_email WHERE email = :email";
