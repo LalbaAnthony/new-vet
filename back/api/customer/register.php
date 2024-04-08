@@ -44,6 +44,7 @@ if (!$error) {
     $customer["password"] = password_hash($customer["password"], PASSWORD_DEFAULT);
     $error = insertCustomer($customer);
     setHasValidateEmailTokenByEmail($customer["email"]);
+    // TODO: send email with code here
 }
 
 // send contact to db

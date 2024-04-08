@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth',
     state: () => ({
       authenticated: false,
       token: null,
+      fogotPasswordEmail: null,
       user: {},
       cart: {},
       authModal: {
@@ -35,7 +36,7 @@ export const useAuthStore = defineStore('auth',
 
         if (!this.authenticated) {
           router.push('/')
-          return;
+          return false;
         }
 
         await get('customer/validate-token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
@@ -43,61 +44,119 @@ export const useAuthStore = defineStore('auth',
           if (resp.error) {
             this.logout()
             notify(resp.error, 'error');
-            return;
+            return false;
           }
 
           if (!resp.data[0].token_ok) {
             this.logout()
-            return;
+            return false;
           }
 
+          return true;
         }).catch(error => {
           this.logout()
           notify(`Une erreur est survenue: ${error}`, 'error');
-          return;
+          return false;
         });
       },
 
       async getUserInfos() {
 
         if (!this.authenticated) {
-          return;
+          return false;
         }
-
         await get('customer/infos', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
-            return;
+            return false;
           }
 
           this.user = resp.data[0]
           this.token = resp.data[0].connection_token
           this.authenticated = true
+
+          return true;
         }).catch(error => {
           notify(`Une erreur est survenue: ${error}`, 'error');
-          return;
+          return false;
         });
       },
 
       async verifyEmail(email, token) {
 
         if (!email || !token) {
-          notify('Veuillez renseigner votre email et token', 'error');
-          return;
+          notify('Veuillez renseigner votre e-mail et token', 'error');
+          return false;
         }
 
         await get('customer/verify-email', { email, token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
-            return;
+            return false;
           }
 
-          notify(`Votre email a été vérifié avec succès !`, 'success');
+          notify(`Votre e-mail a été vérifié avec succès !`, 'success');
+
+          return true;
         }).catch(error => {
           notify(`Une erreur est survenue: ${error}`, 'error');
-          return;
+          return false;
+        });
+      },
+
+      async forgotPassword(email) {
+
+        if (!email) {
+          notify('Veuillez renseigner votre email', 'error');
+          return false;
+        }
+
+        await get('customer/forgot-password', { email }).then(resp => {
+
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return false;
+          }
+
+          notify(`Un code de réinitialisation vous a été envoyé par e-mail !`, 'success');
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return false;
+        });
+      },
+
+      async resetPassword(code, newPassword, email = this.fogotPasswordEmail) {
+
+        let missing_fields = [];
+        if (!email) missing_fields.push('Email');
+        else email = email.trim();
+        if (!code) missing_fields.push('code');
+        if (!newPassword) missing_fields.push('Nouveau mot de passe');
+        else newPassword = newPassword.trim();
+
+        if (missing_fields.length > 0) {
+          notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
+          return false;
+        }
+
+        post('customer/reset-password', { email, code, new_password: newPassword }).then(resp => {
+
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return false;
+          }
+
+          notify(`Votre mot de passe a été réinitialisé avec succès !`, 'success');
+          this.setModal('login');
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return false;
         });
       },
 
@@ -111,20 +170,22 @@ export const useAuthStore = defineStore('auth',
 
         if (missing_fields.length > 0) {
           notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
-          return;
+          return false;
         }
 
         await post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
-            return;
+            return false;
           }
 
           notify(`Votre mot de passe a été modifié avec succès !`, 'success');
+
+          return true;
         }).catch(error => {
           notify(`Une erreur est survenue: ${error}`, 'error');
-          return;
+          return false;
         });
       },
 
@@ -143,14 +204,14 @@ export const useAuthStore = defineStore('auth',
 
         if (missing_fields.length > 0) {
           notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
-          return;
+          return false;
         }
 
         await post('customer/register', { customer: user }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
-            return;
+            return false;
           }
 
           this.authenticated = false
@@ -158,10 +219,12 @@ export const useAuthStore = defineStore('auth',
           this.authModal.type = 'login'
 
           notify(`Vous vous êtes inscrit avec succès !`, 'success');
+
+          return true;
         }).catch(error => {
           this.authenticated = false
           notify(`Une erreur est survenue: ${error}`, 'error');
-          return;
+          return false;
         });
 
         if (redirect) {
@@ -173,7 +236,7 @@ export const useAuthStore = defineStore('auth',
 
         if (!email || !password) {
           notify('Veuillez renseigner votre email et mot de passe', 'error');
-          return;
+          return false;
         }
 
         if (email) email = email.trim();
@@ -183,7 +246,7 @@ export const useAuthStore = defineStore('auth',
 
           if (resp.error) {
             notify(resp.error, 'error');
-            return;
+            return false;
           }
 
           this.user = resp.data[0]
@@ -191,10 +254,12 @@ export const useAuthStore = defineStore('auth',
           this.authenticated = true
           this.authModal.show = false
           notify(`${hello()} ! Vous êtes maintenant connecté`, 'success');
+
+          return true;
         }).catch(error => {
           this.authenticated = false
           notify(`Une erreur est survenue: ${error}`, 'error');
-          return;
+          return false;
         });
 
         if (redirect) {

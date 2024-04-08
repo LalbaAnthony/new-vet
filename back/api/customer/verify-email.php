@@ -21,7 +21,7 @@ if (!$error) {
 }
 
 // Check if email exists
-if (!$error && !$customer) $error = "Customer not found";
+if (!$error && !$customer) $error = "Aucun utilisateur trouvé";
 
 // Check if token is correct
 if (!$error && $token !== $customer["validate_email_token"]) $error = "Le token du lien est invalide";

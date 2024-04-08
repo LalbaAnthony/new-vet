@@ -27,6 +27,12 @@
           @click="authStore.setModal('login')"
           >Retour</span
         >
+        <span
+          v-if="authStore.authModal.type === 'resetPassword'"
+          class="local-link"
+          @click="authStore.setModal('forgotPassword')"
+          >Retour</span
+        >
       </div>
 
       <TabsActions
