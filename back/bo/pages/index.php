@@ -27,7 +27,7 @@ include_once "../../config.inc.php";
                     <h2 class="text-center mb-4">Bienvenue sur le back office de <?= APP_NAME ?></h2>
                     <p class="text-center">Vous pouvez gérer les produits, les clients, les images, et plein d'autres choses encore !</p>
                     <div class="d-flex justify-content-center">
-                        <a href="<?= FRONT_URL ?>" class="btn btn-outline-primary">Aller sur le site</a>
+                        <a href="<?= FRONT_URL ?>" target="_blank" class="btn btn-outline-primary">Aller sur le site</a>
                     </div>
                 </div>
             </div>

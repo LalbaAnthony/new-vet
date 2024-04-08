@@ -2,6 +2,7 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . '/models/customer.php';
+include_once APP_PATH . '/helpers/password_strength.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
 
@@ -43,8 +44,22 @@ if (!$error) {
 
 // Check token
 if (!$error) {
-    if ($customer && !$customer['connection_token'] === $token) {
+    if ($customer && $customer['connection_token'] !== $token) {
         $error = "Token invalide";
+    }
+}
+
+// check if new password has changed
+if (!$error) {
+    if (password_verify($new_password, $customer['password'])) {
+        $error = "Le nouveau mot de passe doit être différent de l'ancien";
+    }
+}
+
+// check if new password is valid
+if (!$error) {
+    if (password_strength($new_password) < 4) {
+        $error = "Le mot de passe est trop faible";
     }
 }
 

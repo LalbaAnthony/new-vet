@@ -2,6 +2,7 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . '/models/customer.php';
+include_once APP_PATH . '/helpers/token_gen.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
 
@@ -42,7 +43,8 @@ if (!$error) {
 if (!$error) {
     $customer["password"] = password_hash($customer["password"], PASSWORD_DEFAULT);
     $error = insertCustomer($customer);
-    setValidateEmailTokenByEmail($customer["email"]);
+    setHasValidateEmailTokenByEmail($customer["email"]);
+    // TODO: send email with code here
 }
 
 // send contact to db

@@ -27,6 +27,12 @@
           @click="authStore.setModal('login')"
           >Retour</span
         >
+        <span
+          v-if="authStore.authModal.type === 'resetPassword'"
+          class="local-link"
+          @click="authStore.setModal('forgotPassword')"
+          >Retour</span
+        >
       </div>
 
       <TabsActions
@@ -78,7 +84,7 @@ const allModals = ref({
     component: shallowRef(AuthForgotPassword),
   },
   resetPassword: {
-    title: 'Confirmez votre mot de passe',
+    title: 'Réinitialiser votre mot de passe',
     component: shallowRef(AuthResetPassword),
   }
 })

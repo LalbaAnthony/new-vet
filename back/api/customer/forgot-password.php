@@ -2,9 +2,9 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . '/models/customer.php';
+include_once APP_PATH . '/helpers/code_gen.php';
 
 $email = isset($_GET['email']) ? $_GET['email'] : '';
-$token = isset($_GET['token']) ? $_GET['token'] : '';
 
 $error = null;
 $json = array();
@@ -12,7 +12,6 @@ $customer = array();
 
 // check if param is set
 if (!$email) $error = "Missing email";
-if (!$token) $error = "Missing token";
 
 // Get user
 if (!$error) {
@@ -22,14 +21,15 @@ if (!$error) {
 // Check if email exists
 if (!$error && !$customer) $error = "Aucun utilisateur trouvé";
 
-// Check if token is correct
-if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token";
+if (!$error) {
+    setResetPasswordCodeByEmail($email);
+    // TODO: send email with code here
+}
 
 // send contact to db
 if (!$error) {
     $json['status'] = 200;
     $json['error'] = null;
-    $json['data'] = $customer ? array(array("token_ok" => true)) : null;
 } else {
     $json['status'] = 400;
     $json['error'] = $error;

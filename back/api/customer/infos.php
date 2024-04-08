@@ -2,6 +2,7 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . '/models/customer.php';
+include_once APP_PATH . '/helpers/token_gen.php';
 
 $email = isset($_GET['email']) ? $_GET['email'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -20,7 +21,7 @@ if (!$error) {
 }
 
 // Check if email exists
-if (!$error && !$customer) $error = "Customer not found";
+if (!$error && !$customer) $error = "Aucun utilisateur trouvé";
 
 // Check if token is correct
 if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token";

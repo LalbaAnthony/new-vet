@@ -22,7 +22,7 @@ if (!$error) {
 }
 
 // Check if email exists
-if (!$error && !$customer) $error = "Customer not found";
+if (!$error && !$customer) $error = "Aucun utilisateur trouvé";
 
 // Check if password is correct
 if (!$error && !password_verify($password, $customer["password"])) $error = "Le mot de passe est incorrect";
