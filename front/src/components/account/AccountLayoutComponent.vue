@@ -1,11 +1,11 @@
 <template>
   <ul class="tabs">
-    <li v-for="tab in tabs" :key="tab.name" :class="[tab.name === route.name ? 'active' : '']">
-      <router-link :to="tab.path">
+    <router-link v-for="tab in tabs" :key="tab.name" :to="tab.path">
+      <li :class="[tab.name === route.name ? 'active' : '']">
         <component :is="tab.icon" class="icon-offset" />
         <span>{{ tab.title }}</span>
-      </router-link>
-    </li>
+      </li>
+    </router-link>
   </ul>
 </template>
 
@@ -22,29 +22,26 @@ import IconCreditCard from '@/icons/IconCreditCard.vue'
 const route = useRoute()
 
 const tabs = ref([
-  { name: 'account-default', title: 'Mon compte', icon: shallowRef(IconPerson), path: '/mon-compte', active: false },
-  { name: 'account-infos', title: 'Mes informations', icon: shallowRef(IconInfo), path: '/mon-compte/infos', active: true },
-  { name: 'account-security', title: 'Sécurité', icon: shallowRef(IconKey), path: '/mon-compte/securite', active: false },
+  { name: 'account-default', title: 'Mon compte', icon: shallowRef(IconPerson), path: '/mon-compte' },
+  { name: 'account-infos', title: 'Mes informations', icon: shallowRef(IconInfo), path: '/mon-compte/infos' },
+  { name: 'account-security', title: 'Sécurité', icon: shallowRef(IconKey), path: '/mon-compte/securite' },
   {
     name: 'account-orders-list',
     title: 'Mes commandes',
     icon: shallowRef(IconBox2),
     path: '/mon-compte/mes-commandes',
-    active: false
   },
   {
     name: 'account-addresses',
     title: 'Mes adresses',
     icon: shallowRef(IconCardHeading),
     path: '/mon-compte/mes-adresses',
-    active: false
   },
   {
     name: 'account-payments',
     title: 'Mes moyens de paiement',
     icon: shallowRef(IconCreditCard),
     path: '/mon-compte/mes-moyens-de-paiement',
-    active: false
   }
 ])
 </script>
@@ -82,6 +79,7 @@ ul.tabs li.active {
 ul.tabs li * {
   color: var(--dark);
 }
+
 ul.tabs li.active * {
   color: var(--light);
 }

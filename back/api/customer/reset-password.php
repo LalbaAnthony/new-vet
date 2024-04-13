@@ -62,6 +62,7 @@ if (!$error) {
 // change password
 if (!$error) {
     changePassword($customer['customer_id'], password_hash($new_password, PASSWORD_DEFAULT));
+    clearCodesAndTokens($customer['customer_id'], array('reset_password_code'));
 }
 
 // send contact to db

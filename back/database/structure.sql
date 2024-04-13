@@ -191,7 +191,7 @@ CREATE TABLE card(
         card_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         customer_id INT NOT NULL,
         number INT (16) NOT NULL,
-        expiration_date DATE NOT NULL,
+        expiration_date VARCHAR (10) NOT NULL,
         cvv INT (3) NOT NULL,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
