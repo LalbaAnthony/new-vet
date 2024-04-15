@@ -1,7 +1,7 @@
 <?php
 
 include_once "../../config.inc.php";
-include_once APP_PATH . "controllers/admin.php";
+include_once APP_PATH . "models/admin.php";
 
 $login = isset($_POST['login']) ? trim($_POST['login']) : '';
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';

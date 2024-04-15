@@ -2,7 +2,7 @@
 <?php
 
 include_once "../config.inc.php";
-include_once APP_PATH . '/controllers/material.php';
+include_once APP_PATH . '/models/material.php';
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'libelle'));

@@ -1,10 +1,10 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/controllers/product.php";
-include_once APP_PATH . "/controllers/category.php";
-include_once APP_PATH . "/controllers/material.php";
-include_once APP_PATH . "/controllers/image.php";
+include_once APP_PATH . "/models/product.php";
+include_once APP_PATH . "/models/category.php";
+include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "/models/image.php";
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
