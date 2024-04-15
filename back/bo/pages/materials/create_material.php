@@ -2,7 +2,7 @@
 
 include_once "../../../config.inc.php";
 include_once APP_PATH . "/helpers/slugify.php";
-include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "/controllers/material.php";
 
 // Modification dans la base
 if (isset($_POST['submit'])) {

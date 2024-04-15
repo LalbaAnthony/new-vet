@@ -1,7 +1,7 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/image.php";
+include_once APP_PATH . "/controllers/image.php";
 
 $images = getImages();
 

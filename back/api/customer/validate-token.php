@@ -1,7 +1,7 @@
 <?php
 
 include_once "../../config.inc.php";
-include_once APP_PATH . '/models/customer.php';
+include_once APP_PATH . '/controllers/customer.php';
 
 $email = isset($_GET['email']) ? $_GET['email'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
