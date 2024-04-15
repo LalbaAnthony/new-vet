@@ -9,8 +9,7 @@ include_once APP_PATH . "helpers/diff_days.php";
 
 function getSalesByDay($date_start = null, $date_end = null)
 {
-    $dbh = db_connect();
-
+    
     $sql = "SELECT DATE(order_date) AS day,
     COUNT(*) AS nbSales
     FROM `order`";
@@ -22,26 +21,18 @@ function getSalesByDay($date_start = null, $date_end = null)
 
     $sql .= " GROUP BY day ORDER BY day ASC";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
+    if ($date_start) $params[':date_start'] = $date_start;
+    if ($date_end) $params[':date_end'] = $date_end;
 
-        if ($date_start)  $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
-        if ($date_end)   $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
+    $result = Database::queryAll($sql, $params);
 
-        $sth->execute();
-
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #1: " . $e->getMessage());
-    }
-
-    return $rows;
+    return $result['data'];
 }
 
 function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = null)
 {
-    $dbh = db_connect();
-
+    
     $sql = "SELECT c.slug AS category_slug, c.libelle AS category_libelle, DATE(order_date) AS day, AVG(p.price) AS avg_cart
     FROM category c
     LEFT JOIN product_category pc ON c.slug = pc.category_slug
@@ -58,27 +49,19 @@ function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = 
 
     $sql .= " GROUP BY c.slug ORDER BY c.sort_order;";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
+    if ($category_slug) $params[':category_slug'] = $category_slug;
+    if ($date_start) $params[':date_start'] = $date_start;
+    if ($date_end) $params[':date_end'] = $date_end;
 
-        if ($category_slug) $sth->bindParam(':category_slug', $category_slug, PDO::PARAM_STR);
-        if ($date_start) $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
-        if ($date_end) $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
-
-        $sth->execute();
-
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #2: " . $e->getMessage());
-    }
-
-    return $rows;
+    $result = Database::queryAll($sql, $params);
+    
+    return $result['data'];
 }
 
 function getOrderCountByCategories($date_start = null, $date_end = null)
 {
-    $dbh = db_connect();
-
+    
     $sql = "SELECT c.slug AS category_slug, c.libelle AS category_name, COUNT(op.order_id) AS order_nb, c.color AS color
     FROM category c 
     LEFT JOIN product_category pc ON c.slug = pc.category_slug
@@ -93,20 +76,13 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
 
     $sql .= " GROUP BY c.slug ORDER BY c.sort_order;";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
+    if ($date_start) $params[':date_start'] = $date_start;
+    if ($date_end) $params[':date_end'] = $date_end;
 
-        if ($date_start)  $sth->bindParam(':date_start', $date_start, PDO::PARAM_STR);
-        if ($date_end)   $sth->bindParam(':date_end', $date_end, PDO::PARAM_STR);
+    $result = Database::queryAll($sql, $params);
 
-        $sth->execute();
-
-        $rows = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #3: " . $e->getMessage());
-    }
-
-    return $rows;
+    return $result['data'];
 }
 
 $error = null;
@@ -190,7 +166,7 @@ if (!$error && $date_start && $date_end) {
 
         // Write CSS style for order-count-by-cats-piechart
         echo "<style>
-    #order-count-by-cats {
+        #order-count-by-cats {
         background-image: conic-gradient(";
 
         $degDejaConstruit = 0;

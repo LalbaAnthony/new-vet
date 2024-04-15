@@ -4,24 +4,15 @@ include_once APP_PATH . '/helpers/slugify.php';
 
 function getOrder($order_id)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM `order` WHERE order_id = :order_id;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":order_id" => $order_id));
-        $order = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #534: " . $e->getMessage());
-    }
 
-    return $order;
+    $result = Database::queryOne($sql, array(":order_id" => $order_id));
+
+    return $result['data'];
 }
 
 function getOrders($date_start = null, $date_end = null, $search = null, $customer_id = null, $sort =  array(array('order' => 'DESC', 'order_by' => 'order_date')), $offset = null, $per_page = 10)
 {
-
-    $dbh = db_connect();
-
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
     $sql = "SELECT `order`.* FROM `order`
     LEFT JOIN status ON status.status_id = `order`.status_id
@@ -75,31 +66,24 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
+    
+    $params = array();
 
-    try {
-        $sth = $dbh->prepare($sql);
+    // Bind values
+    if ($date_start) $params[":date_start"] = $date_start;
+    if ($date_end) $params[":date_end"] = $date_end;
+    if ($customer_id) $params[":customer_id"] = $customer_id;
+    if ($search) $params[":search"] = "%$search%";
+    if ($per_page) $params[":per_page"] = $per_page;
+    if ($offset) $params[":offset"] = $offset;
 
-        // Bind values
-        if ($date_start) $sth->bindValue(":date_start", $date_start);
-        if ($date_end) $sth->bindValue(":date_end", $date_end);
-        if ($customer_id) $sth->bindValue(":customer_id", $customer_id);
-        if ($search) $sth->bindValue(":search", "%$search%");
-        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
-        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
+    $result = Database::queryAll($sql, $params);
 
-        $sth->execute();
-
-        $orders = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #901: " . $e->getMessage());
-    }
-
-    return $orders;
+    return $result['data'];
 }
 
 function getOrdersCount($date_start = null, $date_end = null, $search = null, $customer_id = null)
 {
-    $dbh = db_connect();
 
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
     $sql = "SELECT COUNT(*) as count FROM `order`
@@ -142,47 +126,38 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
     )";
     }
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind values
-        if ($date_start) $sth->bindValue(":date_start", $date_start);
-        if ($date_end) $sth->bindValue(":date_end", $date_end);
-        if ($customer_id) $sth->bindValue(":customer_id", $customer_id);
-        if ($search) $sth->bindValue(":search", "%$search%");
-        $sth->execute();
+    // Bind values
+    if ($date_start) $params[":date_start"] = $date_start;
+    if ($date_end) $params[":date_end"] = $date_end;
+    if ($customer_id) $params[":customer_id"] = $customer_id;
+    if ($search) $params[":search"] = "%$search%";
 
-        $count = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #991: " . $e->getMessage());
-    }
+    $result = Database::queryOne($sql, $params);
 
-    return $count['count'];
+    return $result['data']['count'];
 }
 
 function getOrderLines($order_id)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM order_line WHERE order_id = :order_id AND is_deleted = 0;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":order_id" => $order_id));
-        $order_lines = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #504: " . $e->getMessage());
-    }
+    
+    $result = Database::queryAll($sql, array(":order_id" => $order_id));
 
-    return $order_lines;
+    return $result['data'];
 }
 
 function deleteOrder($order_id)
 {
-    $dbh = db_connect();
     $sql = "UPDATE `order` SET is_deleted = 1 WHERE order_id = :order_id;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":order_id" => $order_id));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #351: " . $e->getMessage());
+
+    $result = Database::queryUpdate($sql, array(":order_id" => $order_id));
+
+    if ($result['success']) {
+        log_txt("Order deleted in back office: order_id " . $order_id);
+        return true;
+    } else {
+        return false;
     }
 }

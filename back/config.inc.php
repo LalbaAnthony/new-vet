@@ -29,7 +29,7 @@ define('EMAIL_FROM', 'new-vet@noreply.com');
  * Paramètre de l'application
  */
 define('APP_NAME', 'NEW VET');
-define('APP_DEBUG', false);
+define('APP_DEBUG', true); // enable for development, disable for production
 
 /**
  * Paramètre de l'application for, here for a XAMPP / LOCALHOST environment

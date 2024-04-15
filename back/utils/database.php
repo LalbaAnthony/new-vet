@@ -21,8 +21,22 @@ class Database
                 self::$connection = new PDO("mysql:host=" . self::$dbHost . ";dbname=" . self::$dbName, self::$dbUser, self::$dbPass);
                 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die("Erreur lors de la connexion à la base de données: " . $e->getMessage());
+                if (APP_DEBUG) die("Erreur lors de la connexion à la base de données: " . $e->getMessage());
             }
+        }
+    }
+
+    private static function handleError($query, $params, $error)
+    {
+        if (APP_DEBUG) {
+            echo "<h1>Erreur lors de la requête SQL</h1>";
+            echo '<h4 style="color: red;">Error: </h4>';
+            echo $error;
+            echo '<h4 style="color: blue;">Query: </h4>';
+            echo $query;
+            echo '<h4 style="color: green;">Params: </h4>';
+            dd($params);
+            die();
         }
     }
 
@@ -30,15 +44,37 @@ class Database
     {
         self::connect();
 
-        $success = false;
+        $success = true;
         $error = null;
 
         try {
             $statement = self::$connection->prepare($query);
+
+            foreach ($params as $key => $value) {
+                switch (gettype($value)) {
+                    case 'integer':
+                        $statement->bindValue($key, $value, PDO::PARAM_INT);
+                        break;
+                    case 'boolean':
+                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                        break;
+                    case 'string':
+                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                        break;
+                    default:
+                        $statement->bindValue($key, $value);
+                        break;
+                }
+            }
+
             $success = $statement->execute($params);
         } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
+            $success = false;
             $error = $e->getMessage();
+            self::handleError($query, $params, $error);
         }
 
         return array(
@@ -47,23 +83,44 @@ class Database
         );
     }
 
-    public static function queryMultiple(string $query, array $params = array())
+    public static function queryAll(string $query, array $params = array())
     {
         self::connect();
 
         $data = array();
-        $success = false;
+        $success = true;
         $error = null;
 
         try {
             $statement = self::$connection->prepare($query);
-            $statement->execute($params);
+
+            foreach ($params as $key => $value) {
+                switch (gettype($value)) {
+                    case 'integer':
+                        $statement->bindValue($key, $value, PDO::PARAM_INT);
+                        break;
+                    case 'boolean':
+                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                        break;
+                    case 'string':
+                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                        break;
+                    default:
+                        $statement->bindValue($key, $value);
+                        break;
+                }
+            }
+
+            $statement->execute();
 
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-            $success = true;
         } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
+            $success = false;
             $error = $e->getMessage();
+            self::handleError($query, $params, $error);
         }
 
         return array(
@@ -73,54 +130,49 @@ class Database
         );
     }
 
-    public static function querySingle(string $query, array $params = array())
+    public static function queryOne(string $query, array $params = array())
     {
         self::connect();
 
         $data = array();
-        $success = false;
+        $success = true;
         $error = null;
 
         try {
             $statement = self::$connection->prepare($query);
-            $statement->execute($params);
+
+            foreach ($params as $key => $value) {
+                switch (gettype($value)) {
+                    case 'integer':
+                        $statement->bindValue($key, $value, PDO::PARAM_INT);
+                        break;
+                    case 'boolean':
+                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                        break;
+                    case 'string':
+                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                        break;
+                    default:
+                        $statement->bindValue($key, $value);
+                        break;
+                }
+            }
+
+            $statement->execute();
 
             $data = $statement->fetch(PDO::FETCH_ASSOC);
-            $success = true;
         } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
+            $success = false;
             $error = $e->getMessage();
+            self::handleError($query, $params, $error);
         }
 
         return array(
             'success' => $success,
             'data' => $data,
-            'error' => $error
-        );
-    }
-
-    public static function queryCount(string $query, array $params = array())
-    {
-        self::connect();
-
-        $count = 0;
-        $success = false;
-        $error = null;
-
-        try {
-            $statement = self::$connection->prepare($query);
-            $statement->execute($params);
-
-            $count = $statement->fetchColumn();
-            $success = true;
-        } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
-            $error = $e->getMessage();
-        }
-
-        return array(
-            'success' => $success,
-            'count' => $count,
             'error' => $error
         );
     }
@@ -129,23 +181,42 @@ class Database
     {
         self::connect();
 
-        $id = null;
-        $success = false;
+        $success = true;
         $error = null;
 
         try {
             $statement = self::$connection->prepare($query);
-            $success = $statement->execute($params);
 
-            $id = self::$connection->lastInsertId();
+            foreach ($params as $key => $value) {
+                switch (gettype($value)) {
+                    case 'integer':
+                        $statement->bindValue($key, $value, PDO::PARAM_INT);
+                        break;
+                    case 'boolean':
+                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                        break;
+                    case 'string':
+                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                        break;
+                    default:
+                        $statement->bindValue($key, $value);
+                        break;
+                }
+            }
+
+            $success = $statement->execute($params);
         } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
+            $success = false;
             $error = $e->getMessage();
+            self::handleError($query, $params, $error);
         }
 
         return array(
             'success' => $success,
-            'id' => $id,
+            'lastInsertId' => self::$connection->lastInsertId(),
             'error' => $error
         );
     }
@@ -154,15 +225,37 @@ class Database
     {
         self::connect();
 
-        $success = false;
+        $success = true;
         $error = null;
 
         try {
             $statement = self::$connection->prepare($query);
+
+            foreach ($params as $key => $value) {
+                switch (gettype($value)) {
+                    case 'integer':
+                        $statement->bindValue($key, $value, PDO::PARAM_INT);
+                        break;
+                    case 'boolean':
+                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                        break;
+                    case 'string':
+                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                        break;
+                    default:
+                        $statement->bindValue($key, $value);
+                        break;
+                }
+            }
+
             $success = $statement->execute($params);
         } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
+            $success = false;
             $error = $e->getMessage();
+            self::handleError($query, $params, $error);
         }
 
         return array(
@@ -175,15 +268,37 @@ class Database
     {
         self::connect();
 
-        $success = false;
+        $success = true;
         $error = null;
 
         try {
             $statement = self::$connection->prepare($query);
+
+            foreach ($params as $key => $value) {
+                switch (gettype($value)) {
+                    case 'integer':
+                        $statement->bindValue($key, $value, PDO::PARAM_INT);
+                        break;
+                    case 'boolean':
+                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                        break;
+                    case 'NULL':
+                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                        break;
+                    case 'string':
+                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                        break;
+                    default:
+                        $statement->bindValue($key, $value);
+                        break;
+                }
+            }
+
             $success = $statement->execute($params);
         } catch (PDOException $e) {
-            if (APP_DEBUG) die($error);
+            $success = false;
             $error = $e->getMessage();
+            self::handleError($query, $params, $error);
         }
 
         return array(

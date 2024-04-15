@@ -4,22 +4,15 @@ include_once APP_PATH . '/helpers/slugify.php';
 
 function getMaterial($slug)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM material WHERE slug = :slug;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $slug));
-        $material = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #43: " . $e->getMessage());
-    }
 
-    return $material;
+    $result = Database::queryOne($sql, array(":slug" => $slug));
+
+    return $result['data'];
 }
 
 function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'libelle')), $offset = null, $per_page = 10)
 {
-    $dbh = db_connect();
 
     // Select all materials
     $sql = "SELECT * FROM material";
@@ -52,27 +45,20 @@ function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'or
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind values
-        if ($search) $sth->bindValue(":search", "%$search%");
-        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
-        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
+    // Bind values
+    if ($search) $params[":search"] = "%$search%";
+    if ($per_page) $params[":per_page"] = $per_page;
+    if ($offset) $params[":offset"] = $offset;
 
-        $sth->execute();
+    $result = Database::queryAll($sql, $params);
 
-        $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #44: " . $e->getMessage());
-    }
-
-    return $materials;
+    return $result['data'];
 }
 
 function getMaterialsCount($search = null)
 {
-    $dbh = db_connect();
 
     // Select all materials
     $sql = "SELECT COUNT(*) as count FROM material";
@@ -92,97 +78,91 @@ function getMaterialsCount($search = null)
         )";
     }
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind values
-        if ($search) $sth->bindValue(":search", "%$search%");
+    // Bind values
+    if ($search) $params[":search"] = "%$search%";
 
-        $sth->execute();
+    $result = Database::queryOne($sql, $params);
 
-        $count = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #45: " . $e->getMessage());
-    }
-
-    return $count['count'];
+    return $result['data']['count'];
 }
 
 function getMaterialsFromProduct($product_slug)
 {
-    $dbh = db_connect();
     $sql = "SELECT material.* FROM product, product_material, material 
     WHERE product.slug = :product_slug AND material.is_deleted = 0
     AND product_material.material_slug = material.slug AND product_material.product_slug = product.slug;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $product_slug));
-        $materials = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #46: " . $e->getMessage());
-    }
 
-    return $materials;
+    $result = Database::queryAll($sql, array(":product_slug" => $product_slug));
+
+    return $result['data'];
 }
 
 function insertMaterial($material)
 {
-    $dbh = db_connect();
 
     $sql = "INSERT INTO material (libelle, slug, color) VALUES (:libelle, :slug, :color)";
 
     if (!$material['slug']) $material['slug'] = slugify($material['libelle']);
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']));
-        if ($sth->rowCount() > 0) {
-            log_txt("Material registered in back office: slug " . $material['slug']);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #47: " . $e->getMessage());
+    $params = array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']);
+
+    $reslut = Database::queryInsert($sql, $params);
+
+    if ($reslut['lastInsertId']) {
+        log_txt("Address inserted in back office: address_id " . $reslut);
+        return true;
+    } else {
+        return false;
     }
 }
 
 function updateMaterial($material)
 {
-    $dbh = db_connect();
 
-    $sql = "UPDATE material SET libelle = :libelle, color = :color WHERE slug = :slug";
+    // $sql = "UPDATE material SET libelle = :libelle, color = :color WHERE slug = :slug";
+    $sql = "UPDATE material SET";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']));
-        if ($sth->rowCount() > 0) {
-            log_txt("Material updated in back office: slug " . $material['slug']);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #48: " . $e->getMessage());
+    if (isset($material['libelle'])) $sql .= " libelle = :libelle,";
+    if (isset($material['color'])) $sql .= " color = :color,";
+    if (isset($material['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
+    
+    $sql = rtrim($sql, ",");
+    
+    $sql .= " WHERE slug = :slug";
+    
+    $params = array();
+    
+    // Bind values
+    if (isset($material['libelle'])) $params[":libelle"] = $material['libelle'];
+    if (isset($material['color'])) $params[":color"] = $material['color'];
+    if (isset($material['is_deleted'])) $params[":is_deleted"] = $material['is_deleted'];
+    $params[":slug"] = $material['slug'];
+
+    $reslut = Database::queryUpdate($sql, $params);
+
+    if ($reslut['success']) {
+        log_txt("Material updated in back office: slug " . $material['slug']);
+        return true;
+    } else {
+        return false;
     }
 }
 
 function deleteMaterial($slug)
 {
-    $dbh = db_connect();
 
     $sql = "UPDATE material SET is_deleted = 1 WHERE slug = :slug";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $slug));
-        if ($sth->rowCount() > 0) {
-            log_txt("Material deleted in back office: slug " . $slug);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #49: " . $e->getMessage());
+    $params = array(":slug" => $slug);
+
+    $reslut = Database::queryUpdate($sql, $params);
+
+    if ($reslut['success']) {
+        log_txt("Material deleted in back office: slug " . $slug);
+        return true;
+    } else {
+        return false;
     }
 }

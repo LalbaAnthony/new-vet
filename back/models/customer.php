@@ -3,43 +3,49 @@
 function setConnectionTokenByEmail($email, $token = null)
 {
     if ($token === null) $token = token_gen(32);
-    $dbh = db_connect();
     $sql = "UPDATE customer SET connection_token = :connection_token WHERE email = :email";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":connection_token" => $token, ":email" => $email));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #987: " . $e->getMessage());
+
+    $result = Database::queryUpdate($sql, array(":connection_token" => $token, ":email" => $email));
+
+    if ($result['success']) {
+        log_txt("Connection token set in customer: email $email token $token");
+        return true;
+    } else {
+        return false;
     }
 }
 
 function setHasValidateEmailTokenByEmail($email, $token = null)
 {
     if ($token === null) $token = token_gen(32);
-    $dbh = db_connect();
     $sql = "UPDATE customer SET validate_email_token = :validate_email_token WHERE email = :email";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":validate_email_token" => $token, ":email" => $email));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #997: " . $e->getMessage());
+
+    $result = Database::queryUpdate($sql, array(":validate_email_token" => $token, ":email" => $email));
+
+    if ($result['success']) {
+        log_txt("Validate email token set in customer: email $email token $token");
+        return true;
+    } else {
+        return false;
     }
 }
 
 function setResetPasswordCodeByEmail($email, $code = null)
 {
     if ($code === null) $code = code_gen(6);
-    $dbh = db_connect();
     $sql = "UPDATE customer SET reset_password_code = :reset_password_code WHERE email = :email";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":reset_password_code" => $code, ":email" => $email));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #697: " . $e->getMessage());
+
+    $result = Database::queryUpdate($sql, array(":reset_password_code" => $code, ":email" => $email));
+
+    if ($result['success']) {
+        log_txt("Reset password code set in customer: email $email code $code");
+        return true;
+    } else {
+        return false;
     }
 }
 
-function clearCodesAndTokens($id, $tokenList = null)
+function clearCodesAndTokens($customer_id, $tokenList = null)
 {
     $possibleTokens = array('connection_token', 'validate_email_token', 'reset_password_code');
 
@@ -53,7 +59,6 @@ function clearCodesAndTokens($id, $tokenList = null)
         }
     }
 
-    $dbh = db_connect();
 
     $sql = "UPDATE customer SET";
     foreach ($tokenList as $token) {
@@ -62,144 +67,126 @@ function clearCodesAndTokens($id, $tokenList = null)
     $sql = substr($sql, 0, -1); // remove last comma
     $sql .= " WHERE customer_id = :customer_id";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":customer_id" => $id));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #987: " . $e->getMessage());
+    $result = Database::queryUpdate($sql, array(":customer_id" => $customer_id));
+
+    if ($result['success']) {
+        log_txt("Codes and tokens cleared in customer: customer_id $customer_id");
+        return true;
+    } else {
+        return false;
     }
 }
 
 function setHasValidateEmail($email, $validate = true)
 {
-    $dbh = db_connect();
     $sql = "UPDATE customer SET has_validated_email = :has_validated_email WHERE email = :email";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":has_validated_email" => $validate, ":email" => $email));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #977: " . $e->getMessage());
+
+    $result = Database::queryUpdate($sql, array(":has_validated_email" => $validate, ":email" => $email));
+
+    if ($result['success']) {
+        log_txt("Has validated email set in customer: email $email has_validated_email $validate");
+        return true;
+    } else {
+        return false;
     }
 }
 
-function autoUpdateLastLoginCustomer($id, $datetime = null)
+function autoUpdateLastLoginCustomer($customer_id, $datetime = null)
 {
     if (!$datetime) $datetime = date("Y-m-d H:i:s");
 
-    $dbh = db_connect();
 
-    $sql = "UPDATE customer SET last_login = :datetime WHERE customer_id = :id";
+    $sql = "UPDATE customer SET last_login = :datetime WHERE customer_id = :customer_id";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":id" => $id, ":datetime" => $datetime));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #273: " . $e->getMessage());
+    $result = Database::queryUpdate($sql, array(":datetime" => $datetime, ":customer_id" => $customer_id));
+
+    if ($result['success']) {
+        log_txt("Customer last login updated in back office: customer_id $customer_id last_login $datetime");
+        return true;
+    } else {
+        return false;
     }
 }
 
-function changePassword($id, $password)
+function changePassword($customer_id, $password)
 {
-    $dbh = db_connect();
     $sql = "UPDATE customer SET password = :password WHERE customer_id = :customer_id";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":password" => $password, ":customer_id" => $id));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #28: " . $e->getMessage());
+
+    $result = Database::queryUpdate($sql, array(":password" => $password, ":customer_id" => $customer_id));
+
+    if ($result['success']) {
+        log_txt("Password changed in customer: customer_id $customer_id");
+        return true;
+    } else {
+        return false;
     }
 }
 
 function getCustomerByEmail($email)
 {
-    $dbh = db_connect();
 
     $sql = "SELECT * FROM customer WHERE email = :email";
+    
+    $result = Database::queryOne($sql, array(":email" => $email));
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":email" => $email));
-        $customer = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #29: " . $e->getMessage());
-    }
-
-    return $customer;
+    return $result['data'];
 }
 
 function getCustomer($customer_id)
 {
-    $dbh = db_connect();
 
     $sql = "SELECT * FROM customer WHERE customer_id = :customer_id";
+    
+    $result = Database::queryOne($sql, array(":customer_id" => $customer_id));
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":customer_id" => $customer_id));
-        $customer = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #30: " . $e->getMessage());
-    }
-
-    return $customer;
+    return $result['data'];
 }
 
 function getCustomers()
 {
-    $dbh = db_connect();
 
     $sql = "SELECT * FROM customer WHERE is_deleted = 0 ORDER BY created_at DESC";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute();
-        $customers = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #31: " . $e->getMessage());
-    }
+    $result = Database::queryAll($sql);
 
-    return $customers;
+    return $result['data'];
 }
 
 function getCustomersCount()
 {
-    $dbh = db_connect();
-    $sql = "SELECT COUNT(*) FROM customer WHERE is_deleted = 0";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute();
-        $count = $sth->fetchColumn();
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #32: " . $e->getMessage());
-    }
+    $sql = "SELECT COUNT(*) as count FROM customer WHERE is_deleted = 0";
+    
+    $result = Database::queryOne($sql);
 
-    return $count;
+    return $result['data']['count'];
 }
 
 function insertCustomer($customer)
 {
-    $dbh = db_connect();
 
     $sql = "INSERT INTO customer (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":first_name" => $customer['first_name'], ":last_name" => $customer['last_name'], ":email" => $customer['email'], ":password" => $customer['password']));
-    } catch (PDOException $e) {
-        return "Erreur lors de la requête SQL #33: " . $e->getMessage();
+    $result = Database::queryInsert($sql, array(":first_name" => $customer['first_name'], ":last_name" => $customer['last_name'], ":email" => $customer['email'], ":password" => $customer['password']));
+
+    if ($result['lastInsertId']) {
+        log_txt("Customer inserted in back office: customer_id " . $result['lastInsertId']);
+        return $result;
+    } else {
+        return false;
     }
 }
 
 function deleteCustomer($customer_id)
 {
-    $dbh = db_connect();
 
     $sql = "UPDATE customer SET is_deleted = 1 WHERE customer_id = :customer_id";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":customer_id" => $customer_id));
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #34: " . $e->getMessage());
+    $result = Database::queryUpdate($sql, array(":customer_id" => $customer_id));
+
+    if ($result['success']) {
+        log_txt("Customer deleted in back office: customer_id " . $customer_id);
+        return true;
+    } else {
+        return false;
     }
 }

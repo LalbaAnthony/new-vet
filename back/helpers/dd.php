@@ -2,7 +2,11 @@
 
 function dd($var)
 {
-    echo '<pre>';
-    var_dump($var);
-    echo '</pre>';
+    $args = func_get_args();
+
+    echo "<pre>";
+    foreach ($args as $arg) {
+        var_dump($arg);
+    }
+    echo "</pre>";
 }

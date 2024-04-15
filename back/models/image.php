@@ -2,23 +2,18 @@
 
 function getImage($slug)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM image WHERE slug = :slug;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $slug));
-        $image = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #35: " . $e->getMessage());
-    }
 
-    return $image;
+    $params = array(":slug" => $slug);
+
+    $result = Database::queryOne($sql, $params);
+
+    return $result['data'];
 }
 
 function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_by' => 'created_at')), $offset = null, $per_page = 10)
 {
 
-    $dbh = db_connect();
 
     $sql = "SELECT * FROM image";
 
@@ -52,29 +47,22 @@ function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind others values
-        if ($search) $sth->bindValue(":search", "%$search%");
-        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
-        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
+    // Bind values
+    if ($search) $params[":search"] = "%$search%";
+    if ($per_page) $params[":per_page"] = $per_page;
+    if ($offset) $params[":offset"] = $offset;
 
-        $sth->execute();
+    $result = Database::queryAll($sql, $params);
 
-        $images = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #36: " . $e->getMessage());
-    }
-
-    return $images;
+    return $result['data'];
 }
 
 function getImagesCount($search = null)
 {
-    $dbh = db_connect();
 
-    $sql = "SELECT COUNT(*) FROM image WHERE 1 = 1 AND is_deleted = 0";
+    $sql = "SELECT COUNT(*) as count FROM image WHERE 1 = 1 AND is_deleted = 0";
 
     // Filter by search
     if ($search) {
@@ -88,113 +76,112 @@ function getImagesCount($search = null)
         )";
     }
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind others values
-        if ($search) $sth->bindValue(":search", "%$search%");
+    // Bind values
+    if ($search) $params[":search"] = "%$search%";
 
-        $sth->execute();
+    $result = Database::queryOne($sql, $params);
 
-        $count = $sth->fetchColumn();
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #37: " . $e->getMessage());
-    }
-
-    return $count;
+    return $result['data'];
 }
 
 function getImagesFromProduct($product_slug)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM image, product_image 
     WHERE image.slug = product_image.image_slug 
     AND product_image.product_slug = :product_slug
     AND image.is_deleted = 0 
     ORDER BY product_image.sort_order ASC;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $product_slug));
-        $images = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #38: " . $e->getMessage());
-    }
 
-    return $images;
+    $params = array(":product_slug" => $product_slug);
+
+    $result = Database::queryAll($sql, $params);
+
+    return $result['data'];
 }
 
 function getFirstImagePathFromProduct($product_slug)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM image, product_image 
     WHERE image.slug = product_image.image_slug
     AND product_image.product_slug = :product_slug
     AND image.is_deleted = 0 
     ORDER BY sort_order ASC
     LIMIT 1;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $product_slug));
-        $image = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #39: " . $e->getMessage());
-    }
 
-    if ($image) {
-        return $image['path'];
-    } else {
-        return null;
-    }
-} 
+    $params = array(":product_slug" => $product_slug);
+
+    $result = Database::queryOne($sql, $params);
+
+    if (!$result['data']) return false;
+
+    return $result['data']['path'];
+}
 
 function insertImage($image)
 {
-    $dbh = db_connect();
     $sql = "INSERT INTO image (slug, name, alt, path, weight, extention) VALUES (:slug, :name, :alt, :path, :weight, :extention);";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $image["slug"], ":name" => $image["name"], ":alt" => $image["alt"], ":path" => $image["path"], ":weight" => $image["weight"], ":extention" => $image["extention"]));
-        log_txt("Image created in back office: id " . $dbh->lastInsertId());
-        return $dbh->lastInsertId();
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #40: " . $e->getMessage());
+
+    $reslut = Database::queryInsert($sql, array(":slug" => $image['slug'], ":name" => $image['name'], ":alt" => $image['alt'], ":path" => $image['path'], ":weight" => $image['weight'], ":extention" => $image['extention']));
+
+    if ($reslut['lastInsertId']) {
+        log_txt("Image inserted in back office: id " . $reslut['lastInsertId']);
+        return true;
+    } else {
+        return false;
     }
 }
 
 function updateImage($image)
 {
-    $dbh = db_connect();
-    $sql = "UPDATE image SET name = :name, alt = :alt, path = :path, weight = :weight, extention = :extention WHERE slug = :slug;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":name" => $image["name"], ":alt" => $image["alt"], ":path" => $image["path"], ":weight" => $image["weight"], ":extention" => $image["extention"], ":slug" => $image["slug"]));
-        if ($sth->rowCount() > 0) {
-            log_txt("Image updated in back office: id " . $image["slug"]);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #41: " . $e->getMessage());
+    $sql = "UPDATE image SET ";
+
+    if (isset($image['slug'])) $sql .= " slug = :slug,";
+    if (isset($image['name'])) $sql .= " name = :name,";
+    if (isset($image['alt'])) $sql .= " alt = :alt,";
+    if (isset($image['path'])) $sql .= " path = :path,";
+    if (isset($image['weight'])) $sql .= " weight = :weight,";
+    if (isset($image['extention'])) $sql .= " extention = :extention,";
+    if (isset($image['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
+
+    $sql = rtrim($sql, ",");
+
+    $sql .= " WHERE slug = :slug;";
+
+    $params = array();
+
+    if (isset($image['slug'])) $params[":slug"] = $image['slug'];
+    if (isset($image['name'])) $params[":name"] = $image['name'];
+    if (isset($image['alt'])) $params[":alt"] = $image['alt'];
+    if (isset($image['path'])) $params[":path"] = $image['path'];
+    if (isset($image['weight'])) $params[":weight"] = $image['weight'];
+    if (isset($image['extention'])) $params[":extention"] = $image['extention'];
+    if (isset($image['is_deleted'])) $params[":is_deleted"] = $image['is_deleted'];
+
+    $reslut = Database::queryUpdate($sql, $params);
+
+    if ($reslut['success']) {
+        log_txt("Image updated in back office: id " . $image['slug']);
+        return true;
+    } else {
+        return false;
     }
 }
 
 function deleteImage($slug)
 {
-    $dbh = db_connect();
 
     $sql = "UPDATE image SET is_deleted = 1 WHERE slug = :slug";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $slug));
-        if ($sth->rowCount() > 0) {
-            log_txt("Image deleted in back office: id " . $slug);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #42: " . $e->getMessage());
+    $params = array(":slug" => $slug);
+
+    $reslut = Database::queryUpdate($sql, $params);
+
+    if ($reslut['success']) {
+        log_txt("Image deleted in back office: id " . $slug);
+        return true;
+    } else {
+        return false;
     }
 }

@@ -23,7 +23,7 @@ if ($login && $password && $passwordConfirm) {
                 if ($admin && $admin['login'] == $login) {
                     $error = "Ce login est déjà utilisé";
                 } else {
-                    if (insertAdmin($login, $password)) {
+                    if (insertAdmin(array('login' => $login, 'password' => $password))) {
                         $success = "Inscription réussie";
                         header("Location: " . APP_URL . "bo/pages/login.php");
                     } else {
