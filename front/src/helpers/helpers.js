@@ -11,6 +11,16 @@ export function threeDotString(str, maxLen = 100) {
     return str.slice(0, maxLen).trim() + " ...";
 }
 
+export function getAllYearsFromDateToNow(date, reverse = false) {
+    const currentYear = new Date().getFullYear();
+    const year = new Date(date).getFullYear();
+    const years = [];
+    for (let i = year; i <= currentYear; i++) {
+        years.push(i);
+    }
+    return reverse ? years.reverse() : years;
+}
+
 export function datetimeToNiceDatetime(datetime) {
     if (!datetime) return 'Pas de date connue';
 
@@ -136,7 +146,7 @@ export function missingElementsPassword(password) {
     if (!password.match(/[a-z]/)) missing_element.push('1 minuscule');
     if (!password.match(/[A-Z]/)) missing_element.push('1 majuscule');
     if (!password.match(/[0-9]/)) missing_element.push('1 chiffre');
-    if (!password.match(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)) missing_element.push('1 caractère spécial');
+    if (!password.match(/[^a-zA-Z\d]/)) missing_element.push('1 caractère spécial');
 
     return missing_element;
 }

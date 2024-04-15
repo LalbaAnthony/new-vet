@@ -12,7 +12,7 @@
         :perPage="categoryStore.categories.pagination.per_page"
         @update-page="(page) => categoryStore.changePage(page)" />
       </div>
-      <NoItem what="catégorie" :cta="{ text: 'Retour', to: '/categories' }" v-else />
+      <NoItem :cta="{ text: 'Retour', to: '/categories' }" v-else />
     </div>
   </div>
 </template>

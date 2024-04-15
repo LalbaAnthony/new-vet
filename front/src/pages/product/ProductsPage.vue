@@ -20,7 +20,7 @@
 
 <script setup>
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
-import SortFilter from '@/components/SortFilterComponent.vue'
+import SortFilter from '@/components/product/SortFilterComponent.vue'
 import Pagination from '@/components/PaginationComponent.vue'
 import Product from '@/components/product/ProductItemComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
@@ -33,7 +33,7 @@ const route = useRoute()
 const productStore = useProductStore()
 
 async function loadProducts() {
-    await productStore.fetchProducts({
+    productStore.fetchProducts({
         materials: [route.query.materials || null],
         categories: [route.query.categories || null],
         sort: route.query.sort ? [{

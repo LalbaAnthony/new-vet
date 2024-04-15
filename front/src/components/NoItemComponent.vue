@@ -1,7 +1,7 @@
 <template>
   <div class="center">
-    <p><span class="gradient bold">Aucune</span> {{ props.what }} trouvé</p>
-    <div class="button-bloc">
+    <p><span class="gradient bold">Aucun</span> {{ props.what }} trouvé</p>
+    <div v-if="props.cta" class="button-bloc">
       <router-link :to="props.cta.to" class="button">{{ props.cta.text }}</router-link>
     </div>
   </div>
@@ -12,12 +12,12 @@
 const props = defineProps({
   what: {
     type: String,
-    default: 'élément',
+    default: ' élément ',
     required: false,
   },
   cta: {
     type: Object,
-    default: () => ({ text: 'Accueil', to: '/' }),
+    // default: () => ({ text: 'Accueil', to: '/' }),
     required: false
   }
 })

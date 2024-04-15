@@ -40,11 +40,11 @@ const productStore = useProductStore()
 const categoryStore = useCategoryStore()
 
 async function loadElements() {
-  await productStore.fetchProducts({
+  productStore.fetchProducts({
     search: route.query.search,
     per_page: 6,
   })
-  await categoryStore.fetchCategories({
+  categoryStore.fetchCategories({
     search: route.query.search,
     per_page: 6,
   })
