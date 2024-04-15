@@ -13,6 +13,15 @@ export const useAuthStore = defineStore('auth',
       fogotPasswordEmail: null,
       user: {},
       cart: {},
+      order: {
+        loading: false,
+        data: [],
+      },
+      orders: {
+        loading: false,
+        data: [],
+        pagination: { page: 1, per_page: 10, total: 1 },
+      },
       authModal: {
         type: 'login',
         show: false,
@@ -39,7 +48,7 @@ export const useAuthStore = defineStore('auth',
           return false;
         }
 
-        await get('customer/validate-token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
+        get('customer/validate-token', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             this.logout()
@@ -65,7 +74,7 @@ export const useAuthStore = defineStore('auth',
         if (!this.authenticated) {
           return false;
         }
-        await get('customer/infos', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
+        get('customer/infos', { email: this.user.email, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
@@ -90,7 +99,7 @@ export const useAuthStore = defineStore('auth',
           return false;
         }
 
-        await get('customer/verify-email', { email, token }).then(resp => {
+        get('customer/verify-email', { email, token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
@@ -113,7 +122,7 @@ export const useAuthStore = defineStore('auth',
           return false;
         }
 
-        await get('customer/forgot-password', { email }).then(resp => {
+        get('customer/forgot-password', { email }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
@@ -173,7 +182,7 @@ export const useAuthStore = defineStore('auth',
           return false;
         }
 
-        await post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token }).then(resp => {
+        post('customer/change-password', { email: this.user.email, old_password: oldPassword, new_password: newPassword, token: this.token || this.user.connection_token }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
@@ -207,7 +216,7 @@ export const useAuthStore = defineStore('auth',
           return false;
         }
 
-        await post('customer/register', { customer: user }).then(resp => {
+        post('customer/register', { customer: user }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
@@ -242,7 +251,7 @@ export const useAuthStore = defineStore('auth',
         if (email) email = email.trim();
         if (password) password = password.trim();
 
-        await get('customer/login', { password, email }).then(resp => {
+        get('customer/login', { password, email }).then(resp => {
 
           if (resp.error) {
             notify(resp.error, 'error');
@@ -299,6 +308,63 @@ export const useAuthStore = defineStore('auth',
         const pWord = quantity > 1 ? 'produits' : 'produit';
         const addWord = quantity > 1 ? 'ajoutés' : 'ajouté';
         notify(`${quantity} ${pWord} ${addWord} au panier !`, 'success');
+      },
+
+      async fetchOrder(orderId) {
+        // Loading
+        this.order.loading = true
+  
+        // Data
+        this.order.data = {}
+  
+        // Request
+        const params = {
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token,
+        }
+
+        Object.assign(params, { order_id: orderId })
+
+        const resp = await get('customer/order', params);
+        this.order.data = resp.data[0];
+  
+        // Loading
+        this.order.loading = false
+      },
+  
+      async fetchOrders(givenParams = {}) {
+  
+        // Loading
+        this.orders.loading = true
+  
+        // Data
+        this.orders.data = []
+  
+        // Request
+        const params = {
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token,
+          page: this.orders.pagination.page || 1,
+          per_page: this.orders.pagination.per_page || 10,
+          sort: [
+            { order: 'DESC', order_by: 'order_date' }
+          ],
+        }
+  
+        Object.assign(params, givenParams)
+  
+        const resp = await get('customer/orders', params);
+        this.orders.data = resp.data || [];
+        this.orders.pagination = resp.pagination || { page: 1, per_page: 10, total: 1 };
+        
+        // Loading
+        this.orders.loading = false
+      },
+
+      ordersChangePage(page) {
+        this.orders.pagination.page = page;
+        this.fetchOrders();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
 
       buyNow(productSlug, quantity) {

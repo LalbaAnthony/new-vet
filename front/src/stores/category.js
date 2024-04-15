@@ -28,7 +28,6 @@ export const useCategoryStore = defineStore('category', {
       this.categories.pagination.page = page
       this.fetchCategories()
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
     },
 
     async fetchCategories(givenParams = {}) {
@@ -52,8 +51,8 @@ export const useCategoryStore = defineStore('category', {
       Object.assign(params, givenParams)
 
       const resp = await get('categories', params);
-      this.categories.data = resp.data;
-      this.categories.pagination = resp.pagination;
+      this.categories.data = resp.data || [];
+      this.categories.pagination = resp.pagination || { page: 1, per_page: 10, total: 1 };
 
       // Loading
       this.categories.loading = false

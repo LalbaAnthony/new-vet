@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="page-title">Rechercher un produit, une catégorie, ...</h2>
+    <h2 class="page-title">Rechercher un produit, une catégorie</h2>
     <Breadcrumb />
     <Loader v-if="productStore.products.loading && categoryStore.categories.loading" />
     <div v-else>
@@ -40,11 +40,11 @@ const productStore = useProductStore()
 const categoryStore = useCategoryStore()
 
 async function loadElements() {
-  await productStore.fetchProducts({
+  productStore.fetchProducts({
     search: route.query.search,
     per_page: 6,
   })
-  await categoryStore.fetchCategories({
+  categoryStore.fetchCategories({
     search: route.query.search,
     per_page: 6,
   })

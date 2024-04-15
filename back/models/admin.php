@@ -73,6 +73,25 @@ function insertAdmin($login, $password)
     }
 }
 
+function autoUpdateLastLoginAdmin($id, $datetime = null)
+{
+    if (!$datetime) $datetime = date("Y-m-d H:i:s");
+
+    $sql = "UPDATE admin SET last_login = :datetime WHERE admin_id = :id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":id" => $id, ":datetime" => $datetime));
+        if ($sth->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #873: " . $e->getMessage());
+    }
+}
+
 function setHasAccess($login, $has_access = false)
 {
     $dbh = db_connect();

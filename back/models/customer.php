@@ -82,6 +82,22 @@ function setHasValidateEmail($email, $validate = true)
     }
 }
 
+function autoUpdateLastLoginCustomer($id, $datetime = null)
+{
+    if (!$datetime) $datetime = date("Y-m-d H:i:s");
+
+    $dbh = db_connect();
+
+    $sql = "UPDATE customer SET last_login = :datetime WHERE customer_id = :id";
+
+    try {
+        $sth = $dbh->prepare($sql);
+        $sth->execute(array(":id" => $id, ":datetime" => $datetime));
+    } catch (PDOException $e) {
+        die("Erreur lors de la requête SQL #273: " . $e->getMessage());
+    }
+}
+
 function changePassword($id, $password)
 {
     $dbh = db_connect();

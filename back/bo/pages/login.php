@@ -15,6 +15,7 @@ if ($login && $password) {
             if ($admin['has_access'] == 1) {
                 $_SESSION['admin'] = $admin;
                 $success = "Connexion réussie";
+                autoUpdateLastLoginAdmin($admin['admin_id']);
                 log_txt("User logged in back office: login $login");
                 header('Location: ' . APP_URL . 'bo/pages/index.php');
             } else {

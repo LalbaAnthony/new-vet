@@ -71,8 +71,8 @@ export const useProductStore = defineStore('product', {
       Object.assign(params, givenParams)
 
       const resp = await get('products', params);
-      this.products.data = resp.data;
-      this.products.pagination = resp.pagination;
+      this.products.data = resp.data || [];
+      this.products.pagination = resp.pagination || { page: 1, per_page: 10, total: 1 };
       
       // Loading
       this.products.loading = false
@@ -86,7 +86,7 @@ export const useProductStore = defineStore('product', {
       this.highlandersProducts.data = []
 
       const resp = await get('products', { is_highlander: true, per_page: 3 });
-      this.highlandersProducts.data = resp.data;
+      this.highlandersProducts.data = resp.data || [];
 
       // Loading
       this.highlandersProducts.loading = false
@@ -100,7 +100,7 @@ export const useProductStore = defineStore('product', {
       this.moreProducts.data[categorySlug] = []
 
       const resp = await get('products', { categories: [categorySlug], per_page: 6, exclude: [this.product.data.slug] });
-      this.moreProducts.data[categorySlug] = resp.data;
+      this.moreProducts.data[categorySlug] = resp.data || [];
 
       // Loading
       this.moreProducts.loading = false
@@ -116,7 +116,7 @@ export const useProductStore = defineStore('product', {
       const productSlugs = Object.keys(authStore.cart);
       if (productSlugs.length) {
         const resp = await get('products', { include: [productSlugs.join(',')] });
-        this.cartProducts.data = resp.data;
+        this.cartProducts.data = resp.data || [];
       } else {
         this.cartProducts.data = [];
       }

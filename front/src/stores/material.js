@@ -23,7 +23,7 @@ export const useMaterialStore = defineStore('material', {
       this.materials.data = []
 
       const resp = await get('materials');
-      this.materials.data = resp.data;
+      this.materials.data = resp.data || [];
 
       // Loading
       this.materials.loading = false

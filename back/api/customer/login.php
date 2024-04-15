@@ -30,6 +30,9 @@ if (!$error && !password_verify($password, $customer["password"])) $error = "Le 
 // Remove password from response
 if (!$error) unset($customer["password"]);
 
+// Update login date
+if (!$error) autoUpdateLastLoginCustomer($customer["customer_id"]);
+
 // send contact to db
 if (!$error) {
     $json['status'] = 200;
