@@ -77,6 +77,8 @@ function autoUpdateLastLoginAdmin($id, $datetime = null)
 {
     if (!$datetime) $datetime = date("Y-m-d H:i:s");
 
+    $dbh = db_connect();
+
     $sql = "UPDATE admin SET last_login = :datetime WHERE admin_id = :id";
 
     try {

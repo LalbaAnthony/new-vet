@@ -267,12 +267,12 @@ function getProductsCount($categories = array(), $materials = array(), $search =
 
         $sth->execute();
 
-        $products = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $products = $sth->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #:52 " . $e->getMessage());
+        die("Erreur lors de la requête SQL #52: " . $e->getMessage());
     }
 
-    return $products[0]['count'];
+    return $products['count'];
 }
 
 function insertProduct($product)

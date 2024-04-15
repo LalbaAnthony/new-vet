@@ -6,8 +6,13 @@ include_once APP_PATH . '/models/material.php';
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'libelle'));
-$offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+$materials_count = getMaterialsCount($search);
+
+$offset = ($page - 1) * $per_page;
+$total = ceil($materials_count / $per_page);
 
 $json = array();
 $materials = getMaterials($search, $sort, $offset, $per_page);

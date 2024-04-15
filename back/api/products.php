@@ -13,7 +13,6 @@ $exclude_string = isset($_GET['exclude'][0]) ? $_GET['exclude'][0] : array();
 $include_string = isset($_GET['include'][0]) ? $_GET['include'][0] : array();
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity'));
-$offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;

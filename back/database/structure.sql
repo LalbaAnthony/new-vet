@@ -217,15 +217,19 @@ CREATE TABLE status(
 CREATE TABLE `order`(
         order_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         customer_id INT NOT NULL,
+        shipping_address_id INT NOT NULL,
+        billing_address_id INT NOT NULL,
         card_id INT NOT NULL,
+        status_id INT NOT NULL,
         order_date DATETIME NOT NULL,
         total_amount FLOAT NOT NULL DEFAULT 0,
-        status_id INT NOT NULL,
-        CONSTRAINT order_PK PRIMARY KEY (order_id),
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT order_card_FK FOREIGN KEY (card_id) REFERENCES card(card_id),
+        CONSTRAINT order_PK PRIMARY KEY (order_id),
         CONSTRAINT order_customer_FK FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE CASCADE,
+        CONSTRAINT order_shipping_address_FK FOREIGN KEY (shipping_address_id) REFERENCES address(address_id),
+        CONSTRAINT order_billing_address_FK FOREIGN KEY (billing_address_id) REFERENCES address(address_id),
+        CONSTRAINT order_card_FK FOREIGN KEY (card_id) REFERENCES card(card_id),
         CONSTRAINT order_status_FK FOREIGN KEY (status_id) REFERENCES status(status_id)
 ) ENGINE = InnoDB;
 
@@ -239,7 +243,7 @@ CREATE TABLE order_line(
         line_price FLOAT NOT NULL,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT order_line_PK PRIMARY KEY (order_id, product_slug),
+        CONSTRAINT order_line_PK PRIMARY KEY (order_id),
         CONSTRAINT order_line_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE,
         CONSTRAINT order_line_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 ) ENGINE = InnoDB;
