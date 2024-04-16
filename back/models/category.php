@@ -179,8 +179,6 @@ function getCategoriesFromProduct($product_slug)
 
     $params = array(":product_slug" => $product_slug);
 
-    dd($sql, $params);
-
     $result = Database::queryAll($sql, $params);
 
     return $result['data'];
