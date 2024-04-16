@@ -7,8 +7,9 @@ class Database
     private static $dbUser = DB_USER;
     private static $dbPass = DB_PASSWORD;
 
+    // ? Might need to add elemnts to these arrays, if error on the type
     private static $forcedStringParams = array(':email', ':password', ':token', ':code', ':name', ':libelle');
-    private static $forcedIntParams = array(':per_page', ':offset');
+    private static $forcedIntParams = array(':per_page', ':offset'); 
     private static $forcedBoolParams = array(':is_deleted');
 
     private static $connection = null;
