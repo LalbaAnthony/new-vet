@@ -56,11 +56,11 @@ if (!$error) {
         $json['status'] = 200;
         $json['error'] = null;
         foreach ($orders as &$order) {
-            $order['order_lines'] = getOrderLines($order['order_id']);
+            // $order['order_lines'] = getOrderLines($order['order_id']);
             $order['status'] = getStatus($order['status_id']);
-            $order['card'] = getCard($order['card_id']);
-            $order['shipping_address'] = getAddress($order['shipping_address_id']);
-            $order['billing_address'] = getAddress($order['billing_address_id']);
+            // $order['card'] = getCard($order['card_id']);
+            // $order['shipping_address'] = getAddress($order['shipping_address_id']);
+            // $order['billing_address'] = getAddress($order['billing_address_id']);
         }
         $json['data'] = $orders;
     } else if (count($orders) === 0) {

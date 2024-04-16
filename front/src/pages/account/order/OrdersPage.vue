@@ -62,3 +62,13 @@ loadOrders()
 watch(() => route.query, loadOrders)
 
 </script>
+
+<style scoped>
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+</style>

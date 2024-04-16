@@ -12,16 +12,19 @@
         </div>
         <hr />
         <ul>
-          <li v-for="status in statusStore.statuses.data" :key="status.status_id" @click="toggleStatus(status.status_id)">
+          <li v-for="status in statusStore.statuses.data" :key="status.status_id"
+            @click="toggleStatus(status.status_id)">
             <input type="checkbox" :id="status.status_id" :value="status.status_id"
-              :checked="route.query.categories?.split(',').includes(status.status_id)" />
+              :checked="route.query.statuses?.split(',').includes(JSON.stringify(status.status_id))" />
             {{ status.libelle }}
           </li>
         </ul>
         <hr />
         <ul>
-          <li v-for="year in getAllYearsFromDateToNow(authStore.user.created_at, true)" :key="year" @click="toggleYear(year)">
-            <input type="checkbox" :id="year" :value="year" :checked="route.query.year?.split(',').includes(year)" />
+          <li v-for="year in getAllYearsFromDateToNow(authStore.user.created_at, true).reverse()" :key="year"
+            @click="toggleYear(year)">
+            <input type="checkbox" :id="year" :value="year"
+              :checked="route.query.years?.split(',').includes(JSON.stringify(year))" />
             {{ year }}
           </li>
         </ul>
@@ -39,7 +42,8 @@
         </div>
         <hr />
         <ul>
-          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']" @click="toggleSort('created_at-desc')">
+          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']"
+            @click="toggleSort('created_at-desc')">
             Plus récentes
           </li>
           <li :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']" @click="toggleSort('created_at-asc')">

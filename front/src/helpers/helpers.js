@@ -11,14 +11,14 @@ export function threeDotString(str, maxLen = 100) {
     return str.slice(0, maxLen).trim() + " ...";
 }
 
-export function getAllYearsFromDateToNow(date, reverse = false) {
+export function getAllYearsFromDateToNow(date) {
     const currentYear = new Date().getFullYear();
     const year = new Date(date).getFullYear();
     const years = [];
     for (let i = year; i <= currentYear; i++) {
         years.push(i);
     }
-    return reverse ? years.reverse() : years;
+    return years;
 }
 
 export function datetimeToNiceDatetime(datetime) {
