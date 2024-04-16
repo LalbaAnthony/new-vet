@@ -79,7 +79,7 @@ function updateCountry($country)
     }
 }
 
-function deleteCountry($country_id)
+function putToTrashCountry($country_id)
 {
 
     $sql = "UPDATE country SET is_deleted = 1 WHERE country_id = :country_id";

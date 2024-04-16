@@ -29,7 +29,7 @@ $categories = getCategories($search, null, null, null, null, $sort, $offset, $pe
 if (isset($_GET['delete']) && isset($_GET['selected_categories'])) {
     $selected_categories = explode(",", $_GET['selected_categories']);
     foreach ($selected_categories as $slug) {
-        deleteCategory($slug);
+        putToTrashCategory($slug);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;

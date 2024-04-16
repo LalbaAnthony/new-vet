@@ -112,7 +112,7 @@ function insertContact($contact)
 }
 
 
-function deleteContact($contact_id)
+function putToTrashContact($contact_id)
 {
     $sql = "UPDATE contact SET is_deleted = 1 WHERE contact_id = :contact_id";
 

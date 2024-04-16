@@ -94,7 +94,7 @@ function updateAddress($address)
     }
 }
 
-function deleteAddress($address_id)
+function putToTrashAddress($address_id)
 {
     $sql = "UPDATE address SET is_deleted = 1 WHERE address_id = :address_id";
 

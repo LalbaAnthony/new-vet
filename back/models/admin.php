@@ -76,7 +76,7 @@ function setHasAccess($login, $has_access = false)
     }
 }
 
-function deleteAdmin($admin_id)
+function putToTrashAdmin($admin_id)
 {
 
     $sql = "UPDATE admin SET is_deleted = 1 WHERE admin_id = :admin_id";

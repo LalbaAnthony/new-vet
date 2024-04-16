@@ -179,6 +179,8 @@ function getCategoriesFromProduct($product_slug)
 
     $params = array(":product_slug" => $product_slug);
 
+    dd($sql, $params);
+
     $result = Database::queryAll($sql, $params);
 
     return $result['data'];
@@ -245,7 +247,7 @@ function updateCategory($category)
     }
 }
 
-function deleteCategory($slug)
+function putToTrashCategory($slug)
 {
 
     $sql = "UPDATE category SET is_deleted = 1 WHERE slug = :slug";

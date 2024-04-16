@@ -148,7 +148,7 @@ function getOrderLines($order_id)
     return $result['data'];
 }
 
-function deleteOrder($order_id)
+function putToTrashOrder($order_id)
 {
     $sql = "UPDATE `order` SET is_deleted = 1 WHERE order_id = :order_id;";
 

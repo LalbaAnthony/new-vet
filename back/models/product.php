@@ -411,7 +411,7 @@ function updateProductImages($product_slug, $images)
     return true;
 }
 
-function deleteProduct($slug)
+function putToTrashProduct($slug)
 {
     $sql = "UPDATE product SET is_deleted = 1 WHERE slug = :slug";
 

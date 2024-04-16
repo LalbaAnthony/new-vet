@@ -176,7 +176,7 @@ function insertCustomer($customer)
     }
 }
 
-function deleteCustomer($customer_id)
+function putToTrashCustomer($customer_id)
 {
 
     $sql = "UPDATE customer SET is_deleted = 1 WHERE customer_id = :customer_id";

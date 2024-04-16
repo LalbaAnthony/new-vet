@@ -29,7 +29,7 @@ $contacts = getContacts($search, $sort, $offset, $per_page);
 if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
     $selected_contacts = explode(",", $_GET['selected_contacts']);
     foreach ($selected_contacts as $contact_id) {
-        deleteContact($contact_id);
+        putToTrashContact($contact_id);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;

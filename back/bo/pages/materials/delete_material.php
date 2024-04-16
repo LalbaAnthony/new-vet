@@ -10,7 +10,7 @@ $material =  getMaterial($url_slug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = deleteMaterial($_POST['slug']);
+    $sucess = putToTrashMaterial($_POST['slug']);
 
     // Redirection vers la liste des contacts
     header('Location: ' . APP_URL . 'bo/pages/materials/index.php?deleted=' . $sucess);

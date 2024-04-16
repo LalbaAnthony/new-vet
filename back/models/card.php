@@ -71,7 +71,7 @@ function updateCard($card)
     }
 }
 
-function deleteCard($card_id)
+function putToTrashCard($card_id)
 {
 
     $sql = "UPDATE card SET is_deleted = 1 WHERE card_id = :card_id";

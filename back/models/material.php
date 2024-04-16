@@ -150,7 +150,7 @@ function updateMaterial($material)
     }
 }
 
-function deleteMaterial($slug)
+function putToTrashMaterial($slug)
 {
 
     $sql = "UPDATE material SET is_deleted = 1 WHERE slug = :slug";

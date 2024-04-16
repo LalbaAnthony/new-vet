@@ -30,7 +30,7 @@ $images = getImages($search, $sort, $offset, $per_page);
 if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
     $selected_images = explode(",", $_GET['selected_images']);
     foreach ($selected_images as $slug) {
-        deleteImage($slug);
+        putToTrashImage($slug);
 
         // Suppression de l'image dans le dossier uploads
         $image = getImage($slug);

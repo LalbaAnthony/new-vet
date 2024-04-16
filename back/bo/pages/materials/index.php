@@ -28,7 +28,7 @@ $materials = getMaterials($search, $sort, $offset, $per_page);
 if (isset($_GET['delete']) && isset($_GET['selected_materials'])) {
     $selected_materials = explode(",", $_GET['selected_materials']);
     foreach ($selected_materials as $slug) {
-        deleteMaterial($slug);
+        putToTrashMaterial($slug);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;

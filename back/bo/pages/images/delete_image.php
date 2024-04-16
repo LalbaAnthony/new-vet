@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = deleteImage($_POST['slug']);
+    $sucess = putToTrashImage($_POST['slug']);
 
     // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/images/index.php?deleted=' . $sucess);

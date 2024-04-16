@@ -11,7 +11,7 @@ $contact = getContact($url_id);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = deleteContact($_POST['contact_id']);
+    $sucess = putToTrashContact($_POST['contact_id']);
 
     // Redirection vers la liste des contacts
     header('Location: ' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $sucess);

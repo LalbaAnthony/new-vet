@@ -83,7 +83,7 @@ function getImagesCount($search = null)
 
     $result = Database::queryOne($sql, $params);
 
-    return $result['data'];
+    return $result['data']['count'];
 }
 
 function getImagesFromProduct($product_slug)
@@ -169,7 +169,7 @@ function updateImage($image)
     }
 }
 
-function deleteImage($slug)
+function putToTrashImage($slug)
 {
 
     $sql = "UPDATE image SET is_deleted = 1 WHERE slug = :slug";

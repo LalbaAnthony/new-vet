@@ -70,7 +70,7 @@ function updateStatus($status)
     }
 }
 
-function deleteStatus($status_id)
+function putToTrashStatus($status_id)
 {
 
     $sql = "UPDATE status SET is_deleted = 1 WHERE status_id = :status_id";

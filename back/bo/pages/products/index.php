@@ -31,7 +31,7 @@ $products = getProducts(null, null, $search, false, null, null, $sort, $offset, 
 if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     $selected_products = explode(",", $_GET['selected_products']);
     foreach ($selected_products as $slug) {
-        deleteProduct($slug);
+        putToTrashProduct($slug);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;

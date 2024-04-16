@@ -7,6 +7,10 @@ class Database
     private static $dbUser = DB_USER;
     private static $dbPass = DB_PASSWORD;
 
+    private static $forcedStringParams = array(':email', ':password', ':token', ':code', ':name', ':libelle');
+    private static $forcedIntParams = array(':per_page', ':offset');
+    private static $forcedBoolParams = array(':is_deleted');
+
     private static $connection = null;
 
     function __construct()
@@ -51,22 +55,16 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                switch (gettype($value)) {
-                    case 'integer':
-                        $statement->bindValue($key, $value, PDO::PARAM_INT);
-                        break;
-                    case 'boolean':
-                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
-                        break;
-                    case 'NULL':
-                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
-                        break;
-                    case 'string':
-                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
-                        break;
-                    default:
-                        $statement->bindValue($key, $value);
-                        break;
+                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_INT);
+                } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                } elseif (is_string($value) || in_array($key, self::$forcedStringParams)) {
+                    $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                } elseif (is_null($value)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                } else {
+                    $statement->bindValue($key, $value);
                 }
             }
 
@@ -95,22 +93,16 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                switch (gettype($value)) {
-                    case 'integer':
-                        $statement->bindValue($key, $value, PDO::PARAM_INT);
-                        break;
-                    case 'boolean':
-                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
-                        break;
-                    case 'NULL':
-                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
-                        break;
-                    case 'string':
-                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
-                        break;
-                    default:
-                        $statement->bindValue($key, $value);
-                        break;
+                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_INT);
+                } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                } elseif (is_string($value) || in_array($key, self::$forcedStringParams)) {
+                    $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                } elseif (is_null($value)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                } else {
+                    $statement->bindValue($key, $value);
                 }
             }
 
@@ -142,22 +134,16 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                switch (gettype($value)) {
-                    case 'integer':
-                        $statement->bindValue($key, $value, PDO::PARAM_INT);
-                        break;
-                    case 'boolean':
-                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
-                        break;
-                    case 'NULL':
-                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
-                        break;
-                    case 'string':
-                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
-                        break;
-                    default:
-                        $statement->bindValue($key, $value);
-                        break;
+                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_INT);
+                } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                } elseif (is_string($value) || in_array($key, self::$forcedStringParams)) {
+                    $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                } elseif (is_null($value)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                } else {
+                    $statement->bindValue($key, $value);
                 }
             }
 
@@ -188,22 +174,16 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                switch (gettype($value)) {
-                    case 'integer':
-                        $statement->bindValue($key, $value, PDO::PARAM_INT);
-                        break;
-                    case 'boolean':
-                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
-                        break;
-                    case 'NULL':
-                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
-                        break;
-                    case 'string':
-                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
-                        break;
-                    default:
-                        $statement->bindValue($key, $value);
-                        break;
+                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_INT);
+                } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                } elseif (is_string($value) || in_array($key, self::$forcedStringParams)) {
+                    $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                } elseif (is_null($value)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                } else {
+                    $statement->bindValue($key, $value);
                 }
             }
 
@@ -232,22 +212,16 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                switch (gettype($value)) {
-                    case 'integer':
-                        $statement->bindValue($key, $value, PDO::PARAM_INT);
-                        break;
-                    case 'boolean':
-                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
-                        break;
-                    case 'NULL':
-                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
-                        break;
-                    case 'string':
-                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
-                        break;
-                    default:
-                        $statement->bindValue($key, $value);
-                        break;
+                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_INT);
+                } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                } elseif (is_string($value) || in_array($key, self::$forcedStringParams)) {
+                    $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                } elseif (is_null($value)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                } else {
+                    $statement->bindValue($key, $value);
                 }
             }
 
@@ -275,22 +249,16 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                switch (gettype($value)) {
-                    case 'integer':
-                        $statement->bindValue($key, $value, PDO::PARAM_INT);
-                        break;
-                    case 'boolean':
-                        $statement->bindValue($key, $value, PDO::PARAM_BOOL);
-                        break;
-                    case 'NULL':
-                        $statement->bindValue($key, $value, PDO::PARAM_NULL);
-                        break;
-                    case 'string':
-                        $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
-                        break;
-                    default:
-                        $statement->bindValue($key, $value);
-                        break;
+                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_INT);
+                } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_BOOL);
+                } elseif (is_string($value) || in_array($key, self::$forcedStringParams)) {
+                    $statement->bindValue($key, htmlspecialchars($value), PDO::PARAM_STR);
+                } elseif (is_null($value)) {
+                    $statement->bindValue($key, $value, PDO::PARAM_NULL);
+                } else {
+                    $statement->bindValue($key, $value);
                 }
             }
 
