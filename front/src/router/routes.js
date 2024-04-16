@@ -83,7 +83,7 @@ const routes = [
             component: () => import('../pages/account/order/OrdersPage.vue'),
           },
           {
-            path: ':id',
+            path: ':order_id',
             name: 'account-orders-details',
             component: () => import('../pages/account/order/OrderPage.vue'),
             meta: {

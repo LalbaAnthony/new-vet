@@ -1,27 +1,20 @@
 <?php
 
-include_once APP_PATH . '/helpers/slugify.php';
+include_once APP_PATH . 'helpers/slugify.php';
 
 function getProduct($slug)
 {
-    $dbh = db_connect();
     $sql = "SELECT * FROM product WHERE slug = :slug;";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $slug));
-        $product = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #50: " . $e->getMessage());
-    }
 
-    return $product;
+    $params = array(":slug" => $slug);
+
+    $result = Database::queryOne($sql, $params);
+
+    return $result['data'];
 }
 
 function getProducts($categories = array(), $materials = array(), $search = null, $is_highlander = false, $exclude = array(), $include = array(), $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity')), $offset = null, $per_page = 10)
 {
-
-    $dbh = db_connect();
-
     // Select all products, with their categories and materials (we use LEFT JOIN to get products without categories or materials)
     $sql = "SELECT product.* FROM product
     LEFT JOIN product_category ON product_category.product_slug = product.slug
@@ -108,55 +101,48 @@ function getProducts($categories = array(), $materials = array(), $search = null
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind values for exclude (loop through the array of slugs to exclude)
-        if ($exclude && count($exclude) > 0 && count($include) == 0) {
-            foreach ($exclude as $key => $value) {
-                $sth->bindValue(":exclude_$key", $value);
-            }
+    // Bind values for exclude
+    if ($exclude && count($exclude) > 0 && count($include) == 0) {
+        foreach ($exclude as $key => $value) {
+            $params[":exclude_$key"] = $value;
         }
-
-        // Bind values for include (loop through the array of slugs to include)
-        if ($include && count($include) > 0 && count($exclude) == 0) {
-            foreach ($include as $key => $value) {
-                $sth->bindValue(":include_$key", $value);
-            }
-        }
-
-        // Bind values for category slug (loop through the array of category slugs)
-        if ($categories) {
-            foreach ($categories as $key => $value) {
-                $sth->bindValue(":category_slug_$key", $value);
-            }
-        }
-
-        // Bind values for material slug (loop through the array of material slugs)
-        if ($materials) {
-            foreach ($materials as $key => $value) {
-                $sth->bindValue(":material_slug_$key", $value);
-            }
-        }
-
-        // Bind others values
-        if ($search) $sth->bindValue(":search", "%$search%");
-        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
-        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
-
-        $sth->execute();
-
-        $products = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #51: " . $e->getMessage());
     }
 
-    return $products;
+    // Bind values for include
+    if ($include && count($include) > 0 && count($exclude) == 0) {
+        foreach ($include as $key => $value) {
+            $params[":include_$key"] = $value;
+        }
+    }
+
+    // Bind values for category slug
+    if ($categories) {
+        foreach ($categories as $key => $value) {
+            $params[":category_slug_$key"] = $value;
+        }
+    }
+
+    // Bind values for material slug
+    if ($materials) {
+        foreach ($materials as $key => $value) {
+            $params[":material_slug_$key"] = $value;
+        }
+    }
+
+    // Bind values
+    if ($search) $params[":search"] = "%$search%";
+    if ($per_page) $params[":per_page"] = $per_page;
+    if ($offset) $params[":offset"] = $offset;
+
+    $result = Database::queryAll($sql, $params);
+
+    return $result['data'];
 }
 
 function getProductsCount($categories = array(), $materials = array(), $search = null, $is_highlander = false, $exclude = array(), $include = array())
 {
-    $dbh = db_connect();
 
     // Select all products, with their categories and materials (we use LEFT JOIN to get products without categories or materials)
     $sql = "SELECT COUNT(DISTINCT product.slug) as count FROM product
@@ -231,89 +217,98 @@ function getProductsCount($categories = array(), $materials = array(), $search =
 
     if ($is_highlander) $sql .= " AND product.is_highlander = 1";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
 
-        // Bind values for exclude (loop through the array of slugs to exclude)
-        if ($exclude && count($exclude) > 0 && count($include) == 0) {
-            foreach ($exclude as $key => $value) {
-                $sth->bindValue(":exclude_$key", $value);
-            }
+    // Bind values for exclude
+    if ($exclude && count($exclude) > 0 && count($include) == 0) {
+        foreach ($exclude as $key => $value) {
+            $params[":exclude_$key"] = $value;
         }
-
-        // Bind values for include (loop through the array of slugs to include)
-        if ($include && count($include) > 0 && count($exclude) == 0) {
-            foreach ($include as $key => $value) {
-                $sth->bindValue(":include_$key", $value);
-            }
-        }
-
-        // Bind values for category slug (loop through the array of category slugs)
-        if ($categories) {
-            foreach ($categories as $key => $value) {
-                $sth->bindValue(":category_slug_$key", $value);
-            }
-        }
-
-        // Bind values for material slug (loop through the array of material slugs)
-        if ($materials) {
-            foreach ($materials as $key => $value) {
-                $sth->bindValue(":material_slug_$key", $value);
-            }
-        }
-
-        // Bind others values
-        if ($search) $sth->bindValue(":search", "%$search%");
-
-        $sth->execute();
-
-        $products = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #:52 " . $e->getMessage());
     }
 
-    return $products[0]['count'];
+    // Bind values for include
+    if ($include && count($include) > 0 && count($exclude) == 0) {
+        foreach ($include as $key => $value) {
+            $params[":include_$key"] = $value;
+        }
+    }
+
+    // Bind values for category slug
+    if ($categories) {
+        foreach ($categories as $key => $value) {
+            $params[":category_slug_$key"] = $value;
+        }
+    }
+
+    // Bind values for material slug
+    if ($materials) {
+        foreach ($materials as $key => $value) {
+            $params[":material_slug_$key"] = $value;
+        }
+    }
+
+    // Bind values
+    if ($search) $params[":search"] = "%$search%";
+
+    $result = Database::queryOne($sql, $params);
+
+    return $result['data']['count'];
 }
 
 function insertProduct($product)
 {
-    $dbh = db_connect();
 
     $sql = "INSERT INTO product (name, slug, description, price, is_highlander, stock_quantity, sort_order) VALUES (:name, :slug, :description, :price, :is_highlander, :stock_quantity, :sort_order)";
 
     if (!$product['slug']) $product['slug'] = slugify($product['name']);
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
-        if ($sth->rowCount() > 0) {
-            log_txt("Product registered in back office: name " . $product['name']);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #53: " . $e->getMessage());
+    $reslut = Database::queryInsert($sql, array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
+
+    if ($reslut['lastInsertId']) {
+        log_txt("Address inserted in back office: address_id " . $reslut);
+        return true;
+    } else {
+        return false;
     }
 }
 
 function updateProduct($product)
 {
-    $dbh = db_connect();
 
-    $sql = "UPDATE product SET name = :name, description = :description, price = :price, is_highlander = :is_highlander, stock_quantity = :stock_quantity, sort_order = :sort_order WHERE slug = :slug";
+    // $sql = "UPDATE product SET name = :name, description = :description, price = :price, is_highlander = :is_highlander, stock_quantity = :stock_quantity, sort_order = :sort_order WHERE slug = :slug";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
-        if ($sth->rowCount() > 0) {
-            log_txt("Product updated in back office: slug " . $product['slug']);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #54: " . $e->getMessage());
+    $sql = "UPDATE product SET";
+
+    if (isset($product['slug'])) $sql .= " slug = :slug,";
+    if (isset($product['name'])) $sql .= " name = :name,";
+    if (isset($product['description'])) $sql .= " description = :description,";
+    if (isset($product['price'])) $sql .= " price = :price,";
+    if (isset($product['is_highlander'])) $sql .= " is_highlander = :is_highlander,";
+    if (isset($product['stock_quantity'])) $sql .= " stock_quantity = :stock_quantity,";
+    if (isset($product['sort_order'])) $sql .= " sort_order = :sort_order,";
+    if (isset($product['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
+
+    $sql = rtrim($sql, ",");
+
+    $sql .= " WHERE slug = :slug";
+
+    $params = array();
+    if (isset($product['slug'])) $params[":slug"] = $product['slug'];
+    if (isset($product['name'])) $params[":name"] = $product['name'];
+    if (isset($product['description'])) $params[":description"] = $product['description'];
+    if (isset($product['price'])) $params[":price"] = $product['price'];
+    if (isset($product['is_highlander'])) $params[":is_highlander"] = $product['is_highlander'];
+    if (isset($product['stock_quantity'])) $params[":stock_quantity"] = $product['stock_quantity'];
+    if (isset($product['sort_order'])) $params[":sort_order"] = $product['sort_order'];
+    if (isset($product['is_deleted'])) $params[":is_deleted"] = $product['is_deleted'];
+
+    $reslut = Database::queryInsert($sql, $params);
+
+    if ($reslut['rowCount'] > 0) {
+        log_txt("Product updated in back office: slug " . $product['slug']);
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -324,30 +319,29 @@ function updateProductCategories($product_slug, $categories)
         return false;
     }
 
-    $dbh = db_connect();
 
-    // Delete all categories for this product
+    // Delete all categories for this prBF05W1HU5Joduct
     $sql = "UPDATE product_category SET is_deleted = 1 WHERE product_slug = :product_slug";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $product_slug));
+    $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
+
+    if ($reslut['success']) {
         log_txt("Product categories deleted in back office: slug " . $product_slug);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #55: " . $e->getMessage());
+    } else {
+        return false;
     }
 
     // Insert all categories for this product
     $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
     foreach ($categories as $key => $value) {
-        try {
-            $sth = $dbh->prepare($sql);
-            $sth->execute(array(":product_slug" => $product_slug, ":category_slug" => $value));
+        $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":category_slug" => $value));
+        if ($reslut['lastInsertId']) {
             log_txt("Product categories inserted in back office: slug " . $product_slug);
-        } catch (PDOException $e) {
-            die("Erreur lors de la requête SQL #56: " . $e->getMessage());
+        } else {
+            return false;
         }
     }
+
     return true;
 }
 
@@ -358,30 +352,29 @@ function updateProductMaterials($product_slug, $materials)
         return false;
     }
 
-    $dbh = db_connect();
 
     // Delete all materials for this product
     $sql = "UPDATE product_material SET is_deleted = 1 WHERE product_slug = :product_slug";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $product_slug));
+    $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
+
+    if ($reslut['success']) {
         log_txt("Product materials deleted in back office: slug " . $product_slug);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #58: " . $e->getMessage());
+    } else {
+        return false;
     }
 
     // Insert all materials for this product
     $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
     foreach ($materials as $key => $value) {
-        try {
-            $sth = $dbh->prepare($sql);
-            $sth->execute(array(":product_slug" => $product_slug, ":material_slug" => $value));
+        $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":material_slug" => $value));
+        if ($reslut['lastInsertId']) {
             log_txt("Product materials inserted in back office: slug " . $product_slug);
-        } catch (PDOException $e) {
-            die("Erreur lors de la requête SQL #57: " . $e->getMessage());
+        } else {
+            return false;
         }
     }
+
     return true;
 }
 
@@ -392,47 +385,44 @@ function updateProductImages($product_slug, $images)
         return false;
     }
 
-    $dbh = db_connect();
 
     // Delete all images for this product
     $sql = "UPDATE product_image SET is_deleted = 1 WHERE product_slug = :product_slug";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":product_slug" => $product_slug));
+    $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
+
+    if ($reslut['success']) {
         log_txt("Product images deleted in back office: slug " . $product_slug);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #59: " . $e->getMessage());
+    } else {
+        return false;
     }
 
     // Insert all images for this product
     $sql = "INSERT INTO product_image (product_slug, image_slug) VALUES (:product_slug, :image_slug)";
     foreach ($images as $key => $value) {
-        try {
-            $sth = $dbh->prepare($sql);
-            $sth->execute(array(":product_slug" => $product_slug, ":image_slug" => $value));
+        $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":image_slug" => $value));
+        if ($reslut['lastInsertId']) {
             log_txt("Product images inserted in back office: slug " . $product_slug);
-        } catch (PDOException $e) {
-            die("Erreur lors de la requête SQL #60: " . $e->getMessage());
-        }
-    }
-    return true;
-}
-
-function deleteProduct($slug)
-{
-    $dbh = db_connect();
-    $sql = "UPDATE product SET is_deleted = 1 WHERE slug = :slug";
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":slug" => $slug));
-        if ($sth->rowCount() > 0) {
-            log_txt("Product deleted in back office: slug " . $slug);
-            return true;
         } else {
             return false;
         }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #61: " . $e->getMessage());
+    }
+
+    return true;
+}
+
+function putToTrashProduct($slug)
+{
+    $sql = "UPDATE product SET is_deleted = 1 WHERE slug = :slug";
+
+    $params = array(":slug" => $slug);
+
+    $reslut = Database::queryUpdate($sql, $params);
+
+    if ($reslut['success']) {
+        log_txt("Product deleted in back office: slug " . $slug);
+        return true;
+    } else {
+        return false;
     }
 }

@@ -2,7 +2,7 @@
 
 include_once "../../config.inc.php";
 include_once APP_PATH . "helpers/password_strength.php";
-include_once APP_PATH . "models/admin.php";
+include_once APP_PATH . "controllers/admin.php";
 
 $login = isset($_POST['login']) ? trim($_POST['login']) : '';
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';
@@ -23,7 +23,7 @@ if ($login && $password && $passwordConfirm) {
                 if ($admin && $admin['login'] == $login) {
                     $error = "Ce login est déjà utilisé";
                 } else {
-                    if (insertAdmin($login, $password)) {
+                    if (insertAdmin(array('login' => $login, 'password' => $password))) {
                         $success = "Inscription réussie";
                         header("Location: " . APP_URL . "bo/pages/login.php");
                     } else {

@@ -1,10 +1,10 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/product.php";
-include_once APP_PATH . "/models/category.php";
-include_once APP_PATH . "/models/material.php";
-include_once APP_PATH . "/models/image.php";
+include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "controllers/category.php";
+include_once APP_PATH . "controllers/material.php";
+include_once APP_PATH . "controllers/image.php";
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
@@ -65,7 +65,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
 
@@ -132,7 +132,7 @@ if (isset($_POST['submit'])) {
             $selected_images = array();
             foreach ($productImages as $image) $selected_images[] = $image['slug'];
             ?>
-            <?php include_once APP_PATH . "/bo/partials/image_select.php"; ?>
+            <?php include_once APP_PATH . "bo/partials/image_select.php"; ?>
 
             <div class="d-flex justify-content-between">
                 <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>

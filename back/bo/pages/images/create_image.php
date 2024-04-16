@@ -1,8 +1,8 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/helpers/slugify.php";
-include_once APP_PATH . "/models/image.php";
+include_once APP_PATH . "helpers/slugify.php";
+include_once APP_PATH . "controllers/image.php";
 
 // Configuration
 $alowed_extensions = array("jpg", "jpeg", "png", "webp");
@@ -96,7 +96,7 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
     <div class="container mt-5">
 
         <?php if (isset($error)) : ?>

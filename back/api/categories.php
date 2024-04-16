@@ -2,12 +2,11 @@
 <?php
 
 include_once "../config.inc.php";
-include_once APP_PATH . '/models/category.php';
-include_once APP_PATH . '/models/image.php';
+include_once APP_PATH . 'controllers/category.php';
+include_once APP_PATH . 'controllers/image.php';
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'ASC', 'order_by' => 'libelle'));
-$offset = isset($_GET['offset']) ? $_GET['offset'] : null;
 $is_highlander = isset($_GET['is_highlander']) ? $_GET['is_highlander'] : false;
 $is_quick_access = isset($_GET['is_quick_access']) ? $_GET['is_quick_access'] : false;
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -20,7 +19,6 @@ $include = array();
 
 if ($exclude_string && strlen($exclude_string)) $exclude = explode(',', $exclude_string);
 if ($include_string && strlen($include_string)) $include = explode(',', $include_string);
-
 
 $categories_count = getCategoriesCount($search, $is_highlander, $is_quick_access, $exclude, $include);
 

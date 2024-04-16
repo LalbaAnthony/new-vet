@@ -86,7 +86,7 @@ const props = defineProps({
   overflow: hidden;
   background-color: var(--light);
   box-shadow: 3px 3px 15px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 25px;
+  border-radius: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;

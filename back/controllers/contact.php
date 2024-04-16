@@ -1,25 +1,19 @@
 <?php
 
-function getContact($id)
+function getContact($contact_id)
 {
-    $dbh = db_connect();
 
-    $sql = "SELECT * FROM contact WHERE contact_id = :id";
+    $sql = "SELECT * FROM contact WHERE contact_id = :contact_id";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":id" => $id));
-        $contact = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #17: " . $e->getMessage());
-    }
+    $params = array(":contact_id" => $contact_id);
 
-    return $contact;
+    $result = Database::queryOne($sql, $params);
+
+    return $result['data'];
 }
 
 function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')), $offset = null, $per_page = 10)
 {
-    $dbh = db_connect();
 
     $sql = "SELECT contact.* FROM contact 
     LEFT JOIN customer ON customer.customer_id = contact.contact_id";
@@ -56,26 +50,18 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
+    if ($search) $params[":search"] = "%" . $search . "%";
+    if ($per_page) $params[":per_page"] = $per_page;
+    if ($offset) $params[":offset"] = $offset;
 
-        // Bind others values
-        if ($search) $sth->bindValue(":search", "%$search%");
-        if ($per_page) $sth->bindValue(":per_page", $per_page, PDO::PARAM_INT);
-        if ($offset) $sth->bindValue(":offset", $offset, PDO::PARAM_INT);
+    $result = Database::queryAll($sql, $params);
 
-        $sth->execute();
-        $contacts = $sth->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #18: " . $sql);
-    }
-
-    return $contacts;
+    return $result['data'];
 }
 
 function getContactsCount($search = null)
 {
-    $dbh = db_connect();
 
     $sql = "SELECT COUNT(contact_id) as count FROM contact 
     LEFT JOIN customer ON customer.customer_id = contact.contact_id";
@@ -84,6 +70,7 @@ function getContactsCount($search = null)
     $sql .= " WHERE 1 = 1";
 
     $sql .= " AND contact.is_deleted = 0";
+
     if ($search) {
         $sql .= " AND (
             customer.first_name LIKE :search OR 
@@ -99,58 +86,44 @@ function getContactsCount($search = null)
         )";
     }
 
-    try {
-        $sth = $dbh->prepare($sql);
+    $params = array();
+    if ($search) $params[":search"] = "%" . $search . "%";
 
-        // Bind others values
-        if ($search) $sth->bindValue(":search", "%$search%");
+    $result = Database::queryOne($sql, $params);
 
-        $sth->execute();
-        $count = $sth->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #19: " . $sql);
-    }
-
-    return $count['count'];
+    return $result['data']['count'];
 }
 
 function insertContact($contact)
 {
-    $dbh = db_connect();
 
     if (!isset($contact['customer_id'])) $contact['customer_id'] = null;
 
     $sql = "INSERT INTO contact (customer_id, email, subject, message) VALUES (:customer_id, :email, :subject, :message)";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":customer_id" => $contact['customer_id'], ":email" => $contact['email'], ":subject" => $contact['subject'], ":message" => $contact['message']));
-        if ($sth->rowCount() > 0) {
-            log_txt("Contact registered in back office: customer_id " . $contact['customer_id']);
-        } else {
-            return "Erreur lors de l'ajout de la demande de contact";
-        }
-    } catch (PDOException $e) {
-        return "Erreur lors de la requête SQL #20: " . $e->getMessage();
+    $reslut = Database::queryInsert($sql, array(":customer_id" => $contact['customer_id'], ":email" => $contact['email'], ":subject" => $contact['subject'], ":message" => $contact['message']));
+
+    if ($reslut['lastInsertId']) {
+        log_txt("Contact inserted in back office: contact_id " . $reslut);
+        return $reslut;
+    } else {
+        return false;
     }
 }
 
 
-function deleteContact($id)
+function putToTrashContact($contact_id)
 {
-    $dbh = db_connect();
-    $sql = "UPDATE contact SET is_deleted = 1 WHERE contact_id = :id";
+    $sql = "UPDATE contact SET is_deleted = 1 WHERE contact_id = :contact_id";
 
-    try {
-        $sth = $dbh->prepare($sql);
-        $sth->execute(array(":id" => $id));
-        if ($sth->rowCount() > 0) {
-            log_txt("Product deleted in back office: slug " . $id);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (PDOException $e) {
-        die("Erreur lors de la requête SQL #21: " . $e->getMessage());
+    $params = array(":contact_id" => $contact_id);
+
+    $reslut = Database::queryUpdate($sql, $params);
+
+    if ($reslut['success']) {
+        log_txt("Contact deleted in back office: contact_id " . $contact_id);
+        return true;
+    } else {
+        return false;
     }
 }

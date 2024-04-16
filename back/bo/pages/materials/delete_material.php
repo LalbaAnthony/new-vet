@@ -1,7 +1,7 @@
 <?php 
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "controllers/material.php";
 
 $url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $material =  getMaterial($url_slug);
@@ -10,7 +10,7 @@ $material =  getMaterial($url_slug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = deleteMaterial($_POST['slug']);
+    $sucess = putToTrashMaterial($_POST['slug']);
 
     // Redirection vers la liste des contacts
     header('Location: ' . APP_URL . 'bo/pages/materials/index.php?deleted=' . $sucess);
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
         <h2 class="mb-4">Suppression de ce matériau ?</h2>

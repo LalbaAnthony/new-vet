@@ -1,7 +1,7 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/product.php";
+include_once APP_PATH . "controllers/product.php";
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
@@ -11,7 +11,7 @@ $product = getProduct($urlSlug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = deleteProduct($_POST['slug']);
+    $sucess = putToTrashProduct($_POST['slug']);
 
     // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/products/index.php?deleted=' . $sucess);
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
         <h2 style="margin: 30vh 0">Supprimer <?= $product['name'] ?> ?</h2>

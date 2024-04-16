@@ -1,9 +1,9 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/category.php";
-include_once APP_PATH . "/helpers/fr_datetime.php";
-include_once APP_PATH . "/models/image.php";
+include_once APP_PATH . "controllers/category.php";
+include_once APP_PATH . "helpers/fr_datetime.php";
+include_once APP_PATH . "controllers/image.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;
@@ -29,7 +29,7 @@ $categories = getCategories($search, null, null, null, null, $sort, $offset, $pe
 if (isset($_GET['delete']) && isset($_GET['selected_categories'])) {
     $selected_categories = explode(",", $_GET['selected_categories']);
     foreach ($selected_categories as $slug) {
-        deleteCategory($slug);
+        putToTrashCategory($slug);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;
@@ -54,9 +54,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_categories'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
-    <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
     <div class="container p-4 p-lg-5">
         <h1 class="text-center">Liste des catégories</h1>

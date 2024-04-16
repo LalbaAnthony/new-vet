@@ -1,8 +1,8 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/material.php";
-include_once APP_PATH . "/helpers/fr_datetime.php";
+include_once APP_PATH . "controllers/material.php";
+include_once APP_PATH . "helpers/fr_datetime.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;
@@ -28,7 +28,7 @@ $materials = getMaterials($search, $sort, $offset, $per_page);
 if (isset($_GET['delete']) && isset($_GET['selected_materials'])) {
     $selected_materials = explode(",", $_GET['selected_materials']);
     foreach ($selected_materials as $slug) {
-        deleteMaterial($slug);
+        putToTrashMaterial($slug);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
     exit;
@@ -51,9 +51,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_materials'])) {
 </head>
 
 <body>
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
-    <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
     <div class="container p-4 p-lg-5">
         <h1 class="text-center">Liste des matériaux</h1>
