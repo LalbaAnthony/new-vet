@@ -1,7 +1,7 @@
 <?php 
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "controllers/material.php";
 
 $url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 $material =  getMaterial($url_slug);
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
         <h2 class="mb-4">Suppression de ce matériau ?</h2>

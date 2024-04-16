@@ -1,7 +1,7 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/contact.php";
+include_once APP_PATH . "controllers/contact.php";
 
 // Réception du produit à modifier
 $url_id = isset($_GET['contact_id']) ? $_GET['contact_id'] : '';
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
         <h2 class="mb-4">Suppression de cette demande de contact ?</h2>

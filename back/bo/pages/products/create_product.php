@@ -1,11 +1,11 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/product.php";
-include_once APP_PATH . "/helpers/slugify.php";
-include_once APP_PATH . "/models/category.php";
-include_once APP_PATH . "/models/material.php";
-include_once APP_PATH . "/models/image.php";
+include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "helpers/slugify.php";
+include_once APP_PATH . "controllers/category.php";
+include_once APP_PATH . "controllers/material.php";
+include_once APP_PATH . "controllers/image.php";
 
 // Réception des tables enfants
 $categories = getCategories();
@@ -62,11 +62,11 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
 
-        <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
+        <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
         <h2 class="mb-4">Création d'un produit :</h2>
 
@@ -120,7 +120,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <?php $max_nb_images = 4; ?>
-            <?php include_once APP_PATH . "/bo/partials/image_select.php"; ?>
+            <?php include_once APP_PATH . "bo/partials/image_select.php"; ?>
 
             <div class="d-flex justify-content-between my-4">
                 <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>

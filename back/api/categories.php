@@ -2,8 +2,8 @@
 <?php
 
 include_once "../config.inc.php";
-include_once APP_PATH . '/models/category.php';
-include_once APP_PATH . '/models/image.php';
+include_once APP_PATH . 'controllers/category.php';
+include_once APP_PATH . 'controllers/image.php';
 
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'ASC', 'order_by' => 'libelle'));

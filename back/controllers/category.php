@@ -1,6 +1,6 @@
 <?php
 
-include_once APP_PATH . '/helpers/slugify.php';
+include_once APP_PATH . 'helpers/slugify.php';
 
 function getCategory($slug)
 {

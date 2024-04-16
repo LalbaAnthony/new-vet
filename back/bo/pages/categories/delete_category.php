@@ -1,7 +1,7 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/category.php";
+include_once APP_PATH . "controllers/category.php";
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
         <h2 style="margin: 30vh 0">Supprimer <?= $category['libelle'] ?> ?</h2>

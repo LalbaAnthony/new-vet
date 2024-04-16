@@ -81,7 +81,7 @@ Il est entièrement conçu en PHP natif, et utilise bootstrap pour le style du b
 * `back/database/` contient les fichiers de la base de données: les scripts de création, les scripts d'insertion/suppression de données fictives, et les scripts de création d'utilisateurs
 * `back/helpers/` contient les fichiers d'aide, c'est ici que sont gérées les fonctions réutilisables
 * `back/logs/` contient les fichiers de logs 
-* `back/models/` contient les fichiers de models, c'est ici que sont gérées les requêtes SQL
+* `back/controllers/` contient les fichiers de controllers, c'est ici que sont gérées les requêtes SQL
 * `back/uplaods/` contient les fichiers uploadés par les administrateurs du site
 
 ***REST API***

@@ -1,6 +1,6 @@
 <?php
 
-include_once APP_PATH . '/helpers/slugify.php';
+include_once APP_PATH . 'helpers/slugify.php';
 
 function getProduct($slug)
 {
@@ -320,7 +320,7 @@ function updateProductCategories($product_slug, $categories)
     }
 
 
-    // Delete all categories for this product
+    // Delete all categories for this prBF05W1HU5Joduct
     $sql = "UPDATE product_category SET is_deleted = 1 WHERE product_slug = :product_slug";
 
     $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));

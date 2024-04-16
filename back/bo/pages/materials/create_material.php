@@ -1,8 +1,8 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/helpers/slugify.php";
-include_once APP_PATH . "/models/material.php";
+include_once APP_PATH . "helpers/slugify.php";
+include_once APP_PATH . "controllers/material.php";
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
@@ -40,11 +40,11 @@ if (isset($_POST['submit'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
 
-        <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
+        <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
         <h2 class="mb-4">Création d'un matériau :</h2>
 

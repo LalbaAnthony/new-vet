@@ -1,11 +1,11 @@
 <?php
 
 include_once "../../../config.inc.php";
-include_once APP_PATH . "/models/product.php";
-include_once APP_PATH . "/helpers/fr_datetime.php";
-include_once APP_PATH . "/helpers/three_dots_string.php";
-include_once APP_PATH . "/helpers/float_to_price.php";
-include_once APP_PATH . "/models/image.php";
+include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "helpers/fr_datetime.php";
+include_once APP_PATH . "helpers/three_dots_string.php";
+include_once APP_PATH . "helpers/float_to_price.php";
+include_once APP_PATH . "controllers/image.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;
@@ -56,9 +56,9 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
 
 <body>
 
-    <?php include_once APP_PATH . "/bo/partials/header.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
-    <?php include_once APP_PATH . "/bo/partials/alert_message.php"; ?>
+    <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
     <div class="container p-4 p-lg-5">
         <h1 class="text-center">Liste des produits</h1>

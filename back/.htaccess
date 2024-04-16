@@ -17,8 +17,8 @@ Options -Indexes
     deny from all
 </Files>
 
-# Prevent /database, /helpers, /logs, /models
+# Prevent /database, /helpers, /logs, /controllers
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^(database|helpers|logs|models) - [F,L]
+    RewriteRule ^(database|helpers|logs|controllers) - [F,L]
 </IfModule>
