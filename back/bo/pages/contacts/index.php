@@ -1,6 +1,6 @@
 <?php
 
-include_once "../../../config.inc.php";
+require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/contact.php";
 include_once APP_PATH . "controllers/customer.php";
 include_once APP_PATH . "helpers/fr_datetime.php";

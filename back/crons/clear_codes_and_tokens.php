@@ -1,15 +1,18 @@
 <?php
 
-include_once "../../config.inc.php";
+require_once "../config.inc.php";
 include_once APP_PATH . 'controllers/customer.php';
 
-echo "Clearing codes and tokens...\n";
+echo "Clearing codes and tokens...<br>";
 try {
-    clearCodesAndTokens($customer['customer_id']);
+    $customers = getCustomers();
+    foreach ($customers as $customer) {
+        clearCodesAndTokens($customer['customer_id']);
+    }
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage() . "\n";
-    exit;
+    echo "Error: " . $e->getMessage() . "<br>";
+    die();
 } finally {
-    echo "Codes and tokens from all users habe been cleaned with success!";
+    echo "Codes and tokens from all users have been cleaned with success!";
 }
 echo "<br><br>";

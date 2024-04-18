@@ -1,6 +1,6 @@
 <?php
 
-include_once "../../config.inc.php";
+require_once "../../config.inc.php";
 include_once APP_PATH . "controllers/admin.php";
 
 $login = isset($_POST['login']) ? trim($_POST['login']) : '';
