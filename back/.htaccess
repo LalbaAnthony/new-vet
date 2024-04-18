@@ -22,3 +22,9 @@ Options -Indexes
     RewriteEngine On
     RewriteRule ^(database|helpers|logs|controllers) - [F,L]
 </IfModule>
+
+# Rewrite http://localhost/projects/new-vet/back/back-office/ to http://localhost/projects/new-vet/back/bo/pages/
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^back-office/(.*)$ bo/pages/$1 [NC,L]
+</IfModule>
