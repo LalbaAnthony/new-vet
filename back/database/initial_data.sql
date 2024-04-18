@@ -1,43 +1,38 @@
+DELETE FROM admin;
 DELETE FROM contact;
-
 DELETE FROM order_line;
-
 DELETE FROM `order`;
-
 DELETE FROM status;
-
 DELETE FROM card;
-
 DELETE FROM address;
-
 DELETE FROM customer;
-
 DELETE FROM country;
-
-DELETE FROM product_category;
-
-DELETE FROM product_material;
-
 DELETE FROM product_image;
-
+DELETE FROM product_material;
+DELETE FROM product_category;
+DELETE FROM product;
+DELETE FROM category;
+DELETE FROM material;
 DELETE FROM image;
 
-DELETE FROM product;
-
-DELETE FROM category;
-
-DELETE FROM material;
-
-DELETE FROM admin;
-
 INSERT INTO image (slug, name, path) VALUES 
+('vetements', 'Image Vêtements', 'vetements.webp'), 
+('chaussures', 'Image Chaussures', 'chaussures.webp'),
+('accessoires', 'Image Accessoires', 'accessoires.webp'),
+('pantalons', 'Image Pantalons', 'pantalons.webp'), 
+('jupes', 'Image Jupes', 'jupes.webp'), 
+('robes', 'Image Robes', 'robes.webp'), 
+('manteaux', 'Image Manteaux', 'manteaux.webp'), 
+('chemisiers', 'Image Chemisiers', 'chemisiers.webp'),
+('pulls', 'Image Pulls', 'pulls.webp'), 
+('vestes', 'Image Vestes', 'vestes.webp'), 
+('sacs', 'Image Sacs', 'sacs.webp'), 
+('ceintures', 'Image Ceintures', 'ceintures.webp'), 
+('bijoux', 'Image Bijoux', 'bijoux.webp'),
 ('robe-elegante-1', 'Image de robe élégante', 'robe-elegante-1.jpg'),
 ('robe-elegante-2', 'Image de robe élégante', 'robe-elegante-2.jpg'),
 ('robe-elegante-3', 'Image de robe élégante', 'robe-elegante-3.jpg'),
-('robe-elegante-4', 'Image de robe élégante', 'robe-elegante-4.jpg'),
-('accessoires', 'Image Accessoire', 'accessoires.webp'),
-('chaussures', 'Image Chaussures', 'chaussures.webp'),
-('vetements', 'Image Vêtements', 'vetements.webp');
+('robe-elegante-4', 'Image de robe élégante', 'robe-elegante-4.jpg');
 
 INSERT INTO material (slug, libelle, color) VALUES 
 ('cuire', 'Cuire', '#c31e1e'),
@@ -57,16 +52,16 @@ INSERT INTO category (slug, libelle, image_slug, is_highlander, sort_order, colo
 ('vetements', 'Vêtements', 'vetements', 1, 1, '#32a852'),
 ('chaussures', 'Chaussures', 'chaussures', 1, 2, '#7ba832'),
 ('accessoires', 'Accessoires', 'accessoires', 0, 3, '#7c2d96'),
-('pantalons', 'Pantalons', NULL, 0, 4, '#2d7c96'),
-('jupes', 'Jupes', NULL, 0, 5, '#96322d'),
-('robes', 'Robes', NULL, 0, 6, '#99832d'),
-('manteaux', 'Manteaux', NULL, 0, 7, '#322d96'),
-('chemisiers', 'Chemisiers', NULL, 0, 8, '#56854c'),
-('pulls', 'Pulls', NULL, 0, 9, '#7c9632'),
-('vestes', 'Vestes', NULL, 0, 10, '#32963d'),
-('sacs', 'Sacs', NULL, 0, 11, '#96327b'),
-('ceintures', 'Ceintures', NULL, 0, 12, '#2d9696'),
-('bijoux', 'Bijoux', NULL, 0, 13, '#96327c');
+('pantalons', 'Pantalons', 'pantalons', 0, 4, '#2d7c96'),
+('jupes', 'Jupes', 'jupes', 0, 5, '#96322d'),
+('robes', 'Robes', 'robes', 0, 6, '#99832d'),
+('manteaux', 'Manteaux', 'manteaux', 0, 7, '#322d96'),
+('chemisiers', 'Chemisiers', 'chemisiers', 0, 8, '#56854c'),
+('pulls', 'Pulls', 'pulls', 0, 9, '#7c9632'),
+('vestes', 'Vestes', 'vestes', 0, 10, '#32963d'),
+('sacs', 'Sacs', 'sacs', 0, 11, '#96327b'),
+('ceintures', 'Ceintures', 'ceintures', 0, 12, '#2d9696'),
+('bijoux', 'Bijoux', 'bijoux', 0, 13, '#96327c');
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
