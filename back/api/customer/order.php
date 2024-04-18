@@ -1,6 +1,6 @@
 <?php
 
-include_once "../../config.inc.php";
+require_once "../../config.inc.php";
 include_once APP_PATH . 'controllers/order.php';
 include_once APP_PATH . 'controllers/status.php';
 include_once APP_PATH . 'controllers/card.php';

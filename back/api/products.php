@@ -1,7 +1,7 @@
 
 <?php
 
-include_once "../config.inc.php";
+require_once "../config.inc.php";
 include_once APP_PATH . 'controllers/product.php';
 include_once APP_PATH . 'controllers/image.php';
 include_once APP_PATH . 'controllers/category.php';

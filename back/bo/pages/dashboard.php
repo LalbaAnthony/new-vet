@@ -1,6 +1,6 @@
 <?php
 
-include_once "../../config.inc.php";
+require_once "../../config.inc.php";
 include_once APP_PATH . "controllers/category.php";
 include_once APP_PATH . "helpers/rand_color.php";
 include_once APP_PATH . "helpers/fr_mindate.php";
