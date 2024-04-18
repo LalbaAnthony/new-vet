@@ -51,7 +51,7 @@ INSERT INTO material (slug, libelle, color) VALUES
 INSERT INTO category (slug, libelle, image_slug, is_highlander, sort_order, color) VALUES 
 ('vetements', 'Vêtements', 'vetements', 1, 1, '#32a852'),
 ('chaussures', 'Chaussures', 'chaussures', 1, 2, '#7ba832'),
-('accessoires', 'Accessoires', 'accessoires', 0, 3, '#7c2d96'),
+('accessoires', 'Accessoires', 'accessoires', 1, 3, '#7c2d96'),
 ('pantalons', 'Pantalons', 'pantalons', 0, 4, '#2d7c96'),
 ('jupes', 'Jupes', 'jupes', 0, 5, '#96322d'),
 ('robes', 'Robes', 'robes', 0, 6, '#99832d'),
@@ -65,10 +65,10 @@ INSERT INTO category (slug, libelle, image_slug, is_highlander, sort_order, colo
 
 INSERT INTO product (slug, name, description, is_highlander, price, stock_quantity) VALUES 
 ('robe-elegante', 'Robe élégante', 'Robe élégante pour toutes les occasions', 1, 59.99, 50),
-('escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 0, 39.99, 30),
-('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 0, 29.99, 20),
-('t-shirt-decontracte', 'T-shirt décontracté', 'T-shirt confortable pour un look décontracté', 0, 19.99, 40),
-('jean-slim', 'Jean slim', 'Jean ajusté pour un style tendance', 0, 49.99, 25),
+('escarpins-classiques', 'Escarpins classiques', 'Chaussures élégantes pour femmes', 1, 39.99, 30),
+('sac-a-main-chic', 'Sac à main chic', 'Accessoire parfait pour compléter votre look', 1, 29.99, 20),
+('t-shirt-decontracte', 'T-shirt décontracté', 'T-shirt confortable pour un look décontracté', 1, 19.99, 40),
+('jean-slim', 'Jean slim', 'Jean ajusté pour un style tendance', 1, 49.99, 25),
 ('baskets-sportives', 'Baskets sportives', 'Chaussures idéales pour une activité sportive', 0, 59.99, 35),
 ('montre-elegante', 'Montre élégante', 'Accessoire raffiné pour ajouter une touche de classe', 0, 79.99, 15),
 ('chapeau-de-soleil', 'Chapeau de soleil', 'Chapeau élégant pour se protéger du soleil', 0, 24.99, 18),

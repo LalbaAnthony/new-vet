@@ -1,51 +1,34 @@
 <template>
   <div>
     <section>
-      <Carousel title="Le meilleur de nos produits" :items="productsCarousel" :autoplay="true" />
+      <Carousel type="category" :items="categoriesCarousel" :autoplay="true" />
     </section>
     <section>
-      <Carousel title="Nos catégories préférées" :items="categoriesCarousel" :autoplay="true" />
-    </section>
-    <section>
-      <MoreProducts category="vetements" title="Notre séléction de vêtements" />
-      <MoreProducts category="chaussures" title="Notre séléction de chaussures" />
+      <Carousel type="product" title="Les Highlanders du moment" :items="productsCarousel" :autoplay="true" />
     </section>
   </div>
 </template>
 
-
-
 <script setup>
 import { onMounted, ref } from 'vue'
 import Carousel from '@/components/CarouselComponent.vue'
-import MoreProducts from '@/components/MoreProductsComponent.vue'
-import { useProductStore } from '@/stores/product'
 import { useCategoryStore } from '@/stores/category'
+import { useProductStore } from '@/stores/product'
 
-const productStore = useProductStore()
 const categoryStore = useCategoryStore()
+const productStore = useProductStore()
 
-const productsCarousel = ref([])
 const categoriesCarousel = ref([])
+const productsCarousel = ref([])
 
 onMounted(() => {
   // Load & compute categories to be displayed in carousel
   categoryStore.fetchHighlandersCategories().then(() => {
-    categoriesCarousel.value = categoryStore.highlandersCategories.data.map(item => ({
-      slug: item.slug,
-      libelle: item.libelle,
-      link: `/categorie/${item.slug}`,
-      path: item.path
-    }))
+    categoriesCarousel.value = categoryStore.highlandersCategories.data
   })
   // Load & compute products to be displayed in carousel
   productStore.fetchHighlandersProducts().then(() => {
-    productsCarousel.value = productStore.highlandersProducts.data.map(item => ({
-      slug: item.slug,
-      name: item.name,
-      link: `/produits/${item.slug}`,
-      path: item.path
-    }))
+    productsCarousel.value = productStore.highlandersProducts.data
   })
 })
 
