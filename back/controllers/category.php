@@ -190,8 +190,6 @@ function insertCategory($category)
     $sql = "INSERT INTO category (slug, libelle, image_slug, sort_order, is_quick_access, is_highlander, color) VALUES (:slug, :libelle, :image_slug, :sort_order, :is_quick_access, :is_highlander, :color)";
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
-    if (!$category['image_slug']) $category['image_slug'] = "/assets/others/default-img.webp";
-
 
     $params = array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_slug" => $category['image_slug'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']);
 
@@ -207,28 +205,25 @@ function insertCategory($category)
 
 function updateCategory($category)
 {
-
-    // $sql = "UPDATE category SET libelle = :libelle, path = :path, sort_order = :sort_order, is_quick_access = :is_quick_access, is_highlander = :is_highlander, color = :color WHERE slug = :slug";
-
     $sql = "UPDATE category SET";
 
     if (isset($category['slug'])) $sql .= " slug = :slug,";
     if (isset($category['libelle'])) $sql .= " libelle = :libelle,";
-    if (isset($category['path'])) $sql .= " path = :path,";
+    if (isset($category['image_slug'])) $sql .= " image_slug = :image_slug,";
     if (isset($category['sort_order'])) $sql .= " sort_order = :sort_order,";
     if (isset($category['is_quick_access'])) $sql .= " is_quick_access = :is_quick_access,";
     if (isset($category['is_highlander'])) $sql .= " is_highlander = :is_highlander,";
     if (isset($category['color'])) $sql .= " color = :color,";
     if (isset($category['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
-    
+
     $sql = rtrim($sql, ","); // cut off the last comma
-    
+
     $sql .= " WHERE slug = :slug";
-    
+
     $params = array();
     if (isset($category['slug'])) $params[":slug"] = $category['slug'];
     if (isset($category['libelle'])) $params[":libelle"] = $category['libelle'];
-    if (isset($category['path'])) $params[":path"] = $category['path'];
+    if (isset($category['image_slug'])) $params[":image_slug"] = $category['image_slug'];
     if (isset($category['sort_order'])) $params[":sort_order"] = $category['sort_order'];
     if (isset($category['is_quick_access'])) $params[":is_quick_access"] = $category['is_quick_access'];
     if (isset($category['is_highlander'])) $params[":is_highlander"] = $category['is_highlander'];

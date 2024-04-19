@@ -31,6 +31,7 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
     * C'est bon, vous avez accès à la base de données !
 * Installation du backend
     * Rendez-vous dans le fichier `config.inc.php` et modifiez les variables `$host`, `$user`, `$password` et `$database` en fonction de votre configuration
+    * Accordez les droits d'écriture sur le dossier `uploads` et `logs`: `cd /new-vet/back && sudo chown -R www-data logs uploads`
     * Toujours dans le même fichier, modifiez les lignes `define('APP_PATH', '/xampp/htdocs/projects/new-vet/back/');` et `define('APP_URL', 'http://localhost/projects/new-vet/back/');` en fonction de votre configuration
     * Rendez-vous sur `http://localhost/projects/new-vet/back/`
     * C'est bon, vous avez accès au back !

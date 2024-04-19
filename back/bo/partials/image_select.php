@@ -13,6 +13,7 @@ $images = getImages();
         <!-- Images list -->
         <?php foreach ($images as $image) : ?>
             <div class="d-flex flex-column align-items-center">
+                <?= $image['slug'] ?>
                 <img src="<?= image_or_placeholder(isset($image['path']) ? $image['path'] : '') ?>" class="m-1 object-fit-cover" alt="<?= $image['alt'] ?>" width="100px" height="100px">
                 <input type="checkbox" id="images_slugs" name="images_slugs[]" value="<?= $image['slug'] ?>" <?php echo (isset($selected_images) && in_array($image['slug'], $selected_images)) ? 'checked' : '' ?>>
             </div>
