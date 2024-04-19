@@ -5,7 +5,7 @@
       <a href="https://www.facebook.com/NEWVET/" target="_blank">
         <IconFacebook class="social-icon facebook" />
       </a>
-      <a href="hhttps://twitter.com/NEWVET" target="_blank">
+      <a href="https://twitter.com/NEWVET" target="_blank">
         <IconTwitterX class="social-icon twitter" />
       </a>
       <a href="https://www.instagram.com/NEWVET/?hl=fr" target="_blank">
