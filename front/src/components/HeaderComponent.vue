@@ -3,7 +3,7 @@
     <div class="header-bloc">
       <router-link to="/">
         <div class="bloc-logo">
-          <img class="main-logo" src="/logo_clear.webp" alt="Logo de NEW VET" />
+          <img class="main-logo" src="/logo_clear.webp" :alt="`Logo de ${SITE_NAME}`" />
         </div>
       </router-link>
       <div class="header-actions">
@@ -77,6 +77,7 @@ import IconEnvelopeFill from '@/icons/IconEnvelopeFill.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useCategoryStore } from '@/stores/category'
 import { useRouter } from 'vue-router'
+import { SITE_NAME } from '@/config';
 
 const router = useRouter()
 

@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
     $sucessUpload = false;
     $sucessInsertDb = false;
 
-    $target_file = UPLOAD_PATH . basename($_FILES["image"]["name"]);
+    $target_file = APP_UPLOAD_PATH . basename($_FILES["image"]["name"]);
     $extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
     // Vérifier si le fichier est une image réelle ou une fausse image

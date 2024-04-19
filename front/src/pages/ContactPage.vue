@@ -20,7 +20,7 @@
                   <div class="checkbox-group">
                         <input type="checkbox" id="collectData" name="collectData" v-model="collectData" />
                         <label for="collectData">En cochant cette case, j'accepte que mes données soient collectées et
-                              exploitées par NEW VET. Pour plus d'informations, consultez nos <router-link
+                              exploitées par {{ SITE_NAME }}. Pour plus d'informations, consultez nos <router-link
                                     to="/mentions-legales" class="link">mentions légales</router-link>.</label>
                   </div>
 
@@ -39,6 +39,7 @@ import { isValidEmail } from '@/helpers/helpers.js'
 import router from "@/router";
 import { post } from '@/helpers/api';
 import { useAuthStore } from '@/stores/auth'
+import { SITE_NAME } from '@/config';
 
 const authStore = useAuthStore()
 

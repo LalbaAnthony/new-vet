@@ -2,7 +2,7 @@
   <router-link :to="{ path: '/produits', query: { categories: props.category.slug } }">
     <div class="category-item">
       <img
-        :src="props.category?.image?.path && imageExists(URL_BACKEND_UPLOAD + props.category.image.path) ? `${URL_BACKEND_UPLOAD}${props.category.image.path}` : '/helpers/no-img-available.webp'"
+        :src="props.category?.image?.path && imageExists(BACKEND_UPLOAD_URL + props.category.image.path) ? `${BACKEND_UPLOAD_URL}${props.category.image.path}` : '/helpers/no-img-available.webp'"
         :alt="props.category.image.alt || `Image de ${props.category.libelle}`" />
       <h2 class="category-item-libelle">{{ props.category.libelle }}</h2>
     </div>
@@ -11,7 +11,7 @@
 
 <script setup>
 import { imageExists } from '@/helpers/helpers.js'
-import { URL_BACKEND_UPLOAD } from '@/config';
+import { BACKEND_UPLOAD_URL } from '@/config';
 
 const props = defineProps({
   category: {
