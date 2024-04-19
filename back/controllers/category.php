@@ -187,13 +187,13 @@ function getCategoriesFromProduct($product_slug)
 function insertCategory($category)
 {
 
-    $sql = "INSERT INTO category (slug, libelle, path, sort_order, is_quick_access, is_highlander, color) VALUES (:slug, :libelle, :path, :sort_order, :is_quick_access, :is_highlander, :color)";
+    $sql = "INSERT INTO category (slug, libelle, image_slug, sort_order, is_quick_access, is_highlander, color) VALUES (:slug, :libelle, :image_slug, :sort_order, :is_quick_access, :is_highlander, :color)";
 
     if (!$category['slug']) $category['slug'] = slugify($category['libelle']);
-    if (!$category['path']) $category['path'] = "/assets/others/default-img.webp";
+    if (!$category['image_slug']) $category['image_slug'] = "/assets/others/default-img.webp";
 
 
-    $params = array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":path" => $category['path'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']);
+    $params = array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_slug" => $category['image_slug'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']);
 
     $reslut = Database::queryInsert($sql, $params);
 

@@ -143,7 +143,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_categories'])) {
         <!-- Actions en bas de page -->
         <div class="d-flex justify-content-start gap-2 my-5">
             <button id="delete-categories" class="btn btn-danger" disabled onclick="deleteSelectedCategories()">Supprimer</button>
-            <a href="<?= APP_URL ?>bo/pages/categories/create_category.php" class="btn btn-primary">Ajouter</a>
+            <a href="<?= APP_URL ?>bo/pages/categories/add_category.php" class="btn btn-primary">Ajouter</a>
         </div>
     </div>
 </body>
