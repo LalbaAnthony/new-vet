@@ -50,6 +50,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
+
 img.carousel-img {
   width: 100%;
   height: 200px;

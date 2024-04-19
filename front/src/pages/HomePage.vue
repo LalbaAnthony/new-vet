@@ -1,10 +1,10 @@
 <template>
   <div>
     <section>
-      <Carousel type="category" :items="categoriesCarousel" :autoplay="true" />
+      <Carousel type="category" :items="categoriesCarousel" :autoplay="true" class="half-space"/>
     </section>
     <section>
-      <Carousel type="product" title="Les Highlanders du moment" :items="productsCarousel" :autoplay="true" />
+      <Carousel type="product" title="Les Highlanders du moment" :items="productsCarousel" :autoplay="true" class="half-space"/>
     </section>
   </div>
 </template>
@@ -32,7 +32,13 @@ onMounted(() => {
   })
 })
 
-
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.half-space {
+  margin-bottom: 2rem;
+  max-width: 1200px;
+}
+
+</style>

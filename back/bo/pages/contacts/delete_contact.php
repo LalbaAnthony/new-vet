@@ -5,6 +5,9 @@ include_once APP_PATH . "controllers/contact.php";
 
 // Réception du produit à modifier
 $url_id = isset($_GET['contact_id']) ? $_GET['contact_id'] : '';
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
 $contact = getContact($url_id);
 
 // Modification dans la base

@@ -4,6 +4,9 @@ require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/material.php";
 
 $url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
 $material =  getMaterial($url_slug);
 
 // Modification dans la base

@@ -7,15 +7,8 @@
         </div>
       </router-link>
       <div class="header-actions">
-        <input
-          type="search"
-          class="search"
-          id="search"
-          name="search"
-          :placeholder="searchPlaceholder"
-          v-model="search"
-          @keyup.enter="triggerSearch"
-        />
+        <input type="search" class="search" id="search" name="search" :placeholder="searchPlaceholder" v-model="search"
+          @keyup.enter="triggerSearch" />
         <ul class="header-action-btn">
           <li>
             <span v-if="Object.keys(authStore.cart).length > 0" class="cart-number">{{
@@ -53,13 +46,8 @@
     </nav>
     <div v-if="categoryStore.quickAccessCategories?.data?.length > 0" class="header-categories">
       <div class="header-quick-access">
-        <Pill
-          v-for="item in categoryStore.quickAccessCategories.data"
-          :key="item.slug"
-          :text="item.libelle"
-          :link="`/produits?categories=${item.slug}`"
-          type="light"
-        />
+        <Pill v-for="item in categoryStore.quickAccessCategories.data" :key="item.slug" :text="item.libelle"
+          :link="`/produits?categories=${item.slug}`" type="light" />
       </div>
     </div>
   </header>
@@ -90,19 +78,19 @@ const search = ref('')
 categoryStore.fetchQuickAccessCategories()
 
 function randSearchPlaceholder() {
-    const placeholders = [
-        'Rechercher ...',
-        'Chercher un produit ...',
-        'Chercher une catégorie ...',
-        'Chercher un article ...',
-        'Rechercher un produit ...',
-        'Rechercher une catégorie ...',
-        'Rechercher un article ...',
-        'Trouver un produit ...',
-        'Trouver une catégorie ...',
-        'Trouver un article ...'
-    ];
-    return placeholders[Math.floor(Math.random() * placeholders.length)]
+  const placeholders = [
+    'Rechercher ...',
+    'Chercher un produit ...',
+    'Chercher une catégorie ...',
+    'Chercher un article ...',
+    'Rechercher un produit ...',
+    'Rechercher une catégorie ...',
+    'Rechercher un article ...',
+    'Trouver un produit ...',
+    'Trouver une catégorie ...',
+    'Trouver un article ...'
+  ];
+  return placeholders[Math.floor(Math.random() * placeholders.length)]
 }
 
 function triggerSearch() {
@@ -122,6 +110,12 @@ function handleProfil() {
 <style scoped>
 /* DESKTOP */
 @media (min-width: 1024px) {
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
   .header-bloc {
     display: flex;
     max-width: 900px;
@@ -132,6 +126,12 @@ function handleProfil() {
 
 /* TABLET */
 @media (min-width: 768px) and (max-width: 1023px) {
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
   .header-bloc {
     display: flex;
     flex-direction: row;
@@ -140,6 +140,13 @@ function handleProfil() {
 
 /* MOBILE */
 @media (max-width: 767px) {
+
+  header {
+    position: static;
+    top: 0;
+    z-index: 1000;
+  }
+
   .header-bloc {
     display: flex;
     flex-direction: column;
@@ -180,7 +187,7 @@ ul.header-action-btn {
   padding: auto;
 }
 
-ul.header-action-btn > * {
+ul.header-action-btn>* {
   margin: 0 0 0 0.5rem;
 }
 
@@ -242,7 +249,7 @@ ul.header-action-btn > * {
   }
 }
 
-.header-pages > * {
+.header-pages>* {
   color: var(--light);
   font-size: 1rem;
   font-weight: 600;
@@ -250,7 +257,7 @@ ul.header-action-btn > * {
   transition: all 0.3s;
 }
 
-.header-pages > *:hover {
+.header-pages>*:hover {
   transform: translateY(-3px);
 }
 
