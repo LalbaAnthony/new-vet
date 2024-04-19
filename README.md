@@ -18,7 +18,7 @@ Trello: https://trello.com/b/xVJMjgUN/new-vet<br>
 * Installation du front
     * Allez dans `new-vet/front` 
     * Tapez `npm install` pour mettre à jour les dépéndances
-    * Rendez vous dans `new-vet/front/src/config.js`, afin de modifier les variables `URL_BACKEND_API` et `URL_BACKEND_UPLOAD` en fonction de votre configuration
+    * Rendez vous dans `new-vet/front/src/config.js`, afin de modifier les variables `BACKEND_API_URL` et `BACKEND_UPLOAD_URL` en fonction de votre configuration
     * Puis `npm run dev` afin de lancer le projet
     * Rendez vous ensuite sur l'adresse indiquez par le terminal, par exemple `http://localhost:5173/`
     * C'est bon, vous avez accès au front !

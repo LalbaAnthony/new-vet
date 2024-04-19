@@ -29,12 +29,16 @@
         <span class="link">Conditions générales d'utilisation</span>
       </router-link>
       <br>
+      <router-link to="/conditions-generales-de-vente">
+        <span class="link">Conditions générales vente</span>
+      </router-link>
+      <br>
       <router-link to="/contact">
         <span class="link">Contact</span>
       </router-link>
     </div>
     <div>
-      <h5>NEW VET</h5>
+      <h5>{{ SITE_NAME }}</h5>
       <span>© {{ new Date().getFullYear() }}</span>
     </div>
   </footer>
@@ -45,6 +49,7 @@ import IconFacebook from '@/icons/IconFacebook.vue';
 import IconTwitterX from '@/icons/IconTwitterX.vue';
 import IconInstagram from '@/icons/IconInstagram.vue';
 import IconYoutube from '@/icons/IconYoutube.vue';
+import { SITE_NAME } from '@/config';
 
 </script>
 

@@ -37,8 +37,8 @@ define('APP_DEBUG', true); // enable for development, disable for production
 define('FRONT_URL', 'http://localhost:5173/');
 define('APP_PATH', '/xampp/htdocs/projects/new-vet/back/');
 define('APP_URL', 'http://localhost/projects/new-vet/back/');
-define('UPLOAD_PATH', '/xampp/htdocs/projects/new-vet/back/uploads/');
-define('UPLOAD_URL', 'http://localhost/projects/new-vet/back/uploads/');
+define('APP_UPLOAD_PATH', '/xampp/htdocs/projects/new-vet/back/uploads/');
+define('APP_UPLOAD_URL', 'http://localhost/projects/new-vet/back/uploads/');
 
 /**
  * Démarrage de la session

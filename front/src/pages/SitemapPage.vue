@@ -14,7 +14,7 @@
         <li><a href="/contact" class="dark">Contact</a></li>
         <li><a href="/plan-du-site" class="dark">Plan du site</a></li>
         <li><a href="/mentions-legales" class="dark">Mentions légales</a></li>
-        <li> <a to="/conditions-generales-d-utilisation" class="dark">Conditions générales d'utilisation</a></li>
+        <li><a to="/conditions-generales-d-utilisation" class="dark">Conditions générales d'utilisation</a></li>
       </ul>
     </section>
   </div>

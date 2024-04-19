@@ -304,6 +304,20 @@ const routes = [
     },
   },
   {
+    path: '/conditions-generales-de-vente',
+    name: 'gcs',
+    component: () => import('../pages/GcsPage.vue'),
+    meta: {
+      title: 'Conditions générales de vente', private: false, breadcrumb: [
+        {
+          title: 'Conditions générales de vente',
+          path: null,
+          active: true
+        }
+      ],
+    },
+  },
+  {
     path: '/404',
     name: '404',
     component: () => import('../pages/error/ErrorNotFound.vue'),

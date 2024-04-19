@@ -11,7 +11,7 @@ $image = getImage($urlSlug);
 if (isset($_POST['submit'])) {
 
     // Suppression du fichier
-    $full_img_path = UPLOAD_PATH . $image['path'];
+    $full_img_path = APP_UPLOAD_PATH . $image['path'];
     if (file_exists($full_img_path)) {
         unlink($full_img_path);
     }

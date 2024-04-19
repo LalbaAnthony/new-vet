@@ -2,7 +2,7 @@
   <router-link :to="`/produits/${props.product.slug}`">
     <div class="product">
       <img
-        :src="props.product.images[0]?.path && imageExists(URL_BACKEND_UPLOAD + props.product.images[0].path) ? `${URL_BACKEND_UPLOAD}${props.product.images[0].path}` : '/helpers/no-img-available.webp'"
+        :src="props.product.images[0]?.path && imageExists(BACKEND_UPLOAD_URL + props.product.images[0].path) ? `${BACKEND_UPLOAD_URL}${props.product.images[0].path}` : '/helpers/no-img-available.webp'"
         :alt="props.product.images[0]?.alt || `Image de ${props.product.name}`" />
       <div>
         <div class="product-categories">
@@ -24,7 +24,7 @@ import Pill from '@/components/PillComponent.vue'
 import Stock from '@/components/StockComponent.vue'
 import { threeDotString } from '@/helpers/helpers.js'
 import { imageExists } from '@/helpers/helpers.js'
-import { URL_BACKEND_UPLOAD } from '@/config';
+import { BACKEND_UPLOAD_URL } from '@/config';
 
 const props = defineProps({
   product: {
