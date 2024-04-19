@@ -32,7 +32,7 @@ define('APP_NAME', 'NEW VET');
 define('APP_DEBUG', true); // enable for development, disable for production
 
 /**
- * Paramètre de l'application XAMPP / LOCALHOST environment
+ * Paramètre de l'application pour XAMPP
  */
 define('FRONT_URL', 'http://localhost:5173/');
 define('APP_PATH', '/xampp/htdocs/projects/new-vet/back/');
@@ -41,7 +41,7 @@ define('APP_UPLOAD_PATH', '/xampp/htdocs/projects/new-vet/back/uploads/');
 define('APP_UPLOAD_URL', 'http://localhost/projects/new-vet/back/uploads/');
 
 /**
- * Paramètre de l'application for, here for a DEBIAN / LOCALHOST environment
+ * Paramètre de l'application pour DEBIAN
  */
 // define('FRONT_URL', 'http://localhost:5173/');
 // define('APP_PATH', '/var/www/html/new-vet/back/');
