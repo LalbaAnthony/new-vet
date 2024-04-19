@@ -33,7 +33,7 @@ $images = getImages();
     const max = <?= $max_nb_images ?> || 1;
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener('change', function() {
-            var checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            var checked = document.querySelectorAll('input[id="images_slugs"]:checked');
             if (checked.length > max) {
                 alert(`Vous ne pouvez pas sélectionner plus de ${max} images`);
                 this.checked = false;
