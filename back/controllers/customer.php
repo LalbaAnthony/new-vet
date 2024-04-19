@@ -176,6 +176,37 @@ function insertCustomer($customer)
     }
 }
 
+function updateCustomer($customer)
+{
+    $sql = "UPDATE customer SET";
+
+    if (isset($customer['first_name'])) $sql .= " first_name = :first_name,";
+    if (isset($customer['lastname'])) $sql .= " lastname = :lastname,";
+    if (isset($customer['email'])) $sql .= " email = :email,";
+    if (isset($customer['password'])) $sql .= " password = :password,";
+
+    $sql = rtrim($sql, ",");
+
+    $sql .= " WHERE customer_id = :customer_id";
+
+    $params = array();
+    if (isset($customer['customer_id'])) $params[":customer_id"] = $customer['customer_id'];
+    if (isset($customer['first_name'])) $params[":first_name"] = $customer['first_name'];
+    if (isset($customer['lastname'])) $params[":lastname"] = $customer['lastname'];
+    if (isset($customer['email'])) $params[":email"] = $customer['email'];
+    if (isset($customer['password'])) $params[":password"] = $customer['password'];
+   
+
+    $result = Database::queryInsert($sql, $params);
+    if ($result['success']) {
+        log_txt("Customer modified in back office: customer_id " . $customer['customer_id']);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 function putToTrashCustomer($customer_id)
 {
 
