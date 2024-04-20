@@ -1,10 +1,18 @@
 <template>
   <div>
-    <section>
-      <Carousel type="category" :items="categoriesCarousel" :autoplay="true" class="half-space"/>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>NEW VET</h1>
+        <p>Le site de vente en ligne de mode</p>
+        <button class="button outline">Découvrir</button>
+      </div>
+      <img src="/images/hero-image.webp" alt="Aucun image de disponible" class="hero-images" />
     </section>
     <section>
-      <Carousel type="product" title="Les Highlanders du moment" :items="productsCarousel" :autoplay="true" class="half-space"/>
+      <Carousel type="category" :items="categoriesCarousel" :autoplay="true" />
+    </section>
+    <section>
+      <Carousel type="product" title="Les Highlanders du moment" :items="productsCarousel" :autoplay="true" />
     </section>
   </div>
 </template>
@@ -35,10 +43,29 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
-.half-space {
-  margin-bottom: 2rem;
-  max-width: 1200px;
+section.hero {
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
 }
 
+.hero-content {
+  max-width: 50%;
+}
+
+section.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+section.hero p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero-images {
+  max-width: 50%;
+}
 </style>
