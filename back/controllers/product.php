@@ -304,7 +304,7 @@ function updateProduct($product)
 
     $reslut = Database::queryInsert($sql, $params);
 
-    if ($reslut['rowCount'] > 0) {
+    if ($reslut['lastInsertId'] > 0) {
         log_txt("Product updated in back office: slug " . $product['slug']);
         return true;
     } else {

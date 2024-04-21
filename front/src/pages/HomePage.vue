@@ -1,5 +1,13 @@
 <template>
   <div>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>NEW VET</h1>
+        <p>Le site de vente en ligne de mode</p>
+        <button class="button outline">Découvrir</button>
+      </div>
+      <img src="/images/hero-image.webp" alt="Aucun image de disponible" class="hero-images" />
+    </section>
     <section>
       <Carousel type="category" :items="categoriesCarousel" :autoplay="true" />
     </section>
@@ -32,7 +40,32 @@ onMounted(() => {
   })
 })
 
-
 </script>
 
-<style scoped></style>
+<style scoped>
+section.hero {
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem;
+}
+
+.hero-content {
+  max-width: 50%;
+}
+
+section.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+section.hero p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero-images {
+  max-width: 50%;
+}
+</style>

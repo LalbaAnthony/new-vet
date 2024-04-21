@@ -9,6 +9,10 @@ include_once APP_PATH . "controllers/image.php";
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
+
 $product = getProduct($urlSlug);
 
 $productMaterials = getMaterialsFromProduct($urlSlug);
@@ -34,6 +38,8 @@ if (isset($_POST['submit'])) {
     $productMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : $productMaterials;
     $productCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : $productCategories;
     $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
+
+    dd($_POST['images_slugs']);
 
     // Formulaire validé : on modifie l'enregistrement
     $sucessProduct = updateProduct($product);

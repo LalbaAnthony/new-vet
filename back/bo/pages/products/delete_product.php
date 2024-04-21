@@ -5,6 +5,9 @@ include_once APP_PATH . "controllers/product.php";
 
 // Réception du produit à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
 $product = getProduct($urlSlug);
 
 // Modification dans la base
