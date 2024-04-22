@@ -2,8 +2,8 @@
   <div>
     <section class="hero">
       <div class="hero-content">
-        <h1>{{ SITE_NAME }}</h1>
-        <p>Le site de vente en ligne de mode</p>
+        <h1 class="hero-title">{{ SITE_NAME }}</h1>
+        <p>Le site de vente en ligne de vêtement pour femme.</p>
         <button class="button outline">Découvrir</button>
       </div>
       <div class="hero-images">
@@ -80,6 +80,19 @@ section.hero {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.hero-title:after {
+  content: "";
+  display: block;
+  width: 170px;
+  height: 7px;
+  border-radius: 25px;
+  background: var(--secondary);
+  background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+  margin-top: 0.25rem;
+  animation-name: grownFromLeft;
+  animation-duration: 0.5s;
 }
 
 .hero-content {
