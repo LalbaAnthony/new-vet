@@ -23,7 +23,17 @@ $offset = ($page - 1) * $per_page;
 $maxPage = ceil($customers_count / $per_page);
 
 // Fetch customers with sorting
-$customers = getCustomers($search);
+$customers = getCustomers($search,$sort,$offset,$per_page);
+
+// Bottom action: delete selected customers, ...
+if (isset($_GET['delete']) && isset($_GET['selected_customers'])) {
+    $selected_customers = explode(",", $_GET['selected_customers']);
+    foreach ($selected_customers as $id) {
+        putToTrashcustomer($id);
+    }
+    header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +52,7 @@ $customers = getCustomers($search);
 </head>
 
 <body>
-<?php var_dump($search); ?>
+
     <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
@@ -64,7 +74,7 @@ $customers = getCustomers($search);
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=first_name&order=<?= $new_order ?>">Prenom</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_name&order=<?= $new_order ?>">Nom</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">E-mail</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=has_validate_email&order=<?= $new_order ?>">Mail Valide ?</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=has_validated_email&order=<?= $new_order ?>">Mail Valide ?</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_login&order=<?= $new_order ?>">Last Login</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Date Création</a></th>
                     <th scope='col' colspan='2'>&nbsp;</th>
@@ -125,3 +135,59 @@ $customers = getCustomers($search);
 </body>
 
 </html>
+<script>
+    // Fonction disbale suppr button
+    function disableSupprButton() {
+        var btn = document.getElementById('delete-customers');
+        btn.disabled = true;
+    }
+
+    // Fonction enable suppr button
+    function enableSupprButton() {
+        var btn = document.getElementById('delete-customers');
+        btn.disabled = false;
+    }
+
+    // Fonction pour cocher/décocher toutes les cases
+    function toggleAll() {
+        var checkboxes = document.getElementsByName('selected_customers[]');
+        for (var checkbox of checkboxes) {
+            checkbox.checked = event.target.checked;
+        }
+        if (event.target.checked) {
+            enableSupprButton();
+        } else {
+            disableSupprButton();
+        }
+    }
+
+    // Fonction pour supprimer les produits sélectionnés
+    function deleteSelectedcustomers() {
+        var checkboxes = document.getElementsByName('selected_customers[]');
+        var selected_customers = [];
+        for (var checkbox of checkboxes) {
+            if (checkbox.checked) {
+                selected_customers.push(checkbox.value);
+            }
+        }
+        if (selected_customers.length > 0) {
+            if (confirm("Voulez-vous vraiment supprimer les éléments sélectionnés ?")) {
+                window.location.href = "<?= $_SERVER['PHP_SELF'] ?>?delete&selected_customers=" + selected_customers.join(",");
+            }
+        } else {
+            alert("Vous devez sélectionner au moins un élément à supprimer");
+        }
+    }
+
+    // Désactiver le bouton de suppression si aucune case n'est cochée
+    var checkboxes = document.getElementsByName('selected_customers[]');
+    for (var checkbox of checkboxes) {
+        checkbox.addEventListener('change', function() {
+            if (this.checked || document.querySelector('input[name="selected_images[]"]:checked')) {
+                enableSupprButton();
+            } else {
+                disableSupprButton();
+            }
+        });
+    }
+</script>
