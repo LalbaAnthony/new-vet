@@ -2,16 +2,19 @@
   <div>
     <section class="hero">
       <div class="hero-content">
-        <h1>NEW VET</h1>
+        <h1>{{ SITE_NAME }}</h1>
         <p>Le site de vente en ligne de mode</p>
         <button class="button outline">Découvrir</button>
       </div>
       <div class="hero-images">
-        <img src="/images/hero-image.webp" alt="Aucun image de disponible" />
+        <img src="/images/hero/hero-image.webp" :alt="`Image de banière de ${SITE_NAME}`" />
         <div class="fade"></div>
       </div>
-
+      <div class="hero-graph-contener">
+        <img class="hero-graph" src="/images/hero/hero-graph.webp" />
+      </div>
     </section>
+
     <section>
       <Carousel type="category" :items="categoriesCarousel" :autoplay="true" />
     </section>
@@ -22,6 +25,7 @@
 </template>
 
 <script setup>
+import { SITE_NAME } from '@/config';
 import { onMounted, ref } from 'vue'
 import Carousel from '@/components/CarouselComponent.vue'
 import { useCategoryStore } from '@/stores/category'
@@ -47,16 +51,39 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* DESKTOP */
+@media (min-width: 1024px) {
+  section.hero {
+    flex-direction: row;
+    padding: 4rem;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) and (max-width: 1023px) {
+  section.hero {
+    flex-direction: row;
+    padding: 3rem;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  section.hero {
+    flex-direction: column;
+    flex-direction: column-reverse;
+    gap: 2rem;
+  }
+}
+
 section.hero {
-  /* background-color: red; */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
 }
 
 .hero-content {
-  max-width: 50%;
+  text-align: left;
 }
 
 section.hero h1 {
@@ -71,8 +98,7 @@ section.hero p {
 
 .hero-images {
   position: relative;
-  width: 50%;
-  /* height: 100%; */
+  width: 75%;
 }
 
 .hero-images img {
@@ -89,5 +115,43 @@ section.hero p {
   height: 100px;
   z-index: 2;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0;
+}
+
+.hero-graph-contener {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+/* DESKTOP */
+@media (min-width: 1024px) {
+  .hero-graph {
+    left: -260px;
+    top: -200px;
+    width: 300px;
+  }
+}
+
+/* TABLET */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-graph {
+    left: -175px;
+    top: -150px;
+    width: 250px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .hero-graph {
+    left: -100px;
+    top: -30px;
+    width: 200px;
+  }
+}
+
+.hero-graph {
+  position: absolute;
+  z-index: -5;
 }
 </style>

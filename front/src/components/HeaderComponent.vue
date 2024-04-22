@@ -113,7 +113,7 @@ function handleProfil() {
   header {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 5;
   }
 
   .header-bloc {
@@ -129,7 +129,7 @@ function handleProfil() {
   header {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 5;
   }
 
   .header-bloc {
@@ -144,7 +144,7 @@ function handleProfil() {
   header {
     position: static;
     top: 0;
-    z-index: 1000;
+    z-index: 5;
   }
 
   .header-bloc {
@@ -216,7 +216,7 @@ ul.header-action-btn>* {
 }
 
 .cart-number {
-  z-index: 1;
+  z-index: 6;
   position: absolute;
   padding: 0 8px;
   background-color: var(--secondary);
