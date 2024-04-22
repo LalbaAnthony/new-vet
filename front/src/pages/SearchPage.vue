@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="page-title">Rechercher un produit, une catégorie</h2>
+    <h2 class="page-title">Recherche</h2>
     <Breadcrumb />
     <Loader v-if="productStore.products.loading && categoryStore.categories.loading" />
     <div v-else>
