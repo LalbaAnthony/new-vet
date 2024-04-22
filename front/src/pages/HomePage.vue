@@ -6,7 +6,11 @@
         <p>Le site de vente en ligne de mode</p>
         <button class="button outline">Découvrir</button>
       </div>
-      <img src="/images/hero-image.webp" alt="Aucun image de disponible" class="hero-images" />
+      <div class="hero-images">
+        <img src="/images/hero-image.webp" alt="Aucun image de disponible" />
+        <div class="fade"></div>
+      </div>
+
     </section>
     <section>
       <Carousel type="category" :items="categoriesCarousel" :autoplay="true" />
@@ -66,6 +70,24 @@ section.hero p {
 }
 
 .hero-images {
-  max-width: 50%;
+  position: relative;
+  width: 50%;
+  /* height: 100%; */
+}
+
+.hero-images img {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.hero-images .fade {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 2;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0;
 }
 </style>
