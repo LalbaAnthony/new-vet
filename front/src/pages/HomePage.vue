@@ -7,7 +7,7 @@
         <button class="button outline">Découvrir</button>
       </div>
       <div class="hero-images">
-        <img src="/images/hero/hero-image.webp" :alt="`Image de banière de ${SITE_NAME}`" />
+        <img src="/images/hero/hero-image-medium.webp" :alt="`Image de banière de ${SITE_NAME}`" />
         <div class="fade"></div>
       </div>
       <div class="hero-graph-contener">

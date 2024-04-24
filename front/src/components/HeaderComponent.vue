@@ -12,8 +12,8 @@
         <ul class="header-action-btn">
           <li>
             <span v-if="Object.keys(authStore.cart).length > 0" class="cart-number">{{
-              authStore.cartTotal
-            }}</span>
+            authStore.cartTotal
+          }}</span>
             <router-link to="/panier">
               <IconCartFill class="header-action-btn-icon primary" />
             </router-link>
@@ -116,6 +116,11 @@ function handleProfil() {
     z-index: 5;
   }
 
+  .main-logo {
+    width: 75px;
+    height: 75px;
+  }
+
   .header-bloc {
     display: flex;
     max-width: 900px;
@@ -132,6 +137,11 @@ function handleProfil() {
     z-index: 5;
   }
 
+  .main-logo {
+    width: 75px;
+    height: 75px;
+  }
+
   .header-bloc {
     display: flex;
     flex-direction: row;
@@ -145,6 +155,11 @@ function handleProfil() {
     position: static;
     top: 0;
     z-index: 5;
+  }
+
+  .main-logo {
+    width: 100px;
+    height: 100px;
   }
 
   .header-bloc {
@@ -175,8 +190,6 @@ header {
 }
 
 .main-logo {
-  width: 100px;
-  height: 100px;
   margin: 0 auto;
 }
 
