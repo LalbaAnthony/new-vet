@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="form-group">
-                <label class="required" for="price">E-mail:</label>
+                <label class="required" for="email">E-mail:</label>
                 <input class="form-control" type="email" id="email" name="email" value="<?= $customer['email'] ?>" required>
             </div>
 
