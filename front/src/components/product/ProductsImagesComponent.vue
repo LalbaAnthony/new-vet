@@ -15,10 +15,10 @@
           :src="props.images[indexImage]?.path && imageExists(BACKEND_UPLOAD_URL + props.images[indexImage].path) ? `${BACKEND_UPLOAD_URL}${props.images[indexImage].path}` : '/helpers/no-img-available.webp'"
           :alt="props.images[indexImage].alt || `Image de ${props.alt}`" class="carousel-main-image"
           @click="props.images[indexImage]?.path && imageExists(BACKEND_UPLOAD_URL + props.images[indexImage].path) && !isMainOpen ? showMainImage() : hideMainImage()" />
-        <ul class="carousel-other-images">
+        <ul v-if="props.images && props.images.length > 1" class="carousel-other-images">
           <li v-for="(image, i) in props.images" :key="i">
             <img v-if="image.path && imageExists(BACKEND_UPLOAD_URL + image.path)"
-              :src="`${BACKEND_UPLOAD_URL}${image.path}`" :alt=" image.alt || `Image de ${props.alt}`"
+              :src="`${BACKEND_UPLOAD_URL}${image.path}`" :alt="image.alt || `Image de ${props.alt}`"
               @click="setCarouselImage(i)" :class="indexImage === i ? 'active' : ''">
           </li>
         </ul>
@@ -108,6 +108,8 @@ const showMainImage = () => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
   }
 }
 
@@ -130,8 +132,9 @@ const showMainImage = () => {
     flex-direction: row;
     gap: 1rem;
     justify-content: space-between;
+    max-width: 250px;
+    overflow-x: auto;
   }
-
 }
 
 /* MOBILE */
@@ -153,6 +156,8 @@ const showMainImage = () => {
     flex-direction: row;
     gap: 1rem;
     justify-content: space-between;
+    max-width: 250px;
+    overflow-x: auto;
   }
 }
 

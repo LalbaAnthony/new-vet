@@ -1,7 +1,9 @@
 :root {
   /* Vue App */
   --primary: #F1452B;
+  --primary-light: #f05c45;
   --secondary: #FEBD21;
+  --secondary-light: #ffc94d;
   --light: #ffffff;
   --gray: #cccccc;
   --light-gray: #eeeeee;

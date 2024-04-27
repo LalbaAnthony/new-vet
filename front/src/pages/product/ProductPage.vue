@@ -114,6 +114,7 @@ watch(
     display: flex;
     flex-direction: row;
     gap: 2rem;
+    margin-top: 3rem;
     justify-content: space-between;
   }
 }
@@ -166,6 +167,7 @@ watch(
 }
 
 .product-actions {
+  position: sticky;
   display: flex;
   flex-direction: column;
   gap: 1rem;
