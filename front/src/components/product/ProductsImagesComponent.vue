@@ -198,7 +198,7 @@ img.active {
 .main-display {
   background-color: var(--light);
   border-radius: 20px;
-  width: 500px;
+  max-height: 90vh;
   max-width: 90%;
   position: fixed;
   top: 50%;
@@ -215,8 +215,8 @@ img.active {
 }
 
 .main-display-image {
-  max-width: 100%;
-  max-height: 100%;
+  max-height: 80vh;
+  max-width: 80vw;
   object-fit: cover;
 }
 
