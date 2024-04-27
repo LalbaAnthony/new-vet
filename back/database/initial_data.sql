@@ -1,12 +1,10 @@
-DELETE FROM admin;
-DELETE FROM contact;
 DELETE FROM order_line;
 DELETE FROM `order`;
-DELETE FROM status;
 DELETE FROM card;
 DELETE FROM address;
 DELETE FROM customer;
 DELETE FROM country;
+DELETE FROM status;
 DELETE FROM product_image;
 DELETE FROM product_material;
 DELETE FROM product_category;
@@ -14,25 +12,61 @@ DELETE FROM product;
 DELETE FROM category;
 DELETE FROM material;
 DELETE FROM image;
+DELETE FROM contact;
+DELETE FROM admin;
 
 INSERT INTO image (slug, name, path) VALUES 
-('vetements', 'Image Vêtements', 'vetements.webp'), 
-('chaussures', 'Image Chaussures', 'chaussures.webp'),
-('accessoires', 'Image Accessoires', 'accessoires.webp'),
-('pantalons', 'Image Pantalons', 'pantalons.webp'), 
-('jupes', 'Image Jupes', 'jupes.webp'), 
-('robes', 'Image Robes', 'robes.webp'), 
-('manteaux', 'Image Manteaux', 'manteaux.webp'), 
-('chemisiers', 'Image Chemisiers', 'chemisiers.webp'),
-('pulls', 'Image Pulls', 'pulls.webp'), 
-('vestes', 'Image Vestes', 'vestes.webp'), 
-('sacs', 'Image Sacs', 'sacs.webp'), 
-('ceintures', 'Image Ceintures', 'ceintures.webp'), 
-('bijoux', 'Image Bijoux', 'bijoux.webp'),
-('robe-elegante-1', 'Image de robe élégante', 'robe-elegante-1.jpg'),
-('robe-elegante-2', 'Image de robe élégante', 'robe-elegante-2.jpg'),
-('robe-elegante-3', 'Image de robe élégante', 'robe-elegante-3.jpg'),
-('robe-elegante-4', 'Image de robe élégante', 'robe-elegante-4.jpg');
+('accessoires', 'Image d\'accessoires', 'accessoires.webp'),
+('baskets-sportives-1', 'Image de basket sportive 1', 'baskets-sportives-1.webp'),
+('baskets-sportives-2', 'Image de basket sportive 2' , 'baskets-sportives-2.webp'),
+('bijoux', 'Image de bijoux', 'bijoux.webp'),
+('blouse-florale-1', 'Image de blouse florale 1' , 'blouse-florale-1.webp'),
+('blouse-florale-2', 'Image de blouse florale 2', 'blouse-florale-2.webp'),
+('blouse-florale-3', 'Image de blouse florale 3', 'blouse-florale-3.webp'),
+('casquette-tendance-1', 'Image de casquette tendance 1', 'casquette-tendance-1.webp'),
+('casquette-tendance-2', 'Image de casquette tendance 2', 'casquette-tendance-2.webp'),
+('ceinture-elegante-1', 'Image de ceinture élégante 1', 'ceinture-elegante-1.webp'),
+('ceinture-elegante-2', 'Image de ceinture élégante 2', 'ceinture-elegante-2.webp'),
+('ceinture-elegante-3', 'Image de ceinture élégante 3', 'ceinture-elegante-3.webp'),
+('ceintures', 'Image de ceintures', 'ceintures.webp'),
+('chapeau-de-soleil-1', 'Image de chapeau de soleil 1', 'chapeau-de-soleil-1.jpg'),
+('chapeau-de-soleil-2', 'Image de chapeau de soleil 2', 'chapeau-de-soleil-2.jpg'),
+('chaussettes-colorees-1', 'Image de chaussettes colorées 1', 'chaussettes-colorees-1.webp'),
+('chaussures', 'Image de chaussures', 'chaussures.webp'),
+('chemisiers', 'Image de chemisiers', 'chemisiers.webp'),
+('collier-fantaisie-2', 'Image de collier fantaisie 2', 'collier-fantaisie-2.webp'),
+('collier-fantaisie-1', 'Image de collier fantaisie 1', 'collier-fantaisie-1.webp'),
+('escarpins-classiques-1', 'Image d\'escarpins classiques 1', 'escarpins-classiques-1.jpg'),
+('escarpins-classiques-2', 'Image d\'escarpins classiques 2', 'escarpins-classiques-2.jpg'),
+('escarpins-classiques-3', 'Image d\'escarpins classiques 3', 'escarpins-classiques-3.jpg'),
+('escarpins-classiques-4', 'Image d\'escarpins classiques 4', 'escarpins-classiques-4.jpg'),
+('jean-slim-1', 'Image de jean slim', 'jean-slim-1.webp'),
+('jupes', 'Image de jupes', 'jupes.webp'),
+('manteaux', 'Image de manteaux', 'manteaux.webp'),
+('montre-elegante-1', 'Image de montre élégante 1', 'montre-elegante-1.webp'),
+('pantalon-chic-1', 'Image de montre élégante 2', 'pantalon-chic-1.webp'),
+('pantalons', 'Image de pantalons', 'pantalons.webp'),
+('pulls', 'Image de pull', 'pulls.webp'),
+('robe-elegante-1', 'Image de robe élégante 1', 'robe-elegante-1.jpg'),
+('robe-elegante-2', 'Image de robe élégante 2', 'robe-elegante-2.jpg'),
+('robe-elegante-3', 'Image de robe élégante 3', 'robe-elegante-3.jpg'),
+('robes', 'Image de robes', 'robes.webp'),
+('sac-a-main-chic-1', 'Image de sac à main chic 1' , 'sac-a-main-chic-1.jpg'),
+('sac-a-main-chic-2', 'Image de sac à main chic 2' , 'sac-a-main-chic-2.jpg'),
+('sac-a-main-chic-3', 'Image de sac à main chic 3' , 'sac-a-main-chic-3.jpg'),
+('sac-a-main-chic-4', 'Image de sac à main chic 4' , 'sac-a-main-chic-4.jpg'),
+('sacs', 'Image de sacs', 'sacs.webp'),
+('sweat-a-capuche-1', 'Image de sweat à capcuche 1' , 'sweat-a-capuche-1.webp'),
+('sweat-a-capuche-2', 'Image de sweat à capcuche 2' , 'sweat-a-capuche-2.webp'),
+('sweat-a-capuche-3', 'Image de sweat à capcuche 3' , 'sweat-a-capuche-3.webp'),
+('t-shirt-decontracte-1', 'Image de T-shirt décontracté 1' , 't-shirt-decontracte-1.webp'),
+('t-shirt-decontracte-2', 'Image de T-shirt décontracté 2' , 't-shirt-decontracte-2.webp'),
+('t-shirt-decontracte-3', 'Image de T-shirt décontracté 3' , 't-shirt-decontracte-3.webp'),
+('veste-en-cuir-1', 'Image de veste en cuite 1' , 'veste-en-cuir-1.webp'),
+('veste-en-cuir-2', 'Image de veste en cuite 2' , 'veste-en-cuir-2.webp'),
+('veste-en-cuir-3', 'Image de veste en cuite 3' , 'veste-en-cuir-3.webp'),
+('vestes', 'Image de vestes', 'vestes.webp'),
+('vetements', 'Image de vetements', 'vetements.webp');
 
 INSERT INTO material (slug, libelle, color) VALUES 
 ('cuire', 'Cuire', '#c31e1e'),
@@ -106,10 +140,44 @@ INSERT INTO product_category (product_slug, category_slug) VALUES
 ('veste-en-cuir', 'vestes');
 
 INSERT INTO product_image (product_slug, image_slug) VALUES 
+('baskets-sportives', 'baskets-sportives-1'),
+('baskets-sportives', 'baskets-sportives-2'),
+('blouse-florale', 'blouse-florale-1'),
+('blouse-florale', 'blouse-florale-2'),
+('blouse-florale', 'blouse-florale-3'),
+('casquette-tendance', 'casquette-tendance-1'),
+('casquette-tendance', 'casquette-tendance-2'),
+('ceinture-elegante', 'ceinture-elegante-1'),
+('ceinture-elegante', 'ceinture-elegante-2'),
+('ceinture-elegante', 'ceinture-elegante-3'),
+('chapeau-de-soleil', 'chapeau-de-soleil-1'),
+('chapeau-de-soleil', 'chapeau-de-soleil-2'),
+('chaussettes-colorees', 'chaussettes-colorees-1'),
+('collier-fantaisie', 'collier-fantaisie-2'),
+('collier-fantaisie', 'collier-fantaisie-1'),
+('escarpins-classiques', 'escarpins-classiques-1'),
+('escarpins-classiques', 'escarpins-classiques-2'),
+('escarpins-classiques', 'escarpins-classiques-3'),
+('escarpins-classiques', 'escarpins-classiques-4'),
+('jean-slim', 'jean-slim-1'),
+('montre-elegante', 'montre-elegante-1'),
+('pantalon-chic', 'pantalon-chic-1'),
 ('robe-elegante', 'robe-elegante-1'),
 ('robe-elegante', 'robe-elegante-2'),
 ('robe-elegante', 'robe-elegante-3'),
-('robe-elegante', 'robe-elegante-4');
+('sac-a-main-chic', 'sac-a-main-chic-1'),
+('sac-a-main-chic', 'sac-a-main-chic-2'),
+('sac-a-main-chic', 'sac-a-main-chic-3'),
+('sac-a-main-chic', 'sac-a-main-chic-4'),
+('sweat-a-capuche', 'sweat-a-capuche-1'),
+('sweat-a-capuche', 'sweat-a-capuche-2'),
+('sweat-a-capuche', 'sweat-a-capuche-3'),
+('t-shirt-decontracte', 't-shirt-decontracte-1'),
+('t-shirt-decontracte', 't-shirt-decontracte-2'),
+('t-shirt-decontracte', 't-shirt-decontracte-3'),
+('veste-en-cuir', 'veste-en-cuir-1'),
+('veste-en-cuir', 'veste-en-cuir-2'),
+('veste-en-cuir', 'veste-en-cuir-3');
 
 INSERT INTO country (country_id, name) VALUES 
 (1, 'France'),
