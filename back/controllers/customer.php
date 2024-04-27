@@ -142,12 +142,47 @@ function getCustomer($customer_id)
     return $result['data'];
 }
 
-function getCustomers()
+function getCustomers( $search = null , $sort =  array(array('order' => 'ASC', 'order_by' => 'first_name')) , $offset = null ,$per_page = 10)
 {
 
-    $sql = "SELECT * FROM customer WHERE is_deleted = 0 ORDER BY created_at DESC";
+    $sql = "SELECT customer.* FROM customer";
 
-    $result = Database::queryAll($sql);
+    // Use WHERE 1 = 1 to be able to add conditions with AND
+    $sql .= " WHERE 1 = 1";
+ 
+    $sql .= " AND customer.is_deleted = 0";
+
+    // Filter by search
+    if ($search) {
+        $sql .= " AND ( customer.first_name LIKE :search OR  
+        customer.last_name LIKE :search OR  
+        customer.email LIKE :search OR  
+        SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
+        SOUNDEX(customer.last_name) = SOUNDEX(:search) OR 
+        SOUNDEX(customer.email) = SOUNDEX(:search)
+    )";
+    } 
+
+        // Sort
+        if ($sort) {
+       $sql .= " ORDER BY ";
+        foreach ($sort as $key => $value) {
+            $sql .= "COALESCE(customer." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
+            if ($key < count($sort) - 1) $sql .= ", ";
+         }
+     }
+
+      // Limit and offset
+      if ($per_page) $sql .= " LIMIT :per_page";
+      if ($offset) $sql .= " OFFSET :offset";
+
+      // Bind values
+      $params = array();
+      if ($search) $params[":search"] = "%$search%";
+       if ($per_page) $params[":per_page"] = $per_page;
+      if ($offset) $params[":offset"] = $offset;
+
+    $result = Database::queryAll($sql,$params);
 
     return $result['data'];
 }
@@ -175,6 +210,37 @@ function insertCustomer($customer)
         return false;
     }
 }
+
+function updateCustomer($customer)
+{
+    $sql = "UPDATE customer SET";
+
+    if (isset($customer['first_name'])) $sql .= " first_name = :first_name,";
+    if (isset($customer['lastname'])) $sql .= " lastname = :lastname,";
+    if (isset($customer['email'])) $sql .= " email = :email,";
+    if (isset($customer['password'])) $sql .= " password = :password,";
+
+    $sql = rtrim($sql, ",");
+
+    $sql .= " WHERE customer_id = :customer_id";
+
+    $params = array();
+    if (isset($customer['customer_id'])) $params[":customer_id"] = $customer['customer_id'];
+    if (isset($customer['first_name'])) $params[":first_name"] = $customer['first_name'];
+    if (isset($customer['lastname'])) $params[":lastname"] = $customer['lastname'];
+    if (isset($customer['email'])) $params[":email"] = $customer['email'];
+    if (isset($customer['password'])) $params[":password"] = $customer['password'];
+   
+
+    $result = Database::queryInsert($sql, $params);
+    if ($result['success']) {
+        log_txt("Customer modified in back office: customer_id " . $customer['customer_id']);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 function putToTrashCustomer($customer_id)
 {
