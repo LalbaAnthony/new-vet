@@ -43,10 +43,12 @@ async function loadElements() {
   productStore.fetchProducts({
     search: route.query.search,
     per_page: 6,
+    page: 1,
   })
   categoryStore.fetchCategories({
     search: route.query.search,
     per_page: 6,
+    page: 1,
   })
 }
 
