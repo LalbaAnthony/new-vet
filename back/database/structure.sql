@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS order_line;
 DROP TABLE IF EXISTS `order`;
 DROP TABLE IF EXISTS card;
 DROP TABLE IF EXISTS address;
+DROP TABLE IF EXISTS contact;
 DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS country;
 DROP TABLE IF EXISTS status;
@@ -12,7 +13,6 @@ DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS material;
 DROP TABLE IF EXISTS image;
-DROP TABLE IF EXISTS contact;
 DROP TABLE IF EXISTS admin;
 
 #------------------------------------------------------------

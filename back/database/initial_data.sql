@@ -2,6 +2,7 @@ DELETE FROM order_line;
 DELETE FROM `order`;
 DELETE FROM card;
 DELETE FROM address;
+DELETE FROM contact;
 DELETE FROM customer;
 DELETE FROM country;
 DELETE FROM status;
@@ -12,7 +13,6 @@ DELETE FROM product;
 DELETE FROM category;
 DELETE FROM material;
 DELETE FROM image;
-DELETE FROM contact;
 DELETE FROM admin;
 
 INSERT INTO image (slug, name, path) VALUES 
@@ -69,7 +69,7 @@ INSERT INTO image (slug, name, path) VALUES
 ('vetements', 'Image de vetements', 'vetements.webp');
 
 INSERT INTO material (slug, libelle, color) VALUES 
-('cuire', 'Cuire', '#c31e1e'),
+('cuir', 'Cuir', '#c31e1e'),
 ('coton', 'Coton', '#187dab'),
 ('laine', 'Laine', '#6b4522'),
 ('soie', 'Soie', '#ad6b95'),
@@ -116,28 +116,68 @@ INSERT INTO product (slug, name, description, is_highlander, price, stock_quanti
 ('veste-en-cuir', 'Veste en cuir', 'Veste élégante pour une allure moderne', 0, 89.99, 10);
 
 INSERT INTO product_material (product_slug, material_slug) VALUES 
-('sac-a-main-chic', 'cuire'),
-('escarpins-classiques', 'cuire'),
-('veste-en-cuir', 'cuire');
+('robe-elegante', 'laine'),
+('robe-elegante', 'polyester'),
+('escarpins-classiques', 'cuir'),
+('escarpins-classiques', 'polyester'),
+('sac-a-main-chic', 'cuir'),
+('sac-a-main-chic', 'polyester'),
+('t-shirt-decontracte', 'coton'),
+('t-shirt-decontracte', 'polyester'),
+('jean-slim', 'denim'),
+('jean-slim', 'polyester'),
+('baskets-sportives', 'polyester'),
+('baskets-sportives', 'nylon'),
+('chapeau-de-soleil', 'polyester'),
+('chapeau-de-soleil', 'nylon'),
+('pantalon-chic', 'polyester'),
+('pantalon-chic', 'viscose'),
+('collier-fantaisie', 'lurex'),
+('collier-fantaisie', 'nylon'),
+('blouse-florale', 'polyester'),
+('blouse-florale', 'viscose'),
+('sweat-a-capuche', 'coton'),
+('sweat-a-capuche', 'polyester'),
+('chaussettes-colorees', 'coton'),
+('chaussettes-colorees', 'elasthane'),
+('ceinture-elegante', 'cuir'),
+('ceinture-elegante', 'polyester'),
+('casquette-tendance', 'polyester'),
+('casquette-tendance', 'coton'),
+('veste-en-cuir', 'cuir');
 
 INSERT INTO product_category (product_slug, category_slug) VALUES 
+('robe-elegante', 'robes'),
 ('robe-elegante', 'vetements'),
 ('escarpins-classiques', 'chaussures'),
+('escarpins-classiques', 'vetements'),
+('sac-a-main-chic', 'sacs'),
 ('sac-a-main-chic', 'accessoires'),
 ('t-shirt-decontracte', 'vetements'),
+('jean-slim', 'pantalons'),
 ('jean-slim', 'vetements'),
 ('baskets-sportives', 'chaussures'),
+('baskets-sportives', 'vetements'),
 ('montre-elegante', 'accessoires'),
+('montre-elegante', 'vetements'),
 ('chapeau-de-soleil', 'accessoires'),
+('chapeau-de-soleil', 'vetements'),
+('pantalon-chic', 'pantalons'),
 ('pantalon-chic', 'vetements'),
+('collier-fantaisie', 'bijoux'),
 ('collier-fantaisie', 'accessoires'),
+('blouse-florale', 'chemisiers'),
 ('blouse-florale', 'vetements'),
+('sweat-a-capuche', 'pulls'),
 ('sweat-a-capuche', 'vetements'),
-('chaussettes-colorées', 'accessoires'),
+('chaussettes-colorees', 'accessoires'),
+('chaussettes-colorees', 'vetements'),
 ('ceinture-elegante', 'accessoires'),
+('ceinture-elegante', 'vetements'),
 ('casquette-tendance', 'accessoires'),
-('veste-en-cuir', 'vetements'),
-('veste-en-cuir', 'vestes');
+('casquette-tendance', 'vetements'),
+('veste-en-cuir', 'vestes'),
+('veste-en-cuir', 'vetements');
 
 INSERT INTO product_image (product_slug, image_slug) VALUES 
 ('baskets-sportives', 'baskets-sportives-1'),
@@ -189,10 +229,10 @@ INSERT INTO customer (customer_id, first_name, last_name, email, has_validated_e
 (2, 'Jean', 'Martin', 'jean@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'), -- MPD: motDeP@sseT3st
 (3, 'Sophie', 'Lefevre', 'sophie@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'); -- MPD: motDeP@sseT3st
 
-INSERT INTO address (customer_id, first_name, last_name, address1, city, postal_code, country_id, tel) VALUES 
-(1, 'Alice', 'Dupont', '123 Rue de la Mode', 'Paris', 75001, 1, '0123456789'),
-(2, 'Jean', 'Martin', '456 Avenue Chic', 'Bruxelles', 1000, 2, '0456789123'),
-(3, 'Sophie', 'Lefevre', '789 Rue Stylée', 'Montréal', 1000, 3, '0789012345');
+INSERT INTO address (address_id, customer_id, first_name, last_name, address1, city, postal_code, country_id, tel) VALUES 
+(1, 1, 'Alice', 'Dupont', '123 Rue de la Mode', 'Paris', 75001, 1, '0123456789'),
+(2, 2, 'Jean', 'Martin', '456 Avenue Chic', 'Bruxelles', 1000, 2, '0456789123'),
+(3, 3, 'Sophie', 'Lefevre', '789 Rue Stylée', 'Montréal', 1000, 3, '0789012345');
 
 INSERT INTO card (card_id, customer_id, number, expiration_date, cvv) VALUES 
 (1, 1, 1234567890123456, '2025-12-31', 123),
