@@ -15,7 +15,7 @@ function getContact($contact_id)
 function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'created_at'), array('order' => 'DESC', 'order_by' => 'email')), $offset = null, $per_page = 10)
 {
 
-    $sql = "SELECT contact.* FROM contact 
+    $sql = "SELECT DISTINCT contact.* FROM contact 
     LEFT JOIN customer ON customer.customer_id = contact.contact_id";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND

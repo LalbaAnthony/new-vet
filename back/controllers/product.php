@@ -16,7 +16,7 @@ function getProduct($slug)
 function getProducts($categories = array(), $materials = array(), $search = null, $is_highlander = false, $exclude = array(), $include = array(), $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'DESC', 'order_by' => 'stock_quantity')), $offset = null, $per_page = 10)
 {
     // Select all products, with their categories and materials (we use LEFT JOIN to get products without categories or materials)
-    $sql = "SELECT product.* FROM product
+    $sql = "SELECT DISTINCT product.* FROM product
     LEFT JOIN product_category ON product_category.product_slug = product.slug
     LEFT JOIN category ON product_category.category_slug = category.slug
     LEFT JOIN product_material ON product_material.product_slug = product.slug

@@ -14,7 +14,7 @@ function getOrder($order_id)
 function getOrders($date_start = null, $date_end = null, $search = null, $customer_id = null, $sort =  array(array('order' => 'DESC', 'order_by' => 'order_date')), $offset = null, $per_page = 10)
 {
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
-    $sql = "SELECT `order`.* FROM `order`
+    $sql = "SELECT DISTINCT `order`.* FROM `order`
     LEFT JOIN status ON status.status_id = `order`.status_id
     LEFT JOIN order_line ON order_line.order_id = `order`.order_id
     LEFT JOIN product ON order_line.product_slug = product.slug
