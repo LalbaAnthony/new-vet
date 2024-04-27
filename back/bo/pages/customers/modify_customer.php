@@ -3,10 +3,16 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/customer.php";
 
-$CustomerID = isset($_GET['id']) ? $_GET['id'] : '';
+$urlId = isset($_GET['id']) ? $_GET['id'] : '';
 
-$customer = getCustomer($CustomerID);
+if (empty($urlId)) {
+    header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
+}
 
+$customer = getCustomer($urlId);
+
+// Retrait du mot de passe, pour des raisons de sécurité
+$customer["password"] = null;
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
@@ -15,21 +21,15 @@ if (isset($_POST['submit'])) {
     $customer['customer_id'] = isset($_POST['customer_id']) ? $_POST['customer_id'] : $customer['customer_id'];
     $customer['last_name'] = isset($_POST['last_name']) ? $_POST['last_name'] : $customer['last_name'];
     $customer['first_name'] = isset($_POST['first_name']) ? $_POST['first_name'] : $customer['first_name'];
+    $customer['has_validated_email'] = isset($_POST['has_validated_email']) ? (strval($_POST['has_validated_email']) == "on" ? $_POST['has_validated_email']  = 1 : $_POST['has_validated_email'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE
     $customer['email'] = isset($_POST['email']) ? $_POST['email'] : $customer['email'];
-    $customer['password'] = isset($_POST['password']) ? $_POST['password'] : null;
-  
+
     // Formulaire validé : on modifie l'enregistrement
-    $sucesscustomer = updateCustomer($customer);
-
-
-    $sucess = $sucesscustomer;
+    $sucess = updateCustomer($customer);
 
     // Redirection vers la liste des clients
     header('Location: ' . APP_URL . 'bo/pages/customers/index.php?updated=' . $sucess);
 }
-
-
-// Affichage
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -49,14 +49,9 @@ if (isset($_POST['submit'])) {
     <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
+        <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
-        <?php if ($customer["is_deleted"] == 1) : ?>
-            <div class="alert alert-danger" role="alert">
-                Attention, ce client a été supprimé !
-            </div>
-        <?php endif; ?>
-
-        <h2 class="mb-4">Modification de : <?= $customer['last_name'].' '. $customer['first_name'] ?></h2>
+        <h2 class="mb-4">Modification de : <?= $customer['last_name'] . ' ' . $customer['first_name'] ?></h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="customer_id" id="customer_id" value="<?= $customer['customer_id']; ?>">
@@ -66,31 +61,27 @@ if (isset($_POST['submit'])) {
             </div>
 
             <div class="form-group">
-                <label class="required" for="first_name">Prenom:</label>
+                <label class="required" for="first_name">Prénom:</label>
                 <input class="form-control" type="text" id="first_name" name="first_name" value="<?= $customer['first_name'] ?>" required>
             </div>
 
             <div class="form-group">
-                <label class="required" for="price">Email:</label>
+                <label class="required" for="price">E-mail:</label>
                 <input class="form-control" type="email" id="email" name="email" value="<?= $customer['email'] ?>" required>
             </div>
 
-            <div class="form-group">
-                <label for="sort_order">Password:</label>
-                <input class="form-control" type="password" id="password" name="password" value="<?= $customer['password'] ?>" >
+            <div class="form-group my-4 p-1">
+                <label for="has_validated_email">E-mail validé:</label>
+                <input type="checkbox" id="has_validated_email" name="has_validated_email" <?php echo $customer['has_validated_email'] === 1 ? 'checked' : '' ?>>
             </div>
 
-          
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between my-4">
                 <a href="<?= APP_URL ?>bo/pages/customers/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
             </div>
         </form>
     </div>
 
-
 </body>
 
 </html>
-
-?>

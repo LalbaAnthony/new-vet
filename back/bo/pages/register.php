@@ -77,7 +77,7 @@ if ($login && $password && $passwordConfirm) {
 
                         <div class="form-group">
                             <label for="password">Mot de passe:</label>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe" required>
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe" minlength="8" required>
                         </div>
                         <br>
                         <div class="form-group">

@@ -9,7 +9,7 @@ class Database
 
     // ? Might need to add elemnts to these arrays, if error on the type
     private static $forcedStringParams = array(':email', ':password', ':token', ':code', ':name', ':libelle');
-    private static $forcedIntParams = array(':per_page', ':offset'); 
+    private static $forcedIntParams = array(':per_page', ':offset', ':customer_id', ':admin_id');
     private static $forcedBoolParams = array(':is_deleted');
 
     private static $connection = null;
@@ -31,16 +31,25 @@ class Database
         }
     }
 
-    private static function handleError($query, $params, $error)
+    private static function displayRequest(string $query, array $params, $error = null)
+    {
+        if ($error) {
+            echo '<h4 style="color: red;">Error: </h4>';
+            echo $error;
+        }
+
+        echo '<h4 style="color: blue;">Query: </h4>';
+        echo $query;
+
+        echo '<h4 style="color: green;">Params: </h4>';
+        dd($params);
+    }
+
+    private static function handleError(string $query, array $params, $error = null)
     {
         if (APP_DEBUG) {
             echo "<h1>Erreur lors de la requête SQL</h1>";
-            echo '<h4 style="color: red;">Error: </h4>';
-            echo $error;
-            echo '<h4 style="color: blue;">Query: </h4>';
-            echo $query;
-            echo '<h4 style="color: green;">Params: </h4>';
-            dd($params);
+            self::displayRequest($query, $params, $error);
             die();
         }
     }

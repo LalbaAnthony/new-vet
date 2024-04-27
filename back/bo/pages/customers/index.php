@@ -15,7 +15,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
 $sort = array(array('order' => $order, 'order_by' => $order_by));
 
-$customers_count = getCustomersCount();
+$customers_count = getCustomersCount($search);
 
 // Comput offset & per_page
 $per_page = 10;
@@ -23,7 +23,7 @@ $offset = ($page - 1) * $per_page;
 $maxPage = ceil($customers_count / $per_page);
 
 // Fetch customers with sorting
-$customers = getCustomers($search,$sort,$offset,$per_page);
+$customers = getCustomers($search, $sort, $offset, $per_page);
 
 // Bottom action: delete selected customers, ...
 if (isset($_GET['delete']) && isset($_GET['selected_customers'])) {
@@ -71,10 +71,10 @@ if (isset($_GET['delete']) && isset($_GET['selected_customers'])) {
             <thead>
                 <tr class="table-primary">
                     <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=first_name&order=<?= $new_order ?>">Prenom</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=first_name&order=<?= $new_order ?>">Prénom</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_name&order=<?= $new_order ?>">Nom</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">E-mail</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=has_validated_email&order=<?= $new_order ?>">Mail Valide ?</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=has_validated_email&order=<?= $new_order ?>">Validé ?</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_login&order=<?= $new_order ?>">Last Login</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Date Création</a></th>
                     <th scope='col' colspan='2'>&nbsp;</th>

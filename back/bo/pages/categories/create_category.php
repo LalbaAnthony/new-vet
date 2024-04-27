@@ -13,8 +13,8 @@ if (isset($_POST['submit'])) {
     $category['libelle'] = isset($_POST['libelle']) ? $_POST['libelle'] : null;
     $category['color'] = isset($_POST['color']) ? $_POST['color'] : null;
     $category['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
-    $category['is_quick_access'] = isset($_POST['is_quick_access']) ? (strval($_POST['is_quick_access']) == "on" ? $_POST['is_quick_access']  = 1 : $_POST['is_quick_access']  = 0) : 0; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE (encore)
-    $category['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : 0; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE (encore)
+    $category['is_quick_access'] = isset($_POST['is_quick_access']) ? (strval($_POST['is_quick_access']) == "on" ? $_POST['is_quick_access']  = 1 : $_POST['is_quick_access'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE (encore)
+    $category['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE (encore)
 
     $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 

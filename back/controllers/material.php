@@ -120,8 +120,6 @@ function insertMaterial($material)
 
 function updateMaterial($material)
 {
-
-    // $sql = "UPDATE material SET libelle = :libelle, color = :color WHERE slug = :slug";
     $sql = "UPDATE material SET";
 
     if (isset($material['libelle'])) $sql .= " libelle = :libelle,";

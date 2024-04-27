@@ -352,7 +352,6 @@ function updateProductMaterials($product_slug, $materials)
         return false;
     }
 
-
     // Delete all materials for this product
     $sql = "UPDATE product_material SET is_deleted = 1 WHERE product_slug = :product_slug";
 

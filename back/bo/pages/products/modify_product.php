@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
     $product['price'] = isset($_POST['price']) ? $_POST['price'] : $product['price'];
     $product['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
     $product['stock_quantity'] = isset($_POST['stock_quantity']) ? $_POST['stock_quantity'] : $product['stock_quantity'];
-    $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : $product['is_highlander']; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE
+    $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE
 
     $productMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : $productMaterials;
     $productCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : $productCategories;
@@ -75,11 +75,7 @@ if (isset($_POST['submit'])) {
 
     <div class="container mt-5">
 
-        <?php if ($product["is_deleted"] == 1) : ?>
-            <div class="alert alert-danger" role="alert">
-                Attention, ce produit a été supprimé !
-            </div>
-        <?php endif; ?>
+        <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
         <h2 class="mb-4">Modification de : <?= $product['name'] ?></h2>
 
@@ -140,7 +136,7 @@ if (isset($_POST['submit'])) {
             ?>
             <?php include_once APP_PATH . "bo/partials/image_select.php"; ?>
 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between my-4">
                 <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
             </div>

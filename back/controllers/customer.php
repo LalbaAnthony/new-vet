@@ -59,7 +59,6 @@ function clearCodesAndTokens($customer_id, $tokenList = null)
         }
     }
 
-
     $sql = "UPDATE customer SET";
     foreach ($tokenList as $token) {
         $sql .= " $token = NULL,";
@@ -95,7 +94,6 @@ function autoUpdateLastLoginCustomer($customer_id, $datetime = null)
 {
     if (!$datetime) $datetime = date("Y-m-d H:i:s");
 
-
     $sql = "UPDATE customer SET last_login = :datetime WHERE customer_id = :customer_id";
 
     $result = Database::queryUpdate($sql, array(":datetime" => $datetime, ":customer_id" => $customer_id));
@@ -126,7 +124,7 @@ function getCustomerByEmail($email)
 {
 
     $sql = "SELECT * FROM customer WHERE email = :email";
-    
+
     $result = Database::queryOne($sql, array(":email" => $email));
 
     return $result['data'];
@@ -136,20 +134,20 @@ function getCustomer($customer_id)
 {
 
     $sql = "SELECT * FROM customer WHERE customer_id = :customer_id";
-    
+
     $result = Database::queryOne($sql, array(":customer_id" => $customer_id));
 
     return $result['data'];
 }
 
-function getCustomers( $search = null , $sort =  array(array('order' => 'ASC', 'order_by' => 'first_name')) , $offset = null ,$per_page = 10)
+function getCustomers($search = null, $sort =  array(array('order' => 'ASC', 'order_by' => 'first_name')), $offset = null, $per_page = 10)
 {
 
     $sql = "SELECT customer.* FROM customer";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
- 
+
     $sql .= " AND customer.is_deleted = 0";
 
     // Filter by search
@@ -161,51 +159,69 @@ function getCustomers( $search = null , $sort =  array(array('order' => 'ASC', '
         SOUNDEX(customer.last_name) = SOUNDEX(:search) OR 
         SOUNDEX(customer.email) = SOUNDEX(:search)
     )";
-    } 
+    }
 
-        // Sort
-        if ($sort) {
-       $sql .= " ORDER BY ";
+    // Sort
+    if ($sort) {
+        $sql .= " ORDER BY ";
         foreach ($sort as $key => $value) {
             $sql .= "COALESCE(customer." . $value['order_by'] . ", 9999999) " . strtoupper($value['order']); // COALESCE to avoid NULL values
             if ($key < count($sort) - 1) $sql .= ", ";
-         }
-     }
+        }
+    }
 
-      // Limit and offset
-      if ($per_page) $sql .= " LIMIT :per_page";
-      if ($offset) $sql .= " OFFSET :offset";
+    // Limit and offset
+    if ($per_page) $sql .= " LIMIT :per_page";
+    if ($offset) $sql .= " OFFSET :offset";
 
-      // Bind values
-      $params = array();
-      if ($search) $params[":search"] = "%$search%";
-       if ($per_page) $params[":per_page"] = $per_page;
-      if ($offset) $params[":offset"] = $offset;
+    // Bind values
+    $params = array();
+    if ($search) $params[":search"] = "%$search%";
+    if ($per_page) $params[":per_page"] = $per_page;
+    if ($offset) $params[":offset"] = $offset;
 
-    $result = Database::queryAll($sql,$params);
+    $result = Database::queryAll($sql, $params);
 
     return $result['data'];
 }
 
-function getCustomersCount()
+function getCustomersCount($search = null)
 {
-    $sql = "SELECT COUNT(*) as count FROM customer WHERE is_deleted = 0";
-    
-    $result = Database::queryOne($sql);
+    $sql = "SELECT COUNT(*) as count FROM customer";
+
+    $sql .= " WHERE 1 = 1";
+
+    $sql .= " AND is_deleted = 0";
+
+    // Filter by search
+    if ($search) {
+        $sql .= " AND ( customer.first_name LIKE :search OR  
+        customer.last_name LIKE :search OR  
+        customer.email LIKE :search OR  
+        SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
+        SOUNDEX(customer.last_name) = SOUNDEX(:search) OR 
+        SOUNDEX(customer.email) = SOUNDEX(:search)
+    )";
+    }
+
+    // Bind values
+    $params = array();
+    if ($search) $params[":search"] = "%$search%";
+
+    $result = Database::queryOne($sql, $params);
 
     return $result['data']['count'];
 }
 
 function insertCustomer($customer)
 {
+    $sql = "INSERT INTO customer (first_name, last_name, email, has_validated_email, password) VALUES (:first_name, :last_name, :email, :has_validated_email, :password)";
 
-    $sql = "INSERT INTO customer (first_name, last_name, email, password) VALUES (:first_name, :last_name, :email, :password)";
-
-    $result = Database::queryInsert($sql, array(":first_name" => $customer['first_name'], ":last_name" => $customer['last_name'], ":email" => $customer['email'], ":password" => $customer['password']));
+    $result = Database::queryInsert($sql, array(":first_name" => $customer['first_name'], ":last_name" => $customer['last_name'], ":email" => $customer['email'], ":has_validated_email" => $customer['has_validated_email'], ":password" => $customer['password']));
 
     if ($result['lastInsertId']) {
         log_txt("Customer inserted in back office: customer_id " . $result['lastInsertId']);
-        return $result;
+        return true;
     } else {
         return false;
     }
@@ -216,31 +232,33 @@ function updateCustomer($customer)
     $sql = "UPDATE customer SET";
 
     if (isset($customer['first_name'])) $sql .= " first_name = :first_name,";
-    if (isset($customer['lastname'])) $sql .= " lastname = :lastname,";
+    if (isset($customer['last_name'])) $sql .= " last_name = :last_name,";
     if (isset($customer['email'])) $sql .= " email = :email,";
+    if (isset($customer['has_validated_email'])) $sql .= " has_validated_email = :has_validated_email,";
     if (isset($customer['password'])) $sql .= " password = :password,";
-
-    $sql = rtrim($sql, ",");
+    $sql = substr($sql, 0, -1); // remove last comma
 
     $sql .= " WHERE customer_id = :customer_id";
 
     $params = array();
-    if (isset($customer['customer_id'])) $params[":customer_id"] = $customer['customer_id'];
-    if (isset($customer['first_name'])) $params[":first_name"] = $customer['first_name'];
-    if (isset($customer['lastname'])) $params[":lastname"] = $customer['lastname'];
-    if (isset($customer['email'])) $params[":email"] = $customer['email'];
-    if (isset($customer['password'])) $params[":password"] = $customer['password'];
-   
 
-    $result = Database::queryInsert($sql, $params);
+    // Bind values
+    if (isset($customer['first_name'])) $params[":first_name"] = $customer['first_name'];
+    if (isset($customer['last_name'])) $params[":last_name"] = $customer['last_name'];
+    if (isset($customer['email'])) $params[":email"] = $customer['email'];
+    if (isset($customer['has_validated_email'])) $params[":has_validated_email"] = $customer['has_validated_email'];
+    if (isset($customer['password'])) $params[":password"] = $customer['password'];
+    $params[":customer_id"] = $customer['customer_id'];
+
+    $result = Database::queryUpdate($sql, $params);
+
     if ($result['success']) {
-        log_txt("Customer modified in back office: customer_id " . $customer['customer_id']);
+        log_txt("Customer updated in back office: customer_id " . $customer['customer_id']);
         return true;
     } else {
         return false;
     }
 }
-
 
 function putToTrashCustomer($customer_id)
 {

@@ -22,7 +22,7 @@ if (isset($_POST['submit'])) {
     $product['price'] = isset($_POST['price']) ? $_POST['price'] : null;
     $product['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
     $product['stock_quantity'] = isset($_POST['stock_quantity']) ? $_POST['stock_quantity'] : null;
-    $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander']  = 0) : 0; // SPOILER ALERT LES CHECLBOX C'EST DE LA MERDE (encore)
+    $product['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE (encore)
 
     $productMaterials = isset($_POST['categories_slugs']) ? $_POST['categories_slugs'] : array();
     $productCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : array();

@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     // Generate le slug
     $material['slug'] = slugify($material['libelle']);
 
-    // Formulaire validé : on modifie l'enregistrement
+    // Formulaire validé : on insert l'enregistrement
     $sucess = insertMaterial($material);
 
     // Redirection vers la liste des produits

@@ -3,8 +3,12 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/customer.php";
 
-// Réception du client à modifier
-$idCustomer= isset($_GET['id']) ? $_GET['id'] : '';
+$idCustomer = isset($_GET['id']) ? $_GET['id'] : '';
+
+if (empty($idCustomer)) {
+    header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
+}
+
 $customer = getCustomer($idCustomer);
 
 // Modification dans la base
@@ -16,7 +20,6 @@ if (isset($_POST['submit'])) {
     // Redirection vers la liste des clients
     header('Location: ' . APP_URL . 'bo/pages/customers/index.php?deleted=' . $sucess);
 }
-
 
 // Affichage
 ?>
@@ -39,7 +42,7 @@ if (isset($_POST['submit'])) {
     <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
-    <h2 style="margin: 30vh 0">Supprimer <?= $customer['last_name'] . ' ' . $customer['first_name'] ?> ?</h2>
+        <h2 style="margin: 30vh 0">Supprimer <?= $customer['last_name'] . ' ' . $customer['first_name'] ?> ?</h2>
 
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
