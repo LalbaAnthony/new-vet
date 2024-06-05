@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from './routes'
 import { useAuthStore } from '@/stores/auth'
 import { SITE_NAME } from '@/config';
+
 const router = createRouter({
   history: createWebHistory(),
   scrollBehavior: () => ({ left: 0, top: 0, behavior: 'smooth' }),

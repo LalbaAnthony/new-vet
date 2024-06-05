@@ -86,6 +86,8 @@ const showMainImage = () => {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-height: 350px;
+    overflow-y: auto;
   }
 }
 

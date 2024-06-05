@@ -144,7 +144,7 @@ function toggleYear(year) {
 .dropdown-button {
   padding: 0.5rem 1rem;
   background-color: var(--light);
-  border: 2px solid #ccc;
+  border: 2px solid var(--gray);
   color: var(--dark);
   border-radius: 25px;
   cursor: pointer;

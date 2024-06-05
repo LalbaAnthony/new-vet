@@ -111,7 +111,7 @@ section.section {
   margin: 1rem 0;
   padding: 1rem;
   border-radius: 15px;
-  background-color: #f9f9f9;
+  background-color: var(--light-gray);
 }
 
 .dates,

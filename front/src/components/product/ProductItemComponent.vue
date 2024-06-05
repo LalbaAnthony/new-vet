@@ -40,7 +40,7 @@ const props = defineProps({
   .product {
     padding-bottom: 2rem;
     margin-bottom: 3rem;
-    border-bottom: 2px solid #eaeaea;
+    border-bottom: 2px solid var(--light-gray);
   }
 }
 
@@ -49,7 +49,7 @@ const props = defineProps({
   background-color: var(--light);
   cursor: pointer;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 }
 
 .product>img {
