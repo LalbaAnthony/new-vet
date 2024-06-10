@@ -14,10 +14,10 @@ $product = getProduct($urlSlug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = putToTrashProduct($_POST['slug']);
+    $success = putToTrashProduct($_POST['slug']);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php?deleted=' . $success);
 }
 
 // Affichage

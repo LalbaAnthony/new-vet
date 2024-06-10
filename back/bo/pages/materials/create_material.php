@@ -17,10 +17,10 @@ if (isset($_POST['submit'])) {
     $material['slug'] = slugify($material['libelle']);
 
     // Formulaire validé : on insert l'enregistrement
-    $sucess = insertMaterial($material);
+    $success = insertMaterial($material);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/materials/index.php?created=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/materials/index.php?created=' . $success);
 }
 
 ?>

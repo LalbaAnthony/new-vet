@@ -25,10 +25,10 @@ if (isset($_POST['submit'])) {
     $customer['email'] = isset($_POST['email']) ? $_POST['email'] : $customer['email'];
 
     // Formulaire validé : on modifie l'enregistrement
-    $sucess = updateCustomer($customer);
+    $success = updateCustomer($customer);
 
     // Redirection vers la liste des clients
-    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?updated=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?updated=' . $success);
 }
 ?>
 <!DOCTYPE html>

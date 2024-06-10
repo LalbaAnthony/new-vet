@@ -13,10 +13,10 @@ $material =  getMaterial($url_slug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = putToTrashMaterial($_POST['slug']);
+    $success = putToTrashMaterial($_POST['slug']);
 
     // Redirection vers la liste des contacts
-    header('Location: ' . APP_URL . 'bo/pages/materials/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/materials/index.php?deleted=' . $success);
 }
 
 

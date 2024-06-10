@@ -15,10 +15,10 @@ $customer = getCustomer($idCustomer);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = putToTrashCustomer($_POST['customer_id']);
+    $success = putToTrashCustomer($_POST['customer_id']);
 
     // Redirection vers la liste des clients
-    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?deleted=' . $success);
 }
 
 // Affichage

@@ -23,10 +23,10 @@ if (isset($_POST['submit'])) {
     $category['slug'] = slugify($category['libelle']);
 
     // Formulaire validé : on modifie l'enregistrement
-    $sucess = insertCategory($category);
+    $success = insertCategory($category);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?created=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?created=' . $success);
 }
 
 ?>

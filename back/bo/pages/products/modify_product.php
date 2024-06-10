@@ -40,16 +40,16 @@ if (isset($_POST['submit'])) {
     $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 
     // Formulaire validé : on modifie l'enregistrement
-    $sucessProduct = updateProduct($product);
+    $successProduct = updateProduct($product);
 
-    $sucessProductCat = updateProductCategories($product['slug'], $productMaterials);
-    $sucessProductMat = updateProductMaterials($product['slug'], $productCategories);
-    $sucessProductImg = updateProductImages($product['slug'], $productImages);
+    $successProductCat = updateProductCategories($product['slug'], $productMaterials);
+    $successProductMat = updateProductMaterials($product['slug'], $productCategories);
+    $successProductImg = updateProductImages($product['slug'], $productImages);
 
-    $sucess = $sucessProduct && $sucessProductCat && $sucessProductMat && $sucessProductImg;
+    $success = $successProduct && $successProductCat && $successProductMat && $successProductImg;
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php?updated=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php?updated=' . $success);
 }
 
 // Affichage

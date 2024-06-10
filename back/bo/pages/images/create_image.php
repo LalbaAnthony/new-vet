@@ -11,8 +11,8 @@ $max_size = 2000000; // 2 Mo
 if (isset($_POST['submit'])) {
 
     $error = null; 
-    $sucessUpload = false;
-    $sucessInsertDb = false;
+    $successUpload = false;
+    $successInsertDb = false;
 
     $target_file = APP_UPLOAD_PATH . basename($_FILES["image"]["name"]);
     $extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
     // Si tout est ok, téléchargez le fichier
     if (!$error) {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            $sucessUpload = true;
+            $successUpload = true;
         } else {
             $error = "Désolé, une erreur inconnue s'est produite lors du téléchargement de votre fichier.";
         }
@@ -65,18 +65,18 @@ if (isset($_POST['submit'])) {
         $image['slug'] = slugify($image['name']);
 
         // Formulaire validé : on modifie l'enregistrement
-        $sucessInsertDb = insertImage($image);
+        $successInsertDb = insertImage($image);
     }
 
-    $sucess = $sucessUpload && $sucessInsertDb;
-    $sucess = $sucessUpload;
+    $success = $successUpload && $successInsertDb;
+    $success = $successUpload;
 
-    if (!$sucess) {
+    if (!$success) {
         $error = "Une erreur est survenue lors de l'envoie de l'image.";
     }
 
     if (!$error) {
-        header('Location: ' . APP_URL . 'bo/pages/images/index.php?created=' . $sucess);
+        header('Location: ' . APP_URL . 'bo/pages/images/index.php?created=' . $success);
     }
 }
 ?>

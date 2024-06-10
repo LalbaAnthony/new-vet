@@ -47,10 +47,10 @@ if (isset($_POST['submit'])) {
         $customer['password'] = password_hash($customer['password'], PASSWORD_DEFAULT);
 
         // Formulaire validé : on modifie l'enregistrement
-        $sucess = insertCustomer($customer);
+        $success = insertCustomer($customer);
 
         // Redirection vers la liste des clients
-        header('Location: ' . APP_URL . 'bo/pages/customers/index.php?created=' . $sucess);
+        header('Location: ' . APP_URL . 'bo/pages/customers/index.php?created=' . $success);
     }
 }
 ?>

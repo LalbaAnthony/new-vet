@@ -13,35 +13,25 @@ if (empty($urlSlug)) {
 }
 
 $category = getcategory($urlSlug);
-$categoryImages = getImagesFromProduct($urlSlug);
-
-
-
-// Réception des tables enfants
-$categories = getCategories();
-
+$image = getImage($category['image_slug']);
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
 
-    // Lecture du formulaire 
+    // Lecture du formulaire
     $category['slug'] = isset($_POST['slug']) ? $_POST['slug'] : $category['slug'];
     $category['libelle'] = isset($_POST['libelle']) ? $_POST['libelle'] : $category['libelle'];
     $category['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
     $category['color'] = isset($_POST['color']) ? $_POST['color'] : null;
-    $category['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0; 
-    $category['is_quick_access'] = isset($_POST['is_quick_access']) ? (strval($_POST['is_quick_access']) == "on" ? $_POST['is_quick_access']  = 1 : $_POST['is_quick_access'] = 0) : 0; 
-    $category['is_deleted'] = isset($_POST['is_deleted']) ? (strval($_POST['is_deleted']) == "on" ? $_POST['is_deleted']  = 1 : $_POST['is_deleted'] = 0) : 0; 
+    $category['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0;
+    $category['is_quick_access'] = isset($_POST['is_quick_access']) ? (strval($_POST['is_quick_access']) == "on" ? $_POST['is_quick_access']  = 1 : $_POST['is_quick_access'] = 0) : 0;
     $categoryImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 
-    
-
     // Formulaire validé : on modifie l'enregistrement
-    $sucesscategory = updatecategory($category);
-
+    $success = updatecategory($category);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?updated=' . $sucesscategory);
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?updated=' . $success);
 }
 
 // Affichage
@@ -86,7 +76,7 @@ if (isset($_POST['submit'])) {
                 <input class="form-control" type="number" id="sort_order" name="sort_order" value="<?= $category['sort_order'] ?>" min="1">
             </div>
 
-          
+
 
             <div class="form-group my-4 p-1">
                 <label for="is_highlander">Highlander:</label>
@@ -103,9 +93,9 @@ if (isset($_POST['submit'])) {
                 <input type="checkbox" id="is_deleted" name="is_deleted" <?php echo $category['is_deleted'] === 1 ? 'checked' : '' ?>>
             </div>
 
-           
+
             <?php
-            $max_nb_images = 4;
+            $max_nb_images = 1;
             $selected_images = array();
             foreach ($categoryImages as $image) $selected_images[] = $image['slug'];
             ?>

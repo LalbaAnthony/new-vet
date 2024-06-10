@@ -14,10 +14,10 @@ $contact = getContact($url_id);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = putToTrashContact($_POST['contact_id']);
+    $success = putToTrashContact($_POST['contact_id']);
 
     // Redirection vers la liste des contacts
-    header('Location: ' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $success);
 }
 
 // Affichage

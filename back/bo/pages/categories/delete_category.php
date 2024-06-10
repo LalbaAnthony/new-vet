@@ -14,10 +14,10 @@ $category = getCategory($urlSlug);
 if (isset($_POST['submit'])) {
 
     // Formulaire validé : on supprime l'enregistrement
-    $sucess = putToTrashCategory($_POST['slug']);
+    $success = putToTrashCategory($_POST['slug']);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?deleted=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?deleted=' . $success);
 }
 
 // Affichage

@@ -21,10 +21,10 @@ if (isset($_POST['submit'])) {
     $material['color'] = isset($_POST['color']) ? $_POST['color'] : null;
 
     // Formulaire validé : on modifie l'enregistrement
-    $sucess = updateMaterial($material);
+    $success = updateMaterial($material);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/materials/index.php?updated=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/materials/index.php?updated=' . $success);
 }
 
 ?>
