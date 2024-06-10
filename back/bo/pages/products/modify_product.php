@@ -39,8 +39,6 @@ if (isset($_POST['submit'])) {
     $productCategories = isset($_POST['materials_slugs']) ? $_POST['materials_slugs'] : $productCategories;
     $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 
-    dd($_POST['images_slugs']);
-
     // Formulaire validé : on modifie l'enregistrement
     $sucessProduct = updateProduct($product);
 
