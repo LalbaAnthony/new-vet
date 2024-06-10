@@ -18,8 +18,6 @@ if (isset($_POST['submit'])) {
 
     $productImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
 
-    dd($_POST);
-
     // Generate le slug
     $category['slug'] = slugify($category['libelle']);
 
@@ -27,7 +25,7 @@ if (isset($_POST['submit'])) {
     $sucess = insertCategory($category);
 
     // Redirection vers la liste des produits
-    // header('Location: ' . APP_URL . 'bo/pages/categories/index.php?created=' . $sucess);
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?created=' . $sucess);
 }
 
 ?>
@@ -81,9 +79,6 @@ if (isset($_POST['submit'])) {
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander">
             </div>
-
-            <input type="checkbox" id="images_slugs" name="images_slugs[]" value="rrr" >
-
 
             <?php $max_nb_images = 4; ?>
             <?php include_once APP_PATH . "bo/partials/image_select.php"; ?>

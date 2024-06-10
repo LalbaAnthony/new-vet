@@ -3,7 +3,7 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/image.php";
 
-$images = getImages();
+$images = getImages(null, array(array('order' => 'ASC', 'order_by' => 'created_at')), 0, 999);
 
 ?>
 <script src="<?= APP_URL ?>bo/script/functions/goToConfirm.js"></script>
@@ -13,7 +13,7 @@ $images = getImages();
         <!-- Images list -->
         <?php foreach ($images as $image) : ?>
             <div class="d-flex flex-column align-items-center">
-                <?= $image['slug'] ?>
+                <?= $image['name'] ?>
                 <img src="<?= image_or_placeholder(isset($image['path']) ? $image['path'] : '') ?>" class="m-1 object-fit-cover" alt="<?= $image['alt'] ?>" width="100px" height="100px">
                 <input type="checkbox" id="images_slugs" name="images_slugs[]" value="<?= $image['slug'] ?>" <?php echo (isset($selected_images) && in_array($image['slug'], $selected_images)) ? 'checked' : '' ?>>
             </div>
