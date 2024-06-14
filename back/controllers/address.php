@@ -41,7 +41,7 @@ function insertAddress($address)
 
     $reslut = Database::queryInsert($sql, array(":customer_id" => $address['customer_id'], ":first_name" => $address['first_name'], ":last_name" => $address['last_name'], ":address1" => $address['address1'], ":address2" => $address['address2'], ":city" => $address['city'], ":region" => $address['region'], ":postal_code" => $address['postal_code'], ":country_id" => $address['country_id'], ":tel" => $address['tel']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Address inserted in back office: address_id " . $reslut);
         return true;
     } else {

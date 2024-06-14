@@ -110,7 +110,7 @@ function insertMaterial($material)
 
     $reslut = Database::queryInsert($sql, $params);
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Address inserted in back office: address_id " . $reslut);
         return true;
     } else {

@@ -125,7 +125,7 @@ function insertImage($image)
 
     $reslut = Database::queryInsert($sql, array(":slug" => $image['slug'], ":name" => $image['name'], ":alt" => $image['alt'], ":path" => $image['path'], ":weight" => $image['weight'], ":extention" => $image['extention']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Image inserted in back office: id " . $reslut['lastInsertId']);
         return true;
     } else {

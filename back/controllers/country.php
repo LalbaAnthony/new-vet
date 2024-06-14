@@ -42,7 +42,7 @@ function insertCountry($country)
 
     $reslut = Database::queryInsert($sql, array(":name" => $country['name']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Country inserted in back office: country_id " . $reslut);
         return $reslut;
     } else {

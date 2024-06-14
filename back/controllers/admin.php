@@ -37,7 +37,7 @@ function insertAdmin($admin)
 
     $reslut = Database::queryInsert($sql, array(":login" => $admin['login'], ":password" => $admin['password']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Admin inserted in back office: login " . $admin['login']);
         return true;
     } else {

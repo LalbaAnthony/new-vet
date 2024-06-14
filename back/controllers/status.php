@@ -31,7 +31,7 @@ function insertStatus($status)
 
     $reslut = Database::queryInsert($sql, array(":libelle" => $status['libelle']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Status inserted in back office: status_id " . $reslut);
         return $reslut;
     } else {

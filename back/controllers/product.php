@@ -264,7 +264,7 @@ function insertProduct($product)
 
     $reslut = Database::queryInsert($sql, array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Address inserted in back office: address_id " . $reslut);
         return true;
     } else {
@@ -335,7 +335,7 @@ function updateProductCategories($product_slug, $categories)
     $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
     foreach ($categories as $key => $value) {
         $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":category_slug" => $value));
-        if ($reslut['lastInsertId']) {
+        if ($reslut['success']) {
             log_txt("Product categories inserted in back office: slug " . $product_slug);
         } else {
             return false;
@@ -367,7 +367,7 @@ function updateProductMaterials($product_slug, $materials)
     $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
     foreach ($materials as $key => $value) {
         $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":material_slug" => $value));
-        if ($reslut['lastInsertId']) {
+        if ($reslut['success']) {
             log_txt("Product materials inserted in back office: slug " . $product_slug);
         } else {
             return false;
@@ -400,7 +400,7 @@ function updateProductImages($product_slug, $images)
     $sql = "INSERT INTO product_image (product_slug, image_slug) VALUES (:product_slug, :image_slug)";
     foreach ($images as $key => $value) {
         $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":image_slug" => $value));
-        if ($reslut['lastInsertId']) {
+        if ($reslut['success']) {
             log_txt("Product images inserted in back office: slug " . $product_slug);
         } else {
             return false;

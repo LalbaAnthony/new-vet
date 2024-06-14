@@ -1,5 +1,6 @@
 <?php
 
+
 require_once "../../../config.inc.php";
 
 include_once APP_PATH . "controllers/category.php";
@@ -18,23 +19,25 @@ $image = getImage($category['image_slug']);
 // Modification dans la base
 if (isset($_POST['submit'])) {
 
+    $category = array();
+
     // Lecture du formulaire
-    $category['slug'] = isset($_POST['slug']) ? $_POST['slug'] : $category['slug'];
-    $category['libelle'] = isset($_POST['libelle']) ? $_POST['libelle'] : $category['libelle'];
-    $category['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
+    $category['libelle'] = isset($_POST['libelle']) ? $_POST['libelle'] : null;
     $category['color'] = isset($_POST['color']) ? $_POST['color'] : null;
-    $category['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0;
-    $category['is_quick_access'] = isset($_POST['is_quick_access']) ? (strval($_POST['is_quick_access']) == "on" ? $_POST['is_quick_access']  = 1 : $_POST['is_quick_access'] = 0) : 0;
+    $category['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
+    $category['is_quick_access'] = isset($_POST['is_quick_access']) ? (strval($_POST['is_quick_access']) == "on" ? $_POST['is_quick_access']  = 1 : $_POST['is_quick_access'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE (encore)
+    $category['is_highlander'] = isset($_POST['is_highlander']) ? (strval($_POST['is_highlander']) == "on" ? $_POST['is_highlander']  = 1 : $_POST['is_highlander'] = 0) : 0; // SPOILER ALERT LES CHECKBOXS C'EST DE LA MERDE (encore)
+
     $categoryImages = isset($_POST['images_slugs']) ? $_POST['images_slugs'] : array();
+    $category['image_slug'] = !empty($categoryImages) && !empty($categoryImages[0]) ? $categoryImages[0] : null;  // Prend la première image cochée
 
     // Formulaire validé : on modifie l'enregistrement
-    $success = updatecategory($category);
+    $success = updateCategory($category);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?updated=' . $success);
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php?created=' . $success);
 }
 
-// Affichage
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -50,14 +53,13 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-
     <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
 
         <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
-        <h2 class="mb-4">Modification de : <?= $category['libelle'] ?></h2>
+        <h2 class="mb-4">Modification d'une catégorie :</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $category['slug']; ?>">
@@ -80,24 +82,18 @@ if (isset($_POST['submit'])) {
 
             <div class="form-group my-4 p-1">
                 <label for="is_highlander">Highlander:</label>
-                <input type="checkbox" id="is_highlander" name="is_highlander" <?php echo $category['is_highlander'] === 1 ? 'checked' : '' ?>>
+                <input type="checkbox" id="is_highlander" name="is_highlander" <?= $category['is_highlander'] === 1 ? 'checked' : '' ?>>
             </div>
 
             <div class="form-group my-4 p-1">
                 <label for="is_quick_access">Acces Rapide:</label>
-                <input type="checkbox" id="is_quick_access" name="is_quick_access" <?php echo $category['is_quick_access'] === 1 ? 'checked' : '' ?>>
+                <input type="checkbox" id="is_quick_access" name="is_quick_access" <?= $category['is_quick_access'] === 1 ? 'checked' : '' ?>>
             </div>
-
-            <div class="form-group my-4 p-1">
-                <label for="is_deleted">A Supprimer :</label>
-                <input type="checkbox" id="is_deleted" name="is_deleted" <?php echo $category['is_deleted'] === 1 ? 'checked' : '' ?>>
-            </div>
-
 
             <?php
             $max_nb_images = 1;
             $selected_images = array();
-            foreach ($categoryImages as $image) $selected_images[] = $image['slug'];
+            $selected_images[] = $category['image_slug'];
             ?>
             <?php include_once APP_PATH . "bo/partials/image_select.php"; ?>
 
@@ -107,8 +103,6 @@ if (isset($_POST['submit'])) {
             </div>
         </form>
     </div>
-
-
 </body>
 
 </html>

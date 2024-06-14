@@ -103,7 +103,7 @@ function insertContact($contact)
 
     $reslut = Database::queryInsert($sql, array(":customer_id" => $contact['customer_id'], ":email" => $contact['email'], ":subject" => $contact['subject'], ":message" => $contact['message']));
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Contact inserted in back office: contact_id " . $reslut);
         return $reslut;
     } else {

@@ -195,7 +195,7 @@ function insertCategory($category)
 
     $reslut = Database::queryInsert($sql, $params);
 
-    if ($reslut['lastInsertId']) {
+    if ($reslut['success']) {
         log_txt("Category inserted in back office: slug " . $category['slug']);
         return true;
     } else {
