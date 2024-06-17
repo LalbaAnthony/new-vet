@@ -108,10 +108,10 @@ function insertMaterial($material)
 
     $params = array(":libelle" => $material['libelle'], ":slug" => $material['slug'], ":color" => $material['color']);
 
-    $reslut = Database::queryInsert($sql, $params);
+    $result = Database::queryInsert($sql, $params);
 
-    if ($reslut['success']) {
-        log_txt("Address inserted in back office: address_id " . $reslut);
+    if ($result['success']) {
+        log_txt("Address inserted in back office: address_id " . $result);
         return true;
     } else {
         return false;
@@ -138,9 +138,9 @@ function updateMaterial($material)
     if (isset($material['is_deleted'])) $params[":is_deleted"] = $material['is_deleted'];
     $params[":slug"] = $material['slug'];
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Material updated in back office: slug " . $material['slug']);
         return true;
     } else {
@@ -155,9 +155,9 @@ function putToTrashMaterial($slug)
 
     $params = array(":slug" => $slug);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Material deleted in back office: slug " . $slug);
         return true;
     } else {

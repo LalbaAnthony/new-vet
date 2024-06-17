@@ -24,7 +24,7 @@ function getAddresses($customer_id = null, $search = null)
     // Filter by search
     if ($search) $sql .= " AND (first_name LIKE :search OR last_name LIKE :search OR address1 LIKE :search OR address2 LIKE :search OR city LIKE :search OR region LIKE :search OR postal_code LIKE :search OR tel LIKE :search)";
 
-    $sql .= " ORDER BY sort_order ASC";
+    $sql .= " ORDER BY postal_code ASC";
 
     $params = array();
     if ($customer_id) $params[":customer_id"] = $customer_id;
@@ -39,10 +39,10 @@ function insertAddress($address)
 {
     $sql = "INSERT INTO address (customer_id, first_name, last_name, address1, address2, city, region, postal_code, country_id, tel) VALUES (:customer_id, :first_name, :last_name, :address1, :address2, :city, :region, :postal_code, :country_id, :tel)";
 
-    $reslut = Database::queryInsert($sql, array(":customer_id" => $address['customer_id'], ":first_name" => $address['first_name'], ":last_name" => $address['last_name'], ":address1" => $address['address1'], ":address2" => $address['address2'], ":city" => $address['city'], ":region" => $address['region'], ":postal_code" => $address['postal_code'], ":country_id" => $address['country_id'], ":tel" => $address['tel']));
+    $result = Database::queryInsert($sql, array(":customer_id" => $address['customer_id'], ":first_name" => $address['first_name'], ":last_name" => $address['last_name'], ":address1" => $address['address1'], ":address2" => $address['address2'], ":city" => $address['city'], ":region" => $address['region'], ":postal_code" => $address['postal_code'], ":country_id" => $address['country_id'], ":tel" => $address['tel']));
 
-    if ($reslut['success']) {
-        log_txt("Address inserted in back office: address_id " . $reslut);
+    if ($result['success']) {
+        log_txt("Address inserted in back office: address_id " . $result);
         return true;
     } else {
         return false;
@@ -84,9 +84,9 @@ function updateAddress($address)
     if (isset($address['is_deleted'])) $params[":is_deleted"] = $address['is_deleted'];
 
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Address updated in back office: address_id " . $address['address_id']);
         return true;
     } else {
@@ -98,9 +98,9 @@ function putToTrashAddress($address_id)
 {
     $sql = "UPDATE address SET is_deleted = 1 WHERE address_id = :address_id";
 
-    $reslut = Database::queryUpdate($sql, array(":address_id" => $address_id));
+    $result = Database::queryUpdate($sql, array(":address_id" => $address_id));
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Address deleted in back office: address_id " . $address_id);
         return true;
     } else {

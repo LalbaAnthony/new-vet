@@ -9,11 +9,11 @@
                 <div class="products-grid">
                     <Product v-for="product in productStore.products.data" :key="product.slug" :product="product" />
                 </div>
-                <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.page"
-                :perPage="productStore.products.pagination.per_page"
-                @update-page="(page) => productStore.changePage(page)" />
             </div>
             <NoItem what="produit" :cta="{ text: 'Retour', to: '/produits' }" v-else />
+            <Pagination :total="productStore.products.pagination.total" :page="productStore.products.pagination.page"
+            :perPage="productStore.products.pagination.per_page"
+            @update-page="(page) => productStore.changePage(page)" />
         </div>
     </div>
 </template>

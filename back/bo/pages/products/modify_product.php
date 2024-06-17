@@ -79,32 +79,32 @@ if (isset($_POST['submit'])) {
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $product['slug']; ?>">
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="name">Nom:</label>
                 <input class="form-control" type="text" id="name" name="name" value="<?= $product['name'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="description">Description:</label>
                 <input class="form-control" type="text" id="description" name="description" value="<?= $product['description'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="price">Prix:</label>
                 <input class="form-control" type="number" id="price" name="price" value="<?= $product['price'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label for="sort_order">Ordre d'affichage:</label>
                 <input class="form-control" type="number" id="sort_order" name="sort_order" value="<?= $product['sort_order'] ?>" min="1">
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="stock_quantity">Quantité en stock:</label>
                 <input class="form-control" type="number" id="stock_quantity" name="stock_quantity" value="<?= $product['stock_quantity'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label for="categories_slugs">Catégorie:</label>
                 <select class="form-control" name="categories_slugs[]" id="categories_slugs" multiple>
                     <?php foreach ($categories as $category) : ?>
@@ -113,7 +113,7 @@ if (isset($_POST['submit'])) {
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label for="materials_slugs">Materiaux:</label>
                 <select class="form-control" name="materials_slugs[]" id="materials_slugs" multiple>
                     <?php foreach ($materials as $material) : ?>
@@ -122,7 +122,7 @@ if (isset($_POST['submit'])) {
                 </select>
             </div>
 
-            <div class="form-group my-4 p-1">
+            <div class="form-group my-4">
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander" <?php echo $product['is_highlander'] === 1 ? 'checked' : '' ?>>
             </div>

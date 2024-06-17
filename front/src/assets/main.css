@@ -475,11 +475,11 @@ label.required::after {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--secondary);
+    background: var(--gray);
     border-radius: 25px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-light);
+    background: var(--gray);
 }
 

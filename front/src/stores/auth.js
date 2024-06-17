@@ -298,7 +298,7 @@ export const useAuthStore = defineStore('auth',
         notify('Produit retiré du panier !', 'success');
       },
 
-      addToCart(productSlug, quantity) {
+      addToCart(productSlug, quantity = 1) {
         if (this.cart[productSlug]) {
           this.cart[productSlug] += quantity;
         } else {

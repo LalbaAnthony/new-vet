@@ -35,7 +35,6 @@ if (isset($_POST['submit'])) {
     <title>Création - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
-    <script src="<?= APP_URL ?>bo/script/autosave.js"></script>
 </head>
 
 <body>
@@ -49,12 +48,12 @@ if (isset($_POST['submit'])) {
         <h2 class="mb-4">Création d'un matériau :</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="libelle">Libelle:</label>
                 <input class="form-control" type="text" id="libelle" name="libelle" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="color">Couleur:</label>
                 <input class="form-control" type="color" id="color" name="color">
             </div>

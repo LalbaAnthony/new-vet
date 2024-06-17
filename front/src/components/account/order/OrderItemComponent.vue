@@ -1,6 +1,6 @@
 <template>
   <div class="order-item">
-    {{ props.order.order_id }}
+    {{ props.order }}
   </div>
 </template>
 

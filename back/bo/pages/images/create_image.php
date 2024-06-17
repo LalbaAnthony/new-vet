@@ -92,7 +92,6 @@ if (isset($_POST['submit'])) {
     <title>Création - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
-    <script src="<?= APP_URL ?>bo/script/autosave.js"></script>
 </head>
 
 <body>
@@ -108,17 +107,17 @@ if (isset($_POST['submit'])) {
         <h2 class="mb-4">Ajout d'une image :</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5" enctype="multipart/form-data">
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="name">Nom:</label>
                 <input class="form-control" type="text" id="name" name="name" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label for="alt">Description:</label>
                 <input class="form-control" type="text" id="alt" name="alt">
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="image">Image:</label>
                 <input class="form-control" type="file" name="image" id="image" required>
             </div>

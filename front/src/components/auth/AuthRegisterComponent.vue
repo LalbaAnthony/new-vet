@@ -1,25 +1,25 @@
 <template>
   <div class="auth-form">
     <div class="form-split-half">
-      <div class="form-group">
+      <div class="form-group my-4">
         <label class="required" for="first_name">Prénom</label>
         <input type="text" id="first_name" v-model="first_name" />
       </div>
-      <div class="form-group">
+      <div class="form-group my-4">
         <label class="required" for="last_name">Nom</label>
         <input type="text" id="last_name" v-model="last_name" />
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="email">E-mail</label>
       <input type="text" id="email" v-model="email" />
     </div>
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="password">Mot de passe</label>
       <input type="password" id="password" v-model="password" />
     </div>
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="password">Confirmez votre mot de passe</label>
       <input type="password" id="confirmPassword" v-model="confirmPassword" />
     </div>

@@ -57,27 +57,27 @@ if (isset($_POST['submit'])) {
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug">
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="libelle">Nom:</label>
                 <input class="form-control" type="text" id="libelle" name="libelle" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="color">Couleur:</label>
                 <input class="form-control" type="color" id="color" name="color" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label for="sort_order">Ordre d'affichage:</label>
                 <input class="form-control" type="number" id="sort_order" name="sort_order" min="1">
             </div>
 
-            <div class="form-group my-4 p-1">
+            <div class="form-group my-4">
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander">
             </div>
 
-            <div class="form-group my-4 p-1">
+            <div class="form-group my-4">
                 <label for="is_quick_access">Acces Rapide:</label>
                 <input type="checkbox" id="is_quick_access" name="is_quick_access">
             </div>

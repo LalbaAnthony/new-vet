@@ -53,12 +53,12 @@ if (isset($_POST['submit'])) {
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
         <input type="hidden" name="slug" id="slug" value="<?= $material['slug']; ?>">
-        <div class="form-group">
+        <div class="form-group my-4">
                 <label class="required" for="libelle">Libelle:</label>
                 <input class="form-control" type="text" id="libelle" name="libelle" value="<?= $material['libelle'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="color">Couleur:</label>
                 <input class="form-control" type="color" id="color" name="color" value="<?= $material['color'] ?>" required>
             </div>

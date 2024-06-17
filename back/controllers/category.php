@@ -193,9 +193,9 @@ function insertCategory($category)
 
     $params = array(":slug" => $category['slug'], ":libelle" => $category['libelle'], ":image_slug" => $category['image_slug'], ":sort_order" => $category['sort_order'], ":is_quick_access" => $category['is_quick_access'], ":is_highlander" => $category['is_highlander'], ":color" => $category['color']);
 
-    $reslut = Database::queryInsert($sql, $params);
+    $result = Database::queryInsert($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Category inserted in back office: slug " . $category['slug']);
         return true;
     } else {
@@ -230,9 +230,9 @@ function updateCategory($category)
     if (isset($category['color'])) $params[":color"] = $category['color'];
     if (isset($category['is_deleted'])) $params[":is_deleted"] = $category['is_deleted'];
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Category updated in back office: slug " . $category['slug']);
         return true;
     } else {
@@ -247,9 +247,9 @@ function putToTrashCategory($slug)
 
     $params = array(":slug" => $slug);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Category deleted in back office: slug " . $slug);
         return true;
     } else {

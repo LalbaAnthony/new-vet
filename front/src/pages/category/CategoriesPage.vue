@@ -8,11 +8,11 @@
         <div class="categories-grid">
           <Category v-for="category in categoryStore.categories.data" :key="category.slug" :category="category" />
         </div>
-        <Pagination :total="categoryStore.categories.pagination.total" :page="categoryStore.categories.pagination.page"
-        :perPage="categoryStore.categories.pagination.per_page"
-        @update-page="(page) => categoryStore.changePage(page)" />
       </div>
       <NoItem :cta="{ text: 'Retour', to: '/categories' }" v-else />
+      <Pagination :total="categoryStore.categories.pagination.total" :page="categoryStore.categories.pagination.page"
+      :perPage="categoryStore.categories.pagination.per_page"
+      @update-page="(page) => categoryStore.changePage(page)" />
     </div>
   </div>
 </template>

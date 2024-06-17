@@ -4,7 +4,7 @@
             <Breadcrumb />
             <div class="contact-form">
                   <div class="form-split-half">
-                        <div class="form-group">
+                        <div class="form-group my-4">
                               <label for="email" class="hidden">E-mail</label>
                               <input type="text" id="email" name="email" placeholder="E-mail" v-model="email" />
                         </div>
@@ -13,7 +13,7 @@
                               <input type="text" id="subject" name="subject" placeholder="Sujet" v-model="subject" />
                         </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group my-4">
                         <label for="message" class="hidden">Message</label>
                         <textarea id="message" name="message" rows="6" placeholder="Message" v-model="message"></textarea>
                   </div>

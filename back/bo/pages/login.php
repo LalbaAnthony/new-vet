@@ -65,13 +65,13 @@ if ($login && $password) {
                             </div>
                         <?php endif; ?>
 
-                        <div class="form-group">
+                        <div class="form-group my-4">
                             <label for="login">Login:</label>
                             <input type="text" class="form-control" name="login" id="login" placeholder="Entrez votre login" required value="<?= $login ?>">
                         </div>
                         <br>
 
-                        <div class="form-group">
+                        <div class="form-group my-4">
                             <label for="password">Mot de passe:</label>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe" required value="<?= $password ?>">
                         </div>

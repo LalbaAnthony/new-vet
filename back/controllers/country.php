@@ -40,11 +40,11 @@ function insertCountry($country)
 
     $sql = "INSERT INTO country (name) VALUES (:name)";
 
-    $reslut = Database::queryInsert($sql, array(":name" => $country['name']));
+    $result = Database::queryInsert($sql, array(":name" => $country['name']));
 
-    if ($reslut['success']) {
-        log_txt("Country inserted in back office: country_id " . $reslut);
-        return $reslut;
+    if ($result['success']) {
+        log_txt("Country inserted in back office: country_id " . $result);
+        return $result;
     } else {
         return false;
     }
@@ -69,9 +69,9 @@ function updateCountry($country)
 
     $params[":country_id"] = $country['country_id'];
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Country updated in back office: country_id " . $country['country_id']);
         return true;
     } else {
@@ -86,9 +86,9 @@ function putToTrashCountry($country_id)
 
     $params = array(":country_id" => $country_id);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Country deleted in back office: country_id " . $country_id);
         return true;
     } else {

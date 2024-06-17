@@ -8,7 +8,7 @@ function getCard($card_id)
 
     $result = Database::queryOne($sql, $params);
 
-    return $result;
+    return $result['data'];
 }
 
 function getCards()
@@ -21,7 +21,7 @@ function getCards()
 
     $result = Database::queryAll($sql)['data'];
 
-    return $result;
+    return $result['data'];
 }
 
 
@@ -29,11 +29,11 @@ function insertCard($card)
 {
     $sql = "INSERT INTO card (customer_id, number, expiration_date, cvv) VALUES (:customer_id, :number, :expiration_date, :cvv)";
 
-    $reslut = Database::queryInsert($sql, array(":customer_id" => $card['customer_id'], ":number" => $card['number'], ":expiration_date" => $card['expiration_date'], ":cvv" => $card['cvv']));
+    $result = Database::queryInsert($sql, array(":customer_id" => $card['customer_id'], ":number" => $card['number'], ":expiration_date" => $card['expiration_date'], ":cvv" => $card['cvv']));
 
-    if ($reslut['success']) {
-        log_txt("Card inserted in back office: card_id " . $reslut);
-        return $reslut;
+    if ($result['success']) {
+        log_txt("Card inserted in back office: card_id " . $result);
+        return $result;
     } else {
         return false;
     }
@@ -61,9 +61,9 @@ function updateCard($card)
     if (isset($card['cvv'])) $params[":cvv"] = $card['cvv'];
     if (isset($card['is_deleted'])) $params[":is_deleted"] = $card['is_deleted'];
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Card updated in back office: card_id " . $card['card_id']);
         return true;
     } else {
@@ -76,9 +76,9 @@ function putToTrashCard($card_id)
 
     $sql = "UPDATE card SET is_deleted = 1 WHERE card_id = :card_id";
 
-    $reslut = Database::queryUpdate($sql, array(":card_id" => $card_id));
+    $result = Database::queryUpdate($sql, array(":card_id" => $card_id));
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Card deleted in back office: card_id " . $card_id);
         return true;
     } else {
