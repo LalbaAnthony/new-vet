@@ -159,7 +159,7 @@ if (!$error && $date_start && $date_end) {
         // Calc degre and percent
         $orderNbTotal = array_sum(array_column($orderCountByCategories, 'order_nb'));
         foreach ($orderCountByCategories as &$item) {
-            $item['deg'] = round(($item["order_nb"] / $orderNbTotal) * 360); // convert on % on 360
+            $item['deg'] = round(($item["order_nb"] / $orderNbTotal) * 360); // convert on % on 360 ggrgrgreg
             $item['percent'] = round(($item["order_nb"] / $orderNbTotal) * 100);
             if (!$item["color"]) $item["color"] = rand_color(); // generate random color if not exist
         }
