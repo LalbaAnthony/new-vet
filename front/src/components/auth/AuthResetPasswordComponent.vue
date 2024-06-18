@@ -1,14 +1,14 @@
 <template>
   <div class="auth-form">
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="code">Code (réçu par e-mail)</label>
       <input type="text" id="code" v-model="code" />
     </div>
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="password">Nouveau mot de passe</label>
       <input type="password" id="password" v-model="password" />
     </div>
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="password">Confirmez votre mot de passe</label>
       <input type="password" id="confirmPassword" v-model="confirmPassword" />
     </div>

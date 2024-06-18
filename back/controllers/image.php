@@ -123,10 +123,10 @@ function insertImage($image)
 {
     $sql = "INSERT INTO image (slug, name, alt, path, weight, extention) VALUES (:slug, :name, :alt, :path, :weight, :extention);";
 
-    $reslut = Database::queryInsert($sql, array(":slug" => $image['slug'], ":name" => $image['name'], ":alt" => $image['alt'], ":path" => $image['path'], ":weight" => $image['weight'], ":extention" => $image['extention']));
+    $result = Database::queryInsert($sql, array(":slug" => $image['slug'], ":name" => $image['name'], ":alt" => $image['alt'], ":path" => $image['path'], ":weight" => $image['weight'], ":extention" => $image['extention']));
 
-    if ($reslut['success']) {
-        log_txt("Image inserted in back office: id " . $reslut['lastInsertId']);
+    if ($result['success']) {
+        log_txt("Image inserted in back office: id " . $result['lastInsertId']);
         return true;
     } else {
         return false;
@@ -159,9 +159,9 @@ function updateImage($image)
     if (isset($image['extention'])) $params[":extention"] = $image['extention'];
     if (isset($image['is_deleted'])) $params[":is_deleted"] = $image['is_deleted'];
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Image updated in back office: id " . $image['slug']);
         return true;
     } else {
@@ -176,9 +176,9 @@ function putToTrashImage($slug)
 
     $params = array(":slug" => $slug);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Image deleted in back office: id " . $slug);
         return true;
     } else {

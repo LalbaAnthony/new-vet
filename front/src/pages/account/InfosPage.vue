@@ -5,17 +5,17 @@
     <AccountLayout />
     
     <div class="main-grid">
-      <div class="form-group">
+      <div class="form-group my-4">
         <label for="first_name">Prénom</label>
         <input type="text" id="first_name" v-model="authStore.user.first_name" disabled />
       </div>
 
-      <div class="form-group">
+      <div class="form-group my-4">
         <label for="last_name">Nom</label>
         <input type="text" id="last_name" v-model="authStore.user.last_name" disabled />
       </div>
 
-      <div class="form-group">
+      <div class="form-group my-4">
         <label for="email">E-mail</label>
         <input type="email" id="email" v-model="authStore.user.email" disabled />
       </div>

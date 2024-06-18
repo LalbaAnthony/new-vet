@@ -101,11 +101,11 @@ function insertContact($contact)
 
     $sql = "INSERT INTO contact (customer_id, email, subject, message) VALUES (:customer_id, :email, :subject, :message)";
 
-    $reslut = Database::queryInsert($sql, array(":customer_id" => $contact['customer_id'], ":email" => $contact['email'], ":subject" => $contact['subject'], ":message" => $contact['message']));
+    $result = Database::queryInsert($sql, array(":customer_id" => $contact['customer_id'], ":email" => $contact['email'], ":subject" => $contact['subject'], ":message" => $contact['message']));
 
-    if ($reslut['success']) {
-        log_txt("Contact inserted in back office: contact_id " . $reslut);
-        return $reslut;
+    if ($result['success']) {
+        log_txt("Contact inserted in back office: contact_id " . $result);
+        return $result;
     } else {
         return false;
     }
@@ -118,9 +118,9 @@ function putToTrashContact($contact_id)
 
     $params = array(":contact_id" => $contact_id);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Contact deleted in back office: contact_id " . $contact_id);
         return true;
     } else {

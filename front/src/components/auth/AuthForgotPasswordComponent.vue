@@ -1,6 +1,6 @@
 <template>
   <div class="auth-form">
-    <div class="form-group">
+    <div class="form-group my-4">
       <label class="required" for="email">E-mail</label>
       <input type="text" id="email" v-model="authStore.fogotPasswordEmail" />
     </div>

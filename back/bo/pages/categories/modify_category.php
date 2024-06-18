@@ -22,6 +22,7 @@ if (isset($_POST['submit'])) {
     $category = array();
 
     // Lecture du formulaire
+    $category['slug'] = isset($_POST['slug']) ? $_POST['slug'] : null;
     $category['libelle'] = isset($_POST['libelle']) ? $_POST['libelle'] : null;
     $category['color'] = isset($_POST['color']) ? $_POST['color'] : null;
     $category['sort_order'] = isset($_POST['sort_order']) ? $_POST['sort_order'] : null;
@@ -63,29 +64,29 @@ if (isset($_POST['submit'])) {
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="slug" id="slug" value="<?= $category['slug']; ?>">
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="libelle">Nom:</label>
                 <input class="form-control" type="text" id="libelle" name="libelle" value="<?= $category['libelle'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="color">Couleur:</label>
                 <input class="form-control" type="color" id="color" name="color" value="<?= $category['color'] ?>" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label for="sort_order">Ordre d'affichage:</label>
                 <input class="form-control" type="number" id="sort_order" name="sort_order" value="<?= $category['sort_order'] ?>" min="1">
             </div>
 
 
 
-            <div class="form-group my-4 p-1">
+            <div class="form-group my-4">
                 <label for="is_highlander">Highlander:</label>
                 <input type="checkbox" id="is_highlander" name="is_highlander" <?= $category['is_highlander'] === 1 ? 'checked' : '' ?>>
             </div>
 
-            <div class="form-group my-4 p-1">
+            <div class="form-group my-4">
                 <label for="is_quick_access">Acces Rapide:</label>
                 <input type="checkbox" id="is_quick_access" name="is_quick_access" <?= $category['is_quick_access'] === 1 ? 'checked' : '' ?>>
             </div>

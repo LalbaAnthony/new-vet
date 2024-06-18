@@ -94,7 +94,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_contacts'])) {
                             <td><?php
                                 if ($contact['customer_id']) {
                                     $customer = getCustomer($contact['customer_id']);
-                                    echo "<a href='" . APP_URL . "bo/pages/customers/modify_customer.php?id=" . $contact['customer_id'] . "'>" . $customer['last_name'] . " " . $customer['first_name'] . "</a>";
+                                    echo "<a href='" . APP_URL . "bo/pages/customers/index.php?search=" . $contact['email'] . "'>" . $customer['last_name'] . " " . $customer['first_name'] . "</a>";
                                 } else {
                                     echo "<span class='text-muted'>Non renseigné</span>";
                                 }

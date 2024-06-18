@@ -10,11 +10,10 @@
         <div class="orders-grid">
           <OrderItem v-for="order in authStore.orders.data" :key="order.id" :order="order" />
         </div>
-        <Pagination :total="authStore.orders.pagination.total" :page="authStore.orders.pagination.page"
-          :perPage="authStore.orders.pagination.per_page"
-                @update-page="(page) => authStore.ordersChangePage(page)" />
       </div>
       <NoItem v-else />
+      <Pagination :total="authStore.orders.pagination.total" :page="authStore.orders.pagination.page"
+        :perPage="authStore.orders.pagination.per_page" @update-page="(page) => authStore.ordersChangePage(page)" />
     </div>
   </div>
 </template>
@@ -64,11 +63,9 @@ watch(() => route.query, loadOrders)
 </script>
 
 <style scoped>
-
 .orders-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
 }
-
 </style>

@@ -29,11 +29,11 @@ function insertStatus($status)
 
     $sql = "INSERT INTO status (libelle) VALUES (:libelle)";
 
-    $reslut = Database::queryInsert($sql, array(":libelle" => $status['libelle']));
+    $result = Database::queryInsert($sql, array(":libelle" => $status['libelle']));
 
-    if ($reslut['success']) {
-        log_txt("Status inserted in back office: status_id " . $reslut);
-        return $reslut;
+    if ($result['success']) {
+        log_txt("Status inserted in back office: status_id " . $result);
+        return $result;
     } else {
         return false;
     }
@@ -60,9 +60,9 @@ function updateStatus($status)
 
     $params[":status_id"] = $status['status_id'];
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Status updated in back office: status_id " . $status['status_id']);
         return true;
     } else {
@@ -77,9 +77,9 @@ function putToTrashStatus($status_id)
 
     $params = array(":status_id" => $status_id);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Status deleted in back office: status_id " . $status_id);
         return true;
     } else {

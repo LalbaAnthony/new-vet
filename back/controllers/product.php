@@ -262,10 +262,10 @@ function insertProduct($product)
 
     if (!$product['slug']) $product['slug'] = slugify($product['name']);
 
-    $reslut = Database::queryInsert($sql, array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
+    $result = Database::queryInsert($sql, array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
 
-    if ($reslut['success']) {
-        log_txt("Address inserted in back office: address_id " . $reslut);
+    if ($result['success']) {
+        log_txt("Address inserted in back office: address_id " . $result);
         return true;
     } else {
         return false;
@@ -302,9 +302,9 @@ function updateProduct($product)
     if (isset($product['sort_order'])) $params[":sort_order"] = $product['sort_order'];
     if (isset($product['is_deleted'])) $params[":is_deleted"] = $product['is_deleted'];
 
-    $reslut = Database::queryInsert($sql, $params);
+    $result = Database::queryInsert($sql, $params);
 
-    if ($reslut['lastInsertId'] > 0) {
+    if ($result['lastInsertId'] > 0) {
         log_txt("Product updated in back office: slug " . $product['slug']);
         return true;
     } else {
@@ -323,9 +323,9 @@ function updateProductCategories($product_slug, $categories)
     // Delete all categories for this prBF05W1HU5Joduct
     $sql = "UPDATE product_category SET is_deleted = 1 WHERE product_slug = :product_slug";
 
-    $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
+    $result = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Product categories deleted in back office: slug " . $product_slug);
     } else {
         return false;
@@ -334,8 +334,8 @@ function updateProductCategories($product_slug, $categories)
     // Insert all categories for this product
     $sql = "INSERT INTO product_category (product_slug, category_slug) VALUES (:product_slug, :category_slug)";
     foreach ($categories as $key => $value) {
-        $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":category_slug" => $value));
-        if ($reslut['success']) {
+        $result = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":category_slug" => $value));
+        if ($result['success']) {
             log_txt("Product categories inserted in back office: slug " . $product_slug);
         } else {
             return false;
@@ -355,9 +355,9 @@ function updateProductMaterials($product_slug, $materials)
     // Delete all materials for this product
     $sql = "UPDATE product_material SET is_deleted = 1 WHERE product_slug = :product_slug";
 
-    $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
+    $result = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Product materials deleted in back office: slug " . $product_slug);
     } else {
         return false;
@@ -366,8 +366,8 @@ function updateProductMaterials($product_slug, $materials)
     // Insert all materials for this product
     $sql = "INSERT INTO product_material (product_slug, material_slug) VALUES (:product_slug, :material_slug)";
     foreach ($materials as $key => $value) {
-        $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":material_slug" => $value));
-        if ($reslut['success']) {
+        $result = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":material_slug" => $value));
+        if ($result['success']) {
             log_txt("Product materials inserted in back office: slug " . $product_slug);
         } else {
             return false;
@@ -388,9 +388,9 @@ function updateProductImages($product_slug, $images)
     // Delete all images for this product
     $sql = "UPDATE product_image SET is_deleted = 1 WHERE product_slug = :product_slug";
 
-    $reslut = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
+    $result = Database::queryUpdate($sql, array(":product_slug" => $product_slug));
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Product images deleted in back office: slug " . $product_slug);
     } else {
         return false;
@@ -399,8 +399,8 @@ function updateProductImages($product_slug, $images)
     // Insert all images for this product
     $sql = "INSERT INTO product_image (product_slug, image_slug) VALUES (:product_slug, :image_slug)";
     foreach ($images as $key => $value) {
-        $reslut = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":image_slug" => $value));
-        if ($reslut['success']) {
+        $result = Database::queryInsert($sql, array(":product_slug" => $product_slug, ":image_slug" => $value));
+        if ($result['success']) {
             log_txt("Product images inserted in back office: slug " . $product_slug);
         } else {
             return false;
@@ -416,9 +416,9 @@ function putToTrashProduct($slug)
 
     $params = array(":slug" => $slug);
 
-    $reslut = Database::queryUpdate($sql, $params);
+    $result = Database::queryUpdate($sql, $params);
 
-    if ($reslut['success']) {
+    if ($result['success']) {
         log_txt("Product deleted in back office: slug " . $slug);
         return true;
     } else {

@@ -66,7 +66,7 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     // Limit and offset
     if ($per_page) $sql .= " LIMIT :per_page";
     if ($offset) $sql .= " OFFSET :offset";
-    
+
     $params = array();
 
     // Bind values
@@ -142,7 +142,7 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
 function getOrderLines($order_id)
 {
     $sql = "SELECT * FROM order_line WHERE order_id = :order_id AND is_deleted = 0;";
-    
+
     $result = Database::queryAll($sql, array(":order_id" => $order_id));
 
     return $result['data'];
@@ -156,6 +156,72 @@ function putToTrashOrder($order_id)
 
     if ($result['success']) {
         log_txt("Order deleted in back office: order_id " . $order_id);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function insertOrder($order)
+{
+    $sql = "INSERT INTO `order` (customer_id, status_id, order_date, total_price, shipping_address_id, billing_address_id, payment_method, payment_status, is_deleted) 
+    VALUES (:customer_id, :status_id, :order_date, :total_price, :shipping_address_id, :billing_address_id, :payment_method, :payment_status, 0);";
+
+    $params = array(
+        ":customer_id" => $order['customer_id'],
+        ":status_id" => $order['status_id'],
+        ":order_date" => $order['order_date'],
+        ":total_price" => $order['total_price'],
+        ":shipping_address_id" => $order['shipping_address_id'],
+        ":billing_address_id" => $order['billing_address_id'],
+        ":payment_method" => $order['payment_method'],
+        ":payment_status" => $order['payment_status']
+    );
+
+    $result = Database::queryInsert($sql, $params);
+
+    if ($result['success']) {
+        log_txt("Order created in back office: order_id " . $result['last_id']);
+        return $result['last_id'];
+    } else {
+        return false;
+    }
+}
+
+function updateOrder($order)
+{
+    $sql = "UPDATE `order` SET";
+
+    if (isset($order['customer_id'])) $sql .= " customer_id = :customer_id,";
+    if (isset($order['status_id'])) $sql .= " status_id = :status_id,";
+    if (isset($order['order_date'])) $sql .= " order_date = :order_date,";
+    if (isset($order['total_price'])) $sql .= " total_price = :total_price,";
+    if (isset($order['shipping_address_id'])) $sql .= " shipping_address_id = :shipping_address_id,";
+    if (isset($order['billing_address_id'])) $sql .= " billing_address_id = :billing_address_id,";
+    if (isset($order['payment_method'])) $sql .= " payment_method = :payment_method,";
+    if (isset($order['payment_status'])) $sql .= " payment_status = :payment_status,";
+    if (isset($order['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
+
+    $sql = rtrim($sql, ","); // cut off the last comma
+
+    $sql .= " WHERE order_id = :order_id";
+
+    $params = array();
+    if (isset($order['customer_id'])) $params[":customer_id"] = $order['customer_id'];
+    if (isset($order['status_id'])) $params[":status_id"] = $order['status_id'];
+    if (isset($order['order_date'])) $params[":order_date"] = $order['order_date'];
+    if (isset($order['total_price'])) $params[":total_price"] = $order['total_price'];
+    if (isset($order['shipping_address_id'])) $params[":shipping_address_id"] = $order['shipping_address_id'];
+    if (isset($order['billing_address_id'])) $params[":billing_address_id"] = $order['billing_address_id'];
+    if (isset($order['payment_method'])) $params[":payment_method"] = $order['payment_method'];
+    if (isset($order['payment_status'])) $params[":payment_status"] = $order['payment_status'];
+    if (isset($order['is_deleted'])) $params[":is_deleted"] = $order['is_deleted'];
+    $params[":order_id"] = $order['order_id'];
+
+    $result = Database::queryUpdate($sql, $params);
+
+    if ($result['success']) {
+        log_txt("Order updated in back office: order_id " . $order['order_id']);
         return true;
     } else {
         return false;

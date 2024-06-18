@@ -19,17 +19,17 @@
 
     <section class="section password">
       <div class="password-grid">
-        <div class="form-group">
+        <div class="form-group my-4">
           <label for="current-password" class="required">Mot de passe actuel</label>
           <input type="password" id="current-password" v-model="currentPassword" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group my-4">
           <label for="password" class="required">Nouveau mot de passe</label>
           <input type="password" id="password" v-model="password" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group my-4">
           <label for="confirm-password" class="required"
             >Confirmez votre nouveau mot de passe</label
           >

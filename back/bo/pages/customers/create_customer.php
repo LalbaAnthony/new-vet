@@ -65,7 +65,6 @@ if (isset($_POST['submit'])) {
     <title>Création - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
-    <script src="<?= APP_URL ?>bo/script/autosave.js"></script>
 </head>
 
 <body>
@@ -84,27 +83,27 @@ if (isset($_POST['submit'])) {
         <h2 class="mb-4">Création d'un client :</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="last_name">Nom:</label>
                 <input class="form-control" type="text" id="last_name" name="last_name" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="first_name">Prénom:</label>
                 <input class="form-control" type="text" id="first_name" name="first_name" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="email">E-mail:</label>
                 <input class="form-control" type="email" id="email" name="email" required>
             </div>
 
-            <div class="form-group my-4 p-1">
+            <div class="form-group my-4">
                 <label for="has_validated_email">E-mail validé:</label>
                 <input type="checkbox" id="has_validated_email" name="has_validated_email">
             </div>
 
-            <div class="form-group">
+            <div class="form-group my-4">
                 <label class="required" for="password">Mot de passe:</label>
                 <input class="form-control" type="password" id="password" name="password" minlength="8" required>
             </div>
