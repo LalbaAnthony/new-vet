@@ -8,6 +8,8 @@ include_once APP_PATH . "controllers/card.php";
 include_once APP_PATH . "controllers/status.php";
 include_once APP_PATH . "controllers/customer.php";
 include_once APP_PATH . "controllers/address.php";
+include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . 'helpers/mask_number.php';
 
 // Réception du produit à modifier
 $urlId = isset($_GET['id']) ? $_GET['id'] : '';
@@ -16,7 +18,16 @@ if (empty($urlId)) {
     header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
 }
 
+// Get the order iteself
 $order = getorder($urlId);
+
+// Get the order lines
+$order_lines = getOrderLines($urlId);
+
+// Add the product to each order line
+foreach ($order_lines as $key => $order_line) {
+    $order_lines[$key]['product'] = getProduct($order_line['product_slug']);
+}
 
 // Load children tables
 $statuses = getStatuses();
@@ -79,7 +90,7 @@ if (isset($_POST['submit'])) {
 
             <div class="form-group my-4">
                 <label class="required" for="order_date">Date de la commande:</label>
-                <input class="form-control" type="date" id="order_date" name="order_date" value="<?= $order['order_date'] ?>" required>
+                <input class="form-control" type="datetime-local" id="order_date" name="order_date" value="<?= $order['order_date'] ?>" required>
             </div>
 
             <div class="form-group my-4">
@@ -124,8 +135,35 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
 
-            <div class="my-4">
-                <?php dd($card); ?>
+            <div class="form-group my-4">
+                <input type="hidden" name="card_id" id="id" value="<?= $order['card_id']; ?>">
+                <label class="required" for="card_number">Carte:</label>
+                <input class="form-control" type="text" id="card_number" name="card_number" value="<?= mask_number($card['number']) ?>" required disabled>
+            </div>
+
+            <!-- Lignes de commande -->
+            <div class="form-group my-4">
+                <label for="order_lines">Lignes de commande:</label>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                            <th>Prix unitaire</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($order_lines as $order_line) : ?>
+                            <tr>
+                                <td><?= $order_line['product']['name'] ?></td>
+                                <td><?= $order_line['quantity'] ?></td>
+                                <td><?= $order_line['product']['name'] ?></td>
+                                <td><?= $order_line['line_price'] ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
 
             <div class="d-flex justify-content-between my-4">

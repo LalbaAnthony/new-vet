@@ -27,9 +27,9 @@ function getCards()
 
 function insertCard($card)
 {
-    $sql = "INSERT INTO card (customer_id, number, expiration_date, cvv) VALUES (:customer_id, :number, :expiration_date, :cvv)";
+    $sql = "INSERT INTO card (customer_id, number, expiration_date, first_name, last_name, cvv) VALUES (:customer_id, :number, :expiration_date, :first_name, :last_name, :cvv)";
 
-    $result = Database::queryInsert($sql, array(":customer_id" => $card['customer_id'], ":number" => $card['number'], ":expiration_date" => $card['expiration_date'], ":cvv" => $card['cvv']));
+    $result = Database::queryInsert($sql, array(":customer_id" => $card['customer_id'], ":number" => $card['number'], ":expiration_date" => $card['expiration_date'], ":cvv" => $card['cvv'], ":first_name" => $card['first_name'], ":last_name" => $card['last_name']));
 
     if ($result['success']) {
         log_txt("Card inserted in back office: card_id " . $result);
@@ -46,6 +46,8 @@ function updateCard($card)
     if (isset($card['customer_id'])) $sql .= " customer_id = :customer_id,";
     if (isset($card['number'])) $sql .= " number = :number,";
     if (isset($card['expiration_date'])) $sql .= " expiration_date = :expiration_date,";
+    if (isset($card['first_name'])) $sql .= " first_name = :first_name,";
+    if (isset($card['last_name'])) $sql .= " last_name = :last_name,";
     if (isset($card['cvv'])) $sql .= " cvv = :cvv,";
     if (isset($card['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
 
@@ -57,6 +59,8 @@ function updateCard($card)
     if (isset($card['card_id'])) $params[":card_id"] = $card['card_id'];
     if (isset($card['customer_id'])) $params[":customer_id"] = $card['customer_id'];
     if (isset($card['number'])) $params[":number"] = $card['number'];
+    if (isset($card['first_name'])) $params[":first_name"] = $card['first_name'];
+    if (isset($card['last_name'])) $params[":last_name"] = $card['last_name'];
     if (isset($card['expiration_date'])) $params[":expiration_date"] = $card['expiration_date'];
     if (isset($card['cvv'])) $params[":cvv"] = $card['cvv'];
     if (isset($card['is_deleted'])) $params[":is_deleted"] = $card['is_deleted'];

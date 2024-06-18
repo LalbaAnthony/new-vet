@@ -1,4 +1,4 @@
-o<?php
+<?php
 
 require_once "../../config.inc.php";
 include_once APP_PATH . 'controllers/order.php';

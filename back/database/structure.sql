@@ -175,6 +175,8 @@ CREATE TABLE address(
 CREATE TABLE card(
         card_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         customer_id INT NOT NULL,
+        first_name VARCHAR (50) NOT NULL,
+        last_name VARCHAR (50) NOT NULL,
         number INT (16) NOT NULL,
         expiration_date VARCHAR (10) NOT NULL,
         cvv INT (3) NOT NULL,

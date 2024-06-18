@@ -232,10 +232,10 @@ INSERT INTO address (address_id, customer_id, first_name, last_name, address1, c
 (2, 2, 'Jean', 'Martin', '456 Avenue Chic', 'Bruxelles', 1000, 2, '0456789123'),
 (3, 3, 'Sophie', 'Lefevre', '789 Rue Stylée', 'Montréal', 1000, 3, '0789012345');
 
-INSERT INTO card (card_id, customer_id, number, expiration_date, cvv) VALUES 
-(1, 1, 1234567890123456, '2025-12-31', 123),
-(2, 2, 2345678901234567, '2024-10-31', 456),
-(3, 3, 3456789012345678, '2023-08-31', 789);
+INSERT INTO card (card_id, customer_id, number, expiration_date, cvv, first_name, last_name) VALUES 
+(1, 1, 1234567890123456, '2025-12-31', 123, 'Alice', 'Dupont'),
+(2, 2, 2345678901234567, '2024-10-31', 456, 'Jean', 'Martin'),
+(3, 3, 3456789012345678, '2023-08-31', 789, 'Sophie', 'Lefevre');
 
 INSERT INTO status (status_id, libelle, sort_order) VALUES 
 (1, 'En cours de traitement', 1),
