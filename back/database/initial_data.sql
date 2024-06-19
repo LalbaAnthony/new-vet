@@ -278,6 +278,7 @@ INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, s
 INSERT INTO order_line (order_id, product_slug, quantity, line_price) VALUES 
 (1, 'robe-elegante', 2, 59.99),
 (2, 'escarpins-classiques', 1, 39.99),
+(2, 'veste-en-cuir', 1, 89.99),
 (3, 'sac-a-main-chic', 1, 29.99),
 (4, 'robe-elegante', 1, 59.99),
 (5, 'escarpins-classiques', 1, 39.99),

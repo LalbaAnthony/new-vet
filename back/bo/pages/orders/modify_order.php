@@ -11,11 +11,13 @@ include_once APP_PATH . "controllers/address.php";
 include_once APP_PATH . "controllers/product.php";
 include_once APP_PATH . 'helpers/mask_number.php';
 
+dd($_POST);
+
 // Réception du produit à modifier
 $urlId = isset($_GET['id']) ? $_GET['id'] : '';
 
 if (empty($urlId)) {
-    header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
+    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
 }
 
 // Get the order iteself
@@ -31,7 +33,8 @@ foreach ($order_lines as $key => $order_line) {
 
 // Load children tables
 $statuses = getStatuses();
-$customers = getCustomers();
+$customers = getCustomers(null, array(array('order' => 'ASC', 'order_by' => 'first_name')), null, 999);
+$products = getProducts(null, null, null, false, null, null, null, null, 999);
 $addresses = getAddresses($order['customer_id']);
 $card = getCard($order['card_id']);
 
@@ -54,7 +57,13 @@ if (isset($_POST['submit'])) {
     $success = updateOrder($order);
 
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/orders/index.php?created=' . $success);
+    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php?created=' . $success);
+}
+
+// Suppression d'une ligne de commande
+if (isset($_GET['to_delete'])) {
+    $success = deleteOrderLine($_GET['to_delete']);
+    // header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $urlId . '&deleted=' . $success);
 }
 
 ?>
@@ -151,16 +160,41 @@ if (isset($_POST['submit'])) {
                             <th>Quantité</th>
                             <th>Prix unitaire</th>
                             <th>Total</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($order_lines as $order_line) : ?>
                             <tr>
-                                <td><?= $order_line['product']['name'] ?></td>
-                                <td><?= $order_line['quantity'] ?></td>
-                                <td><?= $order_line['product']['name'] ?></td>
-                                <td><?= $order_line['line_price'] ?></td>
+                                <td>
+                                    <select id="product.product_slug.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][product][product_slug]" class="form-control" required>
+                                        <?php foreach ($products as $product) : ?>
+                                            <option value="<?= $product['slug'] ?>" <?php if ($product['slug'] == $order_line['product_slug']) : ?> selected <?php endif; ?>>
+                                                <?= $product['name']  ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="number" id="quantity.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][quantity]" value="<?= $order_line['quantity'] ?>" required min="1">
+                                </td>
+                                <td>
+                                    <input class="form-control" type="number" id="product.price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][product][price]" value="<?= $order_line['product']['price'] ?>" required disabled>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="number" id="line_price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][line_price]" value="<?= $order_line['line_price'] ?>" required disabled>
+                                </td>
+                                <td>
+                                    <a href="<?= $_SERVER['PHP_SELF']; ?>?to_delete=<?= $order_line['order_line_id'] ?>" class="btn btn-danger">Supprimer</a>
+                                </td>
                             </tr>
+                            <script>
+                                // Calcul duaot du prix de la ligne
+                                document.getElementById('quantity.<?= $order_line['order_line_id'] ?>').addEventListener('change', function() {
+                                    const val = document.getElementById('quantity').value * <?= $order_line['product']['price'] ?>;
+                                    document.getElementById('line_price').value = Math.round(val * 100) / 100;
+                                });
+                            </script>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
