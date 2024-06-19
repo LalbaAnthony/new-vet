@@ -11,6 +11,9 @@ include_once APP_PATH . "controllers/address.php";
 include_once APP_PATH . "controllers/product.php";
 include_once APP_PATH . 'helpers/mask_number.php';
 
+// TODO: Chg in real item unit price for each line
+// TODO: Chg in line add
+
 dd($_POST);
 
 // Réception du produit à modifier
@@ -61,9 +64,9 @@ if (isset($_POST['submit'])) {
 }
 
 // Suppression d'une ligne de commande
-if (isset($_GET['to_delete'])) {
-    $success = deleteOrderLine($_GET['to_delete']);
-    // header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $urlId . '&deleted=' . $success);
+if (isset($_GET['line_to_delete'])) {
+    $success = deleteOrderLine($_GET['line_to_delete']);
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $urlId . '&deleted=' . $success);
 }
 
 ?>
@@ -185,7 +188,7 @@ if (isset($_GET['to_delete'])) {
                                     <input class="form-control" type="number" id="line_price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][line_price]" value="<?= $order_line['line_price'] ?>" required disabled>
                                 </td>
                                 <td>
-                                    <a href="<?= $_SERVER['PHP_SELF']; ?>?to_delete=<?= $order_line['order_line_id'] ?>" class="btn btn-danger">Supprimer</a>
+                                    <a href="<?= $_SERVER['PHP_SELF']; ?>?id=<?= $urlId ?>&line_to_delete=<?= $order_line['order_line_id'] ?>" class="btn btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                             <script>

@@ -148,6 +148,20 @@ function getOrderLines($order_id)
     return $result['data'];
 }
 
+function deleteOrderLine($order_line_id)
+{
+    $sql = "UPDATE order_line SET is_deleted = 1 WHERE order_line_id = :order_line_id;";
+
+    $result = Database::queryUpdate($sql, array(":order_line_id" => $order_line_id));
+
+    if ($result['success']) {
+        log_txt("Order line deleted in back office: order_line_id " . $order_line_id);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function putToTrashOrder($order_id)
 {
     $sql = "UPDATE `order` SET is_deleted = 1 WHERE order_id = :order_id;";
