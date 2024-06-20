@@ -175,6 +175,8 @@ CREATE TABLE address(
 CREATE TABLE card(
         card_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         customer_id INT NOT NULL,
+        first_name VARCHAR (50) NOT NULL,
+        last_name VARCHAR (50) NOT NULL,
         number INT (16) NOT NULL,
         expiration_date VARCHAR (10) NOT NULL,
         cvv INT (3) NOT NULL,
@@ -222,13 +224,14 @@ CREATE TABLE `order`(
 # Table: order_line
 #------------------------------------------------------------
 CREATE TABLE order_line(
+        order_line_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         order_id INT NOT NULL,
         product_slug VARCHAR (50) NOT NULL,
         quantity INT NOT NULL,
         line_price FLOAT NOT NULL,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
-        CONSTRAINT order_line_PK PRIMARY KEY (order_id),
+        CONSTRAINT order_line_PK PRIMARY KEY (order_line_id),
         CONSTRAINT order_line_order_FK FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE,
         CONSTRAINT order_line_product_FK FOREIGN KEY (product_slug) REFERENCES product(slug)
 ) ENGINE = InnoDB;
