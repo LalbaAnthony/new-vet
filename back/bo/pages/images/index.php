@@ -40,7 +40,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_images'])) {
         }
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
-    exit;
 }
 
 ?>

@@ -1,10 +1,10 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "controllers/order.php";
+include_once APP_PATH . "controllers/status.php";
+include_once APP_PATH . "controllers/customer.php";
 include_once APP_PATH . "helpers/fr_datetime.php";
-include_once APP_PATH . "helpers/three_dots_string.php";
-include_once APP_PATH . "helpers/float_to_price.php";
 include_once APP_PATH . "controllers/image.php";
 
 // Get the sorting parameters from the query string
@@ -17,21 +17,21 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
 $sort = array(array('order' => $order, 'order_by' => $order_by));
 
-$products_count = getProductsCount(null, null, $search, null, null, null);
+$orders_count = getOrdersCount(null, null, $search, null);
 
 // Comput offset & per_page
 $per_page = 10;
 $offset = ($page - 1) * $per_page;
-$maxPage = ceil($products_count / $per_page);
+$maxPage = ceil($orders_count / $per_page);
 
-// Fetch products with sorting
-$products = getProducts(null, null, $search, false, null, null, $sort, $offset, $per_page);
+// Fetch orders with sorting
+$orders = getOrders(null, null, null, null, $sort, $offset, $per_page);
 
-// Bottom action: delete selected products, ...
-if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
-    $selected_products = explode(",", $_GET['selected_products']);
-    foreach ($selected_products as $slug) {
-        putToTrashProduct($slug);
+// Bottom action: delete selected orders, ...
+if (isset($_GET['delete']) && isset($_GET['selected_orders'])) {
+    $selected_orders = explode(",", $_GET['selected_orders']);
+    foreach ($selected_orders as $id) {
+        putToTrashOrder($id);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
 }
@@ -47,7 +47,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site de vente de vêtement pour femme." />
     <meta name="author" content="<?= APP_NAME ?>" />
-    <title>Lise des produits - <?= APP_NAME ?></title>
+    <title>Lise des commandes - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
     <script src="<?= APP_URL ?>bo/script/autosubmit.js"></script>
@@ -60,8 +60,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     <?php include_once APP_PATH . "bo/partials/alert_message.php"; ?>
 
     <div class="container p-4 p-lg-5">
-        <h1 class="text-center">Liste des produits</h1>
-        <p class="text-center"><?= $products_count ?> produit<?php if ($products_count > 1) : ?>s<?php endif; ?></p>
+        <h1 class="text-center">Liste des commandes</h1>
+        <p class="text-center"><?= $orders_count ?> commande<?php if ($orders_count > 1) : ?>s<?php endif; ?></p>
 
         <!-- Barre de recherche -->
         <form class="d-flex justify-content-between my-4" method="GET">
@@ -73,55 +73,44 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
             <thead>
                 <tr class="table-primary">
                     <th scope='col' colspan='1'><input type="checkbox" onclick="toggleAll()"></th>
-                    <th scope='col' colspan='1'>&nbsp;</th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=name&order=<?= $new_order ?>">Nom</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=description&order=<?= $new_order ?>">Description</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=price&order=<?= $new_order ?>">Prix</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=stock_quantity&order=<?= $new_order ?>">Stock</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=is_highlander&order=<?= $new_order ?>">Highlander</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=sort_order&order=<?= $new_order ?>">Ordre</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=order_id&order=<?= $new_order ?>">ID</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=status_id&order=<?= $new_order ?>">Status</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=customer_id&order=<?= $new_order ?>">Client</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=order_date&order=<?= $new_order ?>">Date</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Création</a></th>
-                    <th scope='col' colspan='3'>&nbsp;</th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=total_amount&order=<?= $new_order ?>">Total</a></th>
+                    <th scope='col' colspan='2'>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                foreach ($products as $product) {
+                foreach ($orders as $order) {
                 ?>
                     <tr class="align-middle">
                         <!-- Checkbox pour la suppression multiple -->
-                        <td><input id="product_<?= $product['slug'] ?>" type="checkbox" name="selected_products[]" value="<?= $product['slug'] ?>"></td>
-                        <!-- Image -->
+                        <td><input id="order_<?= $order['order_id'] ?>" type="checkbox" name="selected_orders[]" value="<?= $order['order_id'] ?>"></td>
+                        <!-- ID de la commande -->
+                        <td><?= $order['order_id'] ?></td>
+                        <!-- Status de la commande -->
+                        <td><?= getStatus($order['status_id'])['libelle'] ?></td>
+                        <!-- Nom du client -->
                         <td>
                             <?php
-                            $dbImgPath = getFirstImagePathFromProduct($product['slug']);
+                            $customer = getCustomer($order['customer_id']);
+                            $nicename = $customer['first_name'] . " " . $customer['last_name'];
+                            echo $nicename;
                             ?>
-                            <img src="<?= image_or_placeholder($dbImgPath ? $dbImgPath : '') ?>  " class="img-thumbnail" width="100">
                         </td>
-                        <!-- Nom -->
-                        <td><?= $product['name'] ?></td>
-                        <!-- Description -->
-                        <td><?= three_dots_string($product['description'], 20) ?></td>
-                        <!-- Prix -->
-                        <td><?= float_to_price($product['price']) ?></td>
-                        <!-- Stock -->
-                        <?php if ($product['stock_quantity'] > 0) : ?>
-                            <td><?= $product['stock_quantity'] ?> unités</td>
-                        <?php else : ?>
-                            <td class="text-danger">Rupture</td>
-                        <?php endif; ?>
-                        <!-- Highlander -->
-                        <td><?= $product['is_highlander'] == 1 ? 'Oui' : '-' ?></td>
-                        <!-- Ordre d'affichage -->
-                        <td><?= $product['sort_order'] ? $product['sort_order'] : '-' ?></td>
+                        <!-- Date de la commande -->
+                        <td><?= fr_datetime($order['order_date']) ?></td>
                         <!-- Date de création -->
-                        <td><?= fr_datetime($product['created_at']) ?></td>
-                        <!-- Bouton de voir sur le site -->
-                        <td><a href="<?= FRONT_URL ?>produits/<?= $product['slug'] ?>" class="btn btn-outline-primary btn-sm" target="_blank">Voir</a></td>
+                        <td><?= fr_datetime($order['created_at']) ?></td>
+                        <!-- Total -->
+                        <td><?= $order['total_amount'] ?> €</td>
                         <!-- Bouton de modification -->
-                        <td><a href="<?= APP_URL ?>bo/pages/products/modify_product.php?slug=<?= $product['slug'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
+                        <td><a href="<?= APP_URL ?>bo/pages/orders/modify_order.php?id=<?= $order['order_id'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
                         <!-- Bouton de suppression -->
-                        <td><a href="<?= APP_URL ?>bo/pages/products/delete_product.php?slug=<?= $product['slug'] ?>" class="btn btn-danger btn-sm">Supprimer</a></td>
+                        <td><a href="<?= APP_URL ?>bo/pages/orders/delete_order.php?id=<?= $order['order_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a></td>
                     </tr>
                 <?php
                 }
@@ -147,8 +136,8 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
         </div>
         <!-- Actions en bas de page -->
         <div class="d-flex justify-content-start gap-2 my-5">
-            <button id="delete-products" class="btn btn-danger" disabled onclick="deleteSelectedProducts()">Supprimer</button>
-            <a href="<?= APP_URL ?>bo/pages/products/create_product.php" class="btn btn-primary">Ajouter</a>
+            <button id="delete-orders" class="btn btn-danger" disabled onclick="deleteSelectedOrders()">Supprimer</button>
+            <a href="<?= APP_URL ?>bo/pages/orders/create_order.php" class="btn btn-primary">Ajouter</a>
         </div>
     </div>
 </body>
@@ -158,19 +147,19 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
 <script>
     // Fonction disbale suppr button
     function disableSupprButton() {
-        var btn = document.getElementById('delete-products');
+        var btn = document.getElementById('delete-orders');
         btn.disabled = true;
     }
 
     // Fonction enable suppr button
     function enableSupprButton() {
-        var btn = document.getElementById('delete-products');
+        var btn = document.getElementById('delete-orders');
         btn.disabled = false;
     }
 
     // Fonction pour cocher/décocher toutes les cases
     function toggleAll() {
-        var checkboxes = document.getElementsByName('selected_products[]');
+        var checkboxes = document.getElementsByName('selected_orders[]');
         for (var checkbox of checkboxes) {
             checkbox.checked = event.target.checked;
         }
@@ -181,18 +170,18 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
         }
     }
 
-    // Fonction pour supprimer les produits sélectionnés
-    function deleteSelectedProducts() {
-        var checkboxes = document.getElementsByName('selected_products[]');
-        var selected_products = [];
+    // Fonction pour supprimer les commandes sélectionnés
+    function deleteSelectedOrders() {
+        var checkboxes = document.getElementsByName('selected_orders[]');
+        var selected_orders = [];
         for (var checkbox of checkboxes) {
             if (checkbox.checked) {
-                selected_products.push(checkbox.value);
+                selected_orders.push(checkbox.value);
             }
         }
-        if (selected_products.length > 0) {
+        if (selected_orders.length > 0) {
             if (confirm("Voulez-vous vraiment supprimer les éléments sélectionnés ?")) {
-                window.location.href = "<?= $_SERVER['PHP_SELF'] ?>?delete&selected_products=" + selected_products.join(",");
+                window.location.href = "<?= $_SERVER['PHP_SELF'] ?>?delete&selected_orders=" + selected_orders.join(",");
             }
         } else {
             alert("Vous devez sélectionner au moins un élément à supprimer");
@@ -200,7 +189,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_products'])) {
     }
 
     // Désactiver le bouton de suppression si aucune case n'est cochée
-    var checkboxes = document.getElementsByName('selected_products[]');
+    var checkboxes = document.getElementsByName('selected_orders[]');
     for (var checkbox of checkboxes) {
         checkbox.addEventListener('change', function() {
             if (this.checked || document.querySelector('input[name="selected_images[]"]:checked')) {

@@ -32,7 +32,6 @@ if (isset($_GET['delete']) && isset($_GET['selected_customers'])) {
         putToTrashcustomer($id);
     }
     header("Location: " . $_SERVER['PHP_SELF'] . "?deleted=1");
-    exit;
 }
 ?>
 
