@@ -3,11 +3,8 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/contact.php";
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $url_id = isset($_GET['contact_id']) ? $_GET['contact_id'] : '';
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
-}
 $contact = getContact($url_id);
 
 // Modification dans la base
@@ -20,7 +17,11 @@ if (isset($_POST['submit'])) {
     header('Location: ' . APP_URL . 'bo/pages/contacts/index.php?deleted=' . $success);
 }
 
-// Affichage
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

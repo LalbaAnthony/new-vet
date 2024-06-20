@@ -25,10 +25,10 @@ if (isset($_POST['submit'])) {
     $customer['email'] = isset($_POST['email']) ? $_POST['email'] : $customer['email'];
 
     // Formulaire validé : on modifie l'enregistrement
-    $success = updateCustomer($customer);
+    $sucess = updateCustomer($customer);
 
     // Redirection vers la liste des clients
-    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?updated=' . $success);
+    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?updated=' . $sucess);
 }
 ?>
 <!DOCTYPE html>
@@ -55,22 +55,22 @@ if (isset($_POST['submit'])) {
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
             <input type="hidden" name="customer_id" id="customer_id" value="<?= $customer['customer_id']; ?>">
-            <div class="form-group my-4">
+            <div class="form-group">
                 <label class="required" for="last_name">Nom:</label>
                 <input class="form-control" type="text" id="last_name" name="last_name" value="<?= $customer['last_name'] ?>" required>
             </div>
 
-            <div class="form-group my-4">
+            <div class="form-group">
                 <label class="required" for="first_name">Prénom:</label>
                 <input class="form-control" type="text" id="first_name" name="first_name" value="<?= $customer['first_name'] ?>" required>
             </div>
 
-            <div class="form-group my-4">
+            <div class="form-group">
                 <label class="required" for="email">E-mail:</label>
                 <input class="form-control" type="email" id="email" name="email" value="<?= $customer['email'] ?>" required>
             </div>
 
-            <div class="form-group my-4">
+            <div class="form-group my-4 p-1">
                 <label for="has_validated_email">E-mail validé:</label>
                 <input type="checkbox" id="has_validated_email" name="has_validated_email" <?php echo $customer['has_validated_email'] === 1 ? 'checked' : '' ?>>
             </div>

@@ -3,40 +3,40 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/image.php";
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
-}
 $image = getImage($urlSlug);
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
-
+    
     // Suppression du fichier
     $full_img_path = APP_UPLOAD_PATH . $image['path'];
     if (file_exists($full_img_path)) {
         unlink($full_img_path);
     }
-
+    
     // Formulaire validé : on supprime l'enregistrement
     $success = putToTrashImage($_POST['slug']);
-
+    
     // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/images/index.php?deleted=' . $success);
 }
 
-// Affichage
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="<?= APP_NAME ?>" />
-    <title>Suppression - <?= APP_NAME ?></title>
+    
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="<?= APP_URL ?>assets/favicon-gear.ico">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="<?= APP_NAME ?>" />
+        <title>Suppression - <?= APP_NAME ?></title>
     <link href="<?= APP_URL ?>bo/style/bootstrap.css" rel="stylesheet">
     <link href="<?= APP_URL ?>bo/style/main.css" rel="stylesheet">
 </head>

@@ -3,24 +3,25 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/category.php";
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
-}
 $category = getCategory($urlSlug);
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
-
+    
     // Formulaire validé : on supprime l'enregistrement
     $success = putToTrashCategory($_POST['slug']);
-
+    
     // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/categories/index.php?deleted=' . $success);
 }
 
-// Affichage
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php');
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

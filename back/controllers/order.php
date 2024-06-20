@@ -139,29 +139,6 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
     return $result['data']['count'];
 }
 
-function getOrderLines($order_id)
-{
-    $sql = "SELECT * FROM order_line WHERE order_id = :order_id AND is_deleted = 0;";
-
-    $result = Database::queryAll($sql, array(":order_id" => $order_id));
-
-    return $result['data'];
-}
-
-function deleteOrderLine($order_line_id)
-{
-    $sql = "UPDATE order_line SET is_deleted = 1 WHERE order_line_id = :order_line_id;";
-
-    $result = Database::queryUpdate($sql, array(":order_line_id" => $order_line_id));
-
-    if ($result['success']) {
-        log_txt("Order line deleted in back office: order_line_id " . $order_line_id);
-        return true;
-    } else {
-        return false;
-    }
-}
-
 function putToTrashOrder($order_id)
 {
     $sql = "UPDATE `order` SET is_deleted = 1 WHERE order_id = :order_id;";
@@ -236,6 +213,96 @@ function updateOrder($order)
 
     if ($result['success']) {
         log_txt("Order updated in back office: order_id " . $order['order_id']);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getOrderLines($order_id)
+{
+    $sql = "SELECT * FROM order_line WHERE order_id = :order_id AND is_deleted = 0;";
+
+    $result = Database::queryAll($sql, array(":order_id" => $order_id));
+
+    return $result['data'];
+}
+
+function putToTrashOrderLine($order_line_id)
+{
+    $sql = "UPDATE order_line SET is_deleted = 1 WHERE order_line_id = :order_line_id;";
+
+    $result = Database::queryUpdate($sql, array(":order_line_id" => $order_line_id));
+
+    if ($result['success']) {
+        log_txt("Order line deleted in back office: order_line_id " . $order_line_id);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function insertOrderLine($order_line)
+{
+    $sql = "INSERT INTO order_line (order_id, product_slug, quantity, line_price, is_deleted) 
+    VALUES (:order_id, :product_slug, :quantity, :line_price, 0);";
+
+    $params = array(
+        ":order_id" => $order_line['order_id'],
+        ":product_slug" => $order_line['product_slug'],
+        ":quantity" => $order_line['quantity'],
+        ":line_price" => $order_line['line_price']
+    );
+
+    $result = Database::queryInsert($sql, $params);
+
+    if ($result['success']) {
+        log_txt("Order line created in back office: order_line_id " . $result['last_id']);
+        return $result['last_id'];
+    } else {
+        return false;
+    }
+}
+
+function updateOrderLine ($order_line) {
+    $sql = "UPDATE order_line SET";
+
+    if (isset($order_line['order_id'])) $sql .= " order_id = :order_id,";
+    if (isset($order_line['product_slug'])) $sql .= " product_slug = :product_slug,";
+    if (isset($order_line['quantity'])) $sql .= " quantity = :quantity,";
+    if (isset($order_line['line_price'])) $sql .= " line_price = :line_price,";
+    if (isset($order_line['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
+    $sql = rtrim($sql, ","); // cut off the last comma
+
+    $sql .= " WHERE order_line_id = :order_line_id";
+
+    $params = array();
+    if (isset($order_line['order_id'])) $params[":order_id"] = $order_line['order_id'];
+    if (isset($order_line['product_slug'])) $params[":product_slug"] = $order_line['product_slug'];
+    if (isset($order_line['quantity'])) $params[":quantity"] = $order_line['quantity'];
+    if (isset($order_line['line_price'])) $params[":line_price"] = $order_line['line_price'];
+    if (isset($order_line['is_deleted'])) $params[":is_deleted"] = $order_line['is_deleted'];
+    $params[":order_line_id"] = $order_line['order_line_id'];
+
+    $result = Database::queryUpdate($sql, $params);
+
+    if ($result['success']) {
+        log_txt("Order line updated in back office: order_line_id " . $order_line['order_line_id']);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function putToTrashOrderAndOrderLines($order_id)
+{
+    $sql = "UPDATE `order` SET is_deleted = 1 WHERE order_id = :order_id;
+    UPDATE order_line SET is_deleted = 1 WHERE order_id = :order_id;";
+
+    $result = Database::queryUpdate($sql, array(":order_id" => $order_id));
+
+    if ($result['success']) {
+        log_txt("Order and order lines deleted in back office: order_id " . $order_id);
         return true;
     } else {
         return false;

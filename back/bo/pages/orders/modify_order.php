@@ -14,16 +14,8 @@ include_once APP_PATH . 'helpers/mask_number.php';
 // TODO: Chg in real item unit price for each line
 // TODO: Chg in line add
 
-dd($_POST);
-
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlId = isset($_GET['id']) ? $_GET['id'] : '';
-
-if (empty($urlId)) {
-    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
-}
-
-// Get the order iteself
 $order = getorder($urlId);
 
 // Get the order lines
@@ -57,16 +49,43 @@ if (isset($_POST['submit'])) {
     $order['total_amount'] = isset($_POST['total_amount']) ? $_POST['total_amount'] : 0;
 
     // Formulaire validé : on modifie l'enregistrement
-    $success = updateOrder($order);
+    $successOrder = updateOrder($order);
+
+    // Lecture des lignes de commande
+    $order_lines = isset($_POST['orders_line']) ? $_POST['orders_line'] : null;
+
+    // Modification des lignes de commande
+    $successOrderLine = true;
+    if ($order_lines) {
+        foreach ($order_lines as $key => $order_line) {
+            $new_order_line = array(
+                'order_line_id' => isset($order_line['order_line_id']) ? $order['order_line_id'] : $key,
+                'order_id' => $order['order_id'],
+                'product_slug' => $order_line['product']['product_slug'],
+                'quantity' => $order_line['quantity'],
+                'line_price' => $order_line['line_price']
+            );
+
+            // Modification de la ligne de commande
+            $successOrderLine = updateOrderLine($new_order_line);
+        }
+    }
+
+    // Message de retour
+    $success = $successOrder && $successOrderLine;
 
     // Redirection vers la liste des produits
-    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php?created=' . $success);
+    header('Location: ' . APP_URL . 'bo/pages/orders/index.php?created=' . $success);
 }
 
 // Suppression d'une ligne de commande
 if (isset($_GET['line_to_delete'])) {
-    $success = deleteOrderLine($_GET['line_to_delete']);
+    $success = putToTrashOrderLine($_GET['line_to_delete']);
     header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $urlId . '&deleted=' . $success);
+}
+
+if (empty($urlId)) {
+    header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
 }
 
 ?>
