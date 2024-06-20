@@ -36,9 +36,35 @@ $card = getCard($order['card_id']);
 // Modification dans la base
 if (isset($_POST['submit'])) {
 
+    // Lecture des lignes de commande
+    $order_lines = isset($_POST['orders_line']) ? $_POST['orders_line'] : null;
+
+    // Modification des lignes de commande
+    $successOrderLine = true;
+    $total_amount = 0;
+    if ($order_lines) {
+        foreach ($order_lines as $key => $order_line) {
+
+            // Calcul du prix de la ligne
+            $line_price = $order_line['quantity'] && $order_line['product']['price'] ? $order_line['quantity'] * $order_line['product']['price'] : $order_line['line_price'];
+            $total_amount += $line_price;
+
+            $new_order_line = array(
+                'order_line_id' => isset($order_line['order_line_id']) ? $order['order_line_id'] : $key,
+                'order_id' => $order['order_id'],
+                'product_slug' => $order_line['product']['product_slug'],
+                'quantity' => $order_line['quantity'],
+                'line_price' =>  $line_price,
+            );
+
+            // Modification de la ligne de commande
+            $successOrderLine = updateOrderLine($new_order_line);
+        }
+    }
+
     $order = array();
 
-    // Lecture du formulaire
+    // Lecture de la commande
     $order['order_id'] = isset($_POST['order_id']) ? $_POST['order_id'] : null;
     $order['customer_id'] = isset($_POST['customer_id']) ? $_POST['customer_id'] : null;
     $order['shipping_address_id'] = isset($_POST['shipping_address_id']) ? $_POST['shipping_address_id'] : null;
@@ -46,30 +72,10 @@ if (isset($_POST['submit'])) {
     $order['card_id'] = isset($_POST['card_id']) ? $_POST['card_id'] : null;
     $order['status_id'] = isset($_POST['status_id']) ? $_POST['status_id'] : null;
     $order['order_date'] = isset($_POST['order_date']) ? $_POST['order_date'] : null;
-    $order['total_amount'] = isset($_POST['total_amount']) ? $_POST['total_amount'] : 0;
+    $order['total_amount'] = $total_amount ? $total_amount : (isset($_POST['total_amount']) ? $_POST['total_amount'] : 0);
 
-    // Formulaire validé : on modifie l'enregistrement
+    // Modification de la commande
     $successOrder = updateOrder($order);
-
-    // Lecture des lignes de commande
-    $order_lines = isset($_POST['orders_line']) ? $_POST['orders_line'] : null;
-
-    // Modification des lignes de commande
-    $successOrderLine = true;
-    if ($order_lines) {
-        foreach ($order_lines as $key => $order_line) {
-            $new_order_line = array(
-                'order_line_id' => isset($order_line['order_line_id']) ? $order['order_line_id'] : $key,
-                'order_id' => $order['order_id'],
-                'product_slug' => $order_line['product']['product_slug'],
-                'quantity' => $order_line['quantity'],
-                'line_price' => $order_line['line_price']
-            );
-
-            // Modification de la ligne de commande
-            $successOrderLine = updateOrderLine($new_order_line);
-        }
-    }
 
     // Message de retour
     $success = $successOrder && $successOrderLine;
