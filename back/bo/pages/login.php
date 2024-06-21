@@ -15,7 +15,7 @@ if ($login && $password) {
             if ($admin['has_access'] == 1) {
                 $_SESSION['admin'] = $admin;
                 $success = "Connexion réussie";
-                autoUpdateLastLoginAdmin($admin['admin_id']);
+                updateLastLoginAdmin($admin['admin_id']);
                 log_txt("User logged in back office: login $login");
                 header('Location: ' . APP_URL . 'bo/pages/index.php');
             } else {
@@ -78,8 +78,8 @@ if ($login && $password) {
                         <br>
 
                         <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
                             <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='<?= APP_URL ?>bo/pages/register.php'">Se créer un compte</button>
+                            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
                         </div>
                     </form>
                 </div>

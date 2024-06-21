@@ -87,8 +87,8 @@ if ($login && $password && $passwordConfirm) {
                         <br>
 
                         <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary btn-block">Se créer un compte</button>
                             <button type="button" class="btn btn-secondary btn-block" onclick="window.location.href='<?= APP_URL ?>bo/pages/login.php'">Se connecter</button>
+                            <button type="submit" class="btn btn-primary btn-block">Se créer un compte</button>
                         </div>
                     </form>
                 </div>
