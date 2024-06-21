@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /panier
+Disallow: /contact
+Disallow: /mentions-legales
+Disallow: /conditions-generales-d-utilisation

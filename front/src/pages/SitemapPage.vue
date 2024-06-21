@@ -5,7 +5,6 @@
     <section>
       <ul class="fancy-list">
         <li><a href="/" class="dark">Accueil</a></li>
-        <li><a href="/se-connecter" class="dark">Se connecter</a></li>
         <li><a href="/mon-compte" class="dark">Mon compte</a></li>
         <li><a href="/mes-commandes" class="dark">Mes commandes</a></li>
         <li><a href="/categories" class="dark">Catégories</a></li>
@@ -14,7 +13,7 @@
         <li><a href="/contact" class="dark">Contact</a></li>
         <li><a href="/plan-du-site" class="dark">Plan du site</a></li>
         <li><a href="/mentions-legales" class="dark">Mentions légales</a></li>
-        <li><a to="/conditions-generales-d-utilisation" class="dark">Conditions générales d'utilisation</a></li>
+        <li><a href="/conditions-generales-d-utilisation" class="dark">Conditions générales d'utilisation</a></li>
       </ul>
     </section>
   </div>
