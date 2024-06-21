@@ -11,16 +11,11 @@ include_once APP_PATH . "controllers/address.php";
 include_once APP_PATH . "controllers/product.php";
 include_once APP_PATH . 'helpers/mask_number.php';
 
-dd($_POST);
+// TODO: Chg in real item unit price for each line
+// TODO: Chg in line add
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlId = isset($_GET['id']) ? $_GET['id'] : '';
-
-if (empty($urlId)) {
-    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
-}
-
-// Get the order iteself
 $order = getorder($urlId);
 
 // Get the order lines
@@ -41,9 +36,35 @@ $card = getCard($order['card_id']);
 // Modification dans la base
 if (isset($_POST['submit'])) {
 
+    // Lecture des lignes de commande
+    $order_lines = isset($_POST['orders_line']) ? $_POST['orders_line'] : null;
+
+    // Modification des lignes de commande
+    $successOrderLine = true;
+    $total_amount = 0;
+    if ($order_lines) {
+        foreach ($order_lines as $key => $order_line) {
+
+            // Calcul du prix de la ligne
+            $line_price = $order_line['quantity'] && $order_line['product']['price'] ? $order_line['quantity'] * $order_line['product']['price'] : $order_line['line_price'];
+            $total_amount += $line_price;
+
+            $new_order_line = array(
+                'order_line_id' => isset($order_line['order_line_id']) ? $order['order_line_id'] : $key,
+                'order_id' => $order['order_id'],
+                'product_slug' => $order_line['product']['product_slug'],
+                'quantity' => $order_line['quantity'],
+                'line_price' =>  $line_price,
+            );
+
+            // Modification de la ligne de commande
+            $successOrderLine = updateOrderLine($new_order_line);
+        }
+    }
+
     $order = array();
 
-    // Lecture du formulaire
+    // Lecture de la commande
     $order['order_id'] = isset($_POST['order_id']) ? $_POST['order_id'] : null;
     $order['customer_id'] = isset($_POST['customer_id']) ? $_POST['customer_id'] : null;
     $order['shipping_address_id'] = isset($_POST['shipping_address_id']) ? $_POST['shipping_address_id'] : null;
@@ -51,19 +72,26 @@ if (isset($_POST['submit'])) {
     $order['card_id'] = isset($_POST['card_id']) ? $_POST['card_id'] : null;
     $order['status_id'] = isset($_POST['status_id']) ? $_POST['status_id'] : null;
     $order['order_date'] = isset($_POST['order_date']) ? $_POST['order_date'] : null;
-    $order['total_amount'] = isset($_POST['total_amount']) ? $_POST['total_amount'] : 0;
+    $order['total_amount'] = $total_amount ? $total_amount : (isset($_POST['total_amount']) ? $_POST['total_amount'] : 0);
 
-    // Formulaire validé : on modifie l'enregistrement
-    $success = updateOrder($order);
+    // Modification de la commande
+    $successOrder = updateOrder($order);
+
+    // Message de retour
+    $success = $successOrder && $successOrderLine;
 
     // Redirection vers la liste des produits
-    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php?created=' . $success);
+    header('Location: ' . APP_URL . 'bo/pages/orders/index.php?created=' . $success);
 }
 
 // Suppression d'une ligne de commande
-if (isset($_GET['to_delete'])) {
-    $success = deleteOrderLine($_GET['to_delete']);
-    // header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $urlId . '&deleted=' . $success);
+if (isset($_GET['line_to_delete'])) {
+    $success = putToTrashOrderLine($_GET['line_to_delete']);
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?id=' . $urlId . '&deleted=' . $success);
+}
+
+if (empty($urlId)) {
+    header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
 }
 
 ?>
@@ -94,7 +122,7 @@ if (isset($_GET['to_delete'])) {
 
             <div class="form-group my-4">
                 <label class="required" for="total_amount">Total:</label>
-                <input class="form-control" type="number" id="total_amount" name="total_amount" value="<?= $order['total_amount'] ?>" required disabled>
+                <input class="form-control" type="number" id="total_amount" name="total_amount" value="<?= $order['total_amount'] ?>" required readonly>
             </div>
 
             <div class="form-group my-4">
@@ -104,7 +132,7 @@ if (isset($_GET['to_delete'])) {
 
             <div class="form-group my-4">
                 <label class="required" for="customer_id">Client de la commande:</label>
-                <select name="customer_id" id="customer_id" class="form-control" required disabled>
+                <select name="customer_id" id="customer_id" class="form-control" required readonly>
                     <?php foreach ($customers as $customer) : ?>
                         <option value="<?= $customer['customer_id'] ?>" <?php if ($customer['customer_id'] == $order['customer_id']) : ?> selected <?php endif; ?>><?= $customer['first_name'] . " " . $customer['last_name'] ?></option>
                     <?php endforeach; ?>
@@ -147,7 +175,7 @@ if (isset($_GET['to_delete'])) {
             <div class="form-group my-4">
                 <input type="hidden" name="card_id" id="id" value="<?= $order['card_id']; ?>">
                 <label class="required" for="card_number">Carte:</label>
-                <input class="form-control" type="text" id="card_number" name="card_number" value="<?= mask_number($card['number']) ?>" required disabled>
+                <input class="form-control" type="text" id="card_number" name="card_number" value="<?= mask_number($card['number']) ?>" required readonly>
             </div>
 
             <!-- Lignes de commande -->
@@ -179,20 +207,20 @@ if (isset($_GET['to_delete'])) {
                                     <input class="form-control" type="number" id="quantity.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][quantity]" value="<?= $order_line['quantity'] ?>" required min="1">
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" id="product.price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][product][price]" value="<?= $order_line['product']['price'] ?>" required disabled>
+                                    <input class="form-control" type="number" id="product.price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][product][price]" value="<?= $order_line['product']['price'] ?>" required readonly>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="number" id="line_price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][line_price]" value="<?= $order_line['line_price'] ?>" required disabled>
+                                    <input class="form-control" type="number" id="line_price.<?= $order_line['order_line_id'] ?>" name="orders_line[<?= $order_line['order_line_id'] ?>][line_price]" value="<?= $order_line['line_price'] ?>" required readonly>
                                 </td>
                                 <td>
-                                    <a href="<?= $_SERVER['PHP_SELF']; ?>?to_delete=<?= $order_line['order_line_id'] ?>" class="btn btn-danger">Supprimer</a>
+                                    <a href="<?= $_SERVER['PHP_SELF']; ?>?id=<?= $urlId ?>&line_to_delete=<?= $order_line['order_line_id'] ?>" class="btn btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                             <script>
                                 // Calcul duaot du prix de la ligne
                                 document.getElementById('quantity.<?= $order_line['order_line_id'] ?>').addEventListener('change', function() {
-                                    const val = document.getElementById('quantity').value * <?= $order_line['product']['price'] ?>;
-                                    document.getElementById('line_price').value = Math.round(val * 100) / 100;
+                                    const val = document.getElementById('quantity.<?= $order_line['order_line_id'] ?>').value * <?= $order_line['product']['price'] ?>;
+                                    document.getElementById('line_price.<?= $order_line['order_line_id'] ?>').value = Math.round(val * 100) / 100;
                                 });
                             </script>
                         <?php endforeach; ?>

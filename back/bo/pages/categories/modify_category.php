@@ -6,12 +6,8 @@ require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/category.php";
 include_once APP_PATH . "controllers/image.php";
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
-
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/categories/index.php');
-}
 
 $category = getcategory($urlSlug);
 $image = getImage($category['image_slug']);
@@ -37,6 +33,10 @@ if (isset($_POST['submit'])) {
 
     // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/categories/index.php?created=' . $success);
+}
+
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/categories/index.php');
 }
 
 ?>

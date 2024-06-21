@@ -10,12 +10,13 @@ $max_size = 2000000; // 2 Mo
 
 if (isset($_POST['submit'])) {
 
-    $error = null; 
+    $error = null;
     $successUpload = false;
     $successInsertDb = false;
 
-    $target_file = APP_UPLOAD_PATH . basename($_FILES["image"]["name"]);
-    $extension = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $extension = strtolower(pathinfo(APP_UPLOAD_PATH . basename($_FILES["image"]["name"]), PATHINFO_EXTENSION));
+    $file_name = time() . '.' . $extension;
+    $file_path = APP_UPLOAD_PATH . $file_name;
 
     // Vérifier si le fichier est une image réelle ou une fausse image
     if (isset($_POST["submit"]) && getimagesize($_FILES["image"]["tmp_name"]) === false) {
@@ -23,7 +24,7 @@ if (isset($_POST['submit'])) {
     }
 
     // Vérifier si le fichier existe déjà
-    if (file_exists($target_file)) {
+    if (file_exists($file_path)) {
         $error = "Désolé, le fichier existe déjà.";
     }
 
@@ -39,7 +40,7 @@ if (isset($_POST['submit'])) {
 
     // Si tout est ok, téléchargez le fichier
     if (!$error) {
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $file_path)) {
             $successUpload = true;
         } else {
             $error = "Désolé, une erreur inconnue s'est produite lors du téléchargement de votre fichier.";
@@ -53,16 +54,10 @@ if (isset($_POST['submit'])) {
         // Lecture du formulaire
         $image['name'] = isset($_POST['name']) ? $_POST['name'] : null;
         $image['alt'] = isset($_POST['alt']) ? $_POST['alt'] : null;
-        $image['path'] = basename($_FILES["image"]["name"]);
-
-        // Get the weight of the image
         $image['weight'] = $_FILES["image"]["size"];
-        
-        // Get the extension of the image
         $image['extention'] = $extension;
-
-        // Generate le slug
         $image['slug'] = slugify($image['name']);
+        $image['path'] = $file_name;
 
         // Formulaire validé : on modifie l'enregistrement
         $successInsertDb = insertImage($image);

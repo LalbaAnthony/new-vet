@@ -4,24 +4,22 @@ require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/customer.php";
 
 $idCustomer = isset($_GET['id']) ? $_GET['id'] : '';
+$customer = getCustomer($idCustomer);
+
+// Modification dans la base
+if (isset($_POST['submit'])) {
+    
+    // Formulaire validé : on supprime l'enregistrement
+    $success = putToTrashCustomer($_POST['customer_id']);
+    
+    // Redirection vers la liste des clients
+    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?deleted=' . $success);
+}
 
 if (empty($idCustomer)) {
     header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
 }
 
-$customer = getCustomer($idCustomer);
-
-// Modification dans la base
-if (isset($_POST['submit'])) {
-
-    // Formulaire validé : on supprime l'enregistrement
-    $success = putToTrashCustomer($_POST['customer_id']);
-
-    // Redirection vers la liste des clients
-    header('Location: ' . APP_URL . 'bo/pages/customers/index.php?deleted=' . $success);
-}
-
-// Affichage
 ?>
 
 <!DOCTYPE html>

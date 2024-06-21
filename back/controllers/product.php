@@ -70,19 +70,19 @@ function getProducts($categories = array(), $materials = array(), $search = null
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        product.slug LIKE :search OR 
-        product.name LIKE :search OR
-        product.description LIKE :search OR
-        product.price LIKE :search OR
-        category.slug LIKE :search OR
-        material.slug LIKE :search OR
-        category.libelle LIKE :search OR
-        material.libelle LIKE :search OR
-        SOUNDEX(product.name) = SOUNDEX(:search) OR
-        SOUNDEX(product.description) = SOUNDEX(:search) OR
-        SOUNDEX(product.price) = SOUNDEX(:search) OR
-        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:search)
+        product.slug LIKE :like_search OR 
+        product.name LIKE :like_search OR
+        product.description LIKE :like_search OR
+        product.price LIKE :like_search OR
+        category.slug LIKE :like_search OR
+        material.slug LIKE :like_search OR
+        category.libelle LIKE :like_search OR
+        material.libelle LIKE :like_search OR
+        SOUNDEX(product.name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search)
     )";
     }
 
@@ -132,7 +132,10 @@ function getProducts($categories = array(), $materials = array(), $search = null
     }
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
@@ -199,19 +202,19 @@ function getProductsCount($categories = array(), $materials = array(), $search =
     // Filter by search
     if ($search) {
         $sql .= " AND (
-            product.slug LIKE :search OR 
-            product.name LIKE :search OR
-            product.description LIKE :search OR
-            product.price LIKE :search OR
-            category.slug LIKE :search OR
-            material.slug LIKE :search OR
-            category.libelle LIKE :search OR
-            material.libelle LIKE :search OR
-            SOUNDEX(product.name) = SOUNDEX(:search) OR
-            SOUNDEX(product.description) = SOUNDEX(:search) OR
-            SOUNDEX(product.price) = SOUNDEX(:search) OR
-            SOUNDEX(category.libelle) = SOUNDEX(:search) OR
-            SOUNDEX(material.libelle) = SOUNDEX(:search)
+            product.slug LIKE :like_search OR 
+            product.name LIKE :like_search OR
+            product.description LIKE :like_search OR
+            product.price LIKE :like_search OR
+            category.slug LIKE :like_search OR
+            material.slug LIKE :like_search OR
+            category.libelle LIKE :like_search OR
+            material.libelle LIKE :like_search OR
+            SOUNDEX(product.name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(material.libelle) = SOUNDEX(:soundex_search)
         )";
     }
 
@@ -248,7 +251,10 @@ function getProductsCount($categories = array(), $materials = array(), $search =
     }
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
 
     $result = Database::queryOne($sql, $params);
 

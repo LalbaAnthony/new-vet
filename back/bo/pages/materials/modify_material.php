@@ -3,11 +3,11 @@
 require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/material.php";
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
 if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+    header('Location: ' . APP_URL . 'bo/pages/materials/index.php');
 }
 
 $material = getMaterial($urlSlug);

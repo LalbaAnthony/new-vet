@@ -152,12 +152,12 @@ function getCustomers($search = null, $sort =  array(array('order' => 'ASC', 'or
 
     // Filter by search
     if ($search) {
-        $sql .= " AND ( customer.first_name LIKE :search OR  
-        customer.last_name LIKE :search OR  
-        customer.email LIKE :search OR  
-        SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
-        SOUNDEX(customer.last_name) = SOUNDEX(:search) OR 
-        SOUNDEX(customer.email) = SOUNDEX(:search)
+        $sql .= " AND ( customer.first_name LIKE :like_search OR  
+        customer.last_name LIKE :like_search OR  
+        customer.email LIKE :like_search OR  
+        SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search) OR 
+        SOUNDEX(customer.email) = SOUNDEX(:soundex_search)
     )";
     }
 
@@ -176,7 +176,10 @@ function getCustomers($search = null, $sort =  array(array('order' => 'ASC', 'or
 
     // Bind values
     $params = array();
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
@@ -195,18 +198,21 @@ function getCustomersCount($search = null)
 
     // Filter by search
     if ($search) {
-        $sql .= " AND ( customer.first_name LIKE :search OR  
-        customer.last_name LIKE :search OR  
-        customer.email LIKE :search OR  
-        SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
-        SOUNDEX(customer.last_name) = SOUNDEX(:search) OR 
-        SOUNDEX(customer.email) = SOUNDEX(:search)
+        $sql .= " AND ( customer.first_name LIKE :like_search OR  
+        customer.last_name LIKE :like_search OR  
+        customer.email LIKE :like_search OR  
+        SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search) OR 
+        SOUNDEX(customer.email) = SOUNDEX(:soundex_search)
     )";
     }
 
     // Bind values
     $params = array();
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
 
     $result = Database::queryOne($sql, $params);
 

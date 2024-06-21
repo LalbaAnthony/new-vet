@@ -23,7 +23,7 @@ define('DB_NAME', 'new-vet');
 /**
  * Paramètre de l'envoi d'email
  */
-define('EMAIL_FROM', 'new-vet@noreply.com');
+define('EMAIL_FROM', 'noreply@new-vet.com');
 
 /**
  * Paramètre de l'application

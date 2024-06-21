@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Classe Database
+ * 
+ * Cette classe gère la connexion à la base de données et fournit des méthodes pour exécuter des requêtes SQL.
+ */
 class Database
 {
     private static $dbHost = DB_HOST;
@@ -14,11 +19,21 @@ class Database
 
     private static $connection = null;
 
+    /**
+     * Constructeur de la classe Database.
+     * 
+     * Initialise la connexion à la base de données.
+     */
     function __construct()
     {
         self::connect();
     }
 
+    /**
+     * Établit la connexion à la base de données.
+     * 
+     * @return void
+     */
     private static function connect()
     {
         if (self::$connection === null) {
@@ -26,13 +41,40 @@ class Database
                 self::$connection = new PDO("mysql:host=" . self::$dbHost . ";dbname=" . self::$dbName, self::$dbUser, self::$dbPass);
                 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                if (APP_DEBUG) die("Erreur lors de la connexion à la base de données: " . $e->getMessage());
+                if (defined('APP_DEBUG') && APP_DEBUG) die("Erreur lors de la connexion à la base de données: " . $e->getMessage());
             }
         }
     }
 
-    private static function displayRequest(string $query, array $params, $error = null)
+    /**
+     * Recompose une requête SQL avec les paramètres donnés.
+     * 
+     * @param string $query La requête SQL avec des placeholders.
+     * @param array $params Les paramètres à remplacer dans la requête.
+     * @return void
+     */
+    public static function getRecomposeRequest(string $query, array $params)
     {
+        $recomposedQuery = $query;
+        foreach ($params as $key => $value) {
+            $recomposedQuery = str_replace($key, $value, $recomposedQuery);
+        }
+        return $recomposedQuery;
+    }
+
+    /**
+     * Affiche les informations sur la requête SQL et ses paramètres.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @param mixed $error L'erreur survenue (facultatif).
+     * @return void
+     */
+    private static function displayRequestInfos(string $query, array $params, $error = null)
+    {
+        // ? Can be very useful to debug SQL queries. 
+        // ? Request can so be easily copied and pasted in a Chat GPT to get help.
+
         if ($error) {
             echo '<h4 style="color: red;">Error: </h4>';
             echo $error;
@@ -43,17 +85,35 @@ class Database
 
         echo '<h4 style="color: green;">Params: </h4>';
         dd($params);
+
+        echo '<h4 style="color: purple;">Recomposed request with query and params: </h4>';
+        echo self::getRecomposeRequest($query, $params);
     }
 
+    /**
+     * Gère les erreurs survenant lors de l'exécution d'une requête SQL.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @param mixed $error L'erreur survenue (facultatif).
+     * @return void
+     */
     private static function handleError(string $query, array $params, $error = null)
     {
-        if (APP_DEBUG) {
+        if (defined('APP_DEBUG') && APP_DEBUG) {
             echo "<h1>Erreur lors de la requête SQL</h1>";
-            self::displayRequest($query, $params, $error);
+            self::displayRequestInfos($query, $params, $error);
             die();
         }
     }
 
+    /**
+     * Exécute une requête SQL.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Un tableau contenant le statut de succès et l'erreur éventuelle.
+     */
     public static function query(string $query, array $params = array())
     {
         self::connect();
@@ -65,7 +125,7 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                if (is_int($value) || in_array($key, self::$forcedIntParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_INT);
                 } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_BOOL);
@@ -91,6 +151,13 @@ class Database
         );
     }
 
+    /**
+     * Exécute une requête SQL et retourne tous les résultats.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Un tableau contenant le statut de succès, les données et l'erreur éventuelle.
+     */
     public static function queryAll(string $query, array $params = array())
     {
         self::connect();
@@ -103,7 +170,7 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                if (is_int($value) || in_array($key, self::$forcedIntParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_INT);
                 } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_BOOL);
@@ -132,6 +199,13 @@ class Database
         );
     }
 
+    /**
+     * Exécute une requête SQL et retourne un seul résultat.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Un tableau contenant le statut de succès, les données et l'erreur éventuelle.
+     */
     public static function queryOne(string $query, array $params = array())
     {
         self::connect();
@@ -144,7 +218,7 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                if (is_int($value) || in_array($key, self::$forcedIntParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_INT);
                 } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_BOOL);
@@ -173,6 +247,13 @@ class Database
         );
     }
 
+    /**
+     * Exécute une requête SQL d'insertion.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Un tableau contenant le statut de succès, l'ID du dernier enregistrement inséré et l'erreur éventuelle.
+     */
     public static function queryInsert(string $query, array $params = array())
     {
         self::connect();
@@ -184,7 +265,7 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                if (is_int($value) || in_array($key, self::$forcedIntParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_INT);
                 } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_BOOL);
@@ -211,6 +292,13 @@ class Database
         );
     }
 
+    /**
+     * Exécute une requête SQL de mise à jour.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Un tableau contenant le statut de succès et l'erreur éventuelle.
+     */
     public static function queryUpdate(string $query, array $params = array())
     {
         self::connect();
@@ -222,7 +310,7 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                if (is_int($value) || in_array($key, self::$forcedIntParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_INT);
                 } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_BOOL);
@@ -248,6 +336,13 @@ class Database
         );
     }
 
+    /**
+     * Exécute une requête SQL de suppression.
+     * 
+     * @param string $query La requête SQL.
+     * @param array $params Les paramètres de la requête.
+     * @return array Un tableau contenant le statut de succès et l'erreur éventuelle.
+     */
     public static function queryDelete(string $query, array $params = array())
     {
         self::connect();
@@ -259,7 +354,7 @@ class Database
             $statement = self::$connection->prepare($query);
 
             foreach ($params as $key => $value) {
-                if (is_int($value) || is_float($value) || in_array($key, self::$forcedIntParams)) {
+                if (is_int($value) || in_array($key, self::$forcedIntParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_INT);
                 } elseif (is_bool($value) || in_array($key, self::$forcedBoolParams)) {
                     $statement->bindValue($key, $value, PDO::PARAM_BOOL);

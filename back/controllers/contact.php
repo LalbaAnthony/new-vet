@@ -25,16 +25,16 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
 
     if ($search) {
         $sql .= " AND (
-            customer.first_name LIKE :search OR 
-            customer.last_name LIKE :search OR
-            contact.email LIKE :search OR
-            contact.subject LIKE :search OR
-            contact.message LIKE :search OR
-            SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
-            SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
-            SOUNDEX(contact.email) = SOUNDEX(:search) OR
-            SOUNDEX(contact.subject) = SOUNDEX(:search) OR
-            SOUNDEX(contact.message) = SOUNDEX(:search) 
+            customer.first_name LIKE :like_search OR 
+            customer.last_name LIKE :like_search OR
+            contact.email LIKE :like_search OR
+            contact.subject LIKE :like_search OR
+            contact.message LIKE :like_search OR
+            SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(contact.email) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(contact.subject) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(contact.message) = SOUNDEX(:soundex_search) 
         )";
     }
 
@@ -73,16 +73,16 @@ function getContactsCount($search = null)
 
     if ($search) {
         $sql .= " AND (
-            customer.first_name LIKE :search OR 
-            customer.last_name LIKE :search OR
-            contact.email LIKE :search OR
-            contact.subject LIKE :search OR
-            contact.message LIKE :search OR
-            SOUNDEX(customer.first_name) = SOUNDEX(:search) OR
-            SOUNDEX(customer.last_name) = SOUNDEX(:search) OR
-            SOUNDEX(contact.email) = SOUNDEX(:search) OR
-            SOUNDEX(contact.subject) = SOUNDEX(:search) OR
-            SOUNDEX(contact.message) = SOUNDEX(:search) 
+            customer.first_name LIKE :like_search OR 
+            customer.last_name LIKE :like_search OR
+            contact.email LIKE :like_search OR
+            contact.subject LIKE :like_search OR
+            contact.message LIKE :like_search OR
+            SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(contact.email) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(contact.subject) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(contact.message) = SOUNDEX(:soundex_search) 
         )";
     }
 

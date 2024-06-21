@@ -1,25 +1,26 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "controllers/order.php";
 
 // Réception du contenu à modifier
-$urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
-$product = getProduct($urlSlug);
+$urlId = isset($_GET['id']) ? $_GET['id'] : '';
+$order = getOrder($urlId);
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
-    
+
     // Formulaire validé : on supprime l'enregistrement
-    $success = putToTrashProduct($_POST['slug']);
-    
+    $success = putToTrashOrderAndOrderLines($_POST['id']);
+
     // Redirection vers la liste des produits
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php?deleted=' . $success);
+    header('Location: ' . APP_URL . 'bo/pages/orders/index.php?deleted=' . $success);
 }
 
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+if (empty($urlId)) {
+    header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -40,13 +41,13 @@ if (empty($urlSlug)) {
     <?php include_once APP_PATH . "bo/partials/header.php"; ?>
 
     <div class="container mt-5">
-        <h2 style="margin: 30vh 0">Supprimer <?= $product['name'] ?> ?</h2>
+        <h2 style="margin: 30vh 0">Supprimer la commande <?= $order['order_id'] ?> ?</h2>
 
         <form action="<?= $_SERVER['PHP_SELF']; ?>" method="post" class="mb-5">
-            <input type="hidden" name="slug" id="slug" value="<?= $product['slug']; ?>">
+            <input type="hidden" name="order_id" id="order_id" value="<?= $order['order_id']; ?>">
 
             <div class="d-flex justify-content-between">
-                <a href="<?= APP_URL ?>bo/pages/products/index.php" class="btn btn-secondary">Retour</a>
+                <a href="<?= APP_URL ?>bo/pages/orders/index.php" class="btn btn-secondary">Retour</a>
                 <button type="submit" name="submit" class="btn btn-danger">Supprimer</button>
             </div>
         </form>

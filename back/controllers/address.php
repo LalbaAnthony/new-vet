@@ -22,7 +22,7 @@ function getAddresses($customer_id = null, $search = null)
     if ($customer_id) $sql .= " AND customer_id = :customer_id";
 
     // Filter by search
-    if ($search) $sql .= " AND (first_name LIKE :search OR last_name LIKE :search OR address1 LIKE :search OR address2 LIKE :search OR city LIKE :search OR region LIKE :search OR postal_code LIKE :search OR tel LIKE :search)";
+    if ($search) $sql .= " AND (first_name LIKE :like_search OR last_name LIKE :like_search OR address1 LIKE :like_search OR address2 LIKE :like_search OR city LIKE :like_search OR region LIKE :like_search OR postal_code LIKE :like_search OR tel LIKE :like_search)";
 
     $sql .= " ORDER BY postal_code ASC";
 

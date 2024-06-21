@@ -4,23 +4,22 @@ require_once "../../../config.inc.php";
 include_once APP_PATH . "controllers/material.php";
 
 $url_slug = isset($_GET['slug']) ? $_GET['slug'] : '';
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
-}
 $material =  getMaterial($url_slug);
 
 // Modification dans la base
 if (isset($_POST['submit'])) {
-
+    
     // Formulaire validé : on supprime l'enregistrement
     $success = putToTrashMaterial($_POST['slug']);
-
+    
     // Redirection vers la liste des contacts
     header('Location: ' . APP_URL . 'bo/pages/materials/index.php?deleted=' . $success);
 }
 
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/materials/index.php');
+}
 
-// Affichage
 ?>
 <!DOCTYPE html>
 <html lang="fr">

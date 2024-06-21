@@ -25,12 +25,12 @@ function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_
     // Filter by search
     if ($search) {
         $sql .= " AND (
-            name LIKE :search OR 
-            slug LIKE :search OR 
-            alt LIKE :search OR
-            SOUNDEX(name) = SOUNDEX(:search) OR
-            SOUNDEX(slug) = SOUNDEX(:search) OR
-            SOUNDEX(alt) = SOUNDEX(:search)
+            name LIKE :like_search OR 
+            slug LIKE :like_search OR 
+            alt LIKE :like_search OR
+            SOUNDEX(name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(slug) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(alt) = SOUNDEX(:soundex_search)
         )";
     }
 
@@ -50,7 +50,10 @@ function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_
     $params = array();
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
@@ -67,19 +70,22 @@ function getImagesCount($search = null)
     // Filter by search
     if ($search) {
         $sql .= " AND (
-            name LIKE :search OR 
-            slug LIKE :search OR 
-            alt LIKE :search OR
-            SOUNDEX(name) = SOUNDEX(:search) OR
-            SOUNDEX(slug) = SOUNDEX(:search) OR
-            SOUNDEX(alt) = SOUNDEX(:search)
+            name LIKE :like_search OR 
+            slug LIKE :like_search OR 
+            alt LIKE :like_search OR
+            SOUNDEX(name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(slug) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(alt) = SOUNDEX(:soundex_search)
         )";
     }
 
     $params = array();
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
 
     $result = Database::queryOne($sql, $params);
 

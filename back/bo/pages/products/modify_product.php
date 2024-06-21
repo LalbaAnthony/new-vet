@@ -6,13 +6,8 @@ include_once APP_PATH . "controllers/category.php";
 include_once APP_PATH . "controllers/material.php";
 include_once APP_PATH . "controllers/image.php";
 
-// Réception du produit à modifier
+// Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
-
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
-}
-
 $product = getProduct($urlSlug);
 
 $productMaterials = getMaterialsFromProduct($urlSlug);
@@ -52,7 +47,10 @@ if (isset($_POST['submit'])) {
     header('Location: ' . APP_URL . 'bo/pages/products/index.php?updated=' . $success);
 }
 
-// Affichage
+if (empty($urlSlug)) {
+    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
