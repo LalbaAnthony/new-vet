@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
 }
 
 if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/products/index.php');
+    header('Location: ' . APP_URL . 'bo/pages/contacts/index.php');
 }
 
 
