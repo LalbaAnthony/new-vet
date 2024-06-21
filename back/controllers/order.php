@@ -54,7 +54,7 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
         SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
         SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
         SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search)
+        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search) OR
         SOUNDEX(customer.email) = SOUNDEX(:soundex_search) OR
         SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
         SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search)
@@ -136,7 +136,7 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
         SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
         SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
         SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search)
+        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search) OR
         SOUNDEX(customer.email) = SOUNDEX(:soundex_search) OR
         SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
         SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search)

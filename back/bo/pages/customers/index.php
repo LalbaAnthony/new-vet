@@ -74,7 +74,7 @@ if (isset($_GET['delete']) && isset($_GET['selected_customers'])) {
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_name&order=<?= $new_order ?>">Nom</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=email&order=<?= $new_order ?>">E-mail</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=has_validated_email&order=<?= $new_order ?>">Validé ?</a></th>
-                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_login&order=<?= $new_order ?>">Last Login</a></th>
+                    <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=last_login&order=<?= $new_order ?>">Dernière connexion</a></th>
                     <th scope='col'><a class="text-decoration-none" href="?search=<?= $search ?>&page=<?= $page ?>&order_by=created_at&order=<?= $new_order ?>">Date Création</a></th>
                     <th scope='col' colspan='2'>&nbsp;</th>
                 </tr>

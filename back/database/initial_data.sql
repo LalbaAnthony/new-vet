@@ -237,11 +237,12 @@ INSERT INTO card (card_id, customer_id, number, expiration_date, cvv, first_name
 (2, 2, 2345678901234567, '2024-10-31', 456, 'Jean', 'Martin'),
 (3, 3, 3456789012345678, '2023-08-31', 789, 'Sophie', 'Lefevre');
 
-INSERT INTO status (status_id, libelle, sort_order) VALUES 
-(1, 'En cours de traitement', 1),
-(2, 'Expédiée', 2),
-(3, 'Livrée', 3),
-(4, 'Annulée', 4);
+INSERT INTO status (status_id, libelle, sort_order, color) VALUES 
+(1, 'En cours de traitement', 1, '#FEBD21'),
+(2, 'Expédiée', 2, '#7cf999'),
+(3, 'Livrée', 3, '#3caf57'),
+(5, 'Erreur de traitement', 4, '#cf0d0d'),
+(4, 'Annulée', 5, '#636363');
 
 INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, status_id, shipping_address_id, billing_address_id) VALUES 
 (1, 1, 1, '2024-01-13 12:30:00', 89.99, 2, 1, 1),

@@ -92,13 +92,18 @@ if (isset($_GET['delete']) && isset($_GET['selected_orders'])) {
                         <!-- ID de la commande -->
                         <td><?= $ord['order_id'] ?></td>
                         <!-- Status de la commande -->
-                        <td><?= getStatus($ord['status_id'])['libelle'] ?></td>
+                        <td>
+                            <?php $status = getStatus($ord['status_id']); ?>
+                            <span class="badge" style="background-color: <?= $status['color'] ?>; color: white; padding: 5px; border-radius: 5px;">
+                                <?= $status['libelle'] ?>
+                            </span>
+                        </td>
                         <!-- Nom du client -->
                         <td>
                             <?php
                             $customer = getCustomer($ord['customer_id']);
                             $nicename = $customer['first_name'] . " " . $customer['last_name'];
-                            echo $nicename;
+                            echo "<a href='" . APP_URL . "bo/pages/customers/index.php?search=" . $customer['email'] . "'>" . $nicename . "</a>";
                             ?>
                         </td>
                         <!-- Date de la commande -->

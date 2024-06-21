@@ -1,18 +1,33 @@
 DROP TABLE IF EXISTS order_line;
+
 DROP TABLE IF EXISTS `order`;
+
 DROP TABLE IF EXISTS card;
+
 DROP TABLE IF EXISTS address;
+
 DROP TABLE IF EXISTS contact;
+
 DROP TABLE IF EXISTS customer;
+
 DROP TABLE IF EXISTS country;
+
 DROP TABLE IF EXISTS status;
+
 DROP TABLE IF EXISTS product_image;
+
 DROP TABLE IF EXISTS product_material;
+
 DROP TABLE IF EXISTS product_category;
+
 DROP TABLE IF EXISTS product;
+
 DROP TABLE IF EXISTS category;
+
 DROP TABLE IF EXISTS material;
+
 DROP TABLE IF EXISTS image;
+
 DROP TABLE IF EXISTS admin;
 
 #------------------------------------------------------------
@@ -192,6 +207,7 @@ CREATE TABLE card(
 CREATE TABLE status(
         status_id INT AUTO_INCREMENT NOT NULL UNIQUE,
         libelle VARCHAR (50) NOT NULL,
+        color VARCHAR (7) NOT NULL UNIQUE DEFAULT '#000000',
         sort_order INT,
         is_deleted BOOLEAN NOT NULL DEFAULT 0,
         created_at DATETIME NOT NULL DEFAULT NOW(),
