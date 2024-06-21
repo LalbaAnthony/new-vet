@@ -21,7 +21,8 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     LEFT JOIN product_category ON product_category.product_slug = product.slug
     LEFT JOIN category ON product_category.category_slug = category.slug
     LEFT JOIN product_material ON product_material.product_slug = product.slug
-    LEFT JOIN material ON product_material.material_slug = material.slug";
+    LEFT JOIN material ON product_material.material_slug = material.slug
+    LEFT JOIN customer ON customer.customer_id = `order`.customer_id";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
@@ -38,19 +39,25 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        product.slug LIKE :search OR 
-        product.name LIKE :search OR
-        product.description LIKE :search OR
-        product.price LIKE :search OR
-        category.slug LIKE :search OR
-        material.slug LIKE :search OR
-        category.libelle LIKE :search OR
-        material.libelle LIKE :search OR
-        SOUNDEX(product.name) = SOUNDEX(:search) OR
-        SOUNDEX(product.description) = SOUNDEX(:search) OR
-        SOUNDEX(product.price) = SOUNDEX(:search) OR
-        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:search)
+        product.slug LIKE :like_search OR 
+        product.name LIKE :like_search OR
+        product.description LIKE :like_search OR
+        product.price LIKE :like_search OR
+        category.slug LIKE :like_search OR
+        material.slug LIKE :like_search OR
+        category.libelle LIKE :like_search OR
+        material.libelle LIKE :like_search OR
+        customer.email LIKE :like_search OR
+        customer.first_name LIKE :like_search OR
+        customer.last_name LIKE :like_search OR
+        SOUNDEX(product.name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search)
+        SOUNDEX(customer.email) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search)
     )";
     }
 
@@ -73,7 +80,10 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     if ($date_start) $params[":date_start"] = $date_start;
     if ($date_end) $params[":date_end"] = $date_end;
     if ($customer_id) $params[":customer_id"] = $customer_id;
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
@@ -87,13 +97,14 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
 
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
     $sql = "SELECT COUNT(*) as count FROM `order`
-    LEFT JOIN status ON status.status_id = `order`.status_id
+     LEFT JOIN status ON status.status_id = `order`.status_id
     LEFT JOIN order_line ON order_line.order_id = `order`.order_id
     LEFT JOIN product ON order_line.product_slug = product.slug
     LEFT JOIN product_category ON product_category.product_slug = product.slug
     LEFT JOIN category ON product_category.category_slug = category.slug
     LEFT JOIN product_material ON product_material.product_slug = product.slug
-    LEFT JOIN material ON product_material.material_slug = material.slug";
+    LEFT JOIN material ON product_material.material_slug = material.slug
+    LEFT JOIN customer ON customer.customer_id = `order`.customer_id";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
@@ -110,19 +121,25 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        product.slug LIKE :search OR 
-        product.name LIKE :search OR
-        product.description LIKE :search OR
-        product.price LIKE :search OR
-        category.slug LIKE :search OR
-        material.slug LIKE :search OR
-        category.libelle LIKE :search OR
-        material.libelle LIKE :search OR
-        SOUNDEX(product.name) = SOUNDEX(:search) OR
-        SOUNDEX(product.description) = SOUNDEX(:search) OR
-        SOUNDEX(product.price) = SOUNDEX(:search) OR
-        SOUNDEX(category.libelle) = SOUNDEX(:search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:search)
+        product.slug LIKE :like_search OR 
+        product.name LIKE :like_search OR
+        product.description LIKE :like_search OR
+        product.price LIKE :like_search OR
+        category.slug LIKE :like_search OR
+        material.slug LIKE :like_search OR
+        category.libelle LIKE :like_search OR
+        material.libelle LIKE :like_search OR
+        customer.email LIKE :like_search OR
+        customer.first_name LIKE :like_search OR
+        customer.last_name LIKE :like_search OR
+        SOUNDEX(product.name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search)
+        SOUNDEX(customer.email) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search)
     )";
     }
 
@@ -132,7 +149,10 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
     if ($date_start) $params[":date_start"] = $date_start;
     if ($date_end) $params[":date_end"] = $date_end;
     if ($customer_id) $params[":customer_id"] = $customer_id;
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
 
     $result = Database::queryOne($sql, $params);
 
@@ -264,7 +284,8 @@ function insertOrderLine($order_line)
     }
 }
 
-function updateOrderLine ($order_line) {
+function updateOrderLine($order_line)
+{
     $sql = "UPDATE order_line SET";
 
     if (isset($order_line['order_id'])) $sql .= " order_id = :order_id,";

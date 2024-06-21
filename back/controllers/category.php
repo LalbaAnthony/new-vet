@@ -47,10 +47,10 @@ function getCategories($search = null, $is_highlander = false, $is_quick_access 
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        libelle LIKE :search OR
-        slug LIKE :search OR
-        SOUNDEX(libelle) = SOUNDEX(:search) OR
-        SOUNDEX(slug) = SOUNDEX(:search)
+        libelle LIKE :like_search OR
+        slug LIKE :like_search OR
+        SOUNDEX(libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(slug) = SOUNDEX(:soundex_search)
         )";
     }
 
@@ -90,7 +90,10 @@ function getCategories($search = null, $is_highlander = false, $is_quick_access 
     }
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
@@ -133,10 +136,10 @@ function getCategoriesCount($search = null, $is_highlander = false, $is_quick_ac
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        libelle LIKE :search OR
-        slug LIKE :search OR
-        SOUNDEX(libelle) = SOUNDEX(:search) OR
-        SOUNDEX(slug) = SOUNDEX(:search)
+        libelle LIKE :like_search OR
+        slug LIKE :like_search OR
+        SOUNDEX(libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(slug) = SOUNDEX(:soundex_search)
         )";
     }
 
@@ -163,7 +166,10 @@ function getCategoriesCount($search = null, $is_highlander = false, $is_quick_ac
     }
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
 
     $result = Database::queryOne($sql, $params);
 

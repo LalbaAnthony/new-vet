@@ -84,33 +84,33 @@ if (isset($_GET['delete']) && isset($_GET['selected_orders'])) {
             </thead>
             <tbody>
                 <?php
-                foreach ($orders as $order) {
+                foreach ($orders as $ord) {
                 ?>
                     <tr class="align-middle">
                         <!-- Checkbox pour la suppression multiple -->
-                        <td><input id="order_<?= $order['order_id'] ?>" type="checkbox" name="selected_orders[]" value="<?= $order['order_id'] ?>"></td>
+                        <td><input id="order_<?= $ord['order_id'] ?>" type="checkbox" name="selected_orders[]" value="<?= $ord['order_id'] ?>"></td>
                         <!-- ID de la commande -->
-                        <td><?= $order['order_id'] ?></td>
+                        <td><?= $ord['order_id'] ?></td>
                         <!-- Status de la commande -->
-                        <td><?= getStatus($order['status_id'])['libelle'] ?></td>
+                        <td><?= getStatus($ord['status_id'])['libelle'] ?></td>
                         <!-- Nom du client -->
                         <td>
                             <?php
-                            $customer = getCustomer($order['customer_id']);
+                            $customer = getCustomer($ord['customer_id']);
                             $nicename = $customer['first_name'] . " " . $customer['last_name'];
                             echo $nicename;
                             ?>
                         </td>
                         <!-- Date de la commande -->
-                        <td><?= fr_datetime($order['order_date']) ?></td>
+                        <td><?= fr_datetime($ord['order_date']) ?></td>
                         <!-- Date de création -->
-                        <td><?= fr_datetime($order['created_at']) ?></td>
+                        <td><?= fr_datetime($ord['created_at']) ?></td>
                         <!-- Total -->
-                        <td><?= $order['total_amount'] ?> €</td>
+                        <td><?= $ord['total_amount'] ?> €</td>
                         <!-- Bouton de modification -->
-                        <td><a href="<?= APP_URL ?>bo/pages/orders/modify_order.php?id=<?= $order['order_id'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
+                        <td><a href="<?= APP_URL ?>bo/pages/orders/modify_order.php?id=<?= $ord['order_id'] ?>" class="btn btn-primary btn-sm">Modifier</a></td>
                         <!-- Bouton de suppression -->
-                        <td><a href="<?= APP_URL ?>bo/pages/orders/delete_order.php?id=<?= $order['order_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a></td>
+                        <td><a href="<?= APP_URL ?>bo/pages/orders/delete_order.php?id=<?= $ord['order_id'] ?>" class="btn btn-danger btn-sm">Supprimer</a></td>
                     </tr>
                 <?php
                 }

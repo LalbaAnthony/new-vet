@@ -25,10 +25,10 @@ function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'or
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        libelle LIKE :search OR
-        slug LIKE :search OR
-        SOUNDEX(libelle) = SOUNDEX(:search) OR
-        SOUNDEX(slug) = SOUNDEX(:search)
+        libelle LIKE :like_search OR
+        slug LIKE :like_search OR
+        SOUNDEX(libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(slug) = SOUNDEX(:soundex_search)
         )";
     }
 
@@ -48,7 +48,10 @@ function getMaterials($search = null, $sort =  array(array('order' => 'ASC', 'or
     $params = array();
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
@@ -71,17 +74,20 @@ function getMaterialsCount($search = null)
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        libelle LIKE :search OR
-        slug LIKE :search OR
-        SOUNDEX(libelle) = SOUNDEX(:search) OR
-        SOUNDEX(slug) = SOUNDEX(:search)
+        libelle LIKE :like_search OR
+        slug LIKE :like_search OR
+        SOUNDEX(libelle) = SOUNDEX(:soundex_search) OR
+        SOUNDEX(slug) = SOUNDEX(:soundex_search)
         )";
     }
 
     $params = array();
 
     // Bind values
-    if ($search) $params[":search"] = "%$search%";
+    if ($search) {
+        $params[":like_search"] = "'%$search%'";
+        $params[":soundex_search"] = "'$search'";
+    }
 
     $result = Database::queryOne($sql, $params);
 
@@ -125,13 +131,13 @@ function updateMaterial($material)
     if (isset($material['libelle'])) $sql .= " libelle = :libelle,";
     if (isset($material['color'])) $sql .= " color = :color,";
     if (isset($material['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
-    
+
     $sql = rtrim($sql, ",");
-    
+
     $sql .= " WHERE slug = :slug";
-    
+
     $params = array();
-    
+
     // Bind values
     if (isset($material['libelle'])) $params[":libelle"] = $material['libelle'];
     if (isset($material['color'])) $params[":color"] = $material['color'];
