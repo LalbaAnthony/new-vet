@@ -28,7 +28,7 @@ function getCountries()
 
 function getCountryCount()
 {
-    $sql = "SELECT COUNT(*) as count FROM country WHERE is_deleted = 0";
+    $sql = "SELECT COUNT(DISTINCT country.country_id) as count FROM country WHERE is_deleted = 0";
 
     $result = Database::queryOne($sql);
 

@@ -63,7 +63,7 @@ function getContacts($search = null, $sort =  array(array('order' => 'ASC', 'ord
 function getContactsCount($search = null)
 {
 
-    $sql = "SELECT COUNT(contact_id) as count FROM contact 
+    $sql = "SELECT COUNT(DISTINCT contact.contact_id) as count FROM contact 
     LEFT JOIN customer ON customer.customer_id = contact.contact_id";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND

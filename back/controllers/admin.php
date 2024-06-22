@@ -24,7 +24,7 @@ function getAdmins()
 
 function getAdminsCount()
 {
-    $sql = "SELECT COUNT(*) as count FROM admin WHERE is_deleted = 0";
+    $sql = "SELECT COUNT(DISTINCT admin.admin_id) as count FROM admin WHERE is_deleted = 0";
 
     $result = Database::queryOne($sql);
 

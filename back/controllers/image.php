@@ -65,7 +65,7 @@ function getImages($search = null, $sort = array(array('order' => 'ASC', 'order_
 function getImagesCount($search = null)
 {
 
-    $sql = "SELECT COUNT(*) as count FROM image WHERE 1 = 1 AND is_deleted = 0";
+    $sql = "SELECT COUNT(DISTINCT image.slug) as count FROM image WHERE 1 = 1 AND is_deleted = 0";
 
     // Filter by search
     if ($search) {

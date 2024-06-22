@@ -42,8 +42,14 @@ if (!$error) {
     $order['order_lines'] = getOrderLines($order['order_id']);
     $order['status'] = getStatus($order['status_id']);
     $order['card'] = getCard($order['card_id']);
+
     $order['shipping_address'] = getAddress($order['shipping_address_id']);
+    if ($order['shipping_address']['country_id']) $order['shipping_address']['country'] = getCountry($order['shipping_address']['country_id']);
+    else $order['shipping_address']['country'] = null;
+
     $order['billing_address'] = getAddress($order['billing_address_id']);
+    if ($order['billing_address']['country_id']) $order['billing_address']['country'] = getCountry($order['billing_address']['country_id']);
+    else $order['shipping_address']['country'] = null;
 }
 
 if (!$error) {

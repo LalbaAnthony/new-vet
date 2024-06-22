@@ -87,6 +87,8 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
+    // echo Database::getRecomposedRequest($sql, $params);
+
     $result = Database::queryAll($sql, $params);
 
     return $result['data'];
@@ -94,10 +96,9 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
 
 function getOrdersCount($date_start = null, $date_end = null, $search = null, $customer_id = null)
 {
-
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
-    $sql = "SELECT COUNT(*) as count FROM `order`
-     LEFT JOIN status ON status.status_id = `order`.status_id
+    $sql = "SELECT COUNT(DISTINCT `order`.order_id) as count FROM `order`
+    LEFT JOIN status ON status.status_id = `order`.status_id
     LEFT JOIN order_line ON order_line.order_id = `order`.order_id
     LEFT JOIN product ON order_line.product_slug = product.slug
     LEFT JOIN product_category ON product_category.product_slug = product.slug
@@ -121,26 +122,26 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
     // Filter by search
     if ($search) {
         $sql .= " AND (
-        product.slug LIKE :like_search OR 
-        product.name LIKE :like_search OR
-        product.description LIKE :like_search OR
-        product.price LIKE :like_search OR
-        category.slug LIKE :like_search OR
-        material.slug LIKE :like_search OR
-        category.libelle LIKE :like_search OR
-        material.libelle LIKE :like_search OR
-        customer.email LIKE :like_search OR
-        customer.first_name LIKE :like_search OR
-        customer.last_name LIKE :like_search OR
-        SOUNDEX(product.name) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(material.libelle) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(customer.email) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
-        SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search)
-    )";
+            product.slug LIKE :like_search OR 
+            product.name LIKE :like_search OR
+            product.description LIKE :like_search OR
+            product.price LIKE :like_search OR
+            category.slug LIKE :like_search OR
+            material.slug LIKE :like_search OR
+            category.libelle LIKE :like_search OR
+            material.libelle LIKE :like_search OR
+            customer.email LIKE :like_search OR
+            customer.first_name LIKE :like_search OR
+            customer.last_name LIKE :like_search OR
+            SOUNDEX(product.name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(product.description) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(product.price) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(category.libelle) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(material.libelle) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(customer.email) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(customer.first_name) = SOUNDEX(:soundex_search) OR
+            SOUNDEX(customer.last_name) = SOUNDEX(:soundex_search)
+        )";
     }
 
     $params = array();
@@ -153,6 +154,8 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
         $params[":like_search"] = "'%$search%'";
         $params[":soundex_search"] = "'$search'";
     }
+
+    // echo Database::getRecomposedRequest($sql, $params);
 
     $result = Database::queryOne($sql, $params);
 

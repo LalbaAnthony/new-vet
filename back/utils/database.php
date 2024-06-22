@@ -53,7 +53,7 @@ class Database
      * @param array $params Les paramètres à remplacer dans la requête.
      * @return void
      */
-    public static function getRecomposeRequest(string $query, array $params)
+    public static function getRecomposedRequest(string $query, array $params)
     {
         $recomposedQuery = $query;
         foreach ($params as $key => $value) {
@@ -87,7 +87,7 @@ class Database
         dd($params);
 
         echo '<h4 style="color: purple;">Recomposed request with query and params: </h4>';
-        echo self::getRecomposeRequest($query, $params);
+        echo self::getRecomposedRequest($query, $params);
     }
 
     /**

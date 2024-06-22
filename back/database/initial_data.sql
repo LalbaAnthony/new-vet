@@ -227,7 +227,7 @@ INSERT INTO customer (customer_id, first_name, last_name, email, has_validated_e
 (2, 'Jean', 'Martin', 'jean@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'), -- MPD: motDeP@sseT3st
 (3, 'Sophie', 'Lefevre', 'sophie@example.com', 1, '$2y$10$yxWRNu3JLaIUkhwD9kngPuYF0jnwNEjEM2ajPbaKRP.Q76A73ApMe'); -- MPD: motDeP@sseT3st
 
-INSERT INTO address (address_id, customer_id, first_name, last_name, address1, city, postal_code, country_id, tel) VALUES 
+INSERT INTO address (address_id, customer_id, first_name, last_name, address1, city, zip, country_id, tel) VALUES 
 (1, 1, 'Alice', 'Dupont', '123 Rue de la Mode', 'Paris', 75001, 1, '0123456789'),
 (2, 2, 'Jean', 'Martin', '456 Avenue Chic', 'Bruxelles', 1000, 2, '0456789123'),
 (3, 3, 'Sophie', 'Lefevre', '789 Rue Stylée', 'Montréal', 1000, 3, '0789012345');

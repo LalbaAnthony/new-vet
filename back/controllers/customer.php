@@ -190,7 +190,7 @@ function getCustomers($search = null, $sort =  array(array('order' => 'ASC', 'or
 
 function getCustomersCount($search = null)
 {
-    $sql = "SELECT COUNT(*) as count FROM customer";
+    $sql = "SELECT COUNT(DISTINCT customer.customer_id) as count FROM customer";
 
     $sql .= " WHERE 1 = 1";
 

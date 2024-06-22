@@ -106,7 +106,7 @@ function getCategoriesCount($search = null, $is_highlander = false, $is_quick_ac
 {
 
     // Select all categories
-    $sql = "SELECT COUNT(*) as count FROM category";
+    $sql = "SELECT COUNT(DISTINCT category.slug) as count FROM category";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";

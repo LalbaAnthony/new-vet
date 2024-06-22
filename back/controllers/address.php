@@ -22,9 +22,9 @@ function getAddresses($customer_id = null, $search = null)
     if ($customer_id) $sql .= " AND customer_id = :customer_id";
 
     // Filter by search
-    if ($search) $sql .= " AND (first_name LIKE :like_search OR last_name LIKE :like_search OR address1 LIKE :like_search OR address2 LIKE :like_search OR city LIKE :like_search OR region LIKE :like_search OR postal_code LIKE :like_search OR tel LIKE :like_search)";
+    if ($search) $sql .= " AND (first_name LIKE :like_search OR last_name LIKE :like_search OR address1 LIKE :like_search OR address2 LIKE :like_search OR city LIKE :like_search OR region LIKE :like_search OR zip LIKE :like_search OR tel LIKE :like_search)";
 
-    $sql .= " ORDER BY postal_code ASC";
+    $sql .= " ORDER BY zip ASC";
 
     $params = array();
     if ($customer_id) $params[":customer_id"] = $customer_id;
@@ -37,9 +37,9 @@ function getAddresses($customer_id = null, $search = null)
 
 function insertAddress($address)
 {
-    $sql = "INSERT INTO address (customer_id, first_name, last_name, address1, address2, city, region, postal_code, country_id, tel) VALUES (:customer_id, :first_name, :last_name, :address1, :address2, :city, :region, :postal_code, :country_id, :tel)";
+    $sql = "INSERT INTO address (customer_id, first_name, last_name, address1, address2, city, region, zip, country_id, tel) VALUES (:customer_id, :first_name, :last_name, :address1, :address2, :city, :region, :zip, :country_id, :tel)";
 
-    $result = Database::queryInsert($sql, array(":customer_id" => $address['customer_id'], ":first_name" => $address['first_name'], ":last_name" => $address['last_name'], ":address1" => $address['address1'], ":address2" => $address['address2'], ":city" => $address['city'], ":region" => $address['region'], ":postal_code" => $address['postal_code'], ":country_id" => $address['country_id'], ":tel" => $address['tel']));
+    $result = Database::queryInsert($sql, array(":customer_id" => $address['customer_id'], ":first_name" => $address['first_name'], ":last_name" => $address['last_name'], ":address1" => $address['address1'], ":address2" => $address['address2'], ":city" => $address['city'], ":region" => $address['region'], ":zip" => $address['zip'], ":country_id" => $address['country_id'], ":tel" => $address['tel']));
 
     if ($result['success']) {
         log_txt("Address inserted in back office: address_id " . $result);
@@ -60,7 +60,7 @@ function updateAddress($address)
     if (isset($address['address2'])) $sql .= " address2 = :address2,";
     if (isset($address['city'])) $sql .= " city = :city,";
     if (isset($address['region'])) $sql .= " region = :region,";
-    if (isset($address['postal_code'])) $sql .= " postal_code = :postal_code,";
+    if (isset($address['zip'])) $sql .= " zip = :zip,";
     if (isset($address['country_id'])) $sql .= " country_id = :country_id,";
     if (isset($address['tel'])) $sql .= " tel = :tel,";
     if (isset($address['is_deleted'])) $sql .= " is_deleted = :is_deleted,";
@@ -78,7 +78,7 @@ function updateAddress($address)
     if (isset($address['address2'])) $params[":address2"] = (string) $address['address2'];
     if (isset($address['city'])) $params[":city"] = (string) $address['city'];
     if (isset($address['region'])) $params[":region"] = (string) $address['region'];
-    if (isset($address['postal_code'])) $params[":postal_code"] = (string) $address['postal_code'];
+    if (isset($address['zip'])) $params[":zip"] = (string) $address['zip'];
     if (isset($address['country_id'])) $params[":country_id"] = (int) $address['country_id'];
     if (isset($address['tel'])) $params[":tel"] = $address['tel'];
     if (isset($address['is_deleted'])) $params[":is_deleted"] = $address['is_deleted'];

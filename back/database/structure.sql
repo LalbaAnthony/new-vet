@@ -174,7 +174,7 @@ CREATE TABLE address(
         address2 VARCHAR (150),
         city VARCHAR (50) NOT NULL,
         region VARCHAR (50),
-        postal_code VARCHAR (6) NOT NULL,
+        zip VARCHAR (6) NOT NULL,
         country_id INT NOT NULL,
         tel VARCHAR (20),
         is_deleted BOOLEAN NOT NULL DEFAULT 0,

@@ -154,7 +154,7 @@ if (empty($urlId)) {
                     <select name="shipping_address_id" id="shipping_address_id" class="form-control" required>
                         <?php foreach ($addresses as $address) : ?>
                             <option value="<?= $address['address_id'] ?>" <?php if ($address['address_id'] == $order['shipping_address_id']) : ?> selected <?php endif; ?>>
-                                <?= $address['address1'] . " " . $address['address2'] . " " . $address['postal_code'] . " " . $address['city'] . " " . $address['region'] ?>
+                                <?= $address['address1'] . " " . $address['address2'] . " " . $address['zip'] . " " . $address['city'] . " " . $address['region'] ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -165,7 +165,7 @@ if (empty($urlId)) {
                     <select name="billing_address_id" id="billing_address_id" class="form-control" required>
                         <?php foreach ($addresses as $address) : ?>
                             <option value="<?= $address['address_id'] ?>" <?php if ($address['address_id'] == $order['billing_address_id']) : ?> selected <?php endif; ?>>
-                                <?= $address['address1'] . " " . $address['address2'] . " " . $address['postal_code'] . " " . $address['city'] . " " . $address['region'] ?>
+                                <?= $address['address1'] . " " . $address['address2'] . " " . $address['zip'] . " " . $address['city'] . " " . $address['region'] ?>
                             </option>
                         <?php endforeach; ?>
                     </select>

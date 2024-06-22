@@ -11,7 +11,7 @@
         <span>ID de commande #{{ props.order.order_id }}</span>
       </div>
       <p class="order-item__description">
-        Votre coli est arrivé à destination au Adresse, Ville, Pays.
+        Votre coli est arrivé à destination à {{ niceShippingAddress }}
       </p>
     </div>
     <div class="order-item__ctas">
@@ -26,6 +26,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 
 const props = defineProps({
   order: {
@@ -33,6 +34,31 @@ const props = defineProps({
     required: true,
   },
 })
+
+const niceShippingAddress = computed(() => {
+  let address = ''
+  if (props.order.shipping_address) {
+    if(props.order.shipping_address.address1) address += `${props.order.shipping_address.address1}, `
+    if(props.order.shipping_address.address2) address += `${props.order.shipping_address.address2}, `
+    if(props.order.shipping_address.zip) address += `${props.order.shipping_address.zip} `
+    if(props.order.shipping_address.city) address += `${props.order.shipping_address.city}`
+    if(props.order.shipping_address.country) address += `, ${props.order.shipping_address.country.name}`
+  }
+  return address
+})
+
+const niceBillingAddress = computed(() => {
+  let address = ''
+  if (props.order.billing_address) {
+    if(props.order.billing_address.address1) address += `${props.order.billing_address.address1}, `
+    if(props.order.billing_address.address2) address += `${props.order.billing_address.address2}, `
+    if(props.order.billing_address.zip) address += `${props.order.billing_address.zip} `
+    if(props.order.billing_address.city) address += `${props.order.billing_address.city}`
+    if(props.order.billing_address.country) address += `, ${props.order.billing_address.country.name}`
+  }
+  return address
+})
+
 </script>
 
 <style scoped>

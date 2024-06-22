@@ -64,7 +64,7 @@ function getMaterialsCount($search = null)
 {
 
     // Select all materials
-    $sql = "SELECT COUNT(*) as count FROM material";
+    $sql = "SELECT COUNT(DISTINCT material.slug) as count FROM material";
 
     // Use WHERE 1 = 1 to be able to add conditions with AND
     $sql .= " WHERE 1 = 1";
