@@ -15,11 +15,11 @@
       </p>
     </div>
     <div class="order-item__ctas">
-      <button class="button" @click="console.log('clicked')">
+      <button class="button" @click="$router.push(`/mon-compte/mes-commandes/${props.order.order_id}`)">
         Détails
       </button>
-      <button class="button outline" @click="console.log('clicked')">
-        Voir le produit
+      <button class="button outline"  @click="$router.push(`/contact?sujet=Problème au sujet de la commande #${props.order.order_id}`)">
+        Signaler
       </button>
     </div>
   </div>

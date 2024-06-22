@@ -15,7 +15,8 @@
                   </div>
                   <div class="form-group my-4">
                         <label for="message" class="hidden">Message</label>
-                        <textarea id="message" name="message" rows="6" placeholder="Message" v-model="message"></textarea>
+                        <textarea id="message" name="message" rows="6" placeholder="Message"
+                              v-model="message"></textarea>
                   </div>
                   <div class="checkbox-group">
                         <input type="checkbox" id="collectData" name="collectData" v-model="collectData" />
@@ -40,8 +41,10 @@ import router from "@/router";
 import { post } from '@/helpers/api';
 import { useAuthStore } from '@/stores/auth'
 import { SITE_NAME } from '@/config';
+import { useRoute } from "vue-router";
 
 const authStore = useAuthStore()
+const route = useRoute()
 
 const email = ref('');
 const subject = ref('');
@@ -81,6 +84,19 @@ async function sendForm() {
 }
 
 onMounted(() => {
+
+      // If user is authenticated, fill the email field with the user email
+      if (authStore.authenticated && authStore.user) {
+            document.querySelector(`label[for="email"]`).classList.remove('hidden'); // Trigger the label animation
+            email.value = authStore.user.email;
+      }
+
+      // If sujet in the query params, fill the subject field
+      if (route.query && route.query.sujet) {
+            document.querySelector(`label[for="subject"]`).classList.remove('hidden'); // Trigger the label animation
+            subject.value = route.query.sujet;
+      }
+
       // All mounted for fancy animation
       const fieldsId = ['subject', 'email', 'message'];
 
@@ -104,7 +120,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 .contact-form {
       display: flex;
       flex-direction: column;

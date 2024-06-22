@@ -3,7 +3,7 @@
     <h2 class="page-title">Détail de ma commande</h2>
     <Breadcrumb />
     <AccountLayout />
-    {{ route.params.id }}<br>
+    {{ route.params.order_id }}<br>
     {{ authStore.user }}
     
   </div>

@@ -87,8 +87,6 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
 
-    // echo Database::getRecomposedRequest($sql, $params);
-
     $result = Database::queryAll($sql, $params);
 
     return $result['data'];
@@ -154,8 +152,6 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
         $params[":like_search"] = "'%$search%'";
         $params[":soundex_search"] = "'$search'";
     }
-
-    // echo Database::getRecomposedRequest($sql, $params);
 
     $result = Database::queryOne($sql, $params);
 
