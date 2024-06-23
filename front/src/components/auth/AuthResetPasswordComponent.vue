@@ -15,7 +15,7 @@
     <PasswordStrength :password="password || confirmPassword" />
 
     <div class="form-actions">
-      <button class="button" @click="handleRegister()">Envoyer</button>
+      <button class="button" @click="handleResetPassword()">Envoyer</button>
     </div>
   </div>
 </template>
@@ -42,7 +42,7 @@ function valid() {
   return false
 }
 
-async function handleRegister() {
+async function handleResetPassword() {
   const error = valid()
   if (error) {
     notify(error, 'error')

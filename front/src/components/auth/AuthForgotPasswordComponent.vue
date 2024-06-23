@@ -5,7 +5,7 @@
       <input type="text" id="email" v-model="authStore.fogotPasswordEmail" />
     </div>
     <div class="form-actions">
-      <button class="button" @click="handleLogin()">Envoyer le code</button>
+      <button class="button" @click="handleForgotPassword()">Envoyer le code</button>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ function valid() {
   return false
 }
 
-async function handleLogin() {
+async function handleForgotPassword() {
   const error = valid()
   if (error) {
     notify(error, 'error')
