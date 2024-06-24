@@ -91,7 +91,7 @@ function getSumByCat( $category_slug = null , $date_jour = null )
 {
     
     $sql = "SELECT 
-    SUM(order_line.line_price) AS Prix, category.color FROM  order_line 
+    SUM(order_line.line_price) AS Prix, category.color  , category.libelle   FROM  order_line 
 INNER JOIN  product ON product.slug = order_line.product_slug 
 INNER JOIN  product_category ON product_category.product_slug = product.slug 
 INNER JOIN category ON category.slug = product_category.category_slug 
@@ -163,7 +163,8 @@ if (!$error && $date_start && $date_end) {
                 foreach ($result as $row) {
                     $SommeCommande[$date][$category['slug']] = [
                         'Prix' => $row['Prix'],
-                        'color' => $row['color'] ?? '#FFFFFF' // Default color if none found
+                        'color' => $row['color'] ?? '#FFFFFF' ,// Default color if none found
+                        'libelle'  => $row['libelle'] 
                     ];
                 }
             } else {
@@ -174,7 +175,7 @@ if (!$error && $date_start && $date_end) {
             }
         }
     }
-var_dump($SommeCommande);
+
 
     // Graphique historique des commandes
     if (count($salesByDay) > 0) {
@@ -268,7 +269,7 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
 
 <body>
     <main>
-        <?php include APP_PATH . "bo/partials/header.php"; ?>
+     <?php // include APP_PATH . "bo/partials/header.php"; ?> 
 
         <div>
             <!-- Infos & Alerts -->
@@ -369,20 +370,59 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
             <section class="col-md-4">
                 <h4 class="text-center">Historique des Commandes par Catégorie</h4>
                 <div class="my-4 d-flex justify-content-center">
+            
                 <div id="category-sales-by-day" class="chart d-flex">
     <?php foreach ($SommeCommande as $date => $categories): ?>
+        <?php 
+            $total = 0;
+            foreach ($categories as $data) {
+                $total += $data['Prix'];
+            }
+        ?>
         <div class="d-flex flex-column align-items-center mx-2">
-            <div class="d-flex flex-column-reverse" style="height: 300px;">
+            <?php if ($total > 0): ?>
+                <span style="font-weight: bold;"><?= round($total, 2) ?></span>
+            <?php else: ?>
+                <span style="visibility: hidden;">0</span> 
+            <?php endif; ?>
+            <div class="d-flex flex-column-reverse align-items-center" style="height: 300px;">
                 <?php foreach ($categories as $category => $data): ?>
-                    <div style="height: <?= $data['Prix'] * 10 ?>px; background-color: <?= $data['color'] ?>; width: 15px; margin: 1px;"></div>
+                    <?php if ($data['Prix'] > 0): ?>
+                        <div style="height: <?= $data['Prix'] * 10 ?>px; background-color: <?= $data['color'] ?>; width: 40px; margin: 1px; position: relative; display: flex; align-items: center; justify-content: center;">
+                            <span style="position: absolute; font-size: 10px; color: white;"><?= round($data['Prix'], 2) ?></span>
+                        </div>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </div>
             <span class="date-label"><?= fr_mindate($date); ?></span>
         </div>
     <?php endforeach; ?>
 </div>
+
+
                 </div>
+
+
+              <div class="legend d-flex flex-wrap justify-content-center mt-4">
+    <?php 
+    $unique_categories = [];
+    foreach ($SommeCommande as $date => $categories) {
+        foreach ($categories as $category => $data) {
+            if (!isset($unique_categories[$category]) && $data['color'] != '#FFFFFF') {
+                $unique_categories[$category] = $data;
+            }
+        }
+    }
+    foreach ($unique_categories as $category => $data): ?>
+        <div class="d-flex align-items-center mx-2 my-1">
+            <div class='p-2 rounded' style='background: <?= $data['color'] ?>; width: 15px; height: 15px;'></div>
+            <span class='mx-1'><?= $data['libelle'] ?? ucfirst($category) ?></span>
+        </div>
+    <?php endforeach; ?>
+</div>
+
             </section>
+            
         <?php endif; ?>
             
             </div>
