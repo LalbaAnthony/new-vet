@@ -269,7 +269,7 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
 
 <body>
     <main>
-     <?php // include APP_PATH . "bo/partials/header.php"; ?> 
+     <?php  include APP_PATH . "bo/partials/header.php"; ?> 
 
         <div>
             <!-- Infos & Alerts -->
