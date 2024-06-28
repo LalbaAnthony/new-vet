@@ -1,6 +1,6 @@
 <?php
 
-function get_post_dump()
+function print_post_dump()
 {
     if (isset($_POST) && !empty($_POST)) {
         echo '<h4 style="color: purple;">$_POST</h4>';
