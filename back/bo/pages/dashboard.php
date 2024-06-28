@@ -90,10 +90,10 @@ function getSumByCat($category_slug = null, $date = null)
 
     $sql = "SELECT 
     SUM(order_line.line_price) AS Prix, category.color FROM  order_line 
-    INNER JOIN  product ON product.slug = order_line.product_slug 
-    INNER JOIN  product_category ON product_category.product_slug = product.slug 
-    INNER JOIN category ON category.slug = product_category.category_slug 
-    INNER JOIN  `order` AS o ON o.order_id = order_line.order_id ";
+INNER JOIN  product ON product.slug = order_line.product_slug 
+INNER JOIN  product_category ON product_category.product_slug = product.slug 
+INNER JOIN category ON category.slug = product_category.category_slug 
+INNER JOIN  `order` AS o ON o.order_id = order_line.order_id ";
 
     $sql .= " WHERE 1 = 1";
 
@@ -157,7 +157,8 @@ if (!$error && $date_start && $date_end) {
                 foreach ($result as $row) {
                     $sommeCommande[$date][$category['slug']] = [
                         'Prix' => $row['Prix'],
-                        'color' => $row['color'] ?? '#FFFFFF' // Default color if none found
+                        'color' => $row['color'] ?? '#FFFFFF' ,// Default color if none found
+                        'libelle'  => $row['libelle'] 
                     ];
                 }
             } else {
@@ -168,6 +169,7 @@ if (!$error && $date_start && $date_end) {
             }
         }
     }
+var_dump($SommeCommande);
 
     // Graphique historique des commandes
     if (count($salesByDay) > 0) {
@@ -261,7 +263,7 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
 
 <body>
     <main>
-        <?php include APP_PATH . "bo/partials/header.php"; ?>
+     <?php  include APP_PATH . "bo/partials/header.php"; ?> 
 
         <div>
             <!-- Infos & Alerts -->
@@ -358,26 +360,27 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
                 </section>
             <?php endif; ?>
 
-            <?php if (count($sommeCommande) > 0) : ?>
-                <section class="col-md-4">
-                    <h4 class="text-center">Historique des Commandes par Catégorie</h4>
-                    <div class="my-4 d-flex justify-content-center">
-                        <div id="category-sales-by-day" class="chart d-flex">
-                            <?php foreach ($sommeCommande as $date => $categories) : ?>
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <div class="d-flex flex-column-reverse" style="height: 300px;">
-                                        <?php foreach ($categories as $category => $data) : ?>
-                                            <div style="height: <?= $data['Prix'] * 10 ?>px; background-color: <?= $data['color'] ?>; width: 15px; margin: 1px;"></div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <span class="date-label"><?= fr_mindate($date); ?></span>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </section>
-            <?php endif; ?>
+            <?php if (count($SommeCommande) > 0) : ?>
+            <section class="col-md-4">
+                <h4 class="text-center">Historique des Commandes par Catégorie</h4>
+                <div class="my-4 d-flex justify-content-center">
+                <div id="category-sales-by-day" class="chart d-flex">
+    <?php foreach ($SommeCommande as $date => $categories): ?>
+        <div class="d-flex flex-column align-items-center mx-2">
+            <div class="d-flex flex-column-reverse" style="height: 300px;">
+                <?php foreach ($categories as $category => $data): ?>
+                    <div style="height: <?= $data['Prix'] * 10 ?>px; background-color: <?= $data['color'] ?>; width: 15px; margin: 1px;"></div>
+                <?php endforeach; ?>
+            </div>
+            <span class="date-label"><?= fr_mindate($date); ?></span>
         </div>
+    <?php endforeach; ?>
+</div>
+                </div>
+            </section>
+        <?php endif; ?>
+            
+            </div>
     </main>
 </body>
 
