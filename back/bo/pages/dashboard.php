@@ -9,7 +9,7 @@ include_once APP_PATH . "helpers/diff_days.php";
 
 function getSalesByDay($date_start = null, $date_end = null)
 {
-    
+
     $sql = "SELECT DATE(order_date) AS day,
     COUNT(*) AS nbSales
     FROM `order`";
@@ -32,7 +32,7 @@ function getSalesByDay($date_start = null, $date_end = null)
 
 function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = null)
 {
-    
+
     $sql = "SELECT c.slug AS category_slug, c.libelle AS category_libelle, DATE(order_date) AS day, AVG(p.price) AS avg_cart
     FROM category c
     LEFT JOIN product_category pc ON c.slug = pc.category_slug
@@ -55,13 +55,13 @@ function getAvgCartByCat($date_start = null, $date_end = null, $category_slug = 
     if ($date_end) $params[':date_end'] = $date_end;
 
     $result = Database::queryAll($sql, $params);
-    
+
     return $result['data'];
 }
 
 function getOrderCountByCategories($date_start = null, $date_end = null)
 {
-    
+
     $sql = "SELECT c.slug AS category_slug, c.libelle AS category_name, COUNT(op.order_id) AS order_nb, c.color AS color
     FROM category c 
     LEFT JOIN product_category pc ON c.slug = pc.category_slug
@@ -85,31 +85,29 @@ function getOrderCountByCategories($date_start = null, $date_end = null)
     return $result['data'];
 }
 
-
-
-function getSumByCat( $category_slug = null , $date_jour = null )
+function getSumByCat($category_slug = null, $date = null)
 {
-    
+
     $sql = "SELECT 
     SUM(order_line.line_price) AS Prix, category.color FROM  order_line 
-INNER JOIN  product ON product.slug = order_line.product_slug 
-INNER JOIN  product_category ON product_category.product_slug = product.slug 
-INNER JOIN category ON category.slug = product_category.category_slug 
-INNER JOIN  `order` AS o ON o.order_id = order_line.order_id ";
+    INNER JOIN  product ON product.slug = order_line.product_slug 
+    INNER JOIN  product_category ON product_category.product_slug = product.slug 
+    INNER JOIN category ON category.slug = product_category.category_slug 
+    INNER JOIN  `order` AS o ON o.order_id = order_line.order_id ";
 
-$sql .= " WHERE 1 = 1";
+    $sql .= " WHERE 1 = 1";
 
-if ($category_slug) $sql .= " AND product_category.category_slug = :category_slug";
-if ($date_jour) $sql .= " AND DATE(o.order_date) = :date_jour";
+    if ($category_slug) $sql .= " AND product_category.category_slug = :category_slug";
+    if ($date) $sql .= " AND DATE(o.order_date) = :date";
 
-$params = array();
-if ($category_slug) $params[':category_slug'] = $category_slug;
-if ($date_jour) $params[':date_jour'] = $date_jour;
+    $params = array();
+    if ($category_slug) $params[':category_slug'] = $category_slug;
+    if ($date) $params[':date'] = $date;
 
-//echo $sql ; 
-//var_dump($params);
+    //echo $sql ; 
+    //var_dump($params);
     $result = Database::queryAll($sql, $params);
-    
+
     return $result['data'];
 }
 
@@ -136,45 +134,40 @@ if ($date_start && $date_end) {
     $date_end = date("Y-m-d");
 }
 
+$salesByDay = array();
 $orderCountByCategories = array();
 $avgCartByCat = array();
-$salesByDay = array();
-$SommeCommande = array();
+$sommeCommande = array();
 
 if (!$error && $date_start && $date_end) {
 
-
-
+    $salesByDay = getSalesByDay($date_start, $date_end);
     $orderCountByCategories = getOrderCountByCategories($date_start, $date_end);
     $categories = getCategories(null, false, false, null, null, array(array('order' => 'ASC', 'order_by' => 'sort_order')), null, 9999999);
-    $salesByDay = getSalesByDay($date_start, $date_end);
-   
 
     //Graphique prix moyen par categories 
+    $categories = getCategories();
+    $dates = dates_between($date_start, $date_end);
 
-    $categories = getCategories(); 
-    $date_jour = dates_between($date_start,$date_end);
-    
-    foreach ($date_jour as $date) {
-        $SommeCommande[$date] = array();
+    foreach ($dates as $date) {
+        $sommeCommande[$date] = array();
         foreach ($categories as $category) {
             $result = getSumByCat($category['slug'], $date);
             if (!empty($result)) {
                 foreach ($result as $row) {
-                    $SommeCommande[$date][$category['slug']] = [
+                    $sommeCommande[$date][$category['slug']] = [
                         'Prix' => $row['Prix'],
                         'color' => $row['color'] ?? '#FFFFFF' // Default color if none found
                     ];
                 }
             } else {
-                $SommeCommande[$date][$category['slug']] = [
+                $sommeCommande[$date][$category['slug']] = [
                     'Prix' => 0,
                     'color' => '#FFFFFF' // Default color if none found
                 ];
             }
         }
     }
-var_dump($SommeCommande);
 
     // Graphique historique des commandes
     if (count($salesByDay) > 0) {
@@ -203,7 +196,6 @@ var_dump($SommeCommande);
 
     // Graphique panier moyen par catégorie
     if (count($categories) > 0) {
-
         foreach ($categories as $category) {
             $avg = getAvgCartByCat($date_start, $date_end, $category['slug']);
             if (count($avg) > 0) {
@@ -250,6 +242,7 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
 // dd($salesByDay);
 // dd($avgCartByCat);
 // dd($orderCountByCategories);
+// dd($sommeCommande);
 
 ?>
 
@@ -340,7 +333,7 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
                             <?php endif; ?>
                         </div>
                     </div>
-            
+
                 </section>
             <?php endif; ?>
 
@@ -365,27 +358,26 @@ if (count($orderCountByCategories) === 0 && count($avgCartByCat) === 0 && count(
                 </section>
             <?php endif; ?>
 
-            <?php if (count($SommeCommande) > 0) : ?>
-            <section class="col-md-4">
-                <h4 class="text-center">Historique des Commandes par Catégorie</h4>
-                <div class="my-4 d-flex justify-content-center">
-                <div id="category-sales-by-day" class="chart d-flex">
-    <?php foreach ($SommeCommande as $date => $categories): ?>
-        <div class="d-flex flex-column align-items-center mx-2">
-            <div class="d-flex flex-column-reverse" style="height: 300px;">
-                <?php foreach ($categories as $category => $data): ?>
-                    <div style="height: <?= $data['Prix'] * 10 ?>px; background-color: <?= $data['color'] ?>; width: 15px; margin: 1px;"></div>
-                <?php endforeach; ?>
-            </div>
-            <span class="date-label"><?= fr_mindate($date); ?></span>
+            <?php if (count($sommeCommande) > 0) : ?>
+                <section class="col-md-4">
+                    <h4 class="text-center">Historique des Commandes par Catégorie</h4>
+                    <div class="my-4 d-flex justify-content-center">
+                        <div id="category-sales-by-day" class="chart d-flex">
+                            <?php foreach ($sommeCommande as $date => $categories) : ?>
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <div class="d-flex flex-column-reverse" style="height: 300px;">
+                                        <?php foreach ($categories as $category => $data) : ?>
+                                            <div style="height: <?= $data['Prix'] * 10 ?>px; background-color: <?= $data['color'] ?>; width: 15px; margin: 1px;"></div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <span class="date-label"><?= fr_mindate($date); ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </section>
+            <?php endif; ?>
         </div>
-    <?php endforeach; ?>
-</div>
-                </div>
-            </section>
-        <?php endif; ?>
-            
-            </div>
     </main>
 </body>
 
