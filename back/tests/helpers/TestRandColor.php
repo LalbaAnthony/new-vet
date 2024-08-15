@@ -1,7 +1,6 @@
 
 <?php
 
-include_once APP_PATH . 'tests/Test.php';
 include_once APP_PATH . 'helpers/rand_color.php';
 
 class TestRandColor extends Test
