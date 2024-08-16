@@ -1,3 +1,4 @@
+
 import { defineStore } from 'pinia'
 import { get, post } from '@/helpers/api';
 import { notify } from '@/helpers/notif.js'
@@ -20,7 +21,7 @@ export const useAuthStore = defineStore('auth',
       orders: {
         loading: false,
         data: [],
-        pagination: { page: 1, per_page: 10, total: 1 },
+        pagination: { page: 1, per_page: 5, total: 1 },
       },
       authModal: {
         type: 'login',
@@ -345,7 +346,7 @@ export const useAuthStore = defineStore('auth',
           customer_id: this.user.customer_id,
           token: this.token || this.user.connection_token,
           page: this.orders.pagination.page || 1,
-          per_page: this.orders.pagination.per_page || 10,
+          per_page: this.orders.pagination.per_page || 5,
           sort: [
             { order: 'DESC', order_by: 'order_date' }
           ],
@@ -355,7 +356,7 @@ export const useAuthStore = defineStore('auth',
   
         const resp = await get('customer/orders', params);
         this.orders.data = resp.data || [];
-        this.orders.pagination = resp.pagination || { page: 1, per_page: 10, total: 1 };
+        this.orders.pagination = resp.pagination || { page: 1, per_page: 5, total: 1 };
         
         // Loading
         this.orders.loading = false

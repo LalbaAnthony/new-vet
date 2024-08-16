@@ -1,2 +1,8 @@
+# Logs files
 log.txt
 logs.txt
+
+# Email files
+last_email.txt
+email.txt
+emails.txt

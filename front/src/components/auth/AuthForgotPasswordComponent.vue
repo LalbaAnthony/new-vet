@@ -19,6 +19,9 @@ const authStore = useAuthStore()
 
 function valid() {
   // return false; // ? uncomment this line to enable form validation
+  
+  authStore.fogotPasswordEmail = authStore.fogotPasswordEmail.trim()
+
   if (authStore.fogotPasswordEmail.length < 1) return 'Veuillez entrer votre adresse e-mail'
   if (!isValidEmail(authStore.fogotPasswordEmail))
     return 'Veuillez entrer une adresse e-mail valide'

@@ -23,6 +23,7 @@ define('DB_NAME', 'new-vet');
 /**
  * Paramètre de l'envoi d'email
  */
+define('EMAIL_FAKE', true); // ? Put email text in a file instead of sending it
 define('EMAIL_FROM', 'noreply@new-vet.com');
 
 /**

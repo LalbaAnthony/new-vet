@@ -190,7 +190,7 @@ if (!$error && $date_start && $date_end) {
     }
 }
 
-if (count($salesByDay) === 0 && count($orderCountByCategories) === 0 && count($ordersByCat) === 0) {
+if (count($salesByDay) === 0 && count($orderCountByCategories) === 0 && (count($ordersByCat) === 0 || $ordersByCatEmpty)) {
     $info = "Aucune donnée à afficher";
 }
 

@@ -35,6 +35,11 @@ const confirmPassword = ref('')
 
 function valid() {
   // return false; // ? uncomment this line to enable form validation
+  
+  code.value = code.value.trim()
+  password.value = password.value.trim()
+  confirmPassword.value = confirmPassword.value.trim()
+
   if (!code.value) return 'Veuillez entrer le code reçu par e-mail'
   if (password.value.length < 1) return 'Veuillez entrer votre mot de passe'
   if (password.value !== confirmPassword.value) return 'Les mots de passe ne correspondent pas'

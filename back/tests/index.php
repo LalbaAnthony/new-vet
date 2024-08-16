@@ -36,6 +36,9 @@ include_once APP_PATH . 'tests/helpers/TestTokenGen.php';
 
 include_once APP_PATH . 'tests/utils/TestDatabase.php';
 
+include_once APP_PATH . 'helpers/email.php';
+email('test@gmail.com', 'Test', 'Test');
+
 echo "<pre>";
 
 // CONTROLLERS

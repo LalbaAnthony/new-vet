@@ -27,6 +27,10 @@ const password = ref('');
 
 function valid() {
       // return false; // ? uncomment this line to enable form validation
+      
+      email.value = email.value.trim();
+      password.value = password.value.trim();
+
       if (password.value.length < 1) return "Veuillez entrer votre mot de passe";
       if (email.value.length < 1) return "Veuillez entrer votre adresse e-mail";
       if (!isValidEmail(email.value)) return "Veuillez entrer une adresse e-mail valide";
