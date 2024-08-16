@@ -25,7 +25,7 @@ class TestProduct extends Test
 
         // Tests if the items are not empty
         $this->assertType($products, 'array');
-        $this->assertEqual(count($products), $per_page);
+        $this->assertEqual(count($products), $per_page, 'Number of items is not equal to per_page.');
         $this->assertArrayNotEmpty($products);
     }
 }

@@ -7,5 +7,11 @@ class TestAdmin extends Test
 {
     public function getItems()
     {
+        // Get items
+        $admins = getAdmins();
+
+        // Tests if the items are not empty
+        $this->assertType($admins, 'array');
+        $this->assertArrayNotEmpty($admins);
     }
 }

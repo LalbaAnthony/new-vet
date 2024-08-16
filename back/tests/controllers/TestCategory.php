@@ -22,7 +22,7 @@ class TestCategory extends Test
 
         // Tests if the items are not empty
         $this->assertType($categories, 'array');
-        $this->assertEqual(count($categories), $per_page);
+        $this->assertEqual(count($categories), $per_page, 'Number of items is not equal to per_page.');
         $this->assertArrayNotEmpty($categories);
     }
 }

@@ -47,7 +47,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Array is not empty.");
+            array_push($this->errors, $message . " Array is not empty.");
             return false;
         }
     }
@@ -67,7 +67,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Array is empty.");
+            array_push($this->errors, $message . " Array is empty.");
             return false;
         }
     }
@@ -86,7 +86,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Expected: $expected, Got: $actual");
+            array_push($this->errors, $message . " Expected: $expected, Got: $actual");
             return false;
         }
     }
@@ -105,7 +105,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Expected not: $expected, Got: $actual");
+            array_push($this->errors, $message . " Expected not: $expected, Got: $actual");
             return false;
         }
     }
@@ -124,7 +124,7 @@ class Test
 
         if (!in_array($expectedType, $popssiblesTypes)) {
             $this->failed++;
-            array_push($this->errors, $message . "Invalid type.");
+            array_push($this->errors, $message . " Invalid type.");
             return false;
         }
 
@@ -133,7 +133,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Expected type: $expectedType, Got type: " . gettype($actualData));
+            array_push($this->errors, $message . " Expected type: $expectedType, Got type: " . gettype($actualData));
             return false;
         }
     }
@@ -151,7 +151,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Condition is false.");
+            array_push($this->errors, $message . " Condition is false.");
             return false;
         }
     }
@@ -169,7 +169,7 @@ class Test
             return true;
         } else {
             $this->failed++;
-            array_push($this->errors, $message . "Condition is true.");
+            array_push($this->errors, $message . " Condition is true.");
             return false;
         }
     }

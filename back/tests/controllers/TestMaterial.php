@@ -19,7 +19,7 @@ class TestMaterial extends Test
 
         // Tests if the items are not empty
         $this->assertType($materials, 'array');
-        $this->assertEqual(count($materials), $per_page);
+        $this->assertEqual(count($materials), $per_page, 'Number of items is not equal to per_page.');
         $this->assertArrayNotEmpty($materials);
     }
 }

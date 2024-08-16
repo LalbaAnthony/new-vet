@@ -7,5 +7,6 @@ class TestCard extends Test
 {
     public function getItems()
     {
+        // ...
     }
 }

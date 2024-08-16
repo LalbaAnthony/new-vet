@@ -20,7 +20,7 @@ class TestOrder extends Test
 
         // Tests if the items are not empty
         $this->assertType($orders, 'array');
-        $this->assertEqual(count($orders), $per_page);
+        $this->assertEqual(count($orders), $per_page, 'Number of items is not equal to per_page.');
         $this->assertArrayNotEmpty($orders);
     }
 }

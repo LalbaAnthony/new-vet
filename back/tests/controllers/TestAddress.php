@@ -7,5 +7,6 @@ class TestAddress extends Test
 {
     public function getItems()
     {
+        // ...
     }
 }
