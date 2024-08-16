@@ -12,7 +12,7 @@ class Database
     private static $dbUser = DB_USER;
     private static $dbPass = DB_PASSWORD;
 
-    // ? Might need to add elemnts to these arrays, if error on the type
+    // ? Might need to add elements to these arrays, if error on the type
     private static $forcedStringParams = array(':email', ':password', ':token', ':code', ':name', ':libelle');
     private static $forcedIntParams = array(':per_page', ':offset', ':customer_id', ':admin_id');
     private static $forcedBoolParams = array(':is_deleted');
@@ -53,11 +53,11 @@ class Database
      * @param array $params Les paramètres à remplacer dans la requête.
      * @return void
      */
-    public static function getRecomposedRequest(string $query, array $params)
+    private static function getRecomposedRequest(string $query, array $params)
     {
         $recomposedQuery = $query;
         foreach ($params as $key => $value) {
-            $recomposedQuery = str_replace($key, $value, $recomposedQuery);
+            $recomposedQuery = str_replace($key, "\"" . $value . "\"", $recomposedQuery);
         }
         return $recomposedQuery;
     }
@@ -70,7 +70,7 @@ class Database
      * @param mixed $error L'erreur survenue (facultatif).
      * @return void
      */
-    private static function displayRequestInfos(string $query, array $params, $error = null)
+    public static function displayRequestInfos(string $query, array $params, $error = null)
     {
         // ? Can be very useful to debug SQL queries. 
         // ? Request can so be easily copied and pasted in a Chat GPT to get help.

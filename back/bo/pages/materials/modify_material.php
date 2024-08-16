@@ -6,10 +6,6 @@ include_once APP_PATH . "controllers/material.php";
 // Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
-if (empty($urlSlug)) {
-    header('Location: ' . APP_URL . 'bo/pages/materials/index.php');
-}
-
 $material = getMaterial($urlSlug);
 
 // Modification dans la base
@@ -25,6 +21,10 @@ if (isset($_POST['submit'])) {
 
     // Redirection vers la liste des produits
     header('Location: ' . APP_URL . 'bo/pages/materials/index.php?updated=' . $success);
+}
+
+if (empty($urlSlug)) {
+    // header('Location: ' . APP_URL . 'bo/pages/materials/index.php');
 }
 
 ?>

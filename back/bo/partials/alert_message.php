@@ -51,6 +51,9 @@
 <script>
     // Supprime les messages d'alerte après 5 secondes
     setTimeout(function() {
-        document.querySelector('.alert').remove();
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            if (alert) alert.remove();
+        });
     }, 5000);
 </script>

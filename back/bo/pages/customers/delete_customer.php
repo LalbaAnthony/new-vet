@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
 }
 
 if (empty($idCustomer)) {
-    header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
+    // header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
 }
 
 ?>

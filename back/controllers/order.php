@@ -174,14 +174,14 @@ function putToTrashOrder($order_id)
 
 function insertOrder($order)
 {
-    $sql = "INSERT INTO `order` (customer_id, status_id, order_date, total_price, shipping_address_id, billing_address_id, payment_method, payment_status, is_deleted) 
-    VALUES (:customer_id, :status_id, :order_date, :total_price, :shipping_address_id, :billing_address_id, :payment_method, :payment_status, 0);";
+    $sql = "INSERT INTO `order` (customer_id, status_id, order_date, total_amount, shipping_address_id, billing_address_id, payment_method, payment_status, is_deleted) 
+    VALUES (:customer_id, :status_id, :order_date, :total_amount, :shipping_address_id, :billing_address_id, :payment_method, :payment_status, 0);";
 
     $params = array(
         ":customer_id" => $order['customer_id'],
         ":status_id" => $order['status_id'],
         ":order_date" => $order['order_date'],
-        ":total_price" => $order['total_price'],
+        ":total_amount" => $order['total_amount'],
         ":shipping_address_id" => $order['shipping_address_id'],
         ":billing_address_id" => $order['billing_address_id'],
         ":payment_method" => $order['payment_method'],
@@ -205,7 +205,7 @@ function updateOrder($order)
     if (isset($order['customer_id'])) $sql .= " customer_id = :customer_id,";
     if (isset($order['status_id'])) $sql .= " status_id = :status_id,";
     if (isset($order['order_date'])) $sql .= " order_date = :order_date,";
-    if (isset($order['total_price'])) $sql .= " total_price = :total_price,";
+    if (isset($order['total_amount'])) $sql .= " total_amount = :total_amount,";
     if (isset($order['shipping_address_id'])) $sql .= " shipping_address_id = :shipping_address_id,";
     if (isset($order['billing_address_id'])) $sql .= " billing_address_id = :billing_address_id,";
     if (isset($order['payment_method'])) $sql .= " payment_method = :payment_method,";
@@ -220,7 +220,7 @@ function updateOrder($order)
     if (isset($order['customer_id'])) $params[":customer_id"] = $order['customer_id'];
     if (isset($order['status_id'])) $params[":status_id"] = $order['status_id'];
     if (isset($order['order_date'])) $params[":order_date"] = $order['order_date'];
-    if (isset($order['total_price'])) $params[":total_price"] = $order['total_price'];
+    if (isset($order['total_amount'])) $params[":total_amount"] = $order['total_amount'];
     if (isset($order['shipping_address_id'])) $params[":shipping_address_id"] = $order['shipping_address_id'];
     if (isset($order['billing_address_id'])) $params[":billing_address_id"] = $order['billing_address_id'];
     if (isset($order['payment_method'])) $params[":payment_method"] = $order['payment_method'];

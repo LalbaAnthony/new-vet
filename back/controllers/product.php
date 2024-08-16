@@ -310,7 +310,7 @@ function updateProduct($product)
 
     $result = Database::queryInsert($sql, $params);
 
-    if ($result['lastInsertId'] > 0) {
+    if ($result['lastInsertId'] || $result['success']) {
         log_txt("Product updated in back office: slug " . $product['slug']);
         return true;
     } else {
@@ -324,7 +324,6 @@ function updateProductCategories($product_slug, $categories)
     if (count(array_filter($categories)) == 0) {
         return false;
     }
-
 
     // Delete all categories for this prBF05W1HU5Joduct
     $sql = "UPDATE product_category SET is_deleted = 1 WHERE product_slug = :product_slug";

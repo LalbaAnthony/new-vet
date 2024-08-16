@@ -166,6 +166,7 @@ if (!$error && $date_start && $date_end) {
     }
 
     // Graphique de l'historique des commandes par catégorie
+    $ordersByCatEmpty = true;
     $categories = getCategories(null, false, false, null, null, array(array('order' => 'ASC', 'order_by' => 'sort_order')), null, 9999999);
     foreach (dates_between($date_start, $date_end) as $date) {
         $ordersByCat[$date] = array();
@@ -177,6 +178,7 @@ if (!$error && $date_start && $date_end) {
                         'price' => $row['price'],
                         'color' => $row['color'] ?? '#FFFFFF'
                     ];
+                    if ($row['price'] > 0) $ordersByCatEmpty = false;
                 }
             } else {
                 $ordersByCat[$date][$category['slug']] = [
@@ -191,10 +193,6 @@ if (!$error && $date_start && $date_end) {
 if (count($salesByDay) === 0 && count($orderCountByCategories) === 0 && count($ordersByCat) === 0) {
     $info = "Aucune donnée à afficher";
 }
-
-// dd($salesByDay);
-// dd($orderCountByCategories);
-// dd($ordersByCat);
 
 ?>
 
@@ -308,7 +306,7 @@ if (count($salesByDay) === 0 && count($orderCountByCategories) === 0 && count($o
                 </section>
             <?php endif; ?>
 
-            <?php if (count($ordersByCat) > 0) : ?>
+            <?php if (count($ordersByCat) > 0 && !$ordersByCatEmpty) : ?>
                 <section class="col-md-4">
                     <h4 class="text-center">Historique des Commandes par Catégorie</h4>
                     <div class="my-4 d-flex justify-content-center">

@@ -5,10 +5,6 @@ include_once APP_PATH . "controllers/customer.php";
 
 $urlId = isset($_GET['id']) ? $_GET['id'] : '';
 
-if (empty($urlId)) {
-    header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
-}
-
 $customer = getCustomer($urlId);
 
 // Retrait du mot de passe, pour des raisons de sécurité
@@ -30,6 +26,11 @@ if (isset($_POST['submit'])) {
     // Redirection vers la liste des clients
     header('Location: ' . APP_URL . 'bo/pages/customers/index.php?updated=' . $sucess);
 }
+
+if (empty($urlId)) {
+    // header('Location: ' . APP_URL . 'bo/pages/customers/index.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">

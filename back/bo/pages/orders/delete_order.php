@@ -18,9 +18,8 @@ if (isset($_POST['submit'])) {
 }
 
 if (empty($urlId)) {
-    header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
+    // header('Location: ' . APP_URL . 'bo/pages/orders/index.php');
 }
-
 
 ?>
 <!DOCTYPE html>
