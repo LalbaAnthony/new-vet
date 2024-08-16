@@ -4,7 +4,7 @@
       <div class="hero-content">
         <h1 class="hero-title">{{ SITE_NAME }}</h1>
         <p>Le site de vente en ligne de vêtement pour femme.</p>
-        <button class="button outline">Découvrir</button>
+        <router-link to="/produits" class="button outline">Découvrir</router-link>
       </div>
       <div class="hero-images">
         <img src="/images/hero/hero-image-medium.webp" :alt="`Image de banière de ${SITE_NAME}`" />

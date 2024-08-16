@@ -3,11 +3,11 @@
 
 include_once APP_PATH . 'controllers/category.php';
 
-class TestCategories extends Test
+class TestCategory extends Test
 {
-    public function doesTableHaveLines()
+    public function getItems()
     {
-        // Get categories
+        // Get items
         $search =  '';
         $sort =  array(array('order' => 'ASC', 'order_by' => 'sort_order'), array('order' => 'ASC', 'order_by' => 'libelle'));
         $is_highlander =  false;
@@ -20,7 +20,9 @@ class TestCategories extends Test
         $offset = ($page - 1) * $per_page;
         $categories = getCategories($search, $is_highlander, $is_quick_access, $exclude, $include, $sort, $offset, $per_page);
 
-        // Tests
+        // Tests if the items are not empty
+        $this->assertType($categories, 'array');
+        $this->assertEqual(count($categories), $per_page);
         $this->assertArrayNotEmpty($categories);
     }
 }

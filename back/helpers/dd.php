@@ -1,6 +1,6 @@
 <?php
 
-function dd($var)
+function dd(mixed $var)
 {
     $args = func_get_args();
 

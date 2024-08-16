@@ -4,11 +4,8 @@
 require_once "../config.inc.php";
 include_once APP_PATH . 'controllers/status.php';
 
-$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'created_at';
-$order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
-
 $json = array();
-$statuses = getStatuses($order_by, $order);
+$statuses = getStatuses();
 
 if (count($statuses) > 0) {
   $json['status'] = 200;

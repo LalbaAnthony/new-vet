@@ -4,9 +4,20 @@
 
 require_once "../config.inc.php";
 
-include_once APP_PATH . 'tests/Test.php';
+include_once APP_PATH . 'tests/base/Test.php';
 
-include_once APP_PATH . 'tests/controllers/TestCategories.php';
+include_once APP_PATH . 'tests/controllers/TestAddress.php';
+include_once APP_PATH . 'tests/controllers/TestAdmin.php';
+include_once APP_PATH . 'tests/controllers/TestCard.php';
+include_once APP_PATH . 'tests/controllers/TestCategory.php';
+include_once APP_PATH . 'tests/controllers/TestContact.php';
+include_once APP_PATH . 'tests/controllers/TestCountry.php';
+include_once APP_PATH . 'tests/controllers/TestCustomer.php';
+include_once APP_PATH . 'tests/controllers/TestImage.php';
+include_once APP_PATH . 'tests/controllers/TestMaterial.php';
+include_once APP_PATH . 'tests/controllers/TestOrder.php';
+include_once APP_PATH . 'tests/controllers/TestProduct.php';
+include_once APP_PATH . 'tests/controllers/TestStatus.php';
 
 include_once APP_PATH . 'tests/helpers/TestDatesBetween.php';
 include_once APP_PATH . 'tests/helpers/TestDiffDays.php';
@@ -23,15 +34,71 @@ include_once APP_PATH . 'tests/helpers/TestSlugify.php';
 include_once APP_PATH . 'tests/helpers/TestThreeDotsString.php';
 include_once APP_PATH . 'tests/helpers/TestTokenGen.php';
 
+include_once APP_PATH . 'tests/utils/TestDatabase.php';
+
 echo "<pre>";
 
 // CONTROLLERS
 
-$test = new TestCategories('TestCategories');
-$test->doesTableHaveLines();
+echo "\n\n";
+echo "======================================================================================================================================================\n";
+echo "CONTROLLERS\n";
+echo "======================================================================================================================================================\n";
+
+$test = new TestAddress('TestAddress');
+$test->getItems();
 $test->printReport();
 
-// HERLPERS
+$test = new TestAdmin('TestAdmin');
+$test->getItems();
+$test->printReport();
+
+$test = new TestCard('TestCard');
+$test->getItems();
+$test->printReport();
+
+$test = new TestCategory('TestCategory');
+$test->getItems();
+$test->printReport();
+
+$test = new TestContact('TestContact');
+$test->getItems();
+$test->printReport();
+
+$test = new TestCountry('TestCountry');
+$test->getItems();
+$test->printReport();
+
+$test = new TestCustomer('TestCustomer');
+$test->getItems();
+$test->printReport();
+
+$test = new TestImage('TestImage');
+$test->getItems();
+$test->printReport();
+
+$test = new TestMaterial('TestMaterial');
+$test->getItems();
+$test->printReport();
+
+$test = new TestOrder('TestOrder');
+$test->getItems();
+$test->printReport();
+
+$test = new TestProduct('TestProduct');
+$test->getItems();
+$test->printReport();
+
+$test = new TestStatus('TestStatus');
+$test->getItems();
+$test->printReport();
+
+// HELPERS
+
+echo "\n\n";
+echo "======================================================================================================================================================\n";
+echo "HELPERS\n";
+echo "======================================================================================================================================================\n";
 
 $test = new TestDatesBetween('TestDatesBetween');
 $test->main();
@@ -87,6 +154,17 @@ $test->printReport();
 
 $test = new TestTokenGen('TestTokenGen');
 $test->main();
+$test->printReport();
+
+// UTILS
+
+echo "\n\n";
+echo "======================================================================================================================================================\n";
+echo "UTILS\n";
+echo "======================================================================================================================================================\n";
+
+$test = new TestDatabase('TestDatabase');
+$test->doesDatabaseConnect();
 $test->printReport();
 
 echo "</pre>";

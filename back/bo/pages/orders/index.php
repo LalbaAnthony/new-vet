@@ -25,7 +25,7 @@ $offset = ($page - 1) * $per_page;
 $maxPage = ceil($orders_count / $per_page);
 
 // Fetch orders with sorting
-$orders = getOrders(null, null, null, null, $sort, $offset, $per_page);
+$orders = getOrders(null, null, null, $search, $sort, $offset, $per_page);
 
 // Bottom action: delete selected orders, ...
 if (isset($_GET['delete']) && isset($_GET['selected_orders'])) {

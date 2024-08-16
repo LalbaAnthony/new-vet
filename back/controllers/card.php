@@ -11,19 +11,22 @@ function getCard($card_id)
     return $result['data'];
 }
 
-function getCards()
+function getCards($customer_id = null)
 {
     $sql = "SELECT * FROM card";
 
     $sql .= " WHERE is_deleted = 0";
 
-    $sql .= " ORDER BY sort_order ASC";
+    // Filter by customer_id
+    if ($customer_id) $sql .= " AND customer_id = :customer_id";
 
-    $result = Database::queryAll($sql)['data'];
+    $params = array();
+    if ($customer_id) $params[":customer_id"] = $customer_id;
+
+    $result = Database::queryAll($sql);
 
     return $result['data'];
 }
-
 
 function insertCard($card)
 {

@@ -379,4 +379,34 @@ class Database
             'error' => $error
         );
     }
+
+    /**
+     * Récupère le nom de la base de données.
+     * 
+     * @return array Un tableau contenant le statut de succès et l'erreur éventuelle.
+     */
+    public static function queryGetDbName()
+    {
+        self::connect();
+
+        $success = true;
+        $error = null;
+
+        try {
+            $query = "SELECT DATABASE() AS db_name";
+            $statement = self::$connection->prepare($query);
+            $statement->execute();
+            $data = $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $success = false;
+            $error = $e->getMessage();
+            self::handleError($query, array(), $error);
+        }
+
+        return array(
+            'success' => $success,
+            'data' => $data,
+            'error' => $error
+        );
+    }
 }
