@@ -30,6 +30,7 @@ define('EMAIL_FROM', 'noreply@new-vet.com');
  * Paramètre de l'application
  */
 define('APP_NAME', 'NEW VET');
+define('COMPANY_NAME', 'NEW VET');
 define('APP_DEBUG', true); // ? enable for development, disable for production
 
 /**

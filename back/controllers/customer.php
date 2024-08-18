@@ -39,7 +39,7 @@ function setResetPasswordCodeByEmail($email, $code = null)
 
     if ($result['success']) {
         log_txt("Reset password code set in customer: email $email code $code");
-        return true;
+        return $code;
     } else {
         return false;
     }

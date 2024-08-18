@@ -3,6 +3,7 @@
 require_once "../../config.inc.php";
 include_once APP_PATH . 'controllers/customer.php';
 include_once APP_PATH . 'helpers/token_gen.php';
+include_once APP_PATH . 'helpers/email.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
 
@@ -43,8 +44,11 @@ if (!$error) {
 if (!$error) {
     $customer["password"] = password_hash($customer["password"], PASSWORD_DEFAULT);
     $error = insertCustomer($customer);
-    setHasValidateEmailTokenByEmail($customer["email"]);
-    // TODO: send email with code here
+
+    $code = setHasValidateEmailTokenByEmail($customer["email"]);
+    $subject = "Validation de votre email";
+    $message = "Bonjour,<br><br>Voici votre code de validation d'email: $code<br><br>Cordialement,<br>L'équipe de " . COMPANY_NAME;
+    email($email, $subject, $message);
 }
 
 // send contact to db
