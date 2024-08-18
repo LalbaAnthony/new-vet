@@ -42,11 +42,11 @@
         </div>
         <hr />
         <ul>
-          <li :class="[route.query.sort === 'created_at-desc' ? 'selected' : '']"
-            @click="toggleSort('created_at-desc')">
+          <li :class="[route.query.sort === 'order_date-desc' ? 'selected' : '']"
+            @click="toggleSort('order_date-desc')">
             Plus récentes
           </li>
-          <li :class="[route.query.sort === 'created_at-asc' ? 'selected' : '']" @click="toggleSort('created_at-asc')">
+          <li :class="[route.query.sort === 'order_date-asc' ? 'selected' : '']" @click="toggleSort('order_date-asc')">
             Plus anciennes
           </li>
         </ul>

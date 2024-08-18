@@ -23,7 +23,7 @@ function getCards($customer_id = null)
     $params = array();
     if ($customer_id) $params[":customer_id"] = $customer_id;
 
-    $result = Database::queryAll($sql);
+    $result = Database::queryAll($sql, $params);
 
     return $result['data'];
 }

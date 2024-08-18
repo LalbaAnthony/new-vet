@@ -17,7 +17,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $new_order = $order == 'DESC' ? 'asc' : 'desc';
 $sort = array(array('order' => $order, 'order_by' => $order_by));
 
-$orders_count = getOrdersCount(null, null, $search, null);
+$orders_count = getOrdersCount(null, null, $search, null, null);
 
 // Comput offset & per_page
 $per_page = 10;

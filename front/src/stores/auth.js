@@ -23,6 +23,14 @@ export const useAuthStore = defineStore('auth',
         data: [],
         pagination: { page: 1, per_page: 5, total: 1 },
       },
+      cards: {
+        loading: false,
+        data: [],
+      },
+      addresses: {
+        loading: false,
+        data: [],
+      },
       authModal: {
         type: 'login',
         show: false,
@@ -314,10 +322,10 @@ export const useAuthStore = defineStore('auth',
       async fetchOrder(orderId) {
         // Loading
         this.order.loading = true
-  
+
         // Data
         this.order.data = {}
-  
+
         // Request
         const params = {
           customer_id: this.user.customer_id,
@@ -328,19 +336,19 @@ export const useAuthStore = defineStore('auth',
 
         const resp = await get('customer/order', params);
         this.order.data = resp.data[0];
-  
+
         // Loading
         this.order.loading = false
       },
-  
+
       async fetchOrders(givenParams = {}) {
-  
+
         // Loading
         this.orders.loading = true
-  
+
         // Data
         this.orders.data = []
-  
+
         // Request
         const params = {
           customer_id: this.user.customer_id,
@@ -351,15 +359,86 @@ export const useAuthStore = defineStore('auth',
             { order: 'DESC', order_by: 'order_date' }
           ],
         }
-  
+
         Object.assign(params, givenParams)
-  
+
         const resp = await get('customer/orders', params);
         this.orders.data = resp.data || [];
         this.orders.pagination = resp.pagination || { page: 1, per_page: 5, total: 1 };
-        
+
         // Loading
         this.orders.loading = false
+      },
+
+      async fetchCards(givenParams = {}) {
+
+        // Loading
+        this.cards.loading = true
+
+        // Data
+        this.cards.data = []
+
+        // Request
+        const params = {
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token,
+        }
+
+        Object.assign(params, givenParams)
+
+        const resp = await get('customer/cards', params);
+        this.cards.data = resp.data || [];
+
+        // Loading
+        this.cards.loading = false
+      },
+
+      async deleteCard(card_id) {
+
+        if (card_id.length > 0) {
+          notify(`Veuillez renseigner l'ID de la carte`, 'error');
+          return false;
+        }
+
+        post('customer/card-delete', { card_id, customer_id: this.user.customer_id, token: this.token || this.user.connection_token }).then(resp => {
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return false;
+          }
+
+          // Delete in local
+          this.cards.data = this.cards.data.filter(card => card.card_id !== card_id);
+
+          notify(`La carte a été supprimée avec succès !`, 'success');
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return false;
+        });
+      },
+
+      async fetchAddresses(givenParams = {}) {
+
+        // Loading
+        this.addresses.loading = true
+
+        // Data
+        this.addresses.data = []
+
+        // Request
+        const params = {
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token,
+        }
+
+        Object.assign(params, givenParams)
+
+        const resp = await get('customer/addresses', params);
+        this.addresses.data = resp.data || [];
+
+        // Loading
+        this.addresses.loading = false
       },
 
       ordersChangePage(page) {

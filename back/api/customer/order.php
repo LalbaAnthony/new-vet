@@ -4,9 +4,11 @@ require_once "../../config.inc.php";
 include_once APP_PATH . 'controllers/order.php';
 include_once APP_PATH . 'controllers/status.php';
 include_once APP_PATH . 'controllers/card.php';
+include_once APP_PATH . 'controllers/country.php';
 include_once APP_PATH . 'controllers/address.php';
 include_once APP_PATH . 'controllers/customer.php';
 include_once APP_PATH . 'helpers/token_gen.php';
+include_once APP_PATH . 'controllers/product.php';
 
 $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -42,6 +44,10 @@ if (!$error) {
     $order['order_lines'] = getOrderLines($order['order_id']);
     $order['status'] = getStatus($order['status_id']);
     $order['card'] = getCard($order['card_id']);
+
+    foreach ($order['order_lines'] as &$order_line) {
+        $order_line['product'] = getProduct($order_line['product_slug']);
+    }
 
     $order['shipping_address'] = getAddress($order['shipping_address_id']);
     if ($order['shipping_address']['country_id']) $order['shipping_address']['country'] = getCountry($order['shipping_address']['country_id']);

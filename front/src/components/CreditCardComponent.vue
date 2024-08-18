@@ -16,14 +16,13 @@
             <path class="darkcolor greydark"
               d="M750,431V193.2c-217.6-57.5-556.4-13.5-750,24.9V431c0,22.1,17.9,40,40,40h670C732.1,471,750,453.1,750,431z" />
           </g>
-          <text transform="matrix(1 0 0 1 60.106 295.0121)" id="svgnumber" class="st2 st3 st4">0123 4567 8910
-            1112</text>
-          <text transform="matrix(1 0 0 1 54.1064 428.1723)" id="svgname" class="st2 st5 st6">JOHN DOE</text>
+          <text transform="matrix(1 0 0 1 60.106 295.0121)" id="svgnumber" class="st2 st3 st4">{{ number }}</text>
+          <text transform="matrix(1 0 0 1 54.1064 428.1723)" id="svgname" class="st2 st5 st6">{{ fullname }}</text>
           <text transform="matrix(1 0 0 1 54.1074 389.8793)" class="st7 st5 st8">cardholder name</text>
           <text transform="matrix(1 0 0 1 479.7754 388.8793)" class="st7 st5 st8">expiration</text>
           <text transform="matrix(1 0 0 1 65.1054 241.5)" class="st7 st5 st8">card number</text>
           <g>
-            <text transform="matrix(1 0 0 1 574.4219 433.8095)" id="svgexpire" class="st2 st5 st9">01/23</text>
+            <text transform="matrix(1 0 0 1 574.4219 433.8095)" id="svgexpire" class="st2 st5 st9">{{ expirationDate }}</text>
             <text transform="matrix(1 0 0 1 479.3848 417.0097)" class="st2 st10 st11">VALID</text>
             <text transform="matrix(1 0 0 1 479.3848 435.6762)" class="st2 st10 st11">THRU</text>
             <polygon class="st2" points="554.5,421 540.4,414.2 540.4,427.9 		" />
@@ -64,8 +63,50 @@
         </g>
       </svg>
     </div>
+    <div class="toolbar">
+      <IconTrash class="card-delete-icon" @click="authStore.deleteCard(props.card.card_id)" />
+    </div>
   </div>
 </template>
+
+
+<script setup>
+import { computed } from 'vue'
+import IconTrash from '@/icons/IconTrash.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+
+const props = defineProps({
+  card: {
+    type: Object,
+    required: true,
+  },
+})
+
+const number = computed(() => {
+  if (!props?.card?.number) return '**** **** **** ****'
+
+  const groupedStr = props.card.number.toString().match(/.{1,4}/g).join(" ");
+  return groupedStr
+})
+
+const expirationDate = computed(() => {
+  if (!props?.card?.expiration_date) return 'MM/YY'
+
+  return props.card.expiration_date
+})
+
+const fullname = computed(() => {
+  let fullname = ''
+  if (props.card.first_name) fullname += `${props.card.first_name} `
+  if (props.card.last_name) fullname += `${props.card.last_name.toUpperCase()}`
+
+  return fullname
+})
+
+
+</script>
 
 <style>
 #ccsingle {
@@ -177,7 +218,7 @@
 
 /* FRONT OF CARD */
 #svgname {
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 #cardfront .st2 {
@@ -227,4 +268,26 @@
 #cardfront .st12 {
   fill: #4C4C4C;
 }
+
+.toolbar {
+  position: relative;
+  bottom: 0;
+  left: 0;
+}
+
+.card-delete-icon {
+  background-color: var(--danger);
+  border-radius: 15px;
+  width: 62%;
+  height: 35px;
+  padding: 0.5rem;
+  display: flex;
+  color: var(--light);
+  transition: all 0.3s;
+}
+
+.card-delete-icon:hover {
+  transform: scale(1.1);
+}
+
 </style>

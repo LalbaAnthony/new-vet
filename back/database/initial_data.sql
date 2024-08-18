@@ -233,9 +233,9 @@ INSERT INTO address (address_id, customer_id, first_name, last_name, address1, c
 (3, 3, 'Sophie', 'Lefevre', '789 Rue Stylée', 'Montréal', 1000, 3, '0789012345');
 
 INSERT INTO card (card_id, customer_id, number, expiration_date, cvv, first_name, last_name) VALUES 
-(1, 1, 1234567890123456, '2025-12-31', 123, 'Alice', 'Dupont'),
-(2, 2, 2345678901234567, '2024-10-31', 456, 'Jean', 'Martin'),
-(3, 3, 3456789012345678, '2023-08-31', 789, 'Sophie', 'Lefevre');
+(1, 1, '************3456', '12/2025', 123, 'Alice', 'Dupont'),
+(2, 2, '************4567', '10/2024', 456, 'Jean', 'Martin'),
+(3, 3, '************5678', '08/2023', 789, 'Sophie', 'Lefevre');
 
 INSERT INTO status (status_id, libelle, sort_order, color) VALUES 
 (1, 'En cours de traitement', 1, '#FEBD21'),
@@ -278,7 +278,6 @@ INSERT INTO `order` (order_id, customer_id, card_id, order_date, total_amount, s
 
 INSERT INTO order_line (order_id, product_slug, quantity, line_price) VALUES 
 (1, 'robe-elegante', 2, 59.99),
-(2, 'escarpins-classiques', 1, 39.99),
 (2, 'veste-en-cuir', 1, 89.99),
 (3, 'sac-a-main-chic', 1, 29.99),
 (4, 'robe-elegante', 1, 59.99),

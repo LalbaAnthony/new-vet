@@ -45,6 +45,7 @@ async function loadOrders() {
   authStore.fetchOrders({
     date_start: firstJanuaryOfLowerYear.value,
     date_end: lastDecemberOfHigherYear.value,
+    include_status: route.query.statuses ? route.query.statuses : null,
     sort: route.query.sort ? [{
       order_by: route.query.sort?.split('-')[0] || null,
       order: route.query.sort?.split('-')[1] || null

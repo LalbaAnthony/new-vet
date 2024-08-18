@@ -8,6 +8,7 @@ include_once APP_PATH . 'controllers/country.php';
 include_once APP_PATH . 'controllers/address.php';
 include_once APP_PATH . 'controllers/customer.php';
 include_once APP_PATH . 'helpers/token_gen.php';
+include_once APP_PATH . 'controllers/product.php';
 
 $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -17,6 +18,15 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 $sort = isset($_GET['sort']) ? $_GET['sort'] : array(array('order' => 'DESC', 'order_by' => 'order_date'));
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $per_page = isset($_GET['per_page']) ? $_GET['per_page'] : 10;
+$include_status = array();
+$include_status_string = isset($_GET['include_status']) ? $_GET['include_status'] : null;
+
+if ($include_status_string) {
+    $include_status = explode(',', $include_status_string);
+    foreach ($include_status as &$status) {
+        $status = intval($status);
+    }
+}
 
 $error = null;
 $json = array();
@@ -40,12 +50,12 @@ if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token
 
 if (!$error) {
 
-    $orders_count = getOrdersCount($date_start, $date_end, $search, $customer_id);
+    $orders_count = getOrdersCount($date_start, $date_end, $search, $customer_id, $include_status);
 
     $offset = ($page - 1) * $per_page;
     $total = ceil($orders_count / $per_page);
 
-    $orders = getOrders($date_start, $date_end, $search, $customer_id, $sort, $offset, $per_page);
+    $orders = getOrders($date_start, $date_end, $search, $customer_id, $sort, $offset, $per_page, $include_status);
 
     $json['pagination'] = array(
         'page' => intval($page),
@@ -60,6 +70,10 @@ if (!$error) {
             $order['order_lines'] = getOrderLines($order['order_id']);
             $order['status'] = getStatus($order['status_id']);
             $order['card'] = getCard($order['card_id']);
+
+            foreach ($order['order_lines'] as &$order_line) {
+                $order_line['product'] = getProduct($order_line['product_slug']);
+            }
 
             $order['shipping_address'] = getAddress($order['shipping_address_id']);
             if ($order['shipping_address']['country_id']) $order['shipping_address']['country'] = getCountry($order['shipping_address']['country_id']);

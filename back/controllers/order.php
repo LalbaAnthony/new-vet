@@ -11,7 +11,7 @@ function getOrder($order_id)
     return $result['data'];
 }
 
-function getOrders($date_start = null, $date_end = null, $search = null, $customer_id = null, $sort =  array(array('order' => 'DESC', 'order_by' => 'order_date')), $offset = null, $per_page = 10)
+function getOrders($date_start = null, $date_end = null, $search = null, $customer_id = null, $sort =  array(array('order' => 'DESC', 'order_by' => 'order_date')), $offset = null, $per_page = 10, $include_status = array())
 {
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
     $sql = "SELECT DISTINCT `order`.* FROM `order`
@@ -61,6 +61,16 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     )";
     }
 
+    // Filter by status
+    if ($include_status) {
+        $sql .= " AND `order`.status_id IN (";
+        foreach ($include_status as $key => $value) {
+            $sql .= ":status_id_" . $key;
+            if ($key < count($include_status) - 1) $sql .= ", ";
+        }
+        $sql .= ")";
+    }
+
     // Sort
     if ($sort) {
         $sql .= " ORDER BY ";
@@ -86,13 +96,18 @@ function getOrders($date_start = null, $date_end = null, $search = null, $custom
     }
     if ($per_page) $params[":per_page"] = $per_page;
     if ($offset) $params[":offset"] = $offset;
+    if ($include_status && count($include_status) > 0) {
+        foreach ($include_status as $key => $value) {
+            $params[":status_id_" . $key] = $value;
+        }
+    }
 
     $result = Database::queryAll($sql, $params);
 
     return $result['data'];
 }
 
-function getOrdersCount($date_start = null, $date_end = null, $search = null, $customer_id = null)
+function getOrdersCount($date_start = null, $date_end = null, $search = null, $customer_id = null, $include_status = array())
 {
     // Select all orders, with their categories and materials (we use LEFT JOIN to get orders without categories or materials)
     $sql = "SELECT COUNT(DISTINCT `order`.order_id) as count FROM `order`
@@ -142,6 +157,16 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
         )";
     }
 
+    // Filter by status
+    if ($include_status) {
+        $sql .= " AND `order`.status_id IN (";
+        foreach ($include_status as $key => $value) {
+            $sql .= ":status_id_" . $key;
+            if ($key < count($include_status) - 1) $sql .= ", ";
+        }
+        $sql .= ")";
+    }
+
     $params = array();
 
     // Bind values
@@ -151,6 +176,11 @@ function getOrdersCount($date_start = null, $date_end = null, $search = null, $c
     if ($search) {
         $params[":like_search"] = "'%$search%'";
         $params[":soundex_search"] = "'$search'";
+    }
+    if ($include_status && count($include_status) > 0) {
+        foreach ($include_status as $key => $value) {
+            $params[":status_id_" . $key] = $value;
+        }
     }
 
     $result = Database::queryOne($sql, $params);

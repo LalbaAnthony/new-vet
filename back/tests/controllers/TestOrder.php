@@ -16,7 +16,7 @@ class TestOrder extends Test
 
         $offset = ($page - 1) * $per_page;
 
-        $orders = getOrders(null, null, null, null, $sort, $offset, $per_page);
+        $orders = getOrders(null, null, null, null, $sort, $offset, $per_page, null);
 
         // Tests if the items are not empty
         $this->assertType($orders, 'array');

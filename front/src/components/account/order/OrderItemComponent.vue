@@ -2,26 +2,30 @@
   <div class="order-item">
     <div class="order-item__content">
       <div class="order-item__date">
-        <span class="success badge">
-          Livré
+        <span class="badge" :style="['color: var(--light)]', `background-color: ${props.order.status.color}`]">
+          {{ props.order.status.libelle }}
         </span>
-        le 14 mai
       </div>
       <div class="order-item__id">
         <span>ID de commande #{{ props.order.order_id }}</span>
       </div>
-      <p class="order-item__description">
-        Votre coli est arrivé à destination à {{ niceShippingAddress }}
+      <p v-if="props.order.status.status_id == 3" class="order-item__description">
+        Votre a été livré à {{ niceShippingAddress }}
+      </p>
+      <p v-else class="order-item__description">
+        Votre coli sera livré à {{ niceShippingAddress }}
       </p>
     </div>
     <div class="order-item__ctas">
       <button class="button" @click="$router.push(`/mon-compte/mes-commandes/${props.order.order_id}`)">
         Détails
       </button>
-      <button class="button outline"  @click="$router.push(`/contact?sujet=Problème au sujet de la commande #${props.order.order_id}`)">
+      <button class="button outline"  @click="$router.push(`/contact?sujet=Problème au sujet de la commande N°${props.order.order_id}`)">
         Signaler
       </button>
     </div>
+
+    <!-- {{ props.order }} -->
   </div>
 </template>
 
