@@ -35,9 +35,43 @@ export const useAuthStore = defineStore('auth',
         type: 'login',
         show: false,
       },
+      placeOrderFunnel: {
+        order: {
+          order_id: null,
+          customer_id: null,
+          shipping_address_id: null,
+          billing_address_id: null,
+          card_id: null,
+          status_id: null,
+          order_date: null,
+          total_amount: null
+        },
+        steps: {
+          address: { shortName: 'Adresses', name: 'Adresse de livraison et de facturation' },
+          payment: { shortName: 'Paiement', name: 'Moyen de paiement' },
+          summary: { shortName: 'Récapitulatif ', name: 'Récapitulatif  de la commande' },
+          confirmation: { shortName: 'Confirmation', name: 'Votre commande est validée' },
+        },
+        currentStep: 'address',
+      },
     }),
 
     actions: {
+
+      initializePlaceOrderFunnel() {
+        this.placeOrderFunnel.order = {
+          order_id: null,
+          customer_id: null,
+          shipping_address_id: null,
+          billing_address_id: null,
+          card_id: null,
+          status_id: null,
+          order_date: null,
+          total_amount: null
+        }
+
+        this.placeOrderFunnel.currentStep = 'address';
+      },
 
       toggleModal(el = 'login') {
         this.authModal.type = el;
@@ -317,6 +351,8 @@ export const useAuthStore = defineStore('auth',
         const pWord = quantity > 1 ? 'produits' : 'produit';
         const addWord = quantity > 1 ? 'ajoutés' : 'ajouté';
         notify(`${quantity} ${pWord} ${addWord} au panier !`, 'success');
+
+        this.initializePlaceOrderFunnel();
       },
 
       async fetchOrder(orderId) {

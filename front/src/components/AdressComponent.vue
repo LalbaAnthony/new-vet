@@ -78,4 +78,16 @@ const countryName = computed(() => {
 .address-delete-icon:hover {
   transform: scale(1.1);
 }
+
+.adress-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.adress-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
 </style>

@@ -164,7 +164,7 @@ watch(
 
 .order-detail__header__date {
   font-size: 14px;
-  color: gray;
+  color: var(--gray);
 }
 
 .order-detail__header__status {
@@ -225,12 +225,12 @@ watch(
 
 .order-detail__products__item__price {
   font-size: 14px;
-  color: gray;
+  color: var(--gray);
 }
 
 .order-detail__products__item__quantity {
   font-size: 14px;
-  color: gray;
+  color: var(--gray);
 }
 
 .order-detail__total {

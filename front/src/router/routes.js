@@ -220,13 +220,13 @@ const routes = [
     },
   },
   {
-    path: '/paiement',
-    name: 'checkout',
-    component: () => import('../pages/CheckoutPage.vue'),
+    path: '/passer-commande',
+    name: 'PlaceOrderPage',
+    component: () => import('../pages/PlaceOrderPage.vue'),
     meta: {
-      title: 'Paiement', private: true, breadcrumb: [
+      title: 'Passer la commande', private: true, breadcrumb: [
         {
-          title: 'Paiement',
+          title: 'Passer la commande',
           path: null,
           active: true
         }
