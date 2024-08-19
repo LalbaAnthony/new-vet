@@ -221,7 +221,7 @@ const routes = [
   },
   {
     path: '/passer-commande',
-    name: 'PlaceOrderPage',
+    name: 'place-order-page',
     component: () => import('../pages/PlaceOrderPage.vue'),
     meta: {
       title: 'Passer la commande', private: true, breadcrumb: [

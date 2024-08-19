@@ -10,12 +10,18 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} - ${SITE_NAME}` || SITE_NAME;
+
+  if (from.name === 'place-order-page') {
+    const quit = confirm('Êtes-vous sûr de vouloir quittez la page ?')
+    if (!quit) return next(false)
+  }
 
   const authStore = useAuthStore()
   if (to.meta.private === true) {
     authStore.validateToken()
   }
+
+  document.title = `${to.meta.title} - ${SITE_NAME}` || SITE_NAME;
 
   next();
 });
