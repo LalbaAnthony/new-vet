@@ -277,8 +277,8 @@ const fullname = computed(() => {
 
 .card-delete-icon {
   background-color: var(--danger);
-  border-radius: 15px;
-  width: 62%;
+  border-radius: 100%;
+  width: 35px;
   height: 35px;
   padding: 0.5rem;
   display: flex;

@@ -29,7 +29,19 @@ if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token
 // Get cards
 if (!$error) $cards = getCards($customer_id);
 
-if (count($cards) > 0) {
+// Hide card number
+if (!$error && count($cards) > 0) {
+    foreach ($cards as $key => $card) {
+        $cards[$key]['number'] = "************" . substr($card['number'], -4);
+    }
+}
+
+
+if ($error) {
+    $json['status'] = 400;
+    $json['error'] = $error;
+    $json['data'] = array();
+} else if (count($cards) > 0) {
     $json['status'] = 200;
     $json['error'] = null;
     $json['data'] = $cards;

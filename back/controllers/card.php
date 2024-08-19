@@ -35,7 +35,7 @@ function insertCard($card)
     $result = Database::queryInsert($sql, array(":customer_id" => $card['customer_id'], ":number" => $card['number'], ":expiration_date" => $card['expiration_date'], ":cvv" => $card['cvv'], ":first_name" => $card['first_name'], ":last_name" => $card['last_name']));
 
     if ($result['success']) {
-        log_txt("Card inserted in back office: card_id " . $result);
+        log_txt("Card inserted in back office: card_id " . $result["lastInsertId"]);
         return $result;
     } else {
         return false;

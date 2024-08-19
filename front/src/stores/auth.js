@@ -418,6 +418,43 @@ export const useAuthStore = defineStore('auth',
         });
       },
 
+      async addCard(card) {
+
+        let missing_fields = [];
+        if (!card.first_name) missing_fields.push('Prénom')
+        if (!card.last_name) missing_fields.push('Nom de famille')
+        if (!card.number) missing_fields.push('Numéro de carte')
+        if (!card.expiration_date) missing_fields.push('Date d\'expiration')
+        if (!card.cvv) missing_fields.push('CVV')
+
+        if (missing_fields.length > 0) {
+          notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
+          return false;
+        }
+
+        post('customer/card-add', {
+          first_name: card.first_name,
+          last_name: card.last_name,
+          number: card.number,
+          expiration_date: card.expiration_date,
+          cvv: card.cvv,
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token
+        }).then(resp => {
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return false;
+          }
+
+          notify(`La carte a été ajoutée avec succès !`, 'success');
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return false;
+        });
+      },
+
       async fetchAddresses(givenParams = {}) {
 
         // Loading
@@ -439,6 +476,76 @@ export const useAuthStore = defineStore('auth',
 
         // Loading
         this.addresses.loading = false
+      },
+
+      async deleteAddress(address_id) {
+
+        if (address_id.length > 0) {
+          notify(`Veuillez renseigner l'ID de l'adresse`, 'error');
+          return false;
+        }
+
+        post('customer/address-delete', { address_id, customer_id: this.user.customer_id, token: this.token || this.user.connection_token }).then(resp => {
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return false;
+          }
+
+          // Delete in local
+          this.addresses.data = this.addresses.data.filter(address => address.address_id !== address_id);
+
+          notify(`L'adresse a été supprimée avec succès !`, 'success');
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return false;
+        });
+      },
+
+      async addAddress(address) {
+
+        let missing_fields = [];
+
+        if (!address.first_name) missing_fields.push('Prénom')
+        if (!address.last_name) missing_fields.push('Nom de famille')
+        if (!address.address1) missing_fields.push('Adresse 1')
+        if (!address.city) missing_fields.push('Ville')
+        if (!address.region) missing_fields.push('Région')
+        if (!address.zip) missing_fields.push('Code postal')
+        if (!address.country_id) missing_fields.push('Pays')
+        if (!address.tel) missing_fields.push('Téléphone')
+
+        if (missing_fields.length > 0) {
+          notify(`Veuillez renseigner les champs suivants: ${missing_fields.join(', ')}`, 'error');
+          return false;
+        }
+
+        post('customer/address-add', {
+          first_name: address.first_name,
+          last_name: address.last_name,
+          address1: address.address1,
+          address2: address.address2,
+          city: address.city,
+          region: address.region,
+          zip: address.zip,
+          country_id: address.country_id,
+          tel: address.tel,
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token
+        }).then(resp => {
+          if (resp.error) {
+            notify(resp.error, 'error');
+            return false;
+          }
+
+          notify(`L'adresse a été ajoutée avec succès !`, 'success');
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          return false;
+        });
       },
 
       ordersChangePage(page) {

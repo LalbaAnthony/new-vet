@@ -6,7 +6,7 @@ include_once APP_PATH . 'controllers/customer.php';
 include_once APP_PATH . 'controllers/address.php';
 
 $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
-$search = isset($_GET['search']) ? $_GET['customer_id'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
 
 $error = null;
@@ -30,7 +30,11 @@ if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token
 // Get addresses
 if (!$error) $addresses = getAddresses($customer_id, $search);
 
-if (count($addresses) > 0) {
+if ($error) {
+    $json['status'] = 400;
+    $json['error'] = $error;
+    $json['data'] = array();
+} else if (count($addresses) > 0) {
     $json['status'] = 200;
     $json['error'] = null;
     $json['data'] = $addresses;

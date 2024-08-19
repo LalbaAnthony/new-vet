@@ -108,7 +108,7 @@ const allModals = ref({
   border-radius: 20px;
   width: 500px;
   max-width: 90%;
-  position: fixed;
+  position: absolute;
   top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);

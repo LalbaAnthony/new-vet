@@ -181,8 +181,8 @@ if (empty($urlId)) {
 
             <div class="form-group my-4">
                 <input type="hidden" name="card_id" id="id" value="<?= $order['card_id']; ?>">
-                <label class="required" for="card_number">Carte:</label>
-                <input class="form-control" type="text" id="card_number" name="card_number" value="<?= mask_number($card['number']) ?>" required readonly>
+                <label class="required" for="number">Carte:</label>
+                <input class="form-control" type="text" id="number" name="number" value="<?= mask_number($card['number']) ?>" required readonly>
             </div>
 
             <!-- Lignes de commande -->

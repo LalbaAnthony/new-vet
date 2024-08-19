@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../config.inc.php";
-include_once APP_PATH . 'controllers/card.php';
+include_once APP_PATH . 'controllers/address.php';
 include_once APP_PATH . 'controllers/customer.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
@@ -14,9 +14,13 @@ $customer_id = null;
 
 $first_name = null;
 $last_name = null;
-$number = null;
-$expiration_date = null;
-$cvv = null;
+$address1 = null;
+$address2 = null;
+$city = null;
+$region = null;
+$zip = null;
+$country_id = null;
+$tel = null;
 
 // check if request method is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') $error = "Request method not allowed";
@@ -35,14 +39,26 @@ if (!$error) {
     if (!isset($POST_data['last_name']) || !$POST_data['last_name']) $error = "Missing last_name";
     else $last_name = $POST_data['last_name'];
 
-    if (!isset($POST_data['number']) || !$POST_data['number']) $error = "Missing number";
-    else $number = $POST_data['number'];
+    if (!isset($POST_data['address1']) || !$POST_data['address1']) $error = "Missing address1";
+    else $address1 = $POST_data['address1'];
+    
+    if (!isset($POST_data['address2']) || !$POST_data['address2']) $error = "Missing address2";
+    else $address2 = $POST_data['address2'];
 
-    if (!isset($POST_data['expiration_date']) || !$POST_data['expiration_date']) $error = "Missing expiration_date";
-    else $expiration_date = $POST_data['expiration_date'];
+    if (!isset($POST_data['city']) || !$POST_data['city']) $error = "Missing city";
+    else $city = $POST_data['city'];
 
-    if (!isset($POST_data['cvv']) || !$POST_data['cvv']) $error = "Missing cvv";
-    else $cvv = $POST_data['cvv'];
+    if (!isset($POST_data['region']) || !$POST_data['region']) $error = "Missing region";
+    else $region = $POST_data['region'];
+
+    if (!isset($POST_data['zip']) || !$POST_data['zip']) $error = "Missing zip";
+    else $zip = $POST_data['zip'];
+
+    if (!isset($POST_data['country_id']) || !$POST_data['country_id']) $error = "Missing country_id";
+    else $country_id = (int) $POST_data['country_id'];
+
+    if (!isset($POST_data['tel']) || !$POST_data['tel']) $error = "Missing tel";
+    else $tel = $POST_data['tel'];
 }
 
 // Check if user exists
@@ -60,18 +76,22 @@ if (!$error) {
     }
 }
 
-// add card
+// add address
 if (!$error) {
-    $card = array(
+    $address = array(
+        'customer_id' => $customer_id,
         'first_name' => $first_name,
         'last_name' => $last_name,
-        'number' => $number,
-        'expiration_date' => $expiration_date,
-        'cvv' => $cvv,
-        'customer_id' => $customer_id
+        'address1' => $address1,
+        'address2' => $address2,
+        'city' => $city,
+        'region' => $region,
+        'zip' => $zip,
+        'country_id' => $country_id,
+        'tel' => $tel
     );
 
-    $card_id = insertCard($card);
+    $address_id = insertAddress($address);
 }
 
 // send contact to db

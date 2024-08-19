@@ -271,7 +271,7 @@ function insertProduct($product)
     $result = Database::queryInsert($sql, array(":name" => $product['name'], ":slug" => $product['slug'], ":description" => $product['description'], ":price" => $product['price'], ":is_highlander" => $product['is_highlander'], ":stock_quantity" => $product['stock_quantity'], ":sort_order" => $product['sort_order']));
 
     if ($result['success']) {
-        log_txt("Address inserted in back office: address_id " . $result);
+        log_txt("Address inserted in back office: address_id " . $result["lastInsertId"]);
         return true;
     } else {
         return false;
