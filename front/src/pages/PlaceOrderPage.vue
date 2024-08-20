@@ -33,12 +33,10 @@
         </div>
       </div>
 
-      <section class="stepper-control" v-if="authStore.placeOrderFunnel.currentStep !== 'confirmation'">
-        <button @click="previousStep" class="button"
-          :disabled="authStore.placeOrderFunnel.currentStep === 'address'">Précédent</button>
-        <button @click="nextStep" class="button"
-          :disabled="authStore.placeOrderFunnel.currentStep === 'confirmation'">Suivant</button>
-      </section>
+      <div class="stepper-control">
+        <button @click="previousStep" class="button" :disabled="true">Précédent</button>
+        <button @click="nextStep" class="button" :disabled="!canClickNextAddress">Suivant</button>
+      </div>
     </section>
 
     <!-- Payment -->
@@ -48,10 +46,10 @@
       <div class="select-bar">
         <div class="form-group">
           <label for="card_id" class="required">Moyen de paiment</label>
-          <select v-if="authStore.cards.data.length > 0"
-            v-model="authStore.placeOrderFunnel.order.card_id" id="card_id">
+          <select v-if="authStore.cards.data.length > 0" v-model="authStore.placeOrderFunnel.order.card_id"
+            id="card_id">
             <option v-for="card in authStore.cards.data" :key="card.card_id" :value="card.card_id">
-              {{ card.number }} 
+              {{ card.number }}
             </option>
           </select>
         </div>
@@ -61,44 +59,69 @@
         </div>
       </div>
 
-      <section class="stepper-control" v-if="authStore.placeOrderFunnel.currentStep !== 'confirmation'">
-        <button @click="previousStep" class="button"
-          :disabled="authStore.placeOrderFunnel.currentStep === 'address'">Précédent</button>
-        <button @click="nextStep" class="button"
-          :disabled="authStore.placeOrderFunnel.currentStep === 'confirmation'">Suivant</button>
-      </section>
+      <div class="stepper-control" v-if="authStore.placeOrderFunnel.currentStep !== 'confirmation'">
+        <button @click="previousStep" class="button" :disabled="false">Précédent</button>
+        <button @click="nextStep" class="button" :disabled="!canClickNextPayment">Suivant</button>
+      </div>
     </section>
 
     <!-- Summary -->
     <section v-if="authStore.placeOrderFunnel.currentStep === 'summary'">
       <h3 class="section-title">{{ authStore.placeOrderFunnel.steps[authStore.placeOrderFunnel.currentStep].name }}</h3>
 
-      <!-- ... -->
+      <div class="products-summary">
+        <div class="summary-infos">
+          <span class="summary-infos-total">Total: {{ roundNb(productStore.cartProductsTotalPrice) }} €</span>
+        </div>
 
-      <section class="stepper-control" v-if="authStore.placeOrderFunnel.currentStep !== 'confirmation'">
-        <button @click="previousStep" class="button"
-          :disabled="authStore.placeOrderFunnel.currentStep === 'address'">Précédent</button>
-        <button @click="nextStep" class="button"
-          :disabled="authStore.placeOrderFunnel.currentStep === 'confirmation'">Suivant</button>
-      </section>
+        <div class="products-grid">
+          <CartItem v-for="product in productStore.cartProducts.data" :key="product.slug" :interaction="false"
+            :product="product" @reload-cart="reloadProductStoreCart()" />
+        </div>
+      </div>
+
+      <div class="address-grid">
+        <div>
+          <div class="address-grid-title">Adresse de livraison</div>
+          <Address :address="selectedShippingAddress" :interaction="false" />
+        </div>
+        <div>
+          <div class="address-grid-title">Adresse de facturation</div>
+          <Address :address="selectedBillingAddress" :interaction="false" />
+        </div>
+      </div>
+
+      {{ selectedCard }}<br><br><br>
+
+
+      <div class="stepper-control">
+        <button @click="previousStep" class="button" :disabled="false">Précédent</button>
+        <button @click="nextStep; authStore.placeOrderFunnel()" class="button" :disabled="false">Payer et
+          commander</button>
+      </div>
     </section>
 
     <!-- Confirmation -->
     <section v-if="authStore.placeOrderFunnel.currentStep === 'confirmation'">
       <h3 class="section-title">{{ authStore.placeOrderFunnel.steps[authStore.placeOrderFunnel.currentStep].name }}</h3>
-      <Confirmation />
     </section>
   </div>
 </template>
 
 <script setup>
 import Stepper from '@/components/StepperComponent.vue'
+import CartItem from '@/components/cart/CartItemComponent.vue'
 import AddressAddModalButton from '@/components/account/AddressAddModalButtonComponent.vue'
 import CardAddModalButton from '@/components/account/CardAddModalButtonComponent.vue'
+import Address from '@/components/AddressComponent.vue'
 import { useAuthStore } from '@/stores/auth'
-import { computed } from 'vue';
+import { useProductStore } from '@/stores/product'
+import { computed } from 'vue'
+import router from '@/router';
+import { roundNb } from '@/helpers/helpers.js'
 
 const authStore = useAuthStore()
+const productStore = useProductStore()
 
 if (authStore.addresses.data.length > 0) {
   authStore.fetchAddresses()
@@ -107,6 +130,67 @@ if (authStore.addresses.data.length > 0) {
 if (authStore.cards.data.length > 0) {
   authStore.fetchCards()
 }
+
+if (authStore.cart.length === 0) {
+  router.push('/panier')
+} else {
+  if (productStore.cartProducts.data.length === 0) {
+    productStore.fetchCartProducts()
+  }
+}
+
+const canClickNextAddress = computed(() => {
+  const completed = (authStore.placeOrderFunnel.order.shipping_address_id !== null) && (authStore.placeOrderFunnel.order.billing_address_id !== null)
+
+  if (completed) {
+    return true
+  }
+
+  return false
+})
+
+const canClickNextPayment = computed(() => {
+  const completed = (authStore.placeOrderFunnel.order.card_id !== null)
+
+  if (completed) {
+    return true
+  }
+
+  return false
+})
+
+// Get card name from card_id
+const selectedCard = computed(() => {
+  const card = authStore.cards.data.find(card => card.card_id === authStore.placeOrderFunnel.order.card_id)
+
+  if (!card) {
+    return {}
+  }
+
+  return card
+})
+
+// Get address name from address_id
+const selectedShippingAddress = computed(() => {
+  const address = authStore.addresses.data.find(address => address.address_id === authStore.placeOrderFunnel.order.shipping_address_id)
+
+  if (!address) {
+    return {}
+  }
+
+  return address
+})
+
+// Get address name from address_id
+const selectedBillingAddress = computed(() => {
+  const address = authStore.addresses.data.find(address => address.address_id === authStore.placeOrderFunnel.order.billing_address_id)
+
+  if (!address) {
+    return {}
+  }
+
+  return address
+})
 
 function previousStep() {
   const stepsArray = Object.keys(authStore.placeOrderFunnel.steps);
@@ -150,6 +234,43 @@ const steps = computed(() => {
 }
 
 .select-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  align-items: center;
+  margin: 1.5rem;
+}
+
+.summary-infos {
+  display: flex;
+  justify-content: start;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.summary-infos .summary-infos-total {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--dark);
+}
+
+.products-summary {
+  margin: 2rem 1.5rem;
+}
+
+.products-grid {
+  display: grid;
+}
+
+.address-grid-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--dark);
+  margin-left: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.address-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="page-title">Mes adresses</h2>
+    <h2 class="page-title">Mes addresses</h2>
     <Breadcrumb />
     <AccountLayout />
     <Loader v-if="authStore.addresses.loading" />
@@ -10,7 +10,7 @@
       </div>
       <div v-if="authStore.addresses.data && authStore.addresses.data.length > 0">
         <div class="addresses-grid">
-          <Adress v-for="address in authStore.addresses.data" :key="address.address_id" :address="address" />
+          <Address v-for="address in authStore.addresses.data" :key="address.address_id" :address="address" />
         </div>
       </div>
       <NoItem v-else />
@@ -22,7 +22,7 @@
 import Loader from '@/components/LoaderComponent.vue'
 import NoItem from '@/components/NoItemComponent.vue'
 import Breadcrumb from '@/components/BreadcrumbComponent.vue'
-import Adress from '@/components/AdressComponent.vue'
+import Address from '@/components/AddressComponent.vue'
 import AddressAddModalButton from '@/components/account/AddressAddModalButtonComponent.vue'
 import AccountLayout from '@/components/account/AccountLayoutComponent.vue'
 import { useAuthStore } from '@/stores/auth'

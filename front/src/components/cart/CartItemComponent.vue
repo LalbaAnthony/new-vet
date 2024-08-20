@@ -5,11 +5,13 @@
       :alt="props.product.images[0]?.alt || `Image de ${props.product.name}`" />
     <h2 class="cart-item-name">{{ props.product.name }}</h2>
     <div class="cart-item-actions">
-      <select v-if="props.product.stock_quantity > 0" v-model="authStore.cart[props.product.slug]">
+      <select v-if="props.product.stock_quantity > 0" v-model="authStore.cart[props.product.slug]"
+        :disabled="!props.interaction">
         <option v-for="qty in props.product.stock_quantity" :key="qty" :value="qty">{{ qty }}</option>
       </select>
       <span class="cart-item-price">{{ props.product.price }} €</span>
-      <IconTrash class="cart-item-delete-icon" @click="authStore.removeFromCart(props.product.slug);$emit('reloadCart')" />
+      <IconTrash v-if="props.interaction" class="cart-item-delete-icon"
+        @click="authStore.removeFromCart(props.product.slug); $emit('reloadCart')" />
     </div>
   </div>
 </template>
@@ -26,6 +28,10 @@ const props = defineProps({
   product: {
     type: Object,
     required: true,
+  },
+  interaction: {
+    type: Boolean,
+    default: true,
   },
 })
 </script>

@@ -73,6 +73,10 @@ export const useAuthStore = defineStore('auth',
         this.placeOrderFunnel.currentStep = 'address';
       },
 
+      placeOrder() {
+        this.placeOrderFunnel.currentStep = 'payment';
+      },
+
       toggleModal(el = 'login') {
         this.authModal.type = el;
         this.authModal.show = !this.authModal.show;
