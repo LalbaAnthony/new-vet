@@ -8,7 +8,7 @@
         <div class="cart-infos">
           <span class="cart-total-price">Total: {{ roundNb(productStore.cartProductsTotalPrice) }} €</span>
           <div class="cart-actions">
-            <button class="button" @click="router.push('/passer-commande')">Acheter</button>
+            <button class="button" @click="handleBuy()">Acheter</button>
             <button @click="authStore.clearCart();reloadProductStoreCart()" class="button danger">Vider</button>
           </div>
         </div>
@@ -43,6 +43,14 @@ if (authStore.cart) reloadProductStoreCart()
 
 function reloadProductStoreCart() {
   productStore.fetchCartProducts()
+}
+
+function handleBuy() {
+  if (authStore.authenticated) {
+    router.push('/passer-commande')
+  } else {
+    authStore.toggleModal()
+  }
 }
 
 </script>
