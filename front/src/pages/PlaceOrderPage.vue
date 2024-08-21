@@ -9,26 +9,24 @@
       <h3 class="section-title">{{ authStore.placeOrderFunnel.steps[authStore.placeOrderFunnel.currentStep].name }}</h3>
 
       <div class="select-bar">
-        <div class="form-group">
+        <div v-if="authStore.addresses.data.length > 0" class="form-group">
           <label for="shipping_address_id" class="required">Adresse de livraison</label>
-          <select v-if="authStore.addresses.data.length > 0"
-            v-model="authStore.placeOrderFunnel.order.shipping_address_id" id="shipping_address_id">
+          <select v-model="authStore.placeOrderFunnel.order.shipping_address_id" id="shipping_address_id">
             <option v-for="address in authStore.addresses.data" :key="address.address_id" :value="address.address_id">
               {{ address.address1 }} {{ address.address2 }}, {{ address.city }}
             </option>
           </select>
         </div>
-        <div class="form-group">
+        <div v-if="authStore.addresses.data.length > 0" class="form-group">
           <label for="billing_address_id" class="required">Adresse de livraison</label>
-          <select v-if="authStore.addresses.data.length > 0"
-            v-model="authStore.placeOrderFunnel.order.billing_address_id" id="billing_address_id">
+          <select v-model="authStore.placeOrderFunnel.order.billing_address_id" id="billing_address_id">
             <option v-for="address in authStore.addresses.data" :key="address.address_id" :value="address.address_id">
               {{ address.address1 }} {{ address.address2 }}, {{ address.city }}
             </option>
           </select>
         </div>
         <div class="form-group">
-          <p>Une autre adresse ?</p>
+          <p v-if="authStore.addresses.data.length > 0">Une autre adresse ?</p>
           <AddressAddModalButton />
         </div>
       </div>
