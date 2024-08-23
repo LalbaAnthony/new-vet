@@ -71,9 +71,11 @@ import { notify } from '@/helpers/notif.js'
 
 const authStore = useAuthStore()
 
-const currentPassword = ref('')
 const password = ref('')
+const currentPassword = ref('')
 const confirmPassword = ref('')
+
+authStore.getUserInfos()
 
 function valid() {
   // return false; // ? uncomment this line to enable form validation

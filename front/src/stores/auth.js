@@ -514,6 +514,8 @@ export const useAuthStore = defineStore('auth',
 
           notify(`La carte a été ajoutée avec succès !`, 'success');
 
+          this.fetchCards();
+
           return true;
         }).catch(error => {
           notify(`Une erreur est survenue: ${error}`, 'error');
@@ -606,6 +608,8 @@ export const useAuthStore = defineStore('auth',
           }
 
           notify(`L'adresse a été ajoutée avec succès !`, 'success');
+
+          this.fetchAddresses();
 
           return true;
         }).catch(error => {

@@ -19,6 +19,9 @@ import IconPersonCircle from '@/icons/IconPersonCircle.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
+
+authStore.getUserInfos()
+
 </script>
 
 <style scoped>

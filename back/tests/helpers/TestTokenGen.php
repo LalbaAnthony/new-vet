@@ -8,7 +8,7 @@ class TestTokenGen extends Test
     {
         $length = 32;
         $token = token_gen($length);
-        $this->assertTrue(strlen($token) == 64);
+        $this->assertTrue(strlen($token) == $length);
         $this->assertType($token, 'string');
     }
 }

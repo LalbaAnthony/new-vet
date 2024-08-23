@@ -48,7 +48,8 @@ if (!$error) {
     $sucess = insertCustomer($customer);
     $error = $sucess ? null : "Error while inserting contact";
 
-    $token = setHasValidateEmailTokenByEmail($customer["email"]);
+    $token = token_gen(32);
+    setHasValidateEmailTokenByEmail($customer["email"], $token);
     $subject = "Validation de votre email";
     $message = "Bonjour,<br><br>Veuillez cliquer sur le lien suivant pour valider votre email : <a href='" . FRONT_URL . "?email=" . $customer["email"] . "&token=" . $token . "'>Valider mon email</a><br><br>Cordialement,<br>L'équipe " . COMPANY_NAME;
     email($customer["email"], $subject, $message);

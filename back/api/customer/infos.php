@@ -2,7 +2,6 @@
 
 require_once "../../config.inc.php";
 include_once APP_PATH . 'controllers/customer.php';
-include_once APP_PATH . 'helpers/token_gen.php';
 
 $email = isset($_GET['email']) ? $_GET['email'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';
@@ -25,6 +24,9 @@ if (!$error && !$customer) $error = "Aucun utilisateur trouvé";
 
 // Check if token is correct
 if (!$error && $token !== $customer["connection_token"]) $error = "Invalid token";
+
+// Remove password from response
+if (!$error) unset($customer["password"]);
 
 // send contact to db
 if (!$error) {

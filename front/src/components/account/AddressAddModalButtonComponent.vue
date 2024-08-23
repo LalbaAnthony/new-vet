@@ -91,7 +91,7 @@ const zip = ref(null)
 const country_id = ref(null)
 const tel = ref('')
 
-countryStore.fetchCountries()
+if (!countryStore.countries.data.length) countryStore.fetchCountries()
 
 function valid() {
   // return false; // ? uncomment this line to enable form validation
