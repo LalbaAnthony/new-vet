@@ -4,5 +4,6 @@ logs.txt
 
 # Email files
 last_email.txt
+last_emails.txt
 email.txt
 emails.txt

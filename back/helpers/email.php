@@ -17,7 +17,7 @@ function email($to, $subject, $message, $headers = ''): bool
     }
 
     if (defined('EMAIL_FAKE') && EMAIL_FAKE) {
-        $file = APP_PATH . 'emails/last_email.txt';
+        $file = APP_PATH . 'emails/last_emails.txt';
         $fileopen = (fopen($file, 'a'));
 
         if (fwrite($fileopen, $to . "\n" . $subject . "\n" . $message . "\n" . $headers . "\n\n")) {
