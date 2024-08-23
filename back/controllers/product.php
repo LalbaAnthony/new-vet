@@ -285,7 +285,6 @@ function updateProduct($product)
 
     $sql = "UPDATE product SET";
 
-    if (isset($product['slug'])) $sql .= " slug = :slug,";
     if (isset($product['name'])) $sql .= " name = :name,";
     if (isset($product['description'])) $sql .= " description = :description,";
     if (isset($product['price'])) $sql .= " price = :price,";
@@ -388,7 +387,6 @@ function updateProductImages($product_slug, $images)
     if (count(array_filter($images)) == 0) {
         return false;
     }
-
 
     // Delete all images for this product
     $sql = "UPDATE product_image SET is_deleted = 1 WHERE product_slug = :product_slug";

@@ -227,7 +227,6 @@ function updateCategory($category)
     $sql .= " WHERE slug = :slug";
 
     $params = array();
-    if (isset($category['slug'])) $params[":slug"] = $category['slug'];
     if (isset($category['libelle'])) $params[":libelle"] = $category['libelle'];
     if (isset($category['image_slug'])) $params[":image_slug"] = $category['image_slug'];
     if (isset($category['sort_order'])) $params[":sort_order"] = $category['sort_order'];
@@ -235,6 +234,7 @@ function updateCategory($category)
     if (isset($category['is_highlander'])) $params[":is_highlander"] = $category['is_highlander'];
     if (isset($category['color'])) $params[":color"] = $category['color'];
     if (isset($category['is_deleted'])) $params[":is_deleted"] = $category['is_deleted'];
+    if (isset($category['slug'])) $params[":slug"] = $category['slug'];
 
     $result = Database::queryUpdate($sql, $params);
 

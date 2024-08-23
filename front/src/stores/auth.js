@@ -37,14 +37,9 @@ export const useAuthStore = defineStore('auth',
       },
       placeOrderFunnel: {
         order: {
-          order_id: null,
-          customer_id: null,
           shipping_address_id: null,
           billing_address_id: null,
           card_id: null,
-          status_id: null,
-          order_date: null,
-          total_amount: null
         },
         steps: {
           address: { shortName: 'Adresses', name: 'Adresse de livraison et de facturation' },
@@ -52,6 +47,7 @@ export const useAuthStore = defineStore('auth',
           summary: { shortName: 'Récapitulatif ', name: 'Récapitulatif  de la commande' },
           confirmation: { shortName: 'Confirmation', name: 'Votre commande est validée' },
         },
+        loading: false,
         currentStep: 'address',
       },
     }),
@@ -60,21 +56,52 @@ export const useAuthStore = defineStore('auth',
 
       initializePlaceOrderFunnel() {
         this.placeOrderFunnel.order = {
-          order_id: null,
-          customer_id: null,
           shipping_address_id: null,
           billing_address_id: null,
           card_id: null,
-          status_id: null,
-          order_date: null,
-          total_amount: null
         }
 
+        this.placeOrderFunnel.loading = false;
         this.placeOrderFunnel.currentStep = 'address';
       },
 
       placeOrder() {
-        this.placeOrderFunnel.currentStep = 'payment';
+        // Loading
+        this.placeOrderFunnel.loading = true
+
+        console.log(this.placeOrderFunnel.order)
+        console.log(this.user.email)
+        console.log(this.user.connection_token)
+        console.log(this.cart)
+
+        post('customer/place-order', {
+          order: this.placeOrderFunnel.order,
+          customer_id: this.user.customer_id,
+          token: this.token || this.user.connection_token,
+          cart: this.cart
+        }).then(resp => {
+
+          if (resp.error) {
+            notify(resp.error, 'error');
+            this.placeOrderFunnel.currentStep = 'summary'; // Go to summary step
+            return false;
+          }
+
+          notify(`Votre commande à été passé avec succès !`, 'success');
+
+          this.clearCart();
+          this.placeOrderFunnel.currentStep = 'confirmation'; // Go to confirmation step
+          this.initializePlaceOrderFunnel();
+
+          return true;
+        }).catch(error => {
+          notify(`Une erreur est survenue: ${error}`, 'error');
+          this.placeOrderFunnel.currentStep = 'summary'; // Go to summary step
+          return false;
+        });
+
+        // Loading
+        this.placeOrderFunnel.loading = false
       },
 
       toggleModal(el = 'login') {

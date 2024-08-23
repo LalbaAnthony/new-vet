@@ -70,7 +70,6 @@ function updateAddress($address)
     $sql .= " WHERE address_id = :address_id";
 
     $params = array();
-    if (isset($address['address_id'])) $params[":address_id"] = $address['address_id'];
     if (isset($address['customer_id'])) $params[":customer_id"] = (string) $address['customer_id'];
     if (isset($address['first_name'])) $params[":first_name"] = (string) $address['first_name'];
     if (isset($address['last_name'])) $params[":last_name"] = (string) $address['last_name'];
@@ -82,7 +81,8 @@ function updateAddress($address)
     if (isset($address['country_id'])) $params[":country_id"] = (int) $address['country_id'];
     if (isset($address['tel'])) $params[":tel"] = $address['tel'];
     if (isset($address['is_deleted'])) $params[":is_deleted"] = $address['is_deleted'];
-
+    if (isset($address['address_id'])) $params[":address_id"] = $address['address_id'];
+    
 
     $result = Database::queryUpdate($sql, $params);
 

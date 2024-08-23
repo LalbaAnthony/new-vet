@@ -143,7 +143,6 @@ function updateImage($image)
 {
     $sql = "UPDATE image SET ";
 
-    if (isset($image['slug'])) $sql .= " slug = :slug,";
     if (isset($image['name'])) $sql .= " name = :name,";
     if (isset($image['alt'])) $sql .= " alt = :alt,";
     if (isset($image['path'])) $sql .= " path = :path,";

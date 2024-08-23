@@ -66,8 +66,7 @@ function updateCountry($country)
 
     if (isset($country['name'])) $params[":name"] = $country['name'];
     if (isset($country['is_deleted'])) $params[":is_deleted"] = $country['is_deleted'];
-
-    $params[":country_id"] = $country['country_id'];
+    if (isset($country['country_id'])) $params[":country_id"] = $country['country_id'];
 
     $result = Database::queryUpdate($sql, $params);
 

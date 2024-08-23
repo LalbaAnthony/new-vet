@@ -254,7 +254,7 @@ function updateCustomer($customer)
     if (isset($customer['email'])) $params[":email"] = $customer['email'];
     if (isset($customer['has_validated_email'])) $params[":has_validated_email"] = $customer['has_validated_email'];
     if (isset($customer['password'])) $params[":password"] = $customer['password'];
-    $params[":customer_id"] = $customer['customer_id'];
+    if (isset($customer['customer_id'])) $params[":customer_id"] = $customer['slug'];
 
     $result = Database::queryUpdate($sql, $params);
 

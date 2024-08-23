@@ -142,7 +142,7 @@ function updateMaterial($material)
     if (isset($material['libelle'])) $params[":libelle"] = $material['libelle'];
     if (isset($material['color'])) $params[":color"] = $material['color'];
     if (isset($material['is_deleted'])) $params[":is_deleted"] = $material['is_deleted'];
-    $params[":slug"] = $material['slug'];
+    if (isset($material['slug'])) $params[":slug"] = $material['slug'];
 
     $result = Database::queryUpdate($sql, $params);
 

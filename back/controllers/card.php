@@ -59,7 +59,6 @@ function updateCard($card)
     $sql .= " WHERE card_id = :card_id";
 
     $params = array();
-    if (isset($card['card_id'])) $params[":card_id"] = $card['card_id'];
     if (isset($card['customer_id'])) $params[":customer_id"] = $card['customer_id'];
     if (isset($card['number'])) $params[":number"] = $card['number'];
     if (isset($card['first_name'])) $params[":first_name"] = $card['first_name'];
@@ -67,6 +66,7 @@ function updateCard($card)
     if (isset($card['expiration_date'])) $params[":expiration_date"] = $card['expiration_date'];
     if (isset($card['cvv'])) $params[":cvv"] = $card['cvv'];
     if (isset($card['is_deleted'])) $params[":is_deleted"] = $card['is_deleted'];
+    if (isset($card['card_id'])) $params[":card_id"] = $card['card_id'];
 
     $result = Database::queryUpdate($sql, $params);
 
