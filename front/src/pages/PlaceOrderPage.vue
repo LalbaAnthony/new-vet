@@ -112,6 +112,19 @@
       <section v-if="authStore.placeOrderFunnel.currentStep === 'confirmation'" class="place-order-section">
         <h3 class="section-title">{{ authStore.placeOrderFunnel.steps[authStore.placeOrderFunnel.currentStep].name }}
         </h3>
+
+        <p class="confirmation-message">
+          Votre commande a bien été passée.
+        </p>
+
+        <p>
+          Vous allez recevoir un email de confirmation.
+        </p>
+
+        <p>
+          Vous pouvez suivre l'avancement de votre commande dans <router-link to="/mon-compte/mes-commandes"
+            class="link"> votre espace client</router-link>.
+        </p>
       </section>
     </div>
   </div>
@@ -289,5 +302,12 @@ const steps = computed(() => {
   gap: 1rem;
   align-items: center;
   margin: 1.5rem;
+}
+
+.confirmation-message {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--dark);
+  margin: 4rem 0 1.5rem 0;
 }
 </style>

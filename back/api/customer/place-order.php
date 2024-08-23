@@ -61,7 +61,7 @@ if (!$error) {
 if (!$error) {
     $card = getCard($order['card_id']);
     if (!$card) {
-        $error = "Card not found";
+        $error = "Carte non trouvée";
     }
 }
 
@@ -70,7 +70,7 @@ if (!$error) {
     $shipping_address = getAddress($order['shipping_address_id']);
     $billing_address = getAddress($order['billing_address_id']);
     if (!$shipping_address || !$billing_address) {
-        $error = "Address not found";
+        $error = "Adresse non trouvée";
     }
 }
 
@@ -79,15 +79,15 @@ if (!$error) {
     foreach ($cart as $slug => $quantity) {
         $product = getProduct($slug);
         if (!$product) {
-            $error = "Product not found";
+            $error = "Produit introuvable";
             break;
         }
         if (!(int)$quantity) {
-            $error = "Invalid quantity for product " . $product['name'];
+            $error = "Quantité invalide pour le produit " . $product['name'];
             break;
         }
         if ($product['stock_quantity'] < $quantity) {
-            $error = "Not enough stock for product " . $product['name'];
+            $error = "Plus de stock pour le produit " . $product['name'];
             break;
         }
     }
@@ -132,6 +132,25 @@ if (!$error) {
     }
 }
 
+// Update stock
+if (!$error) {
+    foreach ($cart as $slug => $quantity) {
+        $product = getProduct($slug);
+        $product['stock_quantity'] -= $quantity;
+        updateProduct($product);
+    }
+}
+
+// Send email
+if (!$error) {
+    $subject = "Nouvelle commande";
+    $message = "Bonjour,<br><br>Vous avez reçu une nouvelle commande.<br><br>Cordialement,<br>L'équipe de " . COMPANY_NAME;
+    email(EMAIL_TO_ADMIN, $subject, $message);
+
+    $subject = "Merci pour votre commande";
+    $message = "Bonjour,<br><br>Votre commande a été passée avec succès.<br><br>Vous pouvez consulter votre commande sur notre site: <a href='" . FRONT_URL . "/mon-compte/mes-commandes'>ici</a><br><br>Cordialement,<br>L'équipe de " . COMPANY_NAME;
+    email($email, $subject, $message);
+}
 
 if (!$error) {
     $json['message'] = 'Votre commande a été passée avec succès';

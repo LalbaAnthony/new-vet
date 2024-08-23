@@ -25,6 +25,7 @@ define('DB_NAME', 'new-vet');
  */
 define('EMAIL_FAKE', true); // ? Put email text in a file instead of sending it
 define('EMAIL_FROM', 'noreply@new-vet.com');
+define('EMAIL_TO_ADMIN', 'admin@new-vet.com');
 
 /**
  * Paramètre de l'application

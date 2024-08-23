@@ -91,7 +91,6 @@ export const useAuthStore = defineStore('auth',
 
           this.clearCart();
           this.placeOrderFunnel.currentStep = 'confirmation'; // Go to confirmation step
-          this.initializePlaceOrderFunnel();
 
           return true;
         }).catch(error => {

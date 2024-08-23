@@ -45,9 +45,9 @@ if (!$error) {
     $customer["password"] = password_hash($customer["password"], PASSWORD_DEFAULT);
     $error = insertCustomer($customer);
 
-    $code = setHasValidateEmailTokenByEmail($customer["email"]);
+    $token = setHasValidateEmailTokenByEmail($customer["email"]);
     $subject = "Validation de votre email";
-    $message = "Bonjour,<br><br>Voici votre code de validation d'email: $code<br><br>Cordialement,<br>L'équipe de " . COMPANY_NAME;
+    $message = "Bonjour,<br><br>Veuillez cliquer sur le lien suivant pour valider votre email : <a href='" . FRONT_URL . "?email=" . $customer["email"] . "&token=" . $token . "'>Valider mon email</a><br><br>Cordialement,<br>L'équipe " . COMPANY_NAME;
     email($email, $subject, $message);
 }
 
