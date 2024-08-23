@@ -43,12 +43,15 @@ if (!$error) {
 // insert customer
 if (!$error) {
     $customer["password"] = password_hash($customer["password"], PASSWORD_DEFAULT);
-    $error = insertCustomer($customer);
+    $customer["has_validated_email"] = 0;
+
+    $sucess = insertCustomer($customer);
+    $error = $sucess ? null : "Error while inserting contact";
 
     $token = setHasValidateEmailTokenByEmail($customer["email"]);
     $subject = "Validation de votre email";
     $message = "Bonjour,<br><br>Veuillez cliquer sur le lien suivant pour valider votre email : <a href='" . FRONT_URL . "?email=" . $customer["email"] . "&token=" . $token . "'>Valider mon email</a><br><br>Cordialement,<br>L'équipe " . COMPANY_NAME;
-    email($email, $subject, $message);
+    email($customer["email"], $subject, $message);
 }
 
 // send contact to db

@@ -39,7 +39,8 @@ if (!$error) {
 }
 
 if (!$error) {
-  $error = insertContact($contact);
+  $sucess = insertContact($contact);
+  $error = $sucess ? null : "Error while inserting contact";
 }
 
 // send contact to db

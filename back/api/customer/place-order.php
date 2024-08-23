@@ -6,6 +6,7 @@ include_once APP_PATH . 'controllers/order.php';
 include_once APP_PATH . 'controllers/product.php';
 include_once APP_PATH . 'controllers/card.php';
 include_once APP_PATH . 'controllers/address.php';
+include_once APP_PATH . 'helpers/email.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
 
@@ -149,7 +150,7 @@ if (!$error) {
 
     $subject = "Merci pour votre commande";
     $message = "Bonjour,<br><br>Votre commande a été passée avec succès.<br><br>Vous pouvez consulter votre commande sur notre site: <a href='" . FRONT_URL . "/mon-compte/mes-commandes'>ici</a><br><br>Cordialement,<br>L'équipe de " . COMPANY_NAME;
-    email($email, $subject, $message);
+    email($customer["email"], $subject, $message);
 }
 
 if (!$error) {
