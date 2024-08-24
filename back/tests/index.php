@@ -6,18 +6,18 @@ require_once "../config.inc.php";
 
 include_once APP_PATH . 'tests/base/Test.php';
 
-include_once APP_PATH . 'tests/controllers/TestAddress.php';
-include_once APP_PATH . 'tests/controllers/TestAdmin.php';
-include_once APP_PATH . 'tests/controllers/TestCard.php';
-include_once APP_PATH . 'tests/controllers/TestCategory.php';
-include_once APP_PATH . 'tests/controllers/TestContact.php';
-include_once APP_PATH . 'tests/controllers/TestCountry.php';
-include_once APP_PATH . 'tests/controllers/TestCustomer.php';
-include_once APP_PATH . 'tests/controllers/TestImage.php';
-include_once APP_PATH . 'tests/controllers/TestMaterial.php';
-include_once APP_PATH . 'tests/controllers/TestOrder.php';
-include_once APP_PATH . 'tests/controllers/TestProduct.php';
-include_once APP_PATH . 'tests/controllers/TestStatus.php';
+include_once APP_PATH . 'tests/models/TestAddress.php';
+include_once APP_PATH . 'tests/models/TestAdmin.php';
+include_once APP_PATH . 'tests/models/TestCard.php';
+include_once APP_PATH . 'tests/models/TestCategory.php';
+include_once APP_PATH . 'tests/models/TestContact.php';
+include_once APP_PATH . 'tests/models/TestCountry.php';
+include_once APP_PATH . 'tests/models/TestCustomer.php';
+include_once APP_PATH . 'tests/models/TestImage.php';
+include_once APP_PATH . 'tests/models/TestMaterial.php';
+include_once APP_PATH . 'tests/models/TestOrder.php';
+include_once APP_PATH . 'tests/models/TestProduct.php';
+include_once APP_PATH . 'tests/models/TestStatus.php';
 
 include_once APP_PATH . 'tests/helpers/TestDatesBetween.php';
 include_once APP_PATH . 'tests/helpers/TestDiffDays.php';
@@ -41,11 +41,11 @@ email('test@gmail.com', 'Test', 'Test');
 
 echo "<pre>";
 
-// CONTROLLERS
+// MODELS
 
 echo "\n\n";
 echo "======================================================================================================================================================\n";
-echo "CONTROLLERS\n";
+echo "MODELS\n";
 echo "======================================================================================================================================================\n";
 
 $test = new TestAddress('TestAddress');

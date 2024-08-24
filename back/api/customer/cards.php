@@ -2,8 +2,8 @@
 <?php
 
 require_once "../../config.inc.php";
-include_once APP_PATH . 'controllers/customer.php';
-include_once APP_PATH . 'controllers/card.php';
+include_once APP_PATH . 'models/customer.php';
+include_once APP_PATH . 'models/card.php';
 
 $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
 $token = isset($_GET['token']) ? $_GET['token'] : '';

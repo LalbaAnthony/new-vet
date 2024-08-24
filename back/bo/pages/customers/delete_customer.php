@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/customer.php";
+include_once APP_PATH . "models/customer.php";
 
 $idCustomer = isset($_GET['id']) ? $_GET['id'] : '';
 $customer = getCustomer($idCustomer);

@@ -17,10 +17,10 @@ Options -Indexes
     deny from all
 </Files>
 
-# Prevent /database, /helpers, /logs, /controllers, /test from being accessed
+# Prevent /database, /helpers, /logs, /models, /test from being accessed
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    # RewriteRule ^(database|helpers|logs|controllers|test) - [F,L]
+    # RewriteRule ^(database|helpers|logs|models|test) - [F,L]
 </IfModule>
 
 # Rewrite http://localhost/projects/new-vet/back/back-office/ to http://localhost/projects/new-vet/back/bo/pages/

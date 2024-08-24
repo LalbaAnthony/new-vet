@@ -2,7 +2,7 @@
 <?php
 
 require_once "../config.inc.php";
-include_once APP_PATH . 'controllers/status.php';
+include_once APP_PATH . 'models/status.php';
 
 $json = array();
 $statuses = getStatuses();

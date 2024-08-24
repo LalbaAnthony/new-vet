@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/contact.php';
+include_once APP_PATH . 'models/contact.php';
 
 class TestContact extends Test
 {

@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/address.php';
+include_once APP_PATH . 'models/address.php';
 
 class TestAddress extends Test
 {

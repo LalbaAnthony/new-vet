@@ -1,11 +1,11 @@
 <?php
 
 require_once "../../config.inc.php";
-include_once APP_PATH . 'controllers/customer.php';
-include_once APP_PATH . 'controllers/order.php';
-include_once APP_PATH . 'controllers/product.php';
-include_once APP_PATH . 'controllers/card.php';
-include_once APP_PATH . 'controllers/address.php';
+include_once APP_PATH . 'models/customer.php';
+include_once APP_PATH . 'models/order.php';
+include_once APP_PATH . 'models/product.php';
+include_once APP_PATH . 'models/card.php';
+include_once APP_PATH . 'models/address.php';
 include_once APP_PATH . 'helpers/email.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);

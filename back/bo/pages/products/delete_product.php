@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "models/product.php";
 
 // Réception du contenu à modifier
 $urlSlug = isset($_GET['slug']) ? $_GET['slug'] : '';

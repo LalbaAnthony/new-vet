@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/order.php";
+include_once APP_PATH . "models/order.php";
 
 // Réception du contenu à modifier
 $urlId = isset($_GET['id']) ? $_GET['id'] : '';

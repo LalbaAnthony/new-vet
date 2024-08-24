@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/category.php';
+include_once APP_PATH . 'models/category.php';
 
 class TestCategory extends Test
 {

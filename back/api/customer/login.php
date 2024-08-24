@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../config.inc.php";
-include_once APP_PATH . 'controllers/customer.php';
+include_once APP_PATH . 'models/customer.php';
 include_once APP_PATH . 'helpers/token_gen.php';
 
 $email = isset($_GET['email']) ? $_GET['email'] : '';

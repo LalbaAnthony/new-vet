@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/card.php';
+include_once APP_PATH . 'models/card.php';
 
 class TestCard extends Test
 {

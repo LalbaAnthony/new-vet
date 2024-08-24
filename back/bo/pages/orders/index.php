@@ -1,11 +1,11 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/order.php";
-include_once APP_PATH . "controllers/status.php";
-include_once APP_PATH . "controllers/customer.php";
+include_once APP_PATH . "models/order.php";
+include_once APP_PATH . "models/status.php";
+include_once APP_PATH . "models/customer.php";
 include_once APP_PATH . "helpers/fr_datetime.php";
-include_once APP_PATH . "controllers/image.php";
+include_once APP_PATH . "models/image.php";
 
 // Get the sorting parameters from the query string
 $search = isset($_GET['search']) ? $_GET['search'] : null;

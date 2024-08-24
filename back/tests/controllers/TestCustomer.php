@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/customer.php';
+include_once APP_PATH . 'models/customer.php';
 
 class TestCustomer extends Test
 {

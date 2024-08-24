@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/material.php';
+include_once APP_PATH . 'models/material.php';
 
 class TestMaterial extends Test
 {

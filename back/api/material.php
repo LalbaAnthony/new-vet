@@ -1,7 +1,7 @@
 <?php
 
 require_once "../config.inc.php";
-include_once APP_PATH . 'controllers/material.php';
+include_once APP_PATH . 'models/material.php';
 
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 

@@ -2,7 +2,7 @@
 <?php
 
 require_once "../config.inc.php";
-include_once APP_PATH . 'controllers/country.php';
+include_once APP_PATH . 'models/country.php';
 
 $json = array();
 $countries = getCountries();

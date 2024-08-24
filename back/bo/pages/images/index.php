@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/image.php";
+include_once APP_PATH . "models/image.php";
 include_once APP_PATH . "helpers/three_dots_string.php";
 include_once APP_PATH . "helpers/fr_date.php";
 include_once APP_PATH . "helpers/nice_file_size.php";

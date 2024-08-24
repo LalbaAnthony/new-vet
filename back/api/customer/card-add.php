@@ -1,8 +1,8 @@
 <?php
 
 require_once "../../config.inc.php";
-include_once APP_PATH . 'controllers/card.php';
-include_once APP_PATH . 'controllers/customer.php';
+include_once APP_PATH . 'models/card.php';
+include_once APP_PATH . 'models/customer.php';
 
 $POST_data = json_decode(file_get_contents("php://input"), true);
 

@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/country.php';
+include_once APP_PATH . 'models/country.php';
 
 class TestCountry extends Test
 {

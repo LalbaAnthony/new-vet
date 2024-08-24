@@ -2,8 +2,8 @@
 <?php
 
 require_once "../../config.inc.php";
-include_once APP_PATH . 'controllers/customer.php';
-include_once APP_PATH . 'controllers/address.php';
+include_once APP_PATH . 'models/customer.php';
+include_once APP_PATH . 'models/address.php';
 
 $customer_id = isset($_GET['customer_id']) ? $_GET['customer_id'] : '';
 $search = isset($_GET['search']) ? $_GET['search'] : '';

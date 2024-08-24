@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/admin.php';
+include_once APP_PATH . 'models/admin.php';
 
 class TestAdmin extends Test
 {

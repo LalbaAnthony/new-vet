@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/contact.php";
+include_once APP_PATH . "models/contact.php";
 
 // Réception du contenu à modifier
 $url_id = isset($_GET['contact_id']) ? $_GET['contact_id'] : '';

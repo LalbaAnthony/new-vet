@@ -1,7 +1,7 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/image.php";
+include_once APP_PATH . "models/image.php";
 
 $images = getImages(null, array(array('order' => 'ASC', 'order_by' => 'created_at')), 0, 999);
 

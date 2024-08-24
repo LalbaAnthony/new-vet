@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/order.php';
+include_once APP_PATH . 'models/order.php';
 
 class TestOrder extends Test
 {

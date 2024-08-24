@@ -1,7 +1,7 @@
 
 <?php
 
-include_once APP_PATH . 'controllers/status.php';
+include_once APP_PATH . 'models/status.php';
 
 class TestStatus extends Test
 {

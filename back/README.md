@@ -9,7 +9,7 @@ Il est entièrement conçu en PHP natif, et utilise bootstrap pour le style du b
 * `back/api/` contient les fichiers de l'API REST, c'est ici que sont gérées les requêtes FRONT
 * `back/assets/` contient les images et les fichiers statiques 
 * `back/bo/` contient les fichiers du back-office
-* `back/controllers/` contient les fichiers de controllers, c'est ici que sont gérées les requêtes SQL
+* `back/models/` contient les fichiers de models, c'est ici que sont gérées les requêtes SQL
 * `back/crons/` contient les fichiers de cron, c'est ici que sont gérées les tâches planifiées
 * `back/database/` contient les fichiers de la base de données: les scripts de création, les scripts d'insertion/suppression de données fictives, et les scripts de création d'utilisateurs
 * `back/emails/` contient les mails envoyés par l'application, lorsque celle ci est configurée avec `define('EMAIL_FAKE', true);`
@@ -113,7 +113,7 @@ Les logs sont créer par la fonction `log_txt` qui est dans le fichier `back/hel
 Les tests unitaires sont dans le dossier `back/tests/`
 
 Trois types de tests existent :
-- Les tests de contrôleurs : `back/tests/controllers/`
+- Les tests de contrôleurs : `back/tests/models/`
 - Les tests fonctions utilitaires : `back/tests/helpers/`
 - Les tests de classes utilitaires : `back/tests/utils/`
 

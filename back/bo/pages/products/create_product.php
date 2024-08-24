@@ -1,11 +1,11 @@
 <?php
 
 require_once "../../../config.inc.php";
-include_once APP_PATH . "controllers/product.php";
+include_once APP_PATH . "models/product.php";
 include_once APP_PATH . "helpers/slugify.php";
-include_once APP_PATH . "controllers/category.php";
-include_once APP_PATH . "controllers/material.php";
-include_once APP_PATH . "controllers/image.php";
+include_once APP_PATH . "models/category.php";
+include_once APP_PATH . "models/material.php";
+include_once APP_PATH . "models/image.php";
 
 // Réception des tables enfants
 $categories = getCategories();
