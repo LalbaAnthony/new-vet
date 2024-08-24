@@ -35,8 +35,6 @@ const props = defineProps({
   width: 100%
 }
 
-.stepper {}
-
 .stepper li {
   list-style-type: none;
   float: left;
